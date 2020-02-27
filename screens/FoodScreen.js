@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList, Button, ScrollView, Item, SectionList } from 'react-native'
 import { List, Checkbox } from 'react-native-paper';
+import Collapsible from 'react-native-collapsible';
+import Accordion from 'react-native-collapsible/Accordion';
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 
@@ -21,6 +23,7 @@ export default class ProfileScreen extends Component {
     this.state = {
       db: firebase.firestore(),
       expanded: false,
+      activeSections: [],
       lists: [
         {
           type: "Dairy",
@@ -108,23 +111,76 @@ export default class ProfileScreen extends Component {
     this.setState({
       expanded: !this.state.expanded
     });
+
+  _renderSectionTitle = section => {
+    return (
+
+      // console.log((section.type))
+      <View style={styles.content}>
+        <Text style={styles.content}>{}</Text>
+      </View>
+    );
+  };
+
+  _renderHeader = section => {
+    return (
+      <View style={styles.header}>
+        <Text style={styles.headerText}>{section.type}</Text>
+      </View>
+    );
+  };
+
+  _renderContent = section => {
+
+    return (
+      section.list.map((item, key) => (
+        <View style={styles.content}>
+          <Text key={item.key}>{item.name}</Text>
+          <Button title="Add"></Button>
+        </View>
+      ))
+    );
+  };
+
+  _updateSections = activeSections => {
+    this.setState({ activeSections });
+  };
   render() {
     return (
-      <View>
 
-        <List.Section style={{ marginTop: 30 }} title="Food List">
-
-          {this.state.lists.map((item, key) => (
-            <List.Accordion key={key}
-              title={item.type}
-            >
-              {item.list.map((item, key) => (
-                <List.Item key={key} title={item.name} />
-              ))}
-            </List.Accordion>
-          ))}
-        </List.Section>
+      <View style={{ marginTop: 30 }}>
+        <Accordion
+          sections={this.state.lists}
+          activeSections={this.state.activeSections}
+          renderSectionTitle={this._renderSectionTitle}
+          renderHeader={this._renderHeader}
+          renderContent={this._renderContent}
+          onChange={this._updateSections}
+        />
       </View>
+
+
+
+
+
+
+
+
+      // <View>
+
+      //   <List.Section style={{ marginTop: 30 }} title="Food List">
+
+      //     {this.state.lists.map((item, key) => (
+      //       <List.Accordion key={key}
+      //         title={item.type}
+      //       >
+      //         {item.list.map((item, key) => (
+      //           <List.Item key={key} title={item.name} />
+      //         ))}
+      //       </List.Accordion>
+      //     ))}
+      //   </List.Section>
+      // </View>
 
 
       //#region failed attempts
