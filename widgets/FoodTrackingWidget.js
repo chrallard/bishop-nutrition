@@ -28,13 +28,13 @@ export default class FoodTrackingWidget extends Component {
                 name: item.name,
                 maxPortions: item.maxPortions,
                 userPortions: 0,
-                index: index
+                index: index,
+                key: Math.floor(Math.random() * Math.floor(900)).toString()
             }
 
             foodTrackingList.push(listItem)
         })
 
-        console.log(foodTrackingList)
         this.setState({ foodTrackingList })
     }
 
@@ -59,19 +59,17 @@ export default class FoodTrackingWidget extends Component {
 
         selectedFood.userPortions += 1
         newFoodTrackingList.splice(Number(selectedFood.index), 1, selectedFood) //index is the same in selectedFood as well as in the FlatList. it indicates which food group to update
-        console.log(selectedFood.index)
         this.setState({foodTrackingList: newFoodTrackingList})
     }
   
     render() {
       return (
             <View style={styles.container} >
-              <Text>track food here</Text>
-              <Button title="press" />
+              <Text>Food Tracking</Text>
               <FlatList data={this.state.foodTrackingList} renderItem={({item}) => (
-                    <View>
+                    <View style={styles.flatList}>
                       <Text>{item.name}</Text>
-                      <Text>{item.userPortions}/{item.maxPortions}</Text>
+                      <Text>                 {item.userPortions}/{item.maxPortions}                 </Text>
                       <Button title="Add" onPress={() => {this.incrementPortion(item.name)}} />
                     </View>
                     )} />
@@ -79,19 +77,6 @@ export default class FoodTrackingWidget extends Component {
       )
     }
   }
-
-  /*
-
-  {
-  the number of list items for MY plan
-  the names of the food groups
-  the number of max portions
-  }
-
-  create an object to push to database
-
-  the list data takes an array of objects
-  */
   
   const styles = StyleSheet.create({
     container: {
@@ -103,5 +88,9 @@ export default class FoodTrackingWidget extends Component {
         alignSelf: 'stretch',
         marginBottom: 20,
         marginTop: 20
+    },
+    flatList: {
+        display: "flex",
+        flexDirection: "row"
     }
   })
