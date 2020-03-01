@@ -6,6 +6,8 @@ import React, { useState } from 'react'
 //////////////////////////////////// react navigation
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+//////////////////////////////////// icons
+import { MaterialCommunityIcons } from 'react-native-vector-icons'
 //////////////////////////////////// screens
 import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
@@ -49,11 +51,50 @@ export default function App() {
     <NavigationContainer>
       {isLoggedIn ? (
         <Tab.Navigator>
-          <Tab.Screen name="Home" component={HomeScreen}/>
-          <Tab.Screen name="Food" component={FoodScreen}/>
-          <Tab.Screen name="Activities" component={ActivitiesScreen}/>
-          <Tab.Screen name="Progress" component={ProgressScreen}/>
-          <Tab.Screen name="Profile" component={ProfileScreen}/>
+          
+          <Tab.Screen 
+          name="Home" 
+          component={HomeScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="home" color={color} size={size} />
+            )
+          }} />
+
+          <Tab.Screen 
+          name="Food" 
+          component={FoodScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
+            )
+          }} />
+
+          <Tab.Screen 
+          name="Activities" 
+          component={ActivitiesScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="run" color={color} size={size} />
+            )
+          }} />
+
+          <Tab.Screen 
+          name="Progress" 
+          component={ProgressScreen}options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="chart-line" color={color} size={size} />
+            )
+          }} />
+
+          <Tab.Screen 
+          name="Profile" 
+          component={ProfileScreen}options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="account" color={color} size={size} />
+            )
+          }} />
+
         </Tab.Navigator>
       ) : (
         <LoginScreen login={login} />
