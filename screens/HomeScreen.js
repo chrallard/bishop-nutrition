@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Button } from 'react-native'
 import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
+import WelcomeWidget from '../widgets/WelcomeWidget'
 
 export default class HomeScreen extends Component {
 
@@ -14,6 +15,7 @@ export default class HomeScreen extends Component {
   render() {
     return (
           <View style={styles.container} >
+            <WelcomeWidget />
             <FoodTrackingWidget />
           </View>
     )
