@@ -44,7 +44,8 @@ export default class WelcomeWidget extends Component{
     render(){
         return(
             <View style={styles.container}>
-                <Text>Welcome, {this.state.name}</Text>
+                <Text>Welcome</Text>
+                <Text>{this.state.name}</Text>
                 <Text>{this.state.date}</Text>
             </View>
         )
