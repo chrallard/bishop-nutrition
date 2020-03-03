@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Button } from 'react-native'
+import WaterTrackingWidget from '../widgets/WaterTrackingWidget'
 
 export default class HomeScreen extends Component {
 
@@ -13,7 +14,7 @@ export default class HomeScreen extends Component {
   render() {
     return (
           <View style={styles.container} >
-            <Text>Welcome</Text>
+            <WaterTrackingWidget/>
           </View>
     )
   }
