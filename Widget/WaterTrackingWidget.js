@@ -5,7 +5,7 @@ import '@firebase/firestore'
 import 'firebase/auth'
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
-const planTotal = 0;
+
 const maxPortions = 0;
 const dailyWater = 0;
 
@@ -14,8 +14,8 @@ export default class WaterTrackingWidget extends Component {
   constructor(props){
       super(props)
       this.state = {
-        pieData:[],
-        planTotal,
+    
+   
         maxPortions,
         dailyWater,
         count: 0 
