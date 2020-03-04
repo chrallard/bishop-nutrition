@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button,TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Button,TouchableHighlight,Image,TouchableOpacity } from 'react-native';
 import * as firebase from 'firebase/app'
 import '@firebase/firestore'
 import 'firebase/auth'
-import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
-
+const planTotal = 0;
 const maxPortions = 0;
 const dailyWater = 0;
 
@@ -14,8 +13,9 @@ export default class WaterTrackingWidget extends Component {
   constructor(props){
       super(props)
       this.state = {
-    
-   
+        flagImage:true,
+        pieData:[],
+        planTotal,
         maxPortions,
         dailyWater,
         count: 0 
@@ -26,6 +26,9 @@ export default class WaterTrackingWidget extends Component {
     componentDidMount(){
         
         this.watertrack()
+        this.changeImage()
+        
+      
     }
     watertrack = async () => {
         
@@ -54,33 +57,119 @@ let dailyWater = await firebase.firestore()
        
       
       }
+      changeImage= async () => {
+
+        this.setState({
+           flagImage:!this.state.flagImage
+         });
+         this.setState({
+          count: this.state.count + 1
+        });
+     
+     }
+     
+      
     render() {
-        
+     
+   
       return(
        
         <View style={styles.container}>
             <View style={{flexDirection:'row'}}>
          <Text>Water</Text>
          
-          <Text style={styles.descriptionContainerVer2}>{this.state.maxPortions} of {this.state.dailyWater}</Text>
+          <Text style={styles.descriptionContainerVer2}>{this.state.count} of {this.state.dailyWater}</Text>
     </View>
-         <View style={ {flex: 1,
+         <View style={ {
       flexDirection:'row'}}>
-      
-        <TouchableHighlight
-         
-         onPress={this.onPress}
-        > 
-        
-<MaterialCommunityIcons name="cup" size={47} color="#007c00" /></TouchableHighlight> 
-<MaterialCommunityIcons name="cup" size={47} color="#007c00" />
-<MaterialCommunityIcons name="cup" size={47} color="#007c00" />
-<MaterialCommunityIcons name="cup" size={47} color="#007c00" />
-<MaterialCommunityIcons name="cup" size={47} color="#007c00" />
-<MaterialCommunityIcons name="cup" size={47} color="#007c00" />
-<MaterialCommunityIcons name="cup" size={47} color="#007c00" />
-<MaterialCommunityIcons name="cup" size={47} color="#007c00" />
+          <View>
+          <TouchableOpacity onPress={ this.changeImage } activeOpacity={0.5}>
 
+
+          <Image  source={ this.state.flagImage === true ?                  
+                         require('../Images/full_Cup.png')  : require('../Images/empty_Cup.jpg')
+                          }
+                          style={styles.image}
+                         
+           />
+      
+           </TouchableOpacity>
+           </View>
+           <TouchableOpacity
+            
+            onPress={ this.changeImage }>
+
+          <Image source={ this.state.flagImage === true ?                  
+                          require('../Images/full_Cup.png')  : require('../Images/empty_Cup.jpg')}
+                          style={styles.image}
+           />
+           
+           </TouchableOpacity>
+           <TouchableOpacity
+            
+            onPress={ this.changeImage }>
+
+          <Image source={ this.state.flagImage === true ?                  
+                          require('../Images/full_Cup.png')  : require('../Images/empty_Cup.jpg')}
+                          style={styles.image}
+           />
+           
+           </TouchableOpacity>
+           <TouchableOpacity
+            
+            onPress={ this.changeImage }>
+
+          <Image source={ this.state.flagImage === true ?                  
+                          require('../Images/full_Cup.png')  : require('../Images/empty_Cup.jpg')}
+                          style={styles.image}
+           />
+           
+           </TouchableOpacity>
+           <TouchableOpacity
+            
+            onPress={ this.changeImage }>
+
+          <Image source={ this.state.flagImage === true ?                  
+                          require('../Images/full_Cup.png')  : require('../Images/empty_Cup.jpg')}
+                          style={styles.image}
+           />
+           
+           </TouchableOpacity>
+           <TouchableOpacity
+            
+            onPress={ this.changeImage }>
+
+          <Image source={ this.state.flagImage === true ?                  
+                         require('../Images/full_Cup.png')  : require('../Images/empty_Cup.jpg')}
+                          style={styles.image}
+           />
+           
+           </TouchableOpacity>
+           <TouchableOpacity
+            
+            onPress={ this.changeImage }>
+
+          <Image source={ this.state.flagImage === true ?                  
+                         require('../Images/full_Cup.png')  : require('../Images/empty_Cup.jpg')}
+                          style={styles.image}
+           />
+           
+           </TouchableOpacity>
+
+           <TouchableOpacity
+            
+            onPress={ this.changeImage }>
+
+          <Image source={ this.state.flagImage === true ?                  
+                         require('../Images/full_Cup.png')  : require('../Images/empty_Cup.jpg')}
+                          style={styles.image}
+           />
+           
+           </TouchableOpacity>
+           
+
+       
+       
 </View> 
 
           
@@ -93,7 +182,7 @@ let dailyWater = await firebase.firestore()
 
 const styles = StyleSheet.create({
     container: {
-        flex:1,
+        
         display: "flex",
         flexDirection: "column",
         backgroundColor: '#fff',
@@ -109,9 +198,20 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection:'row-reverse',
         textAlign: 'right',
-        flexWrap: 'wrap'
+       
      
-    }
+    },
+    image: {
+     
+      margin:2,
+      height: 65,
+      width: 48,
+      resizeMode: 'cover',
+      
+      alignItems: 'stretch'
+    
+  },
+
     
   
   });
