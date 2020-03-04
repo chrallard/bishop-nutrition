@@ -1,10 +1,14 @@
 //////////////////////////////////// firebase
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
+import {decode, encode} from 'base-64'
+if (!global.btoa) {  global.btoa = encode }
+if (!global.atob) { global.atob = decode }
 //////////////////////////////////// react
 import React, { useState } from 'react'
 //////////////////////////////////// react navigation
 import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 //////////////////////////////////// icons
 import { MaterialCommunityIcons } from 'react-native-vector-icons'
@@ -15,6 +19,7 @@ import FoodScreen from './screens/FoodScreen'
 import ActivitiesScreen from './screens/ActivitiesScreen'
 import ProgressScreen from './screens/ProgressScreen'
 import ProfileScreen from './screens/ProfileScreen'
+import UpdatePasswordScreen from './screens/UpdatePasswordScreen'
 //////////////////////////////////// firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBa7mPzRK5vFZYMrIMtTjtJhecI0pqlYNc",
@@ -31,6 +36,17 @@ if (!firebase.apps.length) {
 ////////////////////////////////////
 
 const Tab = createBottomTabNavigator()
+
+const ProfileStack = createStackNavigator();
+
+function ProfileStackScreen() {
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+      <ProfileStack.Screen name="Update Password" component={UpdatePasswordScreen} />
+    </ProfileStack.Navigator>
+  );
+}
 
 login = async (usernameInput, passwordInput) => { 
   await firebase.auth().signInWithEmailAndPassword(usernameInput, passwordInput).then()
@@ -81,7 +97,8 @@ export default function App() {
 
           <Tab.Screen 
           name="Progress" 
-          component={ProgressScreen}options={{
+          component={ProgressScreen}
+          options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="chart-line" color={color} size={size} />
             )
@@ -89,7 +106,8 @@ export default function App() {
 
           <Tab.Screen 
           name="Profile" 
-          component={ProfileScreen}options={{
+          component={ProfileStackScreen}
+          options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="account" color={color} size={size} />
             )

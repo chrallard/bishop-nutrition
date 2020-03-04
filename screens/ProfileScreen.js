@@ -24,6 +24,9 @@ export default class ProfileScreen extends Component {
             <Button 
             title="Sign Out"
             onPress={this.signOut} />
+             <Button 
+             title="Update Password" 
+             onPress={() => {this.props.navigation.navigate("Update Password")}} />
           </View>
     )
   }
