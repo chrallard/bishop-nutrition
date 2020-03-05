@@ -37,33 +37,29 @@ export default class WaterTrackingWidget extends Component {
         
       
     }
+
     watertrack = async () => {
+
+      let maxPortions = await firebase.firestore().collection("plans").doc("1400_women").get().then((doc) => { 
+        return doc.data().water.maxPortions
+      }) 
+
+      let dailyWater = await firebase.firestore()
+      .collection("userData")
+      .doc("Uj1bKIIOM7V7zOvee2f4ZOcc3462")
+      .collection("healthTracking")
+      .doc("0Seio34NyrEAlHcPVq24")
+      .get().then((doc) => {
+        return doc.data().waterEntry.portions
+      })
         
-       
-        let maxPortions = await firebase.firestore().collection("plans").doc("1400_women").get().then((doc) => { 
-          return doc.data().water.maxPortions
-          
-      
-}) 
-let dailyWater = await firebase.firestore()
-.collection("userData")
-.doc("Uj1bKIIOM7V7zOvee2f4ZOcc3462")
-.collection("healthTracking")
-.doc("0Seio34NyrEAlHcPVq24")
-.get().then((doc) => {
-    return doc.data().waterEntry.portions
-          
-  
-})
       this.setState({maxPortions: maxPortions})
       this.setState({dailyWater: dailyWater})
-      
+        
       console.log(maxPortions);
-     
-      
-       
-      
+
       }
+
       changeImage1= async () => {
 
         this.setState({
@@ -186,10 +182,9 @@ let dailyWater = await firebase.firestore()
         });
       }
       }
-    render() {
-     
-   
-      return(
+    
+      render() {
+        return(
        
         <View style={styles.container}>
             <View style={{flexDirection:'row'}}>
