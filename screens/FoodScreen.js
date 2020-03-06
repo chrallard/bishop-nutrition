@@ -32,13 +32,6 @@ export default class ProfileScreen extends Component {
       db: firebase.firestore(),
       expanded: false,
       activeSections: [],
-      dairyPortions: 0,
-      restrictedVegPortions: 0,
-      fruitPortions: 0,
-      simpleCarbPortions: 0,
-      proteinPortions: 0,
-      fatPortions: 0,
-      freeVegPortions: 0,
       lists: [
         {
           type: "Dairy",
@@ -141,49 +134,10 @@ export default class ProfileScreen extends Component {
   _renderHeader = section => {
     return (
       <View style={styles.header}>
-
-        <Text style={{ fontSize: 24 }}>{section.type}</Text>
+        <Text style={styles.headerText}>{section.type}</Text>
       </View>
     );
   };
-
-  _addPortion = (item) => {
-    switch (item) {
-      case "Dairy":
-        dairyPortions++;
-        console.log(item)
-        break;
-      case "Restricted Vegetables":
-        restrictedVegPortions++;
-        console.log(item)
-        break;
-      case "Fruit":
-        fruitPortions++;
-        console.log(item)
-        break;
-      case "Simple Carbs":
-        simpleCarbPortions++;
-        console.log(item)
-        break;
-      case "Protein":
-        proteinPortions++;
-        console.log(item)
-        break;
-      case "Fats":
-        fatPortions++;
-        console.log(item)
-        break;
-      case "Free Vegetables":
-        freeVegPortions++;
-        console.log(item)
-        break;
-
-      default:
-        break;
-    }
-
-
-  }
 
   _renderContent = section => {
 
@@ -222,7 +176,7 @@ export default class ProfileScreen extends Component {
   render() {
     return (
 
-      <View style={{ margin: 30, width: "auto" }}>
+      <View style={{ marginTop: 30 }}>
         <Accordion
           sections={this.state.lists}
           activeSections={this.state.activeSections}
