@@ -53,18 +53,6 @@ export default class WelcomeWidget extends Component{
 }
 
 const styles = StyleSheet.create({
-    // container:{
-    //     backgroundColor: '#fff',
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    //     paddingTop: 10,
-    //     paddingBottom: 10,
-    //     alignSelf: 'stretch',
-    //     marginBottom: 20,
-    //     marginTop: 20
-    // },
-
-
     // STYLING JEFF March 6
     container:{
         flexDirection: 'column',
