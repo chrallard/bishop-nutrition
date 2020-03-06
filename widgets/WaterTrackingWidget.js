@@ -262,7 +262,7 @@ export default class WaterTrackingWidget extends Component {
             onPress={ ()=>this.changeImage7()}>
 
           <Image source={ this.state.flagImage7 === true ?                  
-                         require('../Images/empty_Cup.jpg')  : require('../Images/full_Cup1.png')}
+                         require('../Images/empty_Cup.png')  : require('../Images/full_Cup1.png')}
                           style={styles.image}
            />
            
