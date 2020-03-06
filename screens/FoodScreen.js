@@ -18,16 +18,7 @@ export default class ProfileScreen extends Component {
 
   constructor(props) {
     super(props)
-    // this.state = {
-    //   db: firebase.firestore(),
-    //   dairyList: [],
-    //   restrictedList: [],
-    //   fruitList: [],
-    //   simpleCarbList: [],
-    //   proteinList: [],
-    //   fatsList: [],
-    //   freeVegList: []
-    // }
+
     this.state = {
       db: firebase.firestore(),
       expanded: false,
@@ -209,74 +200,6 @@ export default class ProfileScreen extends Component {
       //     ))}
       //   </List.Section>
       // </View>
-
-
-      //#region failed attempts
-      //     {/* <SectionList
-      //       sections={[
-      //         { title: 'Dairy', data: this.state.lists[0].list },
-      //         { title: 'Restricted Vegetable', data: this.state.lists[1].list },
-      //         { title: 'Fruits', data: this.state.lists[2].list },
-      //         { title: 'Simple Carbs', data: this.state.lists[3].list },
-      //         { title: 'Proteins', data: this.state.lists[4].list },
-      //         { title: 'Fats', data: this.state.lists[5].list },
-      //         { title: 'Free Vegetables', data: this.state.lists[6].list },
-      //       ]}
-      //       renderItem={({ item }) => <Text style={styles.listItemSub}>{item.name}</Text>}
-      //       renderSectionHeader={({ section }) => <Text style={styles.listItemTitle}>{section.title}</Text>}
-      //       keyExtractor={(item, index) => index}
-      //     /> */}
-
-
-
-
-
-
-
-
-      // {/* <Text style={styles.listItemTitle}>Dairy</Text>
-
-      //     <FlatList
-      //       data={this.state.lists[0].list}
-      //       renderItem={({ item }) => (
-      //         <Button title={item.name} style={styles.listItemSub}></Button>
-      //       )}
-      //     /> */}
-
-
-      // {/* 
-      //     <ScrollView style={{ alignSelf: 'stretch' }}>
-      //       {
-      //         this.state.lists
-      //           ? this.state.lists.map((param, i) => {
-      //             return (
-      //               <DropDownItem
-      //                 key={i}
-      //                 style={styles.dropDownItem}
-      //                 contentVisible={false}
-      //                 header={
-      //                   <View>
-      //                     <Text style={{
-      //                       fontSize: 16,
-      //                       color: 'blue',
-      //                     }}>{param.type}</Text>
-      //                   </View>
-      //                 }
-      //               >
-      //                 {param.list.map((item, key) => (
-      //                   <Text key={key}>{item.name}</Text>)
-      //                 )}
-
-
-
-      //               </DropDownItem>
-      //             );
-      //           })
-      //           : null
-      //       }
-      //       <View style={{ height: 96 }} />
-      //     </ScrollView> */}
-      //#endregion
 
     )
   }
