@@ -199,7 +199,7 @@ export default class WaterTrackingWidget extends Component {
 
 
           <Image  source={ this.state.flagImage1 === true ?                  
-                         require('../Images/empty_Cup.jpg')  : require('../Images/full_Cup1.png')
+                         require('../Images/empty_Cup.png')  : require('../Images/full_Cup.png')
                           }
                           style={styles.image}
                          
@@ -212,7 +212,7 @@ export default class WaterTrackingWidget extends Component {
             onPress={ ()=>this.changeImage2() }>
 
           <Image source={ this.state.flagImage2 === true ?                  
-                          require('../Images/empty_Cup.jpg')  : require('../Images/full_Cup1.png')}
+                          require('../Images/empty_Cup.png')  : require('../Images/full_Cup.png')}
                           style={styles.image}
            />
            
@@ -222,7 +222,7 @@ export default class WaterTrackingWidget extends Component {
             onPress={ ()=>this.changeImage3()}>
 
           <Image source={ this.state.flagImage3 === true ?                  
-                          require('../Images/empty_Cup.jpg')  : require('../Images/full_Cup1.png')}
+                          require('../Images/empty_Cup.png')  : require('../Images/full_Cup.png')}
                           style={styles.image}
            />
            
@@ -232,7 +232,7 @@ export default class WaterTrackingWidget extends Component {
             onPress={ ()=>this.changeImage4()}>
 
           <Image source={ this.state.flagImage4 === true ?                  
-                          require('../Images/empty_Cup.jpg')  : require('../Images/full_Cup1.png')}
+                          require('../Images/empty_Cup.png')  : require('../Images/full_Cup.png')}
                           style={styles.image}
            />
            
@@ -242,7 +242,7 @@ export default class WaterTrackingWidget extends Component {
             onPress={ ()=>this.changeImage5()}>
 
           <Image source={ this.state.flagImage5 === true ?                  
-                          require('../Images/empty_Cup.jpg')  : require('../Images/full_Cup1.png')}
+                          require('../Images/empty_Cup.png')  : require('../Images/full_Cup.png')}
                           style={styles.image}
            />
            
@@ -252,7 +252,7 @@ export default class WaterTrackingWidget extends Component {
             onPress={ ()=>this.changeImage6()}>
 
           <Image source={ this.state.flagImage6 === true ?                  
-                         require('../Images/empty_Cup.jpg')  : require('../Images/full_Cup1.png')}
+                         require('../Images/empty_Cup.png')  : require('../Images/full_Cup.png')}
                           style={styles.image}
            />
            
@@ -262,7 +262,7 @@ export default class WaterTrackingWidget extends Component {
             onPress={ ()=>this.changeImage7()}>
 
           <Image source={ this.state.flagImage7 === true ?                  
-                         require('../Images/empty_Cup.png')  : require('../Images/full_Cup1.png')}
+                         require('../Images/empty_Cup.png')  : require('../Images/full_Cup.png')}
                           style={styles.image}
            />
            
@@ -273,7 +273,7 @@ export default class WaterTrackingWidget extends Component {
             onPress={ ()=>this.changeImage8()}>
 
           <Image source={ this.state.flagImage8 === true ?                  
-                        require('../Images/empty_Cup.jpg')  : require('../Images/full_Cup1.png')}
+                        require('../Images/empty_Cup.png')  : require('../Images/full_Cup.png')}
                           style={styles.image}
            />
            
@@ -325,11 +325,10 @@ cupRow:{
   justifyContent: 'space-between'
 },
 image: {
-      height: 40,
+      height: 45,
       width: 40,
       resizeMode: 'cover',     
       alignItems: 'stretch'    
   }
-  
-  });
+});
 
