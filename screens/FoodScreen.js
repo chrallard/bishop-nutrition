@@ -134,7 +134,7 @@ export default class ProfileScreen extends Component {
   _renderHeader = section => {
     return (
       <View style={styles.header}>
-        <Text style={styles.headerText}>{section.type}</Text>
+        <Text style={styles.listItemTitle}>{section.type}</Text>
       </View>
     );
   };
