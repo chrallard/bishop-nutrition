@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, FlatList, Button, ScrollView, Item, SectionList } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Button, ScrollView, Item, SectionList, TouchableOpacity, Image } from 'react-native'
 import { List, Checkbox } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
@@ -191,7 +191,26 @@ export default class ProfileScreen extends Component {
       section.list.map((item, key) => (
         <View key={key} style={styles.content}>
           <Text >{item.name}</Text>
-          <Button title="Add" onPress={() => this._addPortion(item.category)} ></Button>
+          <TouchableOpacity onPress={() => this._addPortion(item.category)}>
+            {item.favourite ? (
+              <Image
+                style={{ width: 15, height: 15 }}
+                source={require('../assets/star_Selected.png')}
+              />
+            ) : (
+                <Image
+                  style={{ width: 15, height: 15 }}
+                  source={require('../assets/star_NotSelected.png')}
+                />
+              )}
+
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this._addPortion(item.category)}>
+            <Image
+              style={{ width: 15, height: 15 }}
+              source={require('../assets/add_Circle.png')}
+            />
+          </TouchableOpacity>
         </View>
       ))
     );
