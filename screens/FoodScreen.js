@@ -167,39 +167,39 @@ export default class ProfileScreen extends Component {
   render() {
     return (
 
-      // <View style={{ marginTop: 30 }}>
-      //   <Accordion
-      //     sections={this.state.lists}
-      //     activeSections={this.state.activeSections}
-      //     renderSectionTitle={this._renderSectionTitle}
-      //     renderHeader={this._renderHeader}
-      //     renderContent={this._renderContent}
-      //     onChange={this._updateSections}
-      //   />
-      // </View>
-
-
-
-
-
-
-
-
-      <View>
-
-        <List.Section style={{ marginTop: 30 }} title="Food List">
-
-          {this.state.lists.map((item, key) => (
-            <List.Accordion key={key}
-              title={item.type}
-            >
-              {item.list.map((item, key) => (
-                <List.Item key={key} title={item.name} />
-              ))}
-            </List.Accordion>
-          ))}
-        </List.Section>
+      <View style={{ marginTop: 30 }}>
+        <Accordion
+          sections={this.state.lists}
+          activeSections={this.state.activeSections}
+          renderSectionTitle={this._renderSectionTitle}
+          renderHeader={this._renderHeader}
+          renderContent={this._renderContent}
+          onChange={this._updateSections}
+        />
       </View>
+
+
+
+
+
+
+
+
+      // <View>
+
+      //   <List.Section style={{ marginTop: 30 }} title="Food List">
+
+      //     {this.state.lists.map((item, key) => (
+      //       <List.Accordion key={key}
+      //         title={item.type}
+      //       >
+      //         {item.list.map((item, key) => (
+      //           <List.Item key={key} title={item.name} />
+      //         ))}
+      //       </List.Accordion>
+      //     ))}
+      //   </List.Section>
+      // </View>
 
     )
   }
