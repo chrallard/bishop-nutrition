@@ -112,15 +112,15 @@ export default class ProfileScreen extends Component {
       expanded: !this.state.expanded
     });
 
-  _renderSectionTitle = section => {
-    return (
+  // _renderSectionTitle = section => {
+  //   return (
 
-      // console.log((section.type))
-      <View style={styles.content}>
-        <Text style={styles.content}>{}</Text>
-      </View>
-    );
-  };
+  //     // console.log((section.type))
+  //     <View style={styles.content}>
+  //       <Text /*style={styles.content}*/>{}</Text>
+  //     </View>
+  //   );
+  // };
 
   _renderHeader = section => {
     return (
@@ -134,8 +134,8 @@ export default class ProfileScreen extends Component {
 
     return (
       section.list.map((item, key) => (
-        <View key={key} style={styles.content}>
-          <Text >{item.name}</Text>
+        <View key={key} /*style={styles.content}*/>
+          <Text style={styles.content}>{item.name}</Text>
           <TouchableOpacity onPress={() => this._addPortion(item.category)}>
             {item.favourite ? (
               <Image
@@ -168,7 +168,7 @@ export default class ProfileScreen extends Component {
     return (
 
       <View style={{ marginTop: 30 }}>
-        <Accordion
+        <Accordion style={styles.content}
           sections={this.state.lists}
           activeSections={this.state.activeSections}
           renderSectionTitle={this._renderSectionTitle}
@@ -215,6 +215,10 @@ const styles = StyleSheet.create({
     paddingLeft: 20
 
   },
+  content: {
+    backgroundColor: '#1C1C1E',
+    color: '#F3F3F3'
+  },
   screenTitle: {
     fontSize: 45,
     fontWeight: "bold"
@@ -223,9 +227,13 @@ const styles = StyleSheet.create({
     paddingTop: 20
   },
   listItemTitle: {
-    paddingTop: 10,
-    fontSize: 20,
-    fontWeight: "500"
+    marginTop: 16,
+    height: 43,
+    paddingTop: 12,
+    paddingBottom: 12,
+    fontSize: 17,
+    color: '#F3F3F3',
+    backgroundColor: '#1C1C1E'
   },
   listItemSub: {
     color: "#505050",
