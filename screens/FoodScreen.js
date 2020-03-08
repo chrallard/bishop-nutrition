@@ -177,14 +177,6 @@ export default class ProfileScreen extends Component {
           onChange={this._updateSections}
         />
       </View>
-
-
-
-
-
-
-
-
       // <View>
 
       //   <List.Section style={{ marginTop: 30 }} title="Food List">
