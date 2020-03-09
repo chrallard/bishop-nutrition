@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Button, TextInput } from 'react-native'
+import * as firebase from 'firebase/app'
+import 'firebase/auth'
 
 export default class LoginScreen extends Component {
 
@@ -9,6 +11,13 @@ export default class LoginScreen extends Component {
           usernameInput: "",
           passwordInput: ""
         }
+    }
+
+    login = async (usernameInput, passwordInput) => { 
+      await firebase.auth().signInWithEmailAndPassword(usernameInput, passwordInput).then()
+      .catch((err) => {
+        alert(err.code + err.message)
+      })
     }
 
     render(){
@@ -30,8 +39,12 @@ export default class LoginScreen extends Component {
                 <View style={styles.btn}>
                     <Button 
                     title="Login" 
-                    onPress={() => {this.props.login(this.state.usernameInput, this.state.passwordInput)}}
+                    onPress={() => {this.login(this.state.usernameInput, this.state.passwordInput)}}
                     disabled={this.state.usernameInput && this.state.passwordInput ? false : true}
+                    />
+                    <Button 
+                    title="Forgot Password" 
+                    onPress={() => {this.props.navigation.navigate('Forgot Password')}}
                     />
                 </View>
             </View>
