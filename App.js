@@ -20,6 +20,7 @@ import ActivitiesScreen from './screens/ActivitiesScreen'
 import ProgressScreen from './screens/ProgressScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import UpdatePasswordScreen from './screens/UpdatePasswordScreen'
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
 //////////////////////////////////// firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBa7mPzRK5vFZYMrIMtTjtJhecI0pqlYNc",
@@ -37,7 +38,17 @@ if (!firebase.apps.length) {
 
 const Tab = createBottomTabNavigator()
 
+const LoginStack = createStackNavigator()
 const ProfileStack = createStackNavigator();
+
+function LoginStackScreen() {
+  return (
+    <LoginStack.Navigator>
+      <LoginStack.Screen name="Login" component={LoginScreen} />
+      <LoginStack.Screen name="Forgot Password" component={ForgotPasswordScreen} />
+    </LoginStack.Navigator>
+  );
+}
 
 function ProfileStackScreen() {
   return (
@@ -46,13 +57,6 @@ function ProfileStackScreen() {
       <ProfileStack.Screen name="Update Password" component={UpdatePasswordScreen} />
     </ProfileStack.Navigator>
   );
-}
-
-login = async (usernameInput, passwordInput) => { 
-  await firebase.auth().signInWithEmailAndPassword(usernameInput, passwordInput).then()
-  .catch((err) => {
-    alert(err.code + err.message)
-  })
 }
 
 export default function App() {
@@ -115,7 +119,7 @@ export default function App() {
 
         </Tab.Navigator>
       ) : (
-        <LoginScreen login={login} />
+        <LoginStackScreen />
       )}
     </NavigationContainer>
   );
