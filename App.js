@@ -21,6 +21,7 @@ import ActivitiesScreen from './screens/ActivitiesScreen'
 import ProgressScreen from './screens/ProgressScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import UpdatePasswordScreen from './screens/UpdatePasswordScreen'
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
 //////////////////////////////////// firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBa7mPzRK5vFZYMrIMtTjtJhecI0pqlYNc",
@@ -42,14 +43,7 @@ const FoodStack = createStackNavigator()
 const ActivitiesStack = createStackNavigator()
 const ProgressStack = createStackNavigator()
 const ProfileStack = createStackNavigator()
-
-login = async (usernameInput, passwordInput) => { 
-  await firebase.auth().signInWithEmailAndPassword(usernameInput, passwordInput).then((userInfo) => {
-  })
-  .catch((err) => {
-    alert(err.code + err.message)
-  })
-}
+const LoginStack = createStackNavigator()
 
 function HomeStackScreen() {
   return(
@@ -101,6 +95,15 @@ function ProfileStackScreen() {
         title: "JEFF/CONOR - STYLE"
       }} />
     </ProfileStack.Navigator>
+  )
+}
+
+function LoginStackScreen() {
+  return (
+    <LoginStack.Navigator>
+      <LoginStack.Screen name="Login" component={LoginScreen} />
+      <LoginStack.Screen name="Forgot Password" component={ForgotPasswordScreen} />
+    </LoginStack.Navigator>
   )
 }
 
@@ -164,7 +167,7 @@ export default function App() {
 
         </Tab.Navigator>
       ) : (
-        <LoginScreen login={login} />
+        <LoginStackScreen />
       )}
     </NavigationContainer>
   );
