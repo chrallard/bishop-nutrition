@@ -67,56 +67,55 @@ export default class FoodTrackingWidget extends Component {
     area51 = async () => {
 
         
-        //get todays date
-        let d = new Date()
-        const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
-        const currentDate = d.getDate()
-        const currentMonth = months[d.getMonth()]
-        const currentYear = d.getFullYear()
-        const today = currentDate + currentMonth + currentYear //looks like this: 4March2020
+        // //get todays date
+        // let d = new Date()
+        // const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+        // const currentDate = d.getDate()
+        // const currentMonth = months[d.getMonth()]
+        // const currentYear = d.getFullYear()
+        // const today = currentDate + currentMonth + currentYear //looks like this: 4March2020
 
-        let todaysHealthTracking = null
+        // let todaysHealthTracking = null
 
-        await firebase.firestore()
-        .collection("userData")
-        .doc("Uj1bKIIOM7V7zOvee2f4ZOcc3462")
-        .collection("healthTracking")
-        .get()
-        .then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                let timeStamp = doc.data().timeStamp
-                let timeStampDate = new Date(timeStamp)
+        // await firebase.firestore()
+        // .collection("userData")
+        // .doc("Uj1bKIIOM7V7zOvee2f4ZOcc3462")
+        // .collection("healthTracking")
+        // .get()
+        // .then(function(querySnapshot) {
+        //     querySnapshot.forEach(function(doc) {
+        //         let timeStamp = doc.data().timeStamp
+        //         let timeStampDate = new Date(timeStamp)
                 
-                const date = timeStampDate.getDate()
-                const month = months[timeStampDate.getMonth()]
-                const year = timeStampDate.getFullYear()
-                const day = date + month + year //looks like this: 13March2020 or 10April2019 etc.
+        //         const date = timeStampDate.getDate()
+        //         const month = months[timeStampDate.getMonth()]
+        //         const year = timeStampDate.getFullYear()
+        //         const day = date + month + year //looks like this: 13March2020 or 10April2019 etc.
 
-                if(today == day){ //if today's date matches one in the database, set it to that variable. if not todaysHealthTracking remains null
-                    todaysHealthTracking = doc.data()
-                }
+        //         if(today == day){ //if today's date matches one in the database, set it to that variable. if not todaysHealthTracking remains null
+        //             todaysHealthTracking = doc.data()
+        //         }
 
-            });
-        });
+        //     });
+        // });
 
-        if(todaysHealthTracking == null){ //setting an empty template object to healthTracking collection if one for today doesn't exist
-            await firebase.firestore()
-            .collection("userData")
-            .doc("Uj1bKIIOM7V7zOvee2f4ZOcc3462")
-            .collection("healthTracking")
-            .doc()
-            .set({
-                oodlesOfData: {},
-                timeStamp: Date.now()
-            })
-            .then(function() {
-                console.log("Document successfully written!");
-            })
-            .catch(function(error) {
-                console.error("Error writing document: ", error);
-            });
-        }
-
+        // // if(todaysHealthTracking == null){ //setting an empty template object to healthTracking collection if one for today doesn't exist
+        // //     await firebase.firestore()
+        // //     .collection("userData")
+        // //     .doc("Uj1bKIIOM7V7zOvee2f4ZOcc3462")
+        // //     .collection("healthTracking")
+        // //     .doc()
+        // //     .set({
+        // //         oodlesOfData: {},
+        // //         timeStamp: Date.now()
+        // //     })
+        // //     .then(function() {
+        // //         console.log("Document successfully written!");
+        // //     })
+        // //     .catch(function(error) {
+        // //         console.error("Error writing document: ", error);
+        // //     });
+        // // }
 
 
     }
