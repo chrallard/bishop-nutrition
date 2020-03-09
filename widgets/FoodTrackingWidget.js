@@ -65,12 +65,12 @@ export default class FoodTrackingWidget extends Component {
     render() {
       return (
             <View style={styles.container} >
-              <Text>Food Tracking</Text>
+              <Text style={styles.titleText}>Food Tracking</Text>
               <FlatList data={this.state.foodTrackingList} renderItem={({item}) => (
-                    <View style={styles.flatList}>
-                      <Text>{item.name}</Text>
-                      <Text>                 {item.userPortions}/{item.maxPortions}                 </Text>
-                      <Button title="Add" onPress={() => {this.incrementPortion(item.name)}} />
+                    <View style={styles.itemList}>
+                      <Text style={styles.itemText}>{item.name}</Text>
+                      <Text style={styles.counterText}>{item.userPortions}/{item.maxPortions}</Text>
+                      <Button style={styles.addButton} title="Add" onPress={() => {this.incrementPortion(item.name)}} />
                     </View>
                     )} />
             </View>
@@ -79,18 +79,52 @@ export default class FoodTrackingWidget extends Component {
   }
   
   const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: 10,
-        paddingBottom: 10,
+    container:{
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: '#1C1C1E',
+        padding: 16,
         alignSelf: 'stretch',
-        marginBottom: 20,
-        marginTop: 20
+        marginBottom: 8,
+        marginTop: 8
     },
-    flatList: {
-        display: "flex",
-        flexDirection: "row"
+      titleText:{
+        color:'#FAFAFA',
+        fontSize: 20,
+        marginBottom: 16
+    },
+
+    itemList:{
+        flexDirection:'row',
+        justifyContent: 'space-between',
+        //height: 40,
+        marginBottom:8
+    },
+    itemText:{
+        color:'#DDDEDE',
+        fontSize: 17,
+        flex: 1,
+        alignSelf:'center'
+    },
+    counterText:{
+        color:'#DDDEDE',
+        fontSize: 17,
+        flex:1,
+        alignSelf:'center',
+        opacity: 0.9
+    },
+    addButton:{
+        flex:1,
     }
+    
+    // cupRow:{
+    //     flexDirection: 'row',
+    //     justifyContent: 'space-between'
+    //   },
+    //   image: {
+    //         height: 45,
+    //         width: 40,
+    //         resizeMode: 'cover',     
+    //         alignItems: 'stretch'    
+    //     }
   })
