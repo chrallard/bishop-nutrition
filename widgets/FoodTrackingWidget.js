@@ -15,8 +15,6 @@ export default class FoodTrackingWidget extends Component {
 
     componentDidMount(){
         this.buildList()
-
-        this.area51()
     }
 
     buildList = async () => {
@@ -53,7 +51,7 @@ export default class FoodTrackingWidget extends Component {
         function findValue(obj, value) {
             for (let prop in obj) {
                 if (obj.hasOwnProperty(prop) && obj[prop] === value) {
-                    return obj;
+                    return obj
                 }
             }
             return null
@@ -62,62 +60,6 @@ export default class FoodTrackingWidget extends Component {
         selectedFood.userPortions += 1
         newFoodTrackingList.splice(Number(selectedFood.index), 1, selectedFood) //index is the same in selectedFood as well as in the FlatList. it indicates which food group to update
         this.setState({foodTrackingList: newFoodTrackingList})
-    }
-
-    area51 = async () => {
-
-        
-        // //get todays date
-        // let d = new Date()
-        // const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
-        // const currentDate = d.getDate()
-        // const currentMonth = months[d.getMonth()]
-        // const currentYear = d.getFullYear()
-        // const today = currentDate + currentMonth + currentYear //looks like this: 4March2020
-
-        // let todaysHealthTracking = null
-
-        // await firebase.firestore()
-        // .collection("userData")
-        // .doc("Uj1bKIIOM7V7zOvee2f4ZOcc3462")
-        // .collection("healthTracking")
-        // .get()
-        // .then(function(querySnapshot) {
-        //     querySnapshot.forEach(function(doc) {
-        //         let timeStamp = doc.data().timeStamp
-        //         let timeStampDate = new Date(timeStamp)
-                
-        //         const date = timeStampDate.getDate()
-        //         const month = months[timeStampDate.getMonth()]
-        //         const year = timeStampDate.getFullYear()
-        //         const day = date + month + year //looks like this: 13March2020 or 10April2019 etc.
-
-        //         if(today == day){ //if today's date matches one in the database, set it to that variable. if not todaysHealthTracking remains null
-        //             todaysHealthTracking = doc.data()
-        //         }
-
-        //     });
-        // });
-
-        // // if(todaysHealthTracking == null){ //setting an empty template object to healthTracking collection if one for today doesn't exist
-        // //     await firebase.firestore()
-        // //     .collection("userData")
-        // //     .doc("Uj1bKIIOM7V7zOvee2f4ZOcc3462")
-        // //     .collection("healthTracking")
-        // //     .doc()
-        // //     .set({
-        // //         oodlesOfData: {},
-        // //         timeStamp: Date.now()
-        // //     })
-        // //     .then(function() {
-        // //         console.log("Document successfully written!");
-        // //     })
-        // //     .catch(function(error) {
-        // //         console.error("Error writing document: ", error);
-        // //     });
-        // // }
-
-
     }
   
     render() {

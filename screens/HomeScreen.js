@@ -2,7 +2,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
 import WelcomeWidget from '../widgets/WelcomeWidget'
 import healthTrackingTemplate from '../dataTemplates/healthTrackingTemplate'
@@ -25,7 +25,7 @@ export default class HomeScreen extends Component {
     let uid = await firebase.auth().currentUser.uid
     this.setState({ uid })
 
-    //this.checkIfTodaysObjectsExist()
+    this.checkIfTodaysObjectsExist()
   }
 
   checkIfTodaysObjectsExist = async () => { //checking if there are existing objects for today in the db
@@ -45,15 +45,14 @@ export default class HomeScreen extends Component {
     .collection("healthTracking")
     .get()
     .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
+        querySnapshot.forEach((doc) => {
             let timeStamp = doc.data().timeStamp
             let timeStampDate = new Date(timeStamp)
             const day = formatDate(timeStampDate)
   
-            if(today == day){ //if today's date matches one in the database, set it to true. if not todaysHealthTracking remains false
+            if(today == day){ //if today's date matches one in the database, set it to true. if not todaysObjectsExist remains false
                 todaysObjectsExist = true
             }
-  
         });
     });
   
@@ -65,31 +64,31 @@ export default class HomeScreen extends Component {
     }
   }
   
-  createTodaysEmptyObjects = async () => { //creating empty template objects for today's date
-    //healthTrackingTemplate.timeStamp = bodyTrackingTemplate.timeStamp = Date.now()
+  createTodaysEmptyObjects = async () => { //creating empty template objects for today's date in db
+    healthTrackingTemplate.timeStamp = bodyTrackingTemplate.timeStamp = Date.now() //both docs share the same timestamp
   
     let healthTrackingRef = firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking")
     let bodyTrackingRef = firebase.firestore().collection("userData").doc(this.state.uid).collection("bodyTracking")
   
-    // await healthTrackingRef
-    // .doc()
-    // .set(healthTrackingTemplate) //imported data template
-    // .then(function() {
-    //     console.log("healthTrackingTemplate successfully written!");
-    // })
-    // .catch(function(error) {
-    //     console.error("Error writing document: ", error);
-    // });
+    await healthTrackingRef
+    .doc()
+    .set(healthTrackingTemplate) //imported data template
+    .then(() => {
+        console.log("healthTrackingTemplate successfully written!");
+    })
+    .catch((error) => {
+        console.error("Error writing document: ", error);
+    })
   
     await bodyTrackingRef
     .doc()
     .set(bodyTrackingTemplate) //imported data template
-    .then(function() {
+    .then(() => {
         console.log("bodyTrackingTemplate successfully written!");
     })
-    .catch(function(error) {
+    .catch((error) => {
         console.error("Error writing document: ", error);
-    });
+    })
   }
   
   formatDate = (d) => {
