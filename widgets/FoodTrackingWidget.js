@@ -51,7 +51,7 @@ export default class FoodTrackingWidget extends Component {
         function findValue(obj, value) {
             for (let prop in obj) {
                 if (obj.hasOwnProperty(prop) && obj[prop] === value) {
-                    return obj;
+                    return obj
                 }
             }
             return null
