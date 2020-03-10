@@ -124,7 +124,7 @@ export default class ProfileScreen extends Component {
 
   _renderHeader = section => {
     return (
-      <View style={styles.header}>
+      <View style={styles.listItemContainer}>
         <Text style={styles.listItemTitle}>{section.type}</Text>
       </View>
     );
@@ -212,46 +212,41 @@ const styles = StyleSheet.create({
   },
   foodItems: {
     flexDirection: 'row',
-    paddingLeft: 16,
-    paddingTop: 16,
-    paddingBottom: 16,
+     paddingLeft: 16,
+     paddingTop: 16,
+     paddingBottom: 16,
     borderBottomColor: '#B7B7B7',
     borderBottomWidth: .5,
     borderBottomStartRadius: 16,
   },
-
-  
   listContainer: {
     backgroundColor: '#1C1C1E',
-    backgroundColor: 'red'
+    display:'flex',
   },
   content: {
     color: '#DDDEDE',
     alignSelf: 'center',
     fontSize: 16,
-    backgroundColor: 'red'
+    flex: 2
   },
   foodItemIcons: {
     flexDirection: 'row',
     flex: 1,
     justifyContent: "flex-end",
-    backgroundColor: 'red'
+    alignContent: 'center'
   },
 
-
-
-
   listItemTitle: {
-    display: 'flex',
     marginTop: 16,
     paddingLeft: 16,
-    height: 43,
-    fontSize: 17,
+    height: 45, 
+    fontSize: 22,
     color: '#DDDEDE',
+    //color: 'red',
     backgroundColor: '#1C1C1E',
+    //backgroundColor: 'blue',
 
 
-    
   },
   icon: {
     height: 30,
@@ -259,3 +254,28 @@ const styles = StyleSheet.create({
     marginRight: 16
   },
 });
+
+
+
+// itemList:{
+//   flexDirection:'row',
+//   justifyContent: 'space-between',
+//   //height: 40,
+//   marginBottom:8
+// },
+// itemText:{
+//   color:'#DDDEDE',
+//   fontSize: 17,
+//   flex: 1,
+//   alignSelf:'center'
+// },
+// counterText:{
+//   color:'#DDDEDE',
+//   fontSize: 17,
+//   flex:1,
+//   alignSelf:'center',
+//   opacity: 0.9
+// },
+// addButton:{
+//   flex:1,
+// }
