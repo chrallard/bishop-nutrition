@@ -109,12 +109,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-//style={styles.container}
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#000'
-  }
-})
