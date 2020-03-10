@@ -74,6 +74,16 @@ export default function App() {
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
+
+              //  <Image
+              //   source={require('./assets/navIcons/')}
+              //   style={{width: 29, height: 29}} color={color}
+              // />
+
+
+
+
+
             )
           }} />
 
