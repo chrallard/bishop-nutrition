@@ -73,12 +73,12 @@ export default function App() {
           component={FoodScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
+              //<MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
 
-              //  <Image
-              //   source={require('./assets/navIcons/')}
-              //   style={{width: 29, height: 29}} color={color}
-              // />
+               <Image
+                source={require('./assets/navIcons/foodList_Icon.png')}
+                style={{width: 29, height: 29}} color={color}
+              />
 
 
 
