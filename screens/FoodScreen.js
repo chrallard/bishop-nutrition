@@ -140,12 +140,12 @@ export default class ProfileScreen extends Component {
             <TouchableOpacity onPress={() => this._addPortion(item.category)} style={styles.foodItemIcons}>
               {item.favourite ? (
                 <Image style={styles.foodItemIcons}
-                  style={{ width: 15, height: 15 }}
+                  style={styles.icon}
                   source={require('../assets/star_Selected.png')}
                 />
               ) : (
                   <Image
-                    style={{ width: 15, height: 15 }}
+                    style={styles.icon}
                     source={require('../assets/star_NotSelected.png')}
                   />
                 )}
@@ -153,7 +153,7 @@ export default class ProfileScreen extends Component {
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this._addPortion(item.category)} style={{ paddingLeft: 8, paddingRight: 8 }}>
               <Image
-                style={{ width: 15, height: 15 }}
+                style={styles.icon}
                 source={require('../assets/add_Circle.png')}
               />
             </TouchableOpacity>
@@ -168,20 +168,21 @@ export default class ProfileScreen extends Component {
   };
   render() {
     return (
-      <View style={{backgroundColor: '#000', height: '100%'}}>
-      <ScrollView>
-        <View style={{ marginTop: 100, backgroundColor: '#000000' }}>
-          <Accordion style={styles.listContainer}
-            sections={this.state.lists}
-            activeSections={this.state.activeSections}
-            renderSectionTitle={this._renderSectionTitle}
-            renderHeader={this._renderHeader}
-            renderContent={this._renderContent}
-            onChange={this._updateSections}
-          />
-        </View>
-      </ScrollView>
+      <View style={{ backgroundColor: '#000', height: '100%' }}>
+        <ScrollView>
+          <View style={{ marginTop: 100, backgroundColor: '#000000' }}>
+            <Accordion style={styles.listContainer}
+              sections={this.state.lists}
+              activeSections={this.state.activeSections}
+              renderSectionTitle={this._renderSectionTitle}
+              renderHeader={this._renderHeader}
+              renderContent={this._renderContent}
+              onChange={this._updateSections}
+            />
+          </View>
+        </ScrollView>
       </View>
+
       // <View>
 
       //   <List.Section style={{ marginTop: 30 }} title="Food List">
@@ -211,6 +212,10 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingLeft: 20
 
+  },
+  icons: {
+    height: 15,
+    width: 15
   },
   foodItems: {
     flexDirection: 'row',
