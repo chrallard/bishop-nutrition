@@ -168,6 +168,7 @@ export default class ProfileScreen extends Component {
   };
   render() {
     return (
+      <View style={{backgroundColor: '#000', height: '100%'}}>
       <ScrollView>
         <View style={{ marginTop: 100, backgroundColor: '#000000' }}>
           <Accordion style={styles.listContainer}
@@ -180,6 +181,7 @@ export default class ProfileScreen extends Component {
           />
         </View>
       </ScrollView>
+      </View>
       // <View>
 
       //   <List.Section style={{ marginTop: 30 }} title="Food List">
