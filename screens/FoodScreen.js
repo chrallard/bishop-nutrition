@@ -137,26 +137,26 @@ export default class ProfileScreen extends Component {
         <View key={key} style={styles.foodItems}>
           <Text style={styles.content}>{item.name}</Text>
           <View style={styles.foodItemIcons}>
-          <TouchableOpacity onPress={() => this._addPortion(item.category)} style={styles.foodItemIcons}>
-            {item.favourite ? (
-              <Image style={styles.foodItemIcons}
-                style={{ width: 15, height: 15}}
-                source={require('../assets/star_Selected.png')}
-              />
-            ) : (
-                <Image
+            <TouchableOpacity onPress={() => this._addPortion(item.category)} style={styles.foodItemIcons}>
+              {item.favourite ? (
+                <Image style={styles.foodItemIcons}
                   style={{ width: 15, height: 15 }}
-                  source={require('../assets/star_NotSelected.png')}
+                  source={require('../assets/star_Selected.png')}
                 />
-              )}
+              ) : (
+                  <Image
+                    style={{ width: 15, height: 15 }}
+                    source={require('../assets/star_NotSelected.png')}
+                  />
+                )}
 
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this._addPortion(item.category)} style={{ paddingLeft: 8, paddingRight: 8}}>
-            <Image
-              style={{ width: 15, height: 15 }}
-              source={require('../assets/add_Circle.png')}
-            />
-          </TouchableOpacity>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._addPortion(item.category)} style={{ paddingLeft: 8, paddingRight: 8 }}>
+              <Image
+                style={{ width: 15, height: 15 }}
+                source={require('../assets/add_Circle.png')}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       ))
@@ -168,17 +168,18 @@ export default class ProfileScreen extends Component {
   };
   render() {
     return (
-
-      <View style={{ marginTop: 100, backgroundColor: '#000000' }}>
-        <Accordion style={styles.listContainer}
-          sections={this.state.lists}
-          activeSections={this.state.activeSections}
-          renderSectionTitle={this._renderSectionTitle}
-          renderHeader={this._renderHeader}
-          renderContent={this._renderContent}
-          onChange={this._updateSections}
-        />
-      </View>
+      <ScrollView>
+        <View style={{ marginTop: 100, backgroundColor: '#000000' }}>
+          <Accordion style={styles.listContainer}
+            sections={this.state.lists}
+            activeSections={this.state.activeSections}
+            renderSectionTitle={this._renderSectionTitle}
+            renderHeader={this._renderHeader}
+            renderContent={this._renderContent}
+            onChange={this._updateSections}
+          />
+        </View>
+      </ScrollView>
       // <View>
 
       //   <List.Section style={{ marginTop: 30 }} title="Food List">
