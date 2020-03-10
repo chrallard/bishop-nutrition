@@ -137,9 +137,9 @@ export default class ProfileScreen extends Component {
         <View key={key} style={styles.foodItems}>
           <Text style={styles.content}>{item.name}</Text>
           <View style={styles.foodItemIcons}>
-            <TouchableOpacity onPress={() => this._addPortion(item.category)} style={styles.foodItemIcons}>
+            <TouchableOpacity onPress={() => this._addPortion(item.category)}>
               {item.favourite ? (
-                <Image style={styles.foodItemIcons}
+                <Image 
                   style={styles.icon}
                   source={require('../assets/star_Selected.png')}
                 />
@@ -151,7 +151,7 @@ export default class ProfileScreen extends Component {
                 )}
 
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this._addPortion(item.category)} style={{ paddingLeft: 8, paddingRight: 8 }}>
+            <TouchableOpacity onPress={() => this._addPortion(item.category)}>
               <Image
                 style={styles.icon}
                 source={require('../assets/add_Circle.png')}
@@ -168,9 +168,9 @@ export default class ProfileScreen extends Component {
   };
   render() {
     return (
-      <View style={{ backgroundColor: '#000', height: '100%' }}>
+      <View style={styles.container}>
         <ScrollView>
-          <View style={{ marginTop: 100, backgroundColor: '#000000' }}>
+          <View>
             <Accordion style={styles.listContainer}
               sections={this.state.lists}
               activeSections={this.state.activeSections}
@@ -206,53 +206,56 @@ export default class ProfileScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    paddingTop: 20,
-    paddingLeft: 20
-
-  },
-  icons: {
-    height: 15,
-    width: 15
+    backgroundColor: '#000',
+    height: '100%',
+    marginTop: 88
   },
   foodItems: {
     flexDirection: 'row',
     paddingLeft: 16,
-    paddingTop: 32,
-    paddingBottom: 14,
-    borderBottomColor: '#404043',
+    paddingTop: 16,
+    paddingBottom: 16,
+    borderBottomColor: '#B7B7B7',
     borderBottomWidth: .5,
-    borderBottomStartRadius: 16
+    borderBottomStartRadius: 16,
+  },
+
+  
+  listContainer: {
+    backgroundColor: '#1C1C1E',
+    backgroundColor: 'red'
+  },
+  content: {
+    color: '#DDDEDE',
+    alignSelf: 'center',
+    fontSize: 16,
+    backgroundColor: 'red'
   },
   foodItemIcons: {
     flexDirection: 'row',
     flex: 1,
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    backgroundColor: 'red'
   },
-  content: {
-    backgroundColor: '#1C1C1E',
-    color: '#F3F3F3'
-  },
-  screenTitle: {
-    fontSize: 45,
-    fontWeight: "bold"
-  },
-  listContainer: {
-    backgroundColor: '#1C1C1E'
-  },
+
+
+
+
   listItemTitle: {
+    display: 'flex',
     marginTop: 16,
+    paddingLeft: 16,
     height: 43,
-    paddingTop: 12,
-    paddingBottom: 12,
     fontSize: 17,
-    color: '#F3F3F3',
-    backgroundColor: '#1C1C1E'
+    color: '#DDDEDE',
+    backgroundColor: '#1C1C1E',
+
+
+    
   },
-  listItemSub: {
-    color: "#505050",
-    paddingTop: 3
-  }
+  icon: {
+    height: 30,
+    width: 30,
+    marginRight: 16
+  },
 });
