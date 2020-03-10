@@ -3,6 +3,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 //////////////////////////////////// react
 import React, { useState } from 'react'
+import { StyleSheet} from 'react-native'
 //////////////////////////////////// react navigation
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -50,7 +51,13 @@ export default function App() {
   return (
     <NavigationContainer>
       {isLoggedIn ? (
-        <Tab.Navigator>
+        <Tab.Navigator 
+        tabBarOptions={{
+          activeTintColor: '#347EFB',
+          inactiveTintColor: '#DDDEDE',
+          inactiveBackgroundColor: '#000',
+          activeBackgroundColor: '#000'
+        }}>
           
           <Tab.Screen 
           name="Home" 
@@ -102,3 +109,12 @@ export default function App() {
     </NavigationContainer>
   );
 }
+//style={styles.container}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000'
+  }
+})
