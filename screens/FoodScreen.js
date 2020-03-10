@@ -134,12 +134,13 @@ export default class ProfileScreen extends Component {
 
     return (
       section.list.map((item, key) => (
-        <View key={key} /*style={styles.content}*/>
+        <View key={key} style={styles.foodItems}>
           <Text style={styles.content}>{item.name}</Text>
-          <TouchableOpacity onPress={() => this._addPortion(item.category)}>
+          <View style={styles.foodItemIcons}>
+          <TouchableOpacity onPress={() => this._addPortion(item.category)} style={styles.foodItemIcons}>
             {item.favourite ? (
-              <Image
-                style={{ width: 15, height: 15 }}
+              <Image style={styles.foodItemIcons}
+                style={{ width: 15, height: 15}}
                 source={require('../assets/star_Selected.png')}
               />
             ) : (
@@ -150,12 +151,13 @@ export default class ProfileScreen extends Component {
               )}
 
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this._addPortion(item.category)}>
+          <TouchableOpacity onPress={() => this._addPortion(item.category)} style={{ paddingLeft: 8, paddingRight: 8}}>
             <Image
               style={{ width: 15, height: 15 }}
               source={require('../assets/add_Circle.png')}
             />
           </TouchableOpacity>
+          </View>
         </View>
       ))
     );
@@ -167,8 +169,8 @@ export default class ProfileScreen extends Component {
   render() {
     return (
 
-      <View style={{ marginTop: 30 }}>
-        <Accordion style={styles.content}
+      <View style={{ marginTop: 100, backgroundColor: '#000000' }}>
+        <Accordion style={styles.listContainer}
           sections={this.state.lists}
           activeSections={this.state.activeSections}
           renderSectionTitle={this._renderSectionTitle}
@@ -207,6 +209,20 @@ const styles = StyleSheet.create({
     paddingLeft: 20
 
   },
+  foodItems: {
+    flexDirection: 'row',
+    paddingLeft: 16,
+    paddingTop: 32,
+    paddingBottom: 14,
+    borderBottomColor: '#404043',
+    borderBottomWidth: .5,
+    borderBottomStartRadius: 16
+  },
+  foodItemIcons: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: "flex-end"
+  },
   content: {
     backgroundColor: '#1C1C1E',
     color: '#F3F3F3'
@@ -216,7 +232,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   listContainer: {
-    paddingTop: 20
+    backgroundColor: '#1C1C1E'
   },
   listItemTitle: {
     marginTop: 16,
