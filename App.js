@@ -3,7 +3,6 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 //////////////////////////////////// react
 import React, { useState } from 'react'
-import { StyleSheet} from 'react-native'
 //////////////////////////////////// react navigation
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -69,21 +68,11 @@ export default function App() {
           }} />
 
           <Tab.Screen 
-          name="Food" 
+          name="Food List" 
           component={FoodScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
-              //<MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
-
-               <Image
-                source={require('./assets/navIcons/foodList_Icon.png')}
-                style={{width: 29, height: 29}} color={color}
-              />
-
-
-
-
-
+              <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
             )
           }} />
 
