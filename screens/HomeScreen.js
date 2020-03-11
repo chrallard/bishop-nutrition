@@ -2,9 +2,10 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 import React, { Component } from 'react'
-import { StyleSheet, View } from 'react-native'
-import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
+import { StyleSheet, Text, View, Button } from 'react-native'
 import WelcomeWidget from '../widgets/WelcomeWidget'
+import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
+import WaterTrackingWidget from '../widgets/WaterTrackingWidget'
 import healthTrackingTemplate from '../dataTemplates/healthTrackingTemplate'
 import bodyTrackingTemplate from '../dataTemplates/bodyTrackingTemplate'
 
@@ -109,6 +110,7 @@ export default class HomeScreen extends Component {
           <View style={styles.container} >
             <WelcomeWidget />
             <FoodTrackingWidget />
+            <WaterTrackingWidget/>
           </View>
     )
   }

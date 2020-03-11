@@ -14,8 +14,8 @@ export default class WelcomeWidget extends Component{
         }
     }
 
-    componentDidMount(){
-        this.userinfo()
+    async componentDidMount(){
+        await this.userinfo()
    }
 
     userinfo = async () => {
@@ -25,7 +25,7 @@ export default class WelcomeWidget extends Component{
         const currentDate = d.getDate()
         const currentMonth = months[d.getMonth()]
         const currentYear = d.getFullYear()
-        let uid = firebase.auth().currentUser.uid
+        let uid = await firebase.auth().currentUser.uid
 
         await firebase.firestore().collection("userData").doc(uid).get().then((doc) => {
                 if(doc.exists){
