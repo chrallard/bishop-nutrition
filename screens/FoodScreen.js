@@ -236,16 +236,22 @@ const styles = StyleSheet.create({
     alignContent: 'center'
   },
 
+
+  listItemContainer:{
+
+
+  },
+
   listItemTitle: {
+
+    flex: 1,
     marginTop: 16,
     paddingLeft: 16,
     height: 45, 
     fontSize: 22,
     color: '#DDDEDE',
-    //color: 'red',
     backgroundColor: '#1C1C1E',
-    //backgroundColor: 'blue',
-
+    paddingTop: 10 //temp
 
   },
   icon: {
@@ -254,28 +260,3 @@ const styles = StyleSheet.create({
     marginRight: 16
   },
 });
-
-
-
-// itemList:{
-//   flexDirection:'row',
-//   justifyContent: 'space-between',
-//   //height: 40,
-//   marginBottom:8
-// },
-// itemText:{
-//   color:'#DDDEDE',
-//   fontSize: 17,
-//   flex: 1,
-//   alignSelf:'center'
-// },
-// counterText:{
-//   color:'#DDDEDE',
-//   fontSize: 17,
-//   flex:1,
-//   alignSelf:'center',
-//   opacity: 0.9
-// },
-// addButton:{
-//   flex:1,
-// }
