@@ -66,7 +66,10 @@ export default class HomeScreen extends Component {
   }
   
   createTodaysEmptyObjects = async () => { //creating empty template objects for today's date in db
-    healthTrackingTemplate.timeStamp = bodyTrackingTemplate.timeStamp = Date.now() //both docs share the same timestamp
+    let now = Date.now()
+    let humanDate = this.formatDate(new Date(now))
+    healthTrackingTemplate.timeStamp = bodyTrackingTemplate.timeStamp = now //both docs share the same timestamp
+    healthTrackingTemplate.humanDate = bodyTrackingTemplate.humanDate = humanDate //also a human readable date to make life easier
   
     let healthTrackingRef = firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking")
     let bodyTrackingRef = firebase.firestore().collection("userData").doc(this.state.uid).collection("bodyTracking")
