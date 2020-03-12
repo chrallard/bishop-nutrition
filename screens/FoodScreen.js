@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList, Button, ScrollView, Item, SectionList, TouchableOpacity, Image } from 'react-native'
 import { List, Checkbox } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
+import { SearchBar } from 'react-native-elements';
 import Accordion from 'react-native-collapsible/Accordion';
 import * as firebase from "firebase/app"
 import "firebase/firestore"
@@ -23,6 +24,7 @@ export default class ProfileScreen extends Component {
       db: firebase.firestore(),
       expanded: false,
       activeSections: [],
+      search: '',
       lists: [
         {
           type: "Dairy",
@@ -106,7 +108,9 @@ export default class ProfileScreen extends Component {
     this.setState({ lists: listArray })
   }
 
-
+  updateSearch = search => {
+    this.setState({ search });
+  };
   _handlePress = (food) =>
     this.setState({
       expanded: !this.state.expanded
@@ -131,15 +135,16 @@ export default class ProfileScreen extends Component {
   };
 
   _renderContent = section => {
-
     return (
+
+
       section.list.map((item, key) => (
         <View key={key} style={styles.foodItems}>
           <Text style={styles.content}>{item.name}</Text>
           <View style={styles.foodItemIcons}>
             <TouchableOpacity onPress={() => this._addPortion(item.category)}>
               {item.favourite ? (
-                <Image 
+                <Image
                   style={styles.icon}
                   source={require('../assets/star_Selected.png')}
                 />
@@ -160,6 +165,7 @@ export default class ProfileScreen extends Component {
           </View>
         </View>
       ))
+
     );
   };
 
@@ -167,10 +173,21 @@ export default class ProfileScreen extends Component {
     this.setState({ activeSections });
   };
   render() {
+    const { search } = this.state;
     return (
       <View style={styles.container}>
         <ScrollView>
           <View>
+
+
+            <SearchBar
+              placeholder="Type Here..."
+              platform="ios"
+              containerStyle={{ backgroundColor: '#000' }}
+              inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
+              onChangeText={this.updateSearch}
+              value={search}
+            />
             <Accordion style={styles.listContainer}
               sections={this.state.lists}
               activeSections={this.state.activeSections}
@@ -212,16 +229,16 @@ const styles = StyleSheet.create({
   },
   foodItems: {
     flexDirection: 'row',
-     paddingLeft: 16,
-     paddingTop: 16,
-     paddingBottom: 16,
+    paddingLeft: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
     borderBottomColor: '#B7B7B7',
     borderBottomWidth: .5,
     borderBottomStartRadius: 16,
   },
   listContainer: {
     backgroundColor: '#1C1C1E',
-    display:'flex',
+    display: 'flex',
   },
   content: {
     color: '#DDDEDE',
@@ -237,7 +254,7 @@ const styles = StyleSheet.create({
   },
 
 
-  listItemContainer:{
+  listItemContainer: {
 
 
   },
@@ -247,7 +264,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 16,
     paddingLeft: 16,
-    height: 45, 
+    height: 45,
     fontSize: 22,
     color: '#DDDEDE',
     backgroundColor: '#1C1C1E',
