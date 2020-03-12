@@ -41,6 +41,7 @@ export default {
       start: null,
     },
     timeStamp: 0,
+    humanDate: "",
     waterEntry: {
       portions: 0,
     }
