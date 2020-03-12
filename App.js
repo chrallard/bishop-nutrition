@@ -9,12 +9,8 @@ if (!global.atob) { global.atob = decode }
 import React, { useState } from 'react'
 import {SafeAreaView, StatusBar} from 'react-native';
 //////////////////////////////////// react navigation
-<<<<<<< HEAD
-import { NavigationContainer} from '@react-navigation/native'
-=======
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
->>>>>>> 4ebb002e9970ed5e722b5599f17e39ec1793b3f1
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 //////////////////////////////////// icons
 import { MaterialCommunityIcons } from 'react-native-vector-icons'
