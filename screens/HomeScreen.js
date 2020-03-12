@@ -2,7 +2,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button } from 'react-native'
+import { StyleSheet, Text, View, Button, ScrollView, YellowBox } from 'react-native'
 import WelcomeWidget from '../widgets/WelcomeWidget'
 import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
 import WaterTrackingWidget from '../widgets/WaterTrackingWidget'
@@ -20,6 +20,10 @@ export default class HomeScreen extends Component {
 
   componentDidMount() {
     this.setUid()
+
+    YellowBox.ignoreWarnings([
+      'VirtualizedLists should never be nested', // TODO: Remove when fixed
+    ])
   }
 
   setUid = async () => {
@@ -107,11 +111,13 @@ export default class HomeScreen extends Component {
 
   render() {
     return (
+        <ScrollView>
           <View style={styles.container} >
             <WelcomeWidget />
             <FoodTrackingWidget />
             <WaterTrackingWidget/>
           </View>
+        </ScrollView> 
     )
   }
 }
