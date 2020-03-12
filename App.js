@@ -118,7 +118,13 @@ export default function App() {
   return (
     <NavigationContainer>
       {isLoggedIn ? (
-        <Tab.Navigator>
+        <Tab.Navigator 
+        tabBarOptions={{
+          activeTintColor: '#347EFB',
+          inactiveTintColor: '#DDDEDE',
+          inactiveBackgroundColor: '#000',
+          activeBackgroundColor: '#000'
+        }}>
           
           <Tab.Screen 
           name="Home" 
