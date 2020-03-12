@@ -3,8 +3,9 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 //////////////////////////////////// react
 import React, { useState } from 'react'
+import {SafeAreaView, StatusBar, SafeAreaViewBase } from 'react-native';
 //////////////////////////////////// react navigation
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer} from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 //////////////////////////////////// icons
 import { MaterialCommunityIcons } from 'react-native-vector-icons'
@@ -39,6 +40,14 @@ login = async (usernameInput, passwordInput) => {
   })
 }
 
+const MyTheme = {
+  colors: {
+    background: '#000',
+    text: '#DDDEDE',
+  },
+};
+
+
 export default function App() {
 
   const [isLoggedIn, setLoginStatus] = useState(false)
@@ -48,7 +57,11 @@ export default function App() {
   })
 
   return (
-    <NavigationContainer>
+    
+    
+    <NavigationContainer theme={MyTheme}>
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView style={{backgroundColor: '#000' }} />
       {isLoggedIn ? (
         <Tab.Navigator 
         tabBarOptions={{
@@ -105,6 +118,8 @@ export default function App() {
       ) : (
         <LoginScreen login={login} />
       )}
+      <SafeAreaView style={{backgroundColor: '#000' }} />
     </NavigationContainer>
+
   );
 }
