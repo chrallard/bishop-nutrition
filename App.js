@@ -3,7 +3,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 //////////////////////////////////// react
 import React, { useState } from 'react'
-import {SafeAreaView, StatusBar, SafeAreaViewBase } from 'react-native';
+import {SafeAreaView, StatusBar} from 'react-native';
 //////////////////////////////////// react navigation
 import { NavigationContainer} from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
