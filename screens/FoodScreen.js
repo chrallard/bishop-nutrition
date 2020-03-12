@@ -67,29 +67,29 @@ export default class ProfileScreen extends Component {
     let fatsList = []
     let freeVegList = []
 
-    await this.state.db.collection("foodList").get().then((querySnapshot) => {
-      querySnapshot.forEach((item) => {
+    await this.state.db.collection("foodList").doc("allFood").get().then((doc) => {
+      Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
 
-        if (item.data().category == "Dairy") {
-          dairyList.push(item.data())
+        if (item.category == "Dairy") {
+          dairyList.push(item)
         }
-        if (item.data().category == "Restricted Vegetables") {
-          restrictedList.push(item.data())
+        if (item.category == "Restricted Vegetables") {
+          restrictedList.push(item)
         }
-        if (item.data().category == "Fruit") {
-          fruitList.push(item.data())
+        if (item.category == "Fruit") {
+          fruitList.push(item)
         }
-        if (item.data().category == "Simple Carbs") {
-          simpleCarbList.push(item.data())
+        if (item.category == "Simple Carbs") {
+          simpleCarbList.push(item)
         }
-        if (item.data().category == "Protein") {
-          proteinList.push(item.data())
+        if (item.category == "Protein") {
+          proteinList.push(item)
         }
-        if (item.data().category == "Fats") {
-          fatsList.push(item.data())
+        if (item.category == "Fats") {
+          fatsList.push(item)
         }
-        if (item.data().category == "Free Vegetables") {
-          freeVegList.push(item.data())
+        if (item.category == "Free Vegetables") {
+          freeVegList.push(item)
         }
 
       })
