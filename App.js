@@ -101,7 +101,14 @@ function ProfileStackScreen() {
 function LoginStackScreen() {
   return (
     <LoginStack.Navigator>
-      <LoginStack.Screen name="Login" component={LoginScreen} />
+      <LoginStack.Screen name="Login" component={LoginScreen} options={{
+        title: "",
+        headerStyle: {
+          backgroundColor: '#000',
+          shadowColor: 'transparent',
+          borderBottomWidth: 0
+        }
+      }}/>
       <LoginStack.Screen name="Forgot Password" component={ForgotPasswordScreen} />
     </LoginStack.Navigator>
   )
