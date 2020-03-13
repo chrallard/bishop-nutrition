@@ -50,7 +50,17 @@ function HomeStackScreen() {
   return(
     <HomeStack.Navigator>
       <HomeStack.Screen name="Dashboard" component={HomeScreen} options={{
-        title: "JEFF/CONOR - STYLE"
+        title: "JEFF/CONOR - STYLE",
+        headerTitleStyle:{
+          fontSize: 17,
+          color:'#DDDEDE',
+          fontWeight: 'semiBold'
+        },
+        headerStyle:{
+          borderBottomColor: '#B7B7B7',
+          borderBottomWidth: 0.5
+        }
+
       }} />
     </HomeStack.Navigator>
   )
@@ -193,3 +203,4 @@ export default function App() {
 
   );
 }
+
