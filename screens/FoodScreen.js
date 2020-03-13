@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     height: '100%',
-    marginTop: 88
+    //marginTop: 44
   },
   foodItems: {
     flexDirection: 'row',
