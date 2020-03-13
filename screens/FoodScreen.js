@@ -208,8 +208,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     height: '100%',
-    marginTop: 44 //at statusbar level
-    //marginTop: 88 //at header level
+    marginTop: 88
   },
   foodItems: {
     flexDirection: 'row',
