@@ -303,13 +303,19 @@ export default class ProfileScreen extends Component {
                 onChangeText={this.updateSearch}
                 value={search}
               />
-
+              {this._renderHeader(this.state.searchLists[0])}
               {this._renderContent(this.state.searchLists[0])}
+              {this._renderHeader(this.state.searchLists[1])}
               {this._renderContent(this.state.searchLists[1])}
+              {this._renderHeader(this.state.searchLists[2])}
               {this._renderContent(this.state.searchLists[2])}
+              {this._renderHeader(this.state.searchLists[3])}
               {this._renderContent(this.state.searchLists[3])}
+              {this._renderHeader(this.state.searchLists[4])}
               {this._renderContent(this.state.searchLists[4])}
+              {this._renderHeader(this.state.searchLists[5])}
               {this._renderContent(this.state.searchLists[5])}
+              {this._renderHeader(this.state.searchLists[6])}
               {this._renderContent(this.state.searchLists[6])}
             </View>
           </ScrollView>
