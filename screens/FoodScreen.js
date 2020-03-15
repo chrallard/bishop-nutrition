@@ -302,6 +302,8 @@ export default class ProfileScreen extends Component {
                 inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                 onChangeText={this.updateSearch}
                 value={search}
+                inputStyle={{color: '#DDDEDE'}}
+                placeholderTextColor= '#B7B7B7'
               />
               {this._renderHeader(this.state.searchLists[0])}
               {this._renderContent(this.state.searchLists[0])}
@@ -339,6 +341,9 @@ export default class ProfileScreen extends Component {
                 inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                 onChangeText={this.updateSearch}
                 value={search}
+                placeholderTextColor='#B7B7B7'
+                inputStyle={{color: '#DDDEDE'}}
+                
               />
               <Accordion style={styles.listContainer}
                 sections={this.state.lists}
@@ -379,7 +384,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     height: '100%',
-    marginTop: 88
+    //marginTop: 88
   },
   foodItems: {
     flexDirection: 'row',
