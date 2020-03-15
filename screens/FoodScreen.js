@@ -13,6 +13,10 @@ let simpleCarbPortions = 0
 let proteinPortions = 0
 let fatPortions = 0
 let freeVegPortions = 0
+let str = "hi"
+
+
+
 
 export default class ProfileScreen extends Component {
 
@@ -25,7 +29,38 @@ export default class ProfileScreen extends Component {
       expanded: false,
       activeSections: [],
       search: '',
+      searchActive: false,
       lists: [
+        {
+          type: "Dairy",
+          list: []
+        },
+        {
+          type: "Restricted Vegetables",
+          list: []
+        },
+        {
+          type: "Fruits",
+          list: []
+        },
+        {
+          type: "Simple Carbs",
+          list: []
+        },
+        {
+          type: "Proteins",
+          list: []
+        },
+        {
+          type: "Fats",
+          list: []
+        },
+        {
+          type: "Free Vegetables",
+          list: []
+        }
+      ],
+      searchLists: [
         {
           type: "Dairy",
           list: []
@@ -109,6 +144,91 @@ export default class ProfileScreen extends Component {
   }
 
   updateSearch = search => {
+    let lists = [
+      {
+        type: "Dairy",
+        list: []
+      },
+      {
+        type: "Restricted Vegetables",
+        list: []
+      },
+      {
+        type: "Fruits",
+        list: []
+      },
+      {
+        type: "Simple Carbs",
+        list: []
+      },
+      {
+        type: "Proteins",
+        list: []
+      },
+      {
+        type: "Fats",
+        list: []
+      },
+      {
+        type: "Free Vegetables",
+        list: []
+      }
+    ]
+
+    if (search != "") {
+      this.setState({ searchActive: true })
+
+    }
+    else {
+      this.setState({ searchActive: false })
+
+    }
+    this.state.lists[0].list.forEach(element => {
+      if (element.name.includes(search) && search != "") {
+        // console.log(element)
+        lists[0].list.push(element)
+      }
+    });
+    this.state.lists[1].list.forEach(element => {
+      if (element.name.includes(search) && search != "") {
+        // console.log(element)
+        lists[1].list.push(element)
+      }
+    });
+
+    this.state.lists[2].list.forEach(element => {
+      if (element.name.includes(search) && search != "") {
+        // console.log(element)
+        lists[2].list.push(element)
+      }
+    });
+    this.state.lists[3].list.forEach(element => {
+      if (element.name.includes(search) && search != "") {
+        // console.log(element)
+        lists[3].list.push(element)
+      }
+    });
+    this.state.lists[4].list.forEach(element => {
+      if (element.name.includes(search) && search != "") {
+        // console.log(element)
+        lists[4].list.push(element)
+      }
+    });
+    this.state.lists[5].list.forEach(element => {
+      if (element.name.includes(search) && search != "") {
+        // console.log(element)
+        lists[2].list.push(element)
+      }
+    });
+    this.state.lists[6].list.forEach(element => {
+      if (element.name.includes(search) && search != "") {
+        // console.log(element)
+        lists[6].list.push(element)
+      }
+    });
+
+
+    this.setState({ searchLists: lists })
     this.setState({ search });
   };
   _handlePress = (food) =>
@@ -116,15 +236,7 @@ export default class ProfileScreen extends Component {
       expanded: !this.state.expanded
     });
 
-  // _renderSectionTitle = section => {
-  //   return (
 
-  //     // console.log((section.type))
-  //     <View style={styles.content}>
-  //       <Text /*style={styles.content}*/>{}</Text>
-  //     </View>
-  //   );
-  // };
 
   _renderHeader = section => {
     return (
@@ -171,54 +283,85 @@ export default class ProfileScreen extends Component {
 
   _updateSections = activeSections => {
     this.setState({ activeSections });
+
   };
   render() {
     const { search } = this.state;
-    return (
-      <View style={styles.container}>
-        <ScrollView>
-          <View>
+    if (this.state.searchActive) {
+
+      this.state.searchLists.forEach(item => this._renderContent(item))
+      return (
+        <View style={styles.container}>
+          <ScrollView>
+            <View>
 
 
-            <SearchBar
-              placeholder="Type Here..."
-              platform="ios"
-              containerStyle={{ backgroundColor: '#000' }}
-              inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
-              onChangeText={this.updateSearch}
-              value={search}
-            />
-            <Accordion style={styles.listContainer}
-              sections={this.state.lists}
-              activeSections={this.state.activeSections}
-              renderSectionTitle={this._renderSectionTitle}
-              renderHeader={this._renderHeader}
-              renderContent={this._renderContent}
-              onChange={this._updateSections}
-            />
-          </View>
-        </ScrollView>
-      </View>
+              <SearchBar
+                placeholder="Type Here..."
+                platform="ios"
+                containerStyle={{ backgroundColor: '#000' }}
+                inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
+                onChangeText={this.updateSearch}
+                value={search}
+              />
 
-      // <View>
+              {this._renderContent(this.state.searchLists[2])}
+            </View>
+          </ScrollView>
+        </View>
 
-      //   <List.Section style={{ marginTop: 30 }} title="Food List">
 
-      //     {this.state.lists.map((item, key) => (
-      //       <List.Accordion key={key}
-      //         title={item.type}
-      //       >
-      //         {item.list.map((item, key) => (
-      //           <List.Item key={key} title={item.name} />
-      //         ))}
-      //       </List.Accordion>
-      //     ))}
-      //   </List.Section>
-      // </View>
+      )
 
-    )
+    }
+    else if (!this.state.searchActive) {
+      return (
+        <View style={styles.container}>
+          <ScrollView>
+            <View>
+
+
+              <SearchBar
+                placeholder="Type Here..."
+                platform="ios"
+                containerStyle={{ backgroundColor: '#000' }}
+                inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
+                onChangeText={this.updateSearch}
+                value={search}
+              />
+              <Accordion style={styles.listContainer}
+                sections={this.state.lists}
+                activeSections={this.state.activeSections}
+                renderSectionTitle={this._renderSectionTitle}
+                renderHeader={this._renderHeader}
+                renderContent={this._renderContent}
+                onChange={this._updateSections}
+              />
+            </View>
+          </ScrollView>
+        </View>
+
+
+      )
+    }
+
   }
 }
+// <View>
+
+//   <List.Section style={{ marginTop: 30 }} title="Food List">
+
+//     {this.state.lists.map((item, key) => (
+//       <List.Accordion key={key}
+//         title={item.type}
+//       >
+//         {item.list.map((item, key) => (
+//           <List.Item key={key} title={item.name} />
+//         ))}
+//       </List.Accordion>
+//     ))}
+//   </List.Section>
+// </View>
 
 const styles = StyleSheet.create({
   container: {
