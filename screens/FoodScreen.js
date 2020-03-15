@@ -184,44 +184,44 @@ export default class ProfileScreen extends Component {
 
     }
     this.state.lists[0].list.forEach(element => {
-      if (element.name.includes(search) && search != "") {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
         // console.log(element)
         lists[0].list.push(element)
       }
     });
     this.state.lists[1].list.forEach(element => {
-      if (element.name.includes(search) && search != "") {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
         // console.log(element)
         lists[1].list.push(element)
       }
     });
 
     this.state.lists[2].list.forEach(element => {
-      if (element.name.includes(search) && search != "") {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
         // console.log(element)
         lists[2].list.push(element)
       }
     });
     this.state.lists[3].list.forEach(element => {
-      if (element.name.includes(search) && search != "") {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
         // console.log(element)
         lists[3].list.push(element)
       }
     });
     this.state.lists[4].list.forEach(element => {
-      if (element.name.includes(search) && search != "") {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
         // console.log(element)
         lists[4].list.push(element)
       }
     });
     this.state.lists[5].list.forEach(element => {
-      if (element.name.includes(search) && search != "") {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
         // console.log(element)
         lists[2].list.push(element)
       }
     });
     this.state.lists[6].list.forEach(element => {
-      if (element.name.includes(search) && search != "") {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
         // console.log(element)
         lists[6].list.push(element)
       }
@@ -289,7 +289,6 @@ export default class ProfileScreen extends Component {
     const { search } = this.state;
     if (this.state.searchActive) {
 
-      this.state.searchLists.forEach(item => this._renderContent(item))
       return (
         <View style={styles.container}>
           <ScrollView>
@@ -297,7 +296,7 @@ export default class ProfileScreen extends Component {
 
 
               <SearchBar
-                placeholder="Type Here..."
+                placeholder="Search Your Food Here..."
                 platform="ios"
                 containerStyle={{ backgroundColor: '#000' }}
                 inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
@@ -305,7 +304,13 @@ export default class ProfileScreen extends Component {
                 value={search}
               />
 
+              {this._renderContent(this.state.searchLists[0])}
+              {this._renderContent(this.state.searchLists[1])}
               {this._renderContent(this.state.searchLists[2])}
+              {this._renderContent(this.state.searchLists[3])}
+              {this._renderContent(this.state.searchLists[4])}
+              {this._renderContent(this.state.searchLists[5])}
+              {this._renderContent(this.state.searchLists[6])}
             </View>
           </ScrollView>
         </View>
@@ -322,7 +327,7 @@ export default class ProfileScreen extends Component {
 
 
               <SearchBar
-                placeholder="Type Here..."
+                placeholder="Search Your Food Here..."
                 platform="ios"
                 containerStyle={{ backgroundColor: '#000' }}
                 inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
