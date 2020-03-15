@@ -217,7 +217,7 @@ export default class ProfileScreen extends Component {
     this.state.lists[5].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
         // console.log(element)
-        lists[2].list.push(element)
+        lists[5].list.push(element)
       }
     });
     this.state.lists[6].list.forEach(element => {
