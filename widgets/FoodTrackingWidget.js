@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button, FlatList, Item } from 'react-native'
+import { StyleSheet, Text, View, Button, FlatList, Item, TouchableOpacity, Image} from 'react-native'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
@@ -182,7 +182,7 @@ export default class FoodTrackingWidget extends Component {
     itemList:{
         flexDirection:'row',
         justifyContent: 'space-between',
-        //height: 40,
+        height: 40,
         marginBottom:8
     },
     itemText:{
