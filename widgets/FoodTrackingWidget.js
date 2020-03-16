@@ -148,6 +148,13 @@ export default class FoodTrackingWidget extends Component {
       )
     }
   }
+
+//   <TouchableOpacity onPress={() => this._addPortion(item.category)}>
+//               <Image
+//                 style={styles.icon}
+//                 source={require('../assets/add_Circle.png')}
+//               />
+//             </TouchableOpacity>
   
   const styles = StyleSheet.create({
     container:{
