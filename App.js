@@ -8,7 +8,7 @@ if (!global.atob) { global.atob = decode }
 //////////////////////////////////// react
 import React, { useState } from 'react'
 //////////////////////////////////// react navigation
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, StackActions } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 //////////////////////////////////// icons
@@ -22,6 +22,8 @@ import ProgressScreen from './screens/ProgressScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import UpdatePasswordScreen from './screens/UpdatePasswordScreen'
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
+import DailyLogWidget from './widgets/DailyLogWidget'
+import SummaryScreen from './screens/SummaryScreen'
 //////////////////////////////////// firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBa7mPzRK5vFZYMrIMtTjtJhecI0pqlYNc",
@@ -49,6 +51,10 @@ function HomeStackScreen() {
   return(
     <HomeStack.Navigator>
       <HomeStack.Screen name="Dashboard" component={HomeScreen} options={{
+        title: "JEFF/CONOR - STYLE"
+      }} />
+      <HomeStack.Screen name="DailyLogWidget" component={DailyLogWidget} />
+      <HomeStack.Screen name="Summary" component={SummaryScreen} options={{
         title: "JEFF/CONOR - STYLE"
       }} />
     </HomeStack.Navigator>

@@ -4,6 +4,7 @@ import 'firebase/firestore'
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Button, ScrollView, YellowBox } from 'react-native'
 import WelcomeWidget from '../widgets/WelcomeWidget'
+import DailyLogWidget from '../widgets/DailyLogWidget'
 import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
 import WaterTrackingWidget from '../widgets/WaterTrackingWidget'
 import healthTrackingTemplate from '../dataTemplates/healthTrackingTemplate'
@@ -30,7 +31,7 @@ export default class HomeScreen extends Component {
     let uid = await firebase.auth().currentUser.uid
     this.setState({ uid })
 
-    this.checkIfTodaysObjectsExist()
+    //this.checkIfTodaysObjectsExist()
   }
 
   checkIfTodaysObjectsExist = async () => { //checking if there are existing objects for today in the db
@@ -114,8 +115,9 @@ export default class HomeScreen extends Component {
         <ScrollView>
           <View style={styles.container} >
             <WelcomeWidget />
+            <DailyLogWidget navProps={this.props.navigation} />
             <FoodTrackingWidget />
-            <WaterTrackingWidget/>
+            <WaterTrackingWidget />
           </View>
         </ScrollView> 
     )

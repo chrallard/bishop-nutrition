@@ -102,35 +102,35 @@ export default class ProfileScreen extends Component {
     let fatsList = []
     let freeVegList = []
 
-    await this.state.db.collection("foodList").doc("allFood").get().then((doc) => {
-      Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
+    // await this.state.db.collection("foodList").doc("allFood").get().then((doc) => {
+    //   Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
 
-        if (item.category == "Dairy") {
-          dairyList.push(item)
-        }
-        if (item.category == "Restricted Vegetables") {
-          restrictedList.push(item)
-        }
-        if (item.category == "Fruit") {
-          fruitList.push(item)
-        }
-        if (item.category == "Simple Carbs") {
-          simpleCarbList.push(item)
-        }
-        if (item.category == "Protein") {
-          proteinList.push(item)
-        }
-        if (item.category == "Fats") {
-          fatsList.push(item)
-        }
-        if (item.category == "Free Vegetables") {
-          freeVegList.push(item)
-        }
+    //     if (item.category == "Dairy") {
+    //       dairyList.push(item)
+    //     }
+    //     if (item.category == "Restricted Vegetables") {
+    //       restrictedList.push(item)
+    //     }
+    //     if (item.category == "Fruit") {
+    //       fruitList.push(item)
+    //     }
+    //     if (item.category == "Simple Carbs") {
+    //       simpleCarbList.push(item)
+    //     }
+    //     if (item.category == "Protein") {
+    //       proteinList.push(item)
+    //     }
+    //     if (item.category == "Fats") {
+    //       fatsList.push(item)
+    //     }
+    //     if (item.category == "Free Vegetables") {
+    //       freeVegList.push(item)
+    //     }
 
-      })
-    }).catch((err) => {
-      console.log(err)
-    })
+    //   })
+    // }).catch((err) => {
+    //   console.log(err)
+    // })
     var listArray = [...this.state.lists]
     listArray[0].list = dairyList
     listArray[1].list = restrictedList
