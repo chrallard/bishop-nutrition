@@ -54,7 +54,7 @@ function HomeStackScreen() {
         headerTitleStyle:{
           fontSize: 17,
           color:'#DDDEDE',
-          fontWeight: 'semiBold'
+          fontWeight: '700'
         },
         headerStyle:{
           borderBottomColor: '#B7B7B7',
