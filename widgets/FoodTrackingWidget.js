@@ -140,7 +140,14 @@ export default class FoodTrackingWidget extends Component {
                     <View style={styles.itemList}>
                       <Text style={styles.itemText}>{item.name}</Text>
                       <Text style={styles.counterText}>{item.userPortions}/{item.maxPortions}</Text>
-                      <Button style={styles.addButton} title="Add" onPress={() => {this.incrementPortion(item.name)}} />
+                      {/* <Button style={styles.addButton} title="Add" onPress={() => {this.incrementPortion(item.name)}} /> */}
+                      <TouchableOpacity onPress={() => {this.incrementPortion(item.name)}}>
+                        <Image
+                        style={styles.icon}
+                        source={require('../assets/add_Circle.png')}
+                        />
+                      </TouchableOpacity>
+                      
                     </View>
                     )} />
                 <Button title="push test" onPress={this.pushTest} />
@@ -149,12 +156,12 @@ export default class FoodTrackingWidget extends Component {
     }
   }
 
-//   <TouchableOpacity onPress={() => this._addPortion(item.category)}>
-//               <Image
-//                 style={styles.icon}
-//                 source={require('../assets/add_Circle.png')}
-//               />
-//             </TouchableOpacity>
+{/* <TouchableOpacity onPress={() => this._addPortion(item.category)}>
+            <Image
+                style={styles.icon}
+                source={require('../assets/add_Circle.png')}
+            />
+</TouchableOpacity> */}
   
   const styles = StyleSheet.create({
     container:{
@@ -193,16 +200,10 @@ export default class FoodTrackingWidget extends Component {
     },
     addButton:{
         flex:1,
-    }
-    
-    // cupRow:{
-    //     flexDirection: 'row',
-    //     justifyContent: 'space-between'
-    //   },
-    //   image: {
-    //         height: 45,
-    //         width: 40,
-    //         resizeMode: 'cover',     
-    //         alignItems: 'stretch'    
-    //     }
+    },
+    icon: {
+        height: 30,
+        width: 30,
+        marginRight: 16
+      },
   })
