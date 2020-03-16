@@ -45,7 +45,7 @@ export default class WelcomeWidget extends Component{
            
             <Text>Weight</Text>
             
-             <Text>{this.state.startingWeight} -------{this.state.subtract}----------{this.state.weightEntry}</Text>
+             <Text>{this.state.startingWeight} ------- {this.state.subtract} ----------{this.state.weightEntry}</Text>
              {/* <Text style={styles.difference}>{this.state.subtract}</Text>
              <Text style={styles.weight}>{this.state.weightEntry}</Text>
             */}
