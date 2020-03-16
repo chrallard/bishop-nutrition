@@ -8,6 +8,7 @@ import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
 import WaterTrackingWidget from '../widgets/WaterTrackingWidget'
 import healthTrackingTemplate from '../dataTemplates/healthTrackingTemplate'
 import bodyTrackingTemplate from '../dataTemplates/bodyTrackingTemplate'
+import WeightWidget from '../widgets/WeightWidget'
 
 export default class HomeScreen extends Component {
 
@@ -108,6 +109,7 @@ export default class HomeScreen extends Component {
             <WelcomeWidget />
             <FoodTrackingWidget />
             <WaterTrackingWidget/>
+            <WeightWidget/>
           </View>
     )
   }

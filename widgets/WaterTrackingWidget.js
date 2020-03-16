@@ -56,7 +56,7 @@ export default class WaterTrackingWidget extends Component {
       this.setState({maxPortions: maxPortions})
       this.setState({dailyWater: dailyWater})
         
-      console.log(maxPortions);
+      // console.log(maxPortions);
 
       }
 
