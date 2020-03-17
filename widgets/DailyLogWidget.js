@@ -41,7 +41,7 @@ export default class DailyLogWidget extends Component {
                     date: formatDate(item.data().timeStamp),
                     doc: item.data()
                 }
-                daysList.push(obj)
+                daysList.unshift(obj)
             })
         })
 
