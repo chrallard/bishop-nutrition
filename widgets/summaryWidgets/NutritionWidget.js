@@ -51,27 +51,41 @@ export default class NutritionWidget extends Component {
         return(
             <View style={styles.container}>
                 <Text style={styles.title}>Nutrition</Text>
-                {this.state.foodDataList.map((item, index) => (
-                    <View key={index} >
-                        <Text style={styles.dateText}>{item.name}</Text>
-                        <Text style={styles.dateText}>{item.portions}/{item.maxPortions}</Text>
-                    </View>
-                ))}
+                <View style={styles.listPortions}>
+                    {this.state.foodDataList.map((item, index) => (
+                        <View key={index} style={styles.listItem}>
+                            <Text style={styles.dateText}>{item.name}</Text>
+                            <Text style={styles.dateText}>{item.portions}/{item.maxPortions}</Text>
+                        </View>
+                    ))}
+                </View>
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    // STYLING JEFF March 6
-    container:{
-        flexDirection: 'column',
+    container:{       
         backgroundColor: '#1C1C1E',
         padding: 16,
         alignSelf: 'stretch',
         marginBottom: 8,
         marginTop: 44
     },
+    listPortions:{
+        flexDirection: 'row',
+        flexWrap:'wrap',
+        justifyContent: 'space-around'
+    },
+    listItem:{
+        width: 80,
+        height: 80,
+        margin: 16,
+        justifyContent: 'center',
+        alignContent: 'center',
+        backgroundColor: '#000' //just to see box
+    },
+
     title:{
         color:'#FAFAFA',
         fontSize: 20,
@@ -79,14 +93,14 @@ const styles = StyleSheet.create({
     nameText:{
         flexDirection: 'column',
         color:'#FAFAFA',
-        fontSize: 28,
+        fontSize: 14,
         justifyContent: 'center',
         alignSelf:'center',
         marginBottom: 8
     },
     dateText:{
         color:'#347EFB',
-        fontSize: 17,
+        fontSize: 14,
         justifyContent: 'center',
         alignSelf:'center'
     }
