@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList, Button, ScrollView, Item, SectionList
 import { List, Checkbox } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
 import { SearchBar } from 'react-native-elements';
+import SegmentedControlTab from "react-native-segmented-control-tab";
 import Accordion from 'react-native-collapsible/Accordion';
 import * as firebase from "firebase/app"
 import "firebase/firestore"
@@ -30,6 +31,7 @@ export default class ProfileScreen extends Component {
       activeSections: [],
       search: '',
       searchActive: false,
+      selectedIndex: 1,
       lists: [
         {
           type: "Dairy",
@@ -104,7 +106,7 @@ export default class ProfileScreen extends Component {
 
     await this.state.db.collection("foodList").doc("allFood").get().then((doc) => {
       Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
-
+        console.log("DB CALLED")
         if (item.category == "Dairy") {
           dairyList.push(item)
         }
@@ -236,7 +238,15 @@ export default class ProfileScreen extends Component {
       expanded: !this.state.expanded
     });
 
+  _handleIndexChange = index => {
+    console.log(index)
 
+
+    this.setState({ selectedIndex: index });
+
+
+
+  };
 
   _renderHeader = section => {
     return (
@@ -253,6 +263,7 @@ export default class ProfileScreen extends Component {
       section.list.map((item, key) => (
         <View key={key} style={styles.foodItems}>
           <Text style={styles.content}>{item.name}</Text>
+          <Text style={styles.content}>{item.portionSize}</Text>
           <View style={styles.foodItemIcons}>
             <TouchableOpacity onPress={() => this._addPortion(item.category)}>
               {item.favourite ? (
@@ -287,47 +298,9 @@ export default class ProfileScreen extends Component {
   };
   render() {
     const { search } = this.state;
-    if (this.state.searchActive) {
-
-      return (
-        <View style={styles.container}>
-          <ScrollView>
-            <View>
 
 
-              <SearchBar
-                placeholder="Search Your Food Here..."
-                platform="ios"
-                containerStyle={{ backgroundColor: '#000' }}
-                inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
-                onChangeText={this.updateSearch}
-                value={search}
-                inputStyle={{ color: '#DDDEDE' }}
-                placeholderTextColor='#B7B7B7'
-              />
-              {this._renderHeader(this.state.searchLists[0])}
-              {this._renderContent(this.state.searchLists[0])}
-              {this._renderHeader(this.state.searchLists[1])}
-              {this._renderContent(this.state.searchLists[1])}
-              {this._renderHeader(this.state.searchLists[2])}
-              {this._renderContent(this.state.searchLists[2])}
-              {this._renderHeader(this.state.searchLists[3])}
-              {this._renderContent(this.state.searchLists[3])}
-              {this._renderHeader(this.state.searchLists[4])}
-              {this._renderContent(this.state.searchLists[4])}
-              {this._renderHeader(this.state.searchLists[5])}
-              {this._renderContent(this.state.searchLists[5])}
-              {this._renderHeader(this.state.searchLists[6])}
-              {this._renderContent(this.state.searchLists[6])}
-            </View>
-          </ScrollView>
-        </View>
-
-
-      )
-
-    }
-    else if (!this.state.searchActive) {
+    if (this.state.selectedIndex == 0) {
       return (
         <View style={styles.container}>
           <ScrollView>
@@ -345,21 +318,101 @@ export default class ProfileScreen extends Component {
                 inputStyle={{ color: '#DDDEDE' }}
 
               />
-              <Accordion style={styles.listContainer}
-                sections={this.state.lists}
-                activeSections={this.state.activeSections}
-                renderSectionTitle={this._renderSectionTitle}
-                renderHeader={this._renderHeader}
-                renderContent={this._renderContent}
-                onChange={this._updateSections}
+              <SegmentedControlTab
+                values={["Favourites", "Food List"]}
+                selectedIndex={this.state.selectedIndex}
+                onTabPress={this._handleIndexChange}
               />
+
+
             </View>
           </ScrollView>
         </View>
-
-
       )
     }
+    else if (this.state.selectedIndex == 1) {
+      if (this.state.searchActive) {
+
+        return (
+          <View style={styles.container}>
+            <ScrollView>
+              <View>
+
+
+                <SearchBar
+                  placeholder="Search Your Food Here..."
+                  platform="ios"
+                  containerStyle={{ backgroundColor: '#000' }}
+                  inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
+                  onChangeText={this.updateSearch}
+                  value={search}
+                  inputStyle={{ color: '#DDDEDE' }}
+                  placeholderTextColor='#B7B7B7'
+                />
+                {this._renderHeader(this.state.searchLists[0])}
+                {this._renderContent(this.state.searchLists[0])}
+                {this._renderHeader(this.state.searchLists[1])}
+                {this._renderContent(this.state.searchLists[1])}
+                {this._renderHeader(this.state.searchLists[2])}
+                {this._renderContent(this.state.searchLists[2])}
+                {this._renderHeader(this.state.searchLists[3])}
+                {this._renderContent(this.state.searchLists[3])}
+                {this._renderHeader(this.state.searchLists[4])}
+                {this._renderContent(this.state.searchLists[4])}
+                {this._renderHeader(this.state.searchLists[5])}
+                {this._renderContent(this.state.searchLists[5])}
+                {this._renderHeader(this.state.searchLists[6])}
+                {this._renderContent(this.state.searchLists[6])}
+              </View>
+            </ScrollView>
+          </View>
+
+
+        )
+
+      }
+      else if (!this.state.searchActive) {
+        return (
+          <View style={styles.container}>
+            <ScrollView>
+              <View>
+
+
+                <SearchBar
+                  placeholder="Search Your Food Here..."
+                  platform="ios"
+                  containerStyle={{ backgroundColor: '#000' }}
+                  inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
+                  onChangeText={this.updateSearch}
+                  value={search}
+                  placeholderTextColor='#B7B7B7'
+                  inputStyle={{ color: '#DDDEDE' }}
+
+                />
+                <SegmentedControlTab
+                  values={["Favourites", "Food List"]}
+                  selectedIndex={this.state.selectedIndex}
+                  onTabPress={this._handleIndexChange}
+                />
+                <Accordion style={styles.listContainer}
+                  sections={this.state.lists}
+                  activeSections={this.state.activeSections}
+                  renderSectionTitle={this._renderSectionTitle}
+                  renderHeader={this._renderHeader}
+                  renderContent={this._renderContent}
+                  onChange={this._updateSections}
+                />
+
+              </View>
+            </ScrollView>
+          </View>
+
+
+        )
+      }
+    }
+
+
 
   }
 }
