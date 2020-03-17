@@ -356,7 +356,77 @@ export default class ProfileScreen extends Component {
     }, { merge: true })
 
   };
+  _renderFavouriteContent = section => {
+    return (
 
+
+      section.list.map((item, key) => (
+        <View key={key} style={styles.foodItems}>
+          {(item.category == "Dairy") ? (
+            <Image
+              style={styles.icon}
+              source={require('../assets/dairy_Icon.png')}
+            />
+          ) : (item.category == "Restricted Vegetables") ? (
+            <Image
+              style={styles.icon}
+              source={require('../assets/restrictedVeg_Icon.png')}
+            />
+          ) : (item.category == "Fruit") ? (
+            <Image
+              style={styles.icon}
+              source={require('../assets/fruit_icon.png')}
+            />
+          ) : (item.category == "Simple Carbs") ? (
+            <Image
+              style={styles.icon}
+              source={require('../assets/carb_icon.png')}
+            />
+          ) : (item.category == "Protein") ? (
+            <Image
+              style={styles.icon}
+              source={require('../assets/protein_icon.png')}
+            />
+          ) : (item.category == "Fats") ? (
+            <Image
+              style={styles.icon}
+              source={require('../assets/fats_icon.png')}
+            />
+          ) : (item.category == "Free Vegetables") ? (
+            <Image
+              style={styles.icon}
+              source={require('../assets/restrictedVeg_Icon.png')}
+            />
+          ) : (
+                          <Image
+                            style={styles.icon}
+                            source={require('../assets/dairy_Icon.png')}
+                          />
+                        )}
+          <Text style={styles.content}>{item.name}</Text>
+          <Text style={styles.content}>{item.portionSize}</Text>
+          <View style={styles.foodItemIcons}>
+            <TouchableOpacity onPress={() => this._addFavourite(item)}>
+
+              <Image
+                style={styles.icon}
+                source={require('../assets/star_Selected.png')}
+              />
+
+
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._addPortion(item.category)}>
+              <Image
+                style={styles.icon}
+                source={require('../assets/add_Circle.png')}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      ))
+
+    );
+  };
   _renderContent = section => {
     return (
 
@@ -433,20 +503,13 @@ export default class ProfileScreen extends Component {
                 activeTabStyle={styles.activeTabStyleFood}
                 activeTabTextStyle={styles.activeTabTextStyleFood}
               />
-              {this._renderHeader(this.state.favouriteLists[0])}
-              {this._renderContent(this.state.favouriteLists[0])}
-              {this._renderHeader(this.state.favouriteLists[1])}
-              {this._renderContent(this.state.favouriteLists[1])}
-              {this._renderHeader(this.state.favouriteLists[2])}
-              {this._renderContent(this.state.favouriteLists[2])}
-              {this._renderHeader(this.state.favouriteLists[3])}
-              {this._renderContent(this.state.favouriteLists[3])}
-              {this._renderHeader(this.state.favouriteLists[4])}
-              {this._renderContent(this.state.favouriteLists[4])}
-              {this._renderHeader(this.state.favouriteLists[5])}
-              {this._renderContent(this.state.favouriteLists[5])}
-              {this._renderHeader(this.state.favouriteLists[6])}
-              {this._renderContent(this.state.favouriteLists[6])}
+              {this._renderFavouriteContent(this.state.favouriteLists[0])}
+              {this._renderFavouriteContent(this.state.favouriteLists[1])}
+              {this._renderFavouriteContent(this.state.favouriteLists[2])}
+              {this._renderFavouriteContent(this.state.favouriteLists[3])}
+              {this._renderFavouriteContent(this.state.favouriteLists[4])}
+              {this._renderFavouriteContent(this.state.favouriteLists[5])}
+              {this._renderFavouriteContent(this.state.favouriteLists[6])}
 
 
             </View>
