@@ -335,7 +335,7 @@ export default class ProfileScreen extends Component {
     return (
       <View style={styles.listItemContainer}>
 
-        <Text style={styles.listItemTitle}>
+        
           {(section.type == "Dairy") ? (
             <Image
               style={styles.catagoryIconDairy}
@@ -377,7 +377,7 @@ export default class ProfileScreen extends Component {
               source={'../assets/restrictedVeg_Icon.png'}
             />
           )}
-          {section.type}</Text>
+          <Text style={styles.listItemTitle}>{section.type}</Text>
       </View>
     );
   };
@@ -729,6 +729,9 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     fontSize: 22,
     color: '#DDDEDE',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   listItemContainer: //space between
   {
@@ -737,7 +740,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     backgroundColor: '#1C1C1E',
     alignItems: 'flex-start',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row'
 
   },
   icon: { //fav & add portion icon style
@@ -749,12 +754,16 @@ const styles = StyleSheet.create({
   catagoryIcon: {
     height: 30,
     width: 30,
-    resizeMode: 'stretch',
+    resizeMode: 'contain',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   catagoryIconDairy: {
     height: 30,
     width: 30,
     resizeMode: 'contain',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   tabsContainerStyleFood: {
