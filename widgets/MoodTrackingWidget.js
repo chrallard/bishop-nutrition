@@ -58,7 +58,7 @@ export default class MoodTrackingWidget extends Component {
 
    
                    
-                   <Modal  visible={this.state.showMe}>
+                   <Modal visible={this.state.showMe} animationType={'slide'}>
                        <View style={styles.modalStyle}>
                    <View style={styles.modalHeader}>
                    <TouchableOpacity
