@@ -92,15 +92,12 @@ const styles = StyleSheet.create({
     titleText:{
       color:'#FAFAFA',
       fontSize: 20,
-      //marginBottom: 16
     },
     textRow:{
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems:'center',
-        //height: 40
     },
-
     startingText:{
       color:'#347EFB',
       fontSize: 20,
@@ -120,16 +117,11 @@ const styles = StyleSheet.create({
         color: '#DDDEDE',
         width: 120,
         height:10,
-
-
     },
-
-
-    itemBox:{
+   itemBox:{
         height: 50,
         flexDirection:'column',
         alignItems: 'center',
-        //backgroundColor: 'red',
         justifyContent: 'flex-end',
     },
       bodyTextStart:{
@@ -146,52 +138,4 @@ const styles = StyleSheet.create({
         fontSize: 8,     
         marginTop: 4
     },
-
-
 })
-
-
-{/* <Image source={ this.state.flagImage2 === true ?                  
-                          require('../Images/empty_Cup.jpg')  : require('../Images/full_Cup1.png')}
-                          style={styles.image}
-           /> */}
-
-// const styles = StyleSheet.create({
-
-//     //Styled by Jeff March 6th
-//     container:{
-//       display: 'flex',
-//       flexDirection: 'column',
-//       backgroundColor: '#1C1C1E',
-//       padding: 16,
-//       alignSelf: 'stretch',
-//       marginBottom: 8,
-//       marginTop: 8
-//   },
-  
-//     titleContainer:{
-//       flexDirection: 'row',
-//       alignItems: 'center',
-//       justifyContent: 'space-between',
-//       marginBottom: 8
-//   },
-//     titleText:{
-//       color:'#FAFAFA',
-//       fontSize: 20,
-//   },
-//   bodyText:{
-//       color:'#DDDEDE',
-//       fontSize: 12,
-//   },
-  
-//   cupRow:{
-//     flexDirection: 'row',
-//     justifyContent: 'space-between'
-//   },
-//   image: {
-//         height: 45,
-//         width: 40,
-//         resizeMode: 'cover',     
-//         alignItems: 'stretch'    
-//     }
-//   });
