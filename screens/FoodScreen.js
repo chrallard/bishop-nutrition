@@ -28,6 +28,7 @@ export default class ProfileScreen extends Component {
     this.state = {
       db: firebase.firestore(),
       expanded: false,
+      uid: "",
       activeSections: [],
       search: '',
       searchActive: false,
@@ -93,7 +94,34 @@ export default class ProfileScreen extends Component {
         }
       ],
       favouriteLists: [
-
+        {
+          type: "Dairy",
+          list: []
+        },
+        {
+          type: "Restricted Vegetables",
+          list: []
+        },
+        {
+          type: "Fruits",
+          list: []
+        },
+        {
+          type: "Simple Carbs",
+          list: []
+        },
+        {
+          type: "Proteins",
+          list: []
+        },
+        {
+          type: "Fats",
+          list: []
+        },
+        {
+          type: "Free Vegetables",
+          list: []
+        }
       ]
     }
   }
@@ -106,10 +134,9 @@ export default class ProfileScreen extends Component {
     let proteinList = []
     let fatsList = []
     let freeVegList = []
-
+    await this.setUid()
     await this.state.db.collection("foodList").doc("allFood").get().then((doc) => {
       Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
-        console.log("DB CALLED")
         if (item.category == "Dairy") {
           dairyList.push(item)
         }
@@ -147,7 +174,10 @@ export default class ProfileScreen extends Component {
 
     this.setState({ lists: listArray })
   }
-
+  setUid = async () => {
+    let uid = await firebase.auth().currentUser.uid
+    this.setState({ uid })
+  }
   updateSearch = search => {
     let lists = [
       {
@@ -241,11 +271,61 @@ export default class ProfileScreen extends Component {
       expanded: !this.state.expanded
     });
 
-  _handleIndexChange = index => {
+  _handleIndexChange = async (index) => {
     console.log(index)
-
-
     this.setState({ selectedIndex: index });
+    let dairyList = []
+    let restrictedList = []
+    let fruitList = []
+    let simpleCarbList = []
+    let proteinList = []
+    let fatsList = []
+    let freeVegList = []
+
+    if (index == 0) {
+      await this.state.db.collection("userData").doc(this.state.uid).collection("favouriteFoodList").doc("allFavFood").get().then((doc) => {
+        Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
+          if (item.category == "Dairy") {
+            dairyList.push(item)
+          }
+          if (item.category == "Restricted Vegetables") {
+            restrictedList.push(item)
+          }
+          if (item.category == "Fruit") {
+            fruitList.push(item)
+          }
+          if (item.category == "Simple Carbs") {
+            simpleCarbList.push(item)
+          }
+          if (item.category == "Protein") {
+            proteinList.push(item)
+          }
+          if (item.category == "Fats") {
+            fatsList.push(item)
+          }
+          if (item.category == "Free Vegetables") {
+            freeVegList.push(item)
+          }
+
+        })
+      }).catch((err) => {
+        console.log(err)
+      })
+      var listArray = [...this.state.favouriteLists]
+      listArray[0].list = dairyList
+      listArray[1].list = restrictedList
+      listArray[2].list = fruitList
+      listArray[3].list = simpleCarbList
+      listArray[4].list = proteinList
+      listArray[5].list = fatsList
+      listArray[6].list = freeVegList
+
+      this.setState({ favouriteLists: listArray })
+
+    }
+
+
+
 
 
 
@@ -259,9 +339,22 @@ export default class ProfileScreen extends Component {
     );
   };
 
-  _addFavourite = item => {
-    this.state.favouriteLists.push(item)
-    this.setState({ favouriteLists })
+  _addFavourite = async (item) => {
+
+    await firebase.firestore().collection("userData").doc(this.state.uid).collection("favouriteFoodList").doc("allFavFood").set({
+      [item.name]: {
+        category: item.category,
+        favourite: item.favourite,
+        key: item.key,
+        name: item.name,
+        plans: [
+          item.plans[0],
+          item.plans[1]
+        ],
+        portionSize: item.portionSize
+      }
+    }, { merge: true })
+
   };
 
   _renderContent = section => {
@@ -340,6 +433,20 @@ export default class ProfileScreen extends Component {
                 activeTabStyle={styles.activeTabStyleFood}
                 activeTabTextStyle={styles.activeTabTextStyleFood}
               />
+              {this._renderHeader(this.state.favouriteLists[0])}
+              {this._renderContent(this.state.favouriteLists[0])}
+              {this._renderHeader(this.state.favouriteLists[1])}
+              {this._renderContent(this.state.favouriteLists[1])}
+              {this._renderHeader(this.state.favouriteLists[2])}
+              {this._renderContent(this.state.favouriteLists[2])}
+              {this._renderHeader(this.state.favouriteLists[3])}
+              {this._renderContent(this.state.favouriteLists[3])}
+              {this._renderHeader(this.state.favouriteLists[4])}
+              {this._renderContent(this.state.favouriteLists[4])}
+              {this._renderHeader(this.state.favouriteLists[5])}
+              {this._renderContent(this.state.favouriteLists[5])}
+              {this._renderHeader(this.state.favouriteLists[6])}
+              {this._renderContent(this.state.favouriteLists[6])}
 
 
             </View>
