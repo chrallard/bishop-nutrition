@@ -8,14 +8,12 @@ export default class DailyLogWidget extends Component {
     constructor(props){
         super(props)
         this.state = {
-            props: props,
             uid: "",
             daysList: []
         }
     }
 
     async componentDidMount(){
-        //get the past days of healthTracking
 
         YellowBox.ignoreWarnings([
             'VirtualizedLists should never be nested', // TODO: Remove when fixed
@@ -38,9 +36,10 @@ export default class DailyLogWidget extends Component {
 
         await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").orderBy("timeStamp", "desc").limit(5).get().then((querySnapshot) => {
             querySnapshot.forEach((item) => {
+
                 let obj = {
                     date: formatDate(item.data().timeStamp),
-                    docId: item.id
+                    doc: item.data()
                 }
                 daysList.push(obj)
             })
@@ -67,7 +66,7 @@ export default class DailyLogWidget extends Component {
                 <Text style={styles.title}>Daily Log</Text>
                 
                 {this.state.daysList.map((item, index) => (
-                    <TouchableOpacity onPress={() => {this.props.navProps.navigate("Summary", {docId: item.docId})}} key={index}>
+                    <TouchableOpacity onPress={() => {this.props.navProps.navigate("Summary", {doc: item.doc})}} key={index}>
                         <Text style={styles.dateText}>{item.date}</Text>
                     </TouchableOpacity>
                 ))}

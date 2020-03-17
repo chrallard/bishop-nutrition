@@ -17,7 +17,7 @@ export default class MoodWidget extends Component {
     render(){
         return(
             <View style={styles.container}>
-                <Text style={styles.title}>Widget</Text>
+                <Text style={styles.title}>Mood Widget</Text>
             </View>
         )
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import NutritionWidget from '../widgets/summaryWidgets/NutritionWidget'
 import WaterWidget from '../widgets/summaryWidgets/WaterWidget'
 import ActivityWidget from '../widgets/summaryWidgets/ActivityWidget'
@@ -15,16 +15,21 @@ export default class SummaryScreen extends Component {
     }
   }
 
+  componentDidMount() {
+    
+  }
+
   render() {
     return (
-          <View style={styles.container} >
-            {/* <Text>{this.props.route.params.docId}</Text> */}
-            <NutritionWidget />
-            <WaterWidget />
-            <ActivityWidget />
-            <SleepWidget />
-            <MoodWidget />
-          </View>
+      <ScrollView>
+        <View style={styles.container} >
+          <NutritionWidget foodEntry={this.props.route.params.doc.foodEntry} />
+          <WaterWidget />
+          <ActivityWidget />
+          <SleepWidget />
+          <MoodWidget />
+        </View>
+      </ScrollView>    
     )
   }
 }

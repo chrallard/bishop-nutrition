@@ -17,7 +17,7 @@ export default class ActivityWidget extends Component {
     render(){
         return(
             <View style={styles.container}>
-                <Text style={styles.title}>Widget</Text>
+                <Text style={styles.title}>Activity Widget</Text>
             </View>
         )
     }

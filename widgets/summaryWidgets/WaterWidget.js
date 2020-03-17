@@ -17,7 +17,7 @@ export default class WaterWidget extends Component {
     render(){
         return(
             <View style={styles.container}>
-                <Text style={styles.title}>Widget</Text>
+                <Text style={styles.title}>Water Widget</Text>
             </View>
         )
     }
