@@ -338,45 +338,45 @@ export default class ProfileScreen extends Component {
         <Text style={styles.listItemTitle}>
           {(section.type == "Dairy") ? (
             <Image
-              style={styles.icon}
+              style={styles.catagoryIconDairy}
               source={require('../assets/dairy_Icon.png')}
             />
           ) : (section.type == "Restricted Vegetables") ? (
             <Image
-              style={styles.icon}
+              style={styles.catagoryIcon}
               source={require('../assets/restrictedVeg_Icon.png')}
             />
           ) : (section.type == "Fruits") ? (
             <Image
-              style={styles.icon}
+              style={styles.catagoryIcon}
               source={require('../assets/fruit_icon.png')}
             />
           ) : (section.type == "Simple Carbs") ? (
             <Image
-              style={styles.icon}
+              style={styles.catagoryIcon}
               source={require('../assets/carb_icon.png')}
             />
           ) : (section.type == "Proteins") ? (
             <Image
-              style={styles.icon}
+              style={styles.catagoryIcon}
               source={require('../assets/protein_icon.png')}
             />
           ) : (section.type == "Fats") ? (
             <Image
-              style={styles.icon}
+              style={styles.catagoryIcon}
               source={require('../assets/fats_icon.png')}
             />
           ) : (section.type == "Free Vegetables") ? (
             <Image
-              style={styles.icon}
+              style={styles.catagoryIcon}
               source={require('../assets/restrictedVeg_Icon.png')}
             />
           ) : (
-                          <Image
-                            style={styles.icon}
-                            source={'../assets/restrictedVeg_Icon.png'}
-                          />
-                        )}
+            <Image
+              style={styles.catagoryIcon}
+              source={'../assets/restrictedVeg_Icon.png'}
+            />
+          )}
           {section.type}</Text>
       </View>
     );
@@ -404,50 +404,50 @@ export default class ProfileScreen extends Component {
 
 
       section.list.map((item, key) => (
-        <View key={key} style={styles.foodItems}>
+        <View key={key} style={styles.foodItemsFav}>
           {(item.category == "Dairy") ? (
             <Image
-              style={styles.icon}
+              style={styles.catagoryIconDairy}
               source={require('../assets/dairy_Icon.png')}
             />
           ) : (item.category == "Restricted Vegetables") ? (
             <Image
-              style={styles.icon}
+              style={styles.catagoryIcon}
               source={require('../assets/restrictedVeg_Icon.png')}
             />
           ) : (item.category == "Fruit") ? (
             <Image
-              style={styles.icon}
+              style={styles.catagoryIcon}
               source={require('../assets/fruit_icon.png')}
             />
           ) : (item.category == "Simple Carbs") ? (
             <Image
-              style={styles.icon}
+              style={styles.catagoryIcon}
               source={require('../assets/carb_icon.png')}
             />
           ) : (item.category == "Protein") ? (
             <Image
-              style={styles.icon}
+              style={styles.catagoryIcon}
               source={require('../assets/protein_icon.png')}
             />
           ) : (item.category == "Fats") ? (
             <Image
-              style={styles.icon}
+              style={styles.catagoryIcon}
               source={require('../assets/fats_icon.png')}
             />
           ) : (item.category == "Free Vegetables") ? (
             <Image
-              style={styles.icon}
+              style={styles.catagoryIcon}
               source={require('../assets/restrictedVeg_Icon.png')}
             />
           ) : (
                           <Image
-                            style={styles.icon}
+                            style={styles.catagoryIcon}
                             source={require('../assets/dairy_Icon.png')}
                           />
                         )}
           <Text style={styles.content}>{item.name}</Text>
-          <Text style={styles.content}>{item.portionSize}</Text>
+          <Text style={styles.contentSmall}>{item.portionSize}</Text>
           <View style={styles.foodItemIcons}>
             <TouchableOpacity onPress={() => this._addFavourite(item)}>
 
@@ -475,9 +475,9 @@ export default class ProfileScreen extends Component {
 
 
       section.list.map((item, key) => (
-        <View key={key} style={styles.foodItems}>
+        <View key={key} style={styles.foodItemsFav}>
           <Text style={styles.content}>{item.name}</Text>
-          <Text style={styles.content}>{item.portionSize}</Text>
+          <Text style={styles.contentSmall}>{item.portionSize}</Text>
           <View style={styles.foodItemIcons}>
             <TouchableOpacity onPress={() => this._addFavourite(item)}>
               {item.favourite ? (
@@ -672,55 +672,92 @@ export default class ProfileScreen extends Component {
 // </View>
 
 const styles = StyleSheet.create({
+  //Styling by Jeff March 17
   container: {
-    flex: 1,
+    //flex: 1,
     backgroundColor: '#000',
-    height: '100%',
+    //height: '100%',
+   // padding: 16
   },
-  foodItems: {
+  foodItems: { //accordian list items
     flexDirection: 'row',
     paddingLeft: 16,
+    paddingTop: 16,
+    marginBottom: 16,
+    borderBottomColor: '#B7B7B7',
+    borderBottomWidth: .5,
+    borderBottomStartRadius: 16,
+    alignContent: 'center',
+  },
+  foodItemsFav: { //fav list items
+    flexDirection: 'row',
+    marginLeft: 16,
     paddingTop: 16,
     paddingBottom: 16,
     borderBottomColor: '#B7B7B7',
     borderBottomWidth: .5,
-    borderBottomStartRadius: 16,
+    alignContent: 'center',
   },
-  listContainer: {
+  listContainer: { //accodian background
     backgroundColor: '#1C1C1E',
-    display: 'flex',
+
+    //display: 'flex',
   },
-  content: {
+  content: {  //item name in accordian
     color: '#DDDEDE',
     alignSelf: 'center',
     fontSize: 16,
-    flex: 2
+    flex: 2,
+    paddingLeft: 8
   },
-  foodItemIcons: {
+  contentSmall: { //accordian portino size
+    color: '#DDDEDE',
+    alignSelf: 'center',
+    fontSize: 12,
+    flex: 1.5,
+    flexWrap: 'wrap',
+    paddingLeft: 8
+  },
+  foodItemIcons: {  //accorian add portion/fav icon
     flexDirection: 'row',
     flex: 1,
     justifyContent: "flex-end",
-    alignContent: 'center'
+    alignContent: 'center',
   },
-  listItemTitle: {
 
-    flex: 1,
-    marginTop: 16,
+  listItemTitle: { //foodlist catagories
     paddingLeft: 16,
-    height: 45,
     fontSize: 22,
     color: '#DDDEDE',
-    backgroundColor: '#1C1C1E',
-    paddingTop: 10
   },
-  icon: {
+  listItemContainer: //space between
+  {
+    height: 40,
+    paddingLeft: 16,
+    marginBottom: 16,
+    backgroundColor: '#1C1C1E',
+    alignItems: 'flex-start',
+    justifyContent: 'center'
+
+  },
+  icon: { //fav & add portion icon style
     height: 30,
     width: 30,
-    marginRight: 16
+    marginRight: 16,  
+    resizeMode: 'center'
+  },
+  catagoryIcon: {
+    height: 30,
+    width: 30,
+    resizeMode: 'stretch',
+  },
+  catagoryIconDairy: {
+    height: 30,
+    width: 30,
+    resizeMode: 'contain',
   },
 
   tabsContainerStyleFood: {
-
     width: 250,
     alignSelf: 'center',
     marginTop: 16,
