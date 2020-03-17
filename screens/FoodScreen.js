@@ -291,7 +291,7 @@ export default class ProfileScreen extends Component {
           if (item.category == "Restricted Vegetables") {
             restrictedList.push(item)
           }
-          if (item.category == "Fruit") {
+          if (item.category == "Fruits") {
             fruitList.push(item)
           }
           if (item.category == "Simple Carbs") {
@@ -334,7 +334,50 @@ export default class ProfileScreen extends Component {
   _renderHeader = section => {
     return (
       <View style={styles.listItemContainer}>
-        <Text style={styles.listItemTitle}>{section.type}</Text>
+
+        <Text style={styles.listItemTitle}>
+          {(section.type == "Dairy") ? (
+            <Image
+              style={styles.icon}
+              source={require('../assets/dairy_Icon.png')}
+            />
+          ) : (section.type == "Restricted Vegetables") ? (
+            <Image
+              style={styles.icon}
+              source={require('../assets/restrictedVeg_Icon.png')}
+            />
+          ) : (section.type == "Fruits") ? (
+            <Image
+              style={styles.icon}
+              source={require('../assets/fruit_icon.png')}
+            />
+          ) : (section.type == "Simple Carbs") ? (
+            <Image
+              style={styles.icon}
+              source={require('../assets/carb_icon.png')}
+            />
+          ) : (section.type == "Proteins") ? (
+            <Image
+              style={styles.icon}
+              source={require('../assets/protein_icon.png')}
+            />
+          ) : (section.type == "Fats") ? (
+            <Image
+              style={styles.icon}
+              source={require('../assets/fats_icon.png')}
+            />
+          ) : (section.type == "Free Vegetables") ? (
+            <Image
+              style={styles.icon}
+              source={require('../assets/restrictedVeg_Icon.png')}
+            />
+          ) : (
+                          <Image
+                            style={styles.icon}
+                            source={'../assets/restrictedVeg_Icon.png'}
+                          />
+                        )}
+          {section.type}</Text>
       </View>
     );
   };
