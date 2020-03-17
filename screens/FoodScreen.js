@@ -91,6 +91,9 @@ export default class ProfileScreen extends Component {
           type: "Free Vegetables",
           list: []
         }
+      ],
+      favouriteLists: [
+
       ]
     }
   }
@@ -256,6 +259,11 @@ export default class ProfileScreen extends Component {
     );
   };
 
+  _addFavourite = item => {
+    this.state.favouriteLists.push(item)
+    this.setState({ favouriteLists })
+  };
+
   _renderContent = section => {
     return (
 
@@ -265,7 +273,7 @@ export default class ProfileScreen extends Component {
           <Text style={styles.content}>{item.name}</Text>
           <Text style={styles.content}>{item.portionSize}</Text>
           <View style={styles.foodItemIcons}>
-            <TouchableOpacity onPress={() => this._addPortion(item.category)}>
+            <TouchableOpacity onPress={() => this._addFavourite(item)}>
               {item.favourite ? (
                 <Image
                   style={styles.icon}
@@ -310,7 +318,7 @@ export default class ProfileScreen extends Component {
               <SearchBar
                 placeholder="Search Your Food Here..."
                 platform="ios"
-                containerStyle={{ backgroundColor: '#000', width:400, alignSelf:'center'}}
+                containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
                 inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                 onChangeText={this.updateSearch}
                 value={search}
@@ -351,7 +359,7 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width:400, alignSelf:'center' }}
+                  containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateSearch}
                   value={search}
@@ -390,7 +398,7 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width:400, alignSelf:'center' }}
+                  containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateSearch}
                   value={search}
@@ -500,8 +508,8 @@ const styles = StyleSheet.create({
 
   tabsContainerStyleFood: {
 
-    width:250,
-    alignSelf:'center',
+    width: 250,
+    alignSelf: 'center',
     marginTop: 16,
     marginBottom: 16,
     //borderColor: '#636366'
@@ -517,7 +525,7 @@ const styles = StyleSheet.create({
     //backgroundColor: '#636366'
   },
   tabTextStyleFood: {
-    color:'#DDDEDE'
+    color: '#DDDEDE'
   },
   activeTabStyleFood: {
     backgroundColor: '#636366',
@@ -526,13 +534,13 @@ const styles = StyleSheet.create({
     // marginBottom: 3
   },
   activeTabTextStyleFood: {
-    color:'#DDDEDE'
+    color: '#DDDEDE'
   },
 
   tabsContainerStyleFav: {
 
-    width:250,
-    alignSelf:'center',
+    width: 250,
+    alignSelf: 'center',
     marginTop: 16,
     marginBottom: 16,
     //borderColor: '#636366'
@@ -548,7 +556,7 @@ const styles = StyleSheet.create({
     //backgroundColor: '#636366'
   },
   tabTextStyleFav: {
-    color:'#DDDEDE'
+    color: '#DDDEDE'
   },
   activeTabStyleFav: {
     backgroundColor: '#636366',
@@ -557,6 +565,6 @@ const styles = StyleSheet.create({
     // marginBottom: 3
   },
   activeTabTextStyleFav: {
-    color:'#DDDEDE'
+    color: '#DDDEDE'
   },
 });
