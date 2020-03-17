@@ -310,7 +310,7 @@ export default class ProfileScreen extends Component {
               <SearchBar
                 placeholder="Search Your Food Here..."
                 platform="ios"
-                containerStyle={{ backgroundColor: '#000' }}
+                containerStyle={{ backgroundColor: '#000', width:400, alignSelf:'center'}}
                 inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                 onChangeText={this.updateSearch}
                 value={search}
@@ -351,7 +351,7 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000' }}
+                  containerStyle={{ backgroundColor: '#000', width:400, alignSelf:'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateSearch}
                   value={search}
@@ -390,7 +390,7 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000' }}
+                  containerStyle={{ backgroundColor: '#000', width:400, alignSelf:'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateSearch}
                   value={search}
