@@ -80,19 +80,17 @@ export default class DailyLogWidget extends Component {
 
 const styles = StyleSheet.create({
     container:{
-        
         backgroundColor: '#1C1C1E',
         padding: 16,
         alignSelf: 'stretch',
         marginBottom: 8,
-        marginTop: 44
+        marginTop: 16
     },
     list:{
         marginTop: 16,
         marginBottom: 16,
         flexDirection: 'row',
         justifyContent: 'space-around'
-
     },
     check:{
         width: 40,
@@ -104,19 +102,9 @@ const styles = StyleSheet.create({
         height: 40,
         alignSelf: 'center'
     },
-
-
     title:{
         color:'#FAFAFA',
         fontSize: 20,
-    },
-    nameText:{
-        flexDirection: 'column',
-        color:'#FAFAFA',
-        fontSize: 28,
-        justifyContent: 'center',
-        alignSelf:'center',
-        //marginBottom: 8
     },
     dateText:{
         color:'#DDDEDE',
