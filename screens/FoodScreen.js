@@ -322,6 +322,15 @@ export default class ProfileScreen extends Component {
                 values={["Favourites", "Food List"]}
                 selectedIndex={this.state.selectedIndex}
                 onTabPress={this._handleIndexChange}
+
+                allowFontScaling={false}
+                tabsContainerStyle={styles.tabsContainerStyleFood}
+                tabStyle={styles.tabStyleFood}
+                firstTabStyle={styles.firstTabStyleFood}
+                lastTabStyle={styles.lastTabStyleFood}
+                tabTextStyle={styles.tabTextStyleFood}
+                activeTabStyle={styles.activeTabStyleFood}
+                activeTabTextStyle={styles.activeTabTextStyleFood}
               />
 
 
@@ -393,6 +402,15 @@ export default class ProfileScreen extends Component {
                   values={["Favourites", "Food List"]}
                   selectedIndex={this.state.selectedIndex}
                   onTabPress={this._handleIndexChange}
+
+                  allowFontScaling={false}
+                  tabsContainerStyle={styles.tabsContainerStyleFav}
+                  tabStyle={styles.tabStyleFav}
+                  firstTabStyle={styles.firstTabStyleFav}
+                  lastTabStyle={styles.lastTabStyleFav}
+                  tabTextStyle={styles.tabTextStyleFav}
+                  activeTabStyle={styles.activeTabStyleFav}
+                  activeTabTextStyle={styles.activeTabTextStyleFav}
                 />
                 <Accordion style={styles.listContainer}
                   sections={this.state.lists}
@@ -437,7 +455,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     height: '100%',
-    //marginTop: 88
   },
   foodItems: {
     flexDirection: 'row',
@@ -464,13 +481,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignContent: 'center'
   },
-
-
-  listItemContainer: {
-
-
-  },
-
   listItemTitle: {
 
     flex: 1,
@@ -480,12 +490,73 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: '#DDDEDE',
     backgroundColor: '#1C1C1E',
-    paddingTop: 10 //temp
-
+    paddingTop: 10
   },
   icon: {
     height: 30,
     width: 30,
     marginRight: 16
+  },
+
+  tabsContainerStyleFood: {
+
+    width:250,
+    alignSelf:'center',
+    marginTop: 16,
+    marginBottom: 16,
+    //borderColor: '#636366'
+  },
+  tabStyleFood: {
+    borderColor: '#636366',
+    backgroundColor: '#1C1C1E'
+  },
+  firstTabStyleFood: {
+    //backgroundColor: '#1C1C1E'
+  },
+  lastTabStyleFood: {
+    //backgroundColor: '#636366'
+  },
+  tabTextStyleFood: {
+    color:'#DDDEDE'
+  },
+  activeTabStyleFood: {
+    backgroundColor: '#636366',
+    // borderRadius: 10,
+    // marginTop: 3,
+    // marginBottom: 3
+  },
+  activeTabTextStyleFood: {
+    color:'#DDDEDE'
+  },
+
+  tabsContainerStyleFav: {
+
+    width:250,
+    alignSelf:'center',
+    marginTop: 16,
+    marginBottom: 16,
+    //borderColor: '#636366'
+  },
+  tabStyleFav: {
+    borderColor: '#636366',
+    backgroundColor: '#1C1C1E'
+  },
+  firstTabStyleFav: {
+    //backgroundColor: '#1C1C1E'
+  },
+  lastTabStyleFav: {
+    //backgroundColor: '#636366'
+  },
+  tabTextStyleFav: {
+    color:'#DDDEDE'
+  },
+  activeTabStyleFav: {
+    backgroundColor: '#636366',
+    // borderRadius: 10,
+    // marginTop: 3,
+    // marginBottom: 3
+  },
+  activeTabTextStyleFav: {
+    color:'#DDDEDE'
   },
 });
