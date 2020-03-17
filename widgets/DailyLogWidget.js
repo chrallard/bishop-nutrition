@@ -79,7 +79,6 @@ export default class DailyLogWidget extends Component {
 }
 
 const styles = StyleSheet.create({
-    // STYLING JEFF March 6
     container:{
         
         backgroundColor: '#1C1C1E',
