@@ -575,28 +575,29 @@ export default class ProfileScreen extends Component {
             {(this.state.longPressed == item.key) ? (
               //#region longpress buttons
 
+              <View style={{flexDirection: 'row'}}>
               <View>
-                <TouchableOpacity onPress={() => this._closeDeleteOrHalfPortion(item)} >
-                  <Image
-                    style={styles.icon}
-                    source={require('../assets/longPress.png')}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => this._addHalfPortion(item)}>
+              <TouchableOpacity onPress={() => this._addHalfPortion(item)}>
                   <Image
                     style={styles.icon}
                     source={require('../assets/add_half_portion.png')}
                   />
                 </TouchableOpacity>
-
+              </View>
+              <View style={{flexDirection: 'column'}}>
+                <TouchableOpacity onPress={() => this._closeDeleteOrHalfPortion(item)} >
+                  <Image
+                    style={styles.closeIcon}
+                    source={require('../assets/longPress.png')}
+                  />
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => this._deleteHalfPortion(item)}>
                   <Image
                     style={styles.icon}
                     source={require('../assets/minus_half_portion.png')}
                   />
                 </TouchableOpacity>
-
+              </View>
               </View>
 
               //#endregion
@@ -851,6 +852,14 @@ const styles = StyleSheet.create({
     width: 30,
     marginRight: 16,
     resizeMode: 'center'
+  },
+  closeIcon: {
+    height: 30,
+    width: 30,
+    marginBottom: 16
+  },
+  halfPortionIcon:{
+    flexDirection: 'row'
   },
   hideStarIcon: {
     height: 30,
