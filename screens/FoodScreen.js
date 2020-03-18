@@ -452,6 +452,12 @@ export default class ProfileScreen extends Component {
     this.setState({ favouriteLists: listArray })
 
   }
+  _addPortion = (item) => {
+    console.log(item.category)
+  }
+  _addOrDeleteHalfPortion = (item) => {
+    console.log("hi from long press")
+  }
   _renderFavouriteContent = section => {
     return (
 
@@ -511,7 +517,7 @@ export default class ProfileScreen extends Component {
 
 
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this._addPortion(item.category)}>
+            <TouchableOpacity onPress={() => this._addPortion(item)} onLongPress={() => this._addOrDeleteHalfPortion(item)}>
               <Image
                 style={styles.icon}
                 source={require('../assets/add_Circle.png')}
@@ -546,7 +552,7 @@ export default class ProfileScreen extends Component {
                 )}
 
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this._addPortion(item.category)}>
+            <TouchableOpacity onPress={() => this._addPortion(item)} onLongPress={() => this._addOrDeleteHalfPortion(item)}>
               <Image
                 style={styles.icon}
                 source={require('../assets/add_Circle.png')}
