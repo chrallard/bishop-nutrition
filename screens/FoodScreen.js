@@ -528,7 +528,7 @@ export default class ProfileScreen extends Component {
 
 
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this._addPortion(item)} onLongPress={() => this._addOrDeleteHalfPortion(item)}>
+            <TouchableOpacity onPress={() => this._addPortion(item)} onLongPress={() => this._openDeleteOrHalfPortion(item)}>
               <Image
                 style={styles.icon}
                 source={require('../assets/add_Circle.png')}
