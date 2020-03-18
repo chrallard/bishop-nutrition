@@ -33,6 +33,7 @@ export default class ProfileScreen extends Component {
       search: '',
       searchActive: false,
       selectedIndex: 1,
+      longPressed: 0,
       lists: [
         {
           type: "Dairy",
@@ -455,8 +456,18 @@ export default class ProfileScreen extends Component {
   _addPortion = (item) => {
     console.log(item.category)
   }
-  _addOrDeleteHalfPortion = (item) => {
+  _openDeleteOrHalfPortion = (item) => {
     console.log("hi from long press")
+    this.setState({ longPressed: item.key })
+  }
+  _addHalfPortion = (item) => {
+    console.log(item.category)
+  }
+  _deleteHalfPortion = (item) => {
+    console.log(item.category)
+  }
+  _closeDeleteOrHalfPortion = (item) => {
+    this.setState({ longPressed: "" })
   }
   _renderFavouriteContent = section => {
     return (
@@ -552,12 +563,49 @@ export default class ProfileScreen extends Component {
                 )}
 
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this._addPortion(item)} onLongPress={() => this._addOrDeleteHalfPortion(item)}>
-              <Image
-                style={styles.icon}
-                source={require('../assets/add_Circle.png')}
-              />
-            </TouchableOpacity>
+
+            {(this.state.longPressed == item.key) ? (
+              //#region longpress buttons
+
+              <View>
+                <TouchableOpacity onPress={() => this._closeDeleteOrHalfPortion(item)} >
+                  <Image
+                    style={styles.icon}
+                    source={require('../assets/longPress.png')}
+                  />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => this._addHalfPortion(item)}>
+                  <Image
+                    style={styles.icon}
+                    source={require('../assets/add_half_portion.png')}
+                  />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => this._deleteHalfPortion(item)}>
+                  <Image
+                    style={styles.icon}
+                    source={require('../assets/minus_half_portion.png')}
+                  />
+                </TouchableOpacity>
+
+              </View>
+
+              //#endregion
+            ) : (
+                <TouchableOpacity onPress={() => this._addPortion(item)} onLongPress={() => this._openDeleteOrHalfPortion(item)}>
+                  <Image
+                    style={styles.icon}
+                    source={require('../assets/add_Circle.png')}
+                  />
+                </TouchableOpacity>
+              )}
+
+
+
+
+
+
           </View>
         </View>
       ))
@@ -714,21 +762,7 @@ export default class ProfileScreen extends Component {
 
   }
 }
-// <View>
 
-//   <List.Section style={{ marginTop: 30 }} title="Food List">
-
-//     {this.state.lists.map((item, key) => (
-//       <List.Accordion key={key}
-//         title={item.type}
-//       >
-//         {item.list.map((item, key) => (
-//           <List.Item key={key} title={item.name} />
-//         ))}
-//       </List.Accordion>
-//     ))}
-//   </List.Section>
-// </View>
 
 const styles = StyleSheet.create({
   //Styling by Jeff March 17
