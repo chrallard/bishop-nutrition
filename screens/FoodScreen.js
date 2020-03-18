@@ -272,7 +272,6 @@ export default class ProfileScreen extends Component {
     });
 
   _handleIndexChange = async (index) => {
-    console.log(index)
     this.setState({ selectedIndex: index });
     let dairyList = []
     let restrictedList = []
@@ -335,49 +334,49 @@ export default class ProfileScreen extends Component {
     return (
       <View style={styles.listItemContainer}>
 
-        
-          {(section.type == "Dairy") ? (
-            <Image
-              style={styles.catagoryIconDairy}
-              source={require('../assets/dairy_Icon.png')}
-            />
-          ) : (section.type == "Restricted Vegetables") ? (
-            <Image
-              style={styles.catagoryIcon}
-              source={require('../assets/restrictedVeg_Icon.png')}
-            />
-          ) : (section.type == "Fruits") ? (
-            <Image
-              style={styles.catagoryIcon}
-              source={require('../assets/fruit_icon.png')}
-            />
-          ) : (section.type == "Simple Carbs") ? (
-            <Image
-              style={styles.catagoryIcon}
-              source={require('../assets/carb_icon.png')}
-            />
-          ) : (section.type == "Proteins") ? (
-            <Image
-              style={styles.catagoryIcon}
-              source={require('../assets/protein_icon.png')}
-            />
-          ) : (section.type == "Fats") ? (
-            <Image
-              style={styles.catagoryIcon}
-              source={require('../assets/fats_icon.png')}
-            />
-          ) : (section.type == "Free Vegetables") ? (
-            <Image
-              style={styles.catagoryIcon}
-              source={require('../assets/restrictedVeg_Icon.png')}
-            />
-          ) : (
-            <Image
-              style={styles.catagoryIcon}
-              source={'../assets/restrictedVeg_Icon.png'}
-            />
-          )}
-          <Text style={styles.listItemTitle}>{section.type}</Text>
+
+        {(section.type == "Dairy") ? (
+          <Image
+            style={styles.catagoryIconDairy}
+            source={require('../assets/dairy_Icon.png')}
+          />
+        ) : (section.type == "Restricted Vegetables") ? (
+          <Image
+            style={styles.catagoryIcon}
+            source={require('../assets/restrictedVeg_Icon.png')}
+          />
+        ) : (section.type == "Fruits") ? (
+          <Image
+            style={styles.catagoryIcon}
+            source={require('../assets/fruit_icon.png')}
+          />
+        ) : (section.type == "Simple Carbs") ? (
+          <Image
+            style={styles.catagoryIcon}
+            source={require('../assets/carb_icon.png')}
+          />
+        ) : (section.type == "Proteins") ? (
+          <Image
+            style={styles.catagoryIcon}
+            source={require('../assets/protein_icon.png')}
+          />
+        ) : (section.type == "Fats") ? (
+          <Image
+            style={styles.catagoryIcon}
+            source={require('../assets/fats_icon.png')}
+          />
+        ) : (section.type == "Free Vegetables") ? (
+          <Image
+            style={styles.catagoryIcon}
+            source={require('../assets/restrictedVeg_Icon.png')}
+          />
+        ) : (
+                        <Image
+                          style={styles.catagoryIcon}
+                          source={'../assets/restrictedVeg_Icon.png'}
+                        />
+                      )}
+        <Text style={styles.listItemTitle}>{section.type}</Text>
       </View>
     );
   };
@@ -399,6 +398,60 @@ export default class ProfileScreen extends Component {
     }, { merge: true })
 
   };
+  _removeFavourite = async (item) => {
+    let dairyList = []
+    let restrictedList = []
+    let fruitList = []
+    let simpleCarbList = []
+    let proteinList = []
+    let fatsList = []
+    let freeVegList = []
+    var collectionRef = this.state.db.collection("userData").doc(this.state.uid).collection("favouriteFoodList").doc("allFavFood")
+
+    var removeRef = collectionRef.update({
+      [item.name]: firebase.firestore.FieldValue.delete()
+    });
+
+    await this.state.db.collection("userData").doc(this.state.uid).collection("favouriteFoodList").doc("allFavFood").get().then((doc) => {
+      Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
+        if (item.category == "Dairy") {
+          dairyList.push(item)
+        }
+        if (item.category == "Restricted Vegetables") {
+          restrictedList.push(item)
+        }
+        if (item.category == "Fruits") {
+          fruitList.push(item)
+        }
+        if (item.category == "Simple Carbs") {
+          simpleCarbList.push(item)
+        }
+        if (item.category == "Protein") {
+          proteinList.push(item)
+        }
+        if (item.category == "Fats") {
+          fatsList.push(item)
+        }
+        if (item.category == "Free Vegetables") {
+          freeVegList.push(item)
+        }
+
+      })
+    }).catch((err) => {
+      console.log(err)
+    })
+    var listArray = [...this.state.favouriteLists]
+    listArray[0].list = dairyList
+    listArray[1].list = restrictedList
+    listArray[2].list = fruitList
+    listArray[3].list = simpleCarbList
+    listArray[4].list = proteinList
+    listArray[5].list = fatsList
+    listArray[6].list = freeVegList
+
+    this.setState({ favouriteLists: listArray })
+
+  }
   _renderFavouriteContent = section => {
     return (
 
@@ -449,7 +502,7 @@ export default class ProfileScreen extends Component {
           <Text style={styles.content}>{item.name}</Text>
           <Text style={styles.contentSmall}>{item.portionSize}</Text>
           <View style={styles.foodItemIcons}>
-            <TouchableOpacity onPress={() => this._addFavourite(item)}>
+            <TouchableOpacity onPress={() => this._removeFavourite(item)}>
 
               <Image
                 style={styles.icon}
@@ -677,7 +730,7 @@ const styles = StyleSheet.create({
     //flex: 1,
     backgroundColor: '#000',
     //height: '100%',
-   // padding: 16
+    // padding: 16
   },
   foodItems: { //accordian list items
     flexDirection: 'row',
@@ -748,7 +801,7 @@ const styles = StyleSheet.create({
   icon: { //fav & add portion icon style
     height: 30,
     width: 30,
-    marginRight: 16,  
+    marginRight: 16,
     resizeMode: 'center'
   },
   catagoryIcon: {
