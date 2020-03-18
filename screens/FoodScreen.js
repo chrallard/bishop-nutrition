@@ -552,12 +552,20 @@ export default class ProfileScreen extends Component {
             <TouchableOpacity onPress={() => this._addFavourite(item)}>
               {item.favourite ? (
                 <Image
-                  style={styles.icon}
+                style={
+                  this.state.longPressed
+                      ? styles.icon
+                      : styles.hideStarIcon
+              }
                   source={require('../assets/star_Selected.png')}
                 />
               ) : (
                   <Image
-                    style={styles.icon}
+                  style={
+                    this.state.longPressed
+                        ? styles.hideStarIcon
+                        : styles.icon
+                }
                     source={require('../assets/star_NotSelected.png')}
                   />
                 )}
@@ -843,6 +851,13 @@ const styles = StyleSheet.create({
     width: 30,
     marginRight: 16,
     resizeMode: 'center'
+  },
+  hideStarIcon: {
+    height: 30,
+    width: 30,
+    marginRight: 16,
+    resizeMode: 'center',
+    display: 'none'
   },
   catagoryIcon: {
     height: 30,
