@@ -853,14 +853,6 @@ const styles = StyleSheet.create({
     marginRight: 16,
     resizeMode: 'center'
   },
-  closeIcon: {
-    height: 30,
-    width: 30,
-    marginBottom: 16
-  },
-  halfPortionIcon:{
-    flexDirection: 'row'
-  },
   hideStarIcon: {
     height: 30,
     width: 30,
