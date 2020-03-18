@@ -553,7 +553,7 @@ export default class ProfileScreen extends Component {
               {item.favourite ? (
                 <Image
                 style={
-                  this.state.longPressed
+                  this.state.longPressed == item.key
                       ? styles.icon
                       : styles.hideStarIcon
               }
@@ -562,7 +562,7 @@ export default class ProfileScreen extends Component {
               ) : (
                   <Image
                   style={
-                    this.state.longPressed
+                    this.state.longPressed == item.key
                         ? styles.hideStarIcon
                         : styles.icon
                 }
