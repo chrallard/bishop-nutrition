@@ -67,21 +67,23 @@ export default class ActivityTrackingWidget extends Component {
                 }
                 }>
                     <View>
-                        <Text style={styles.title}>Activity</Text>
+                        <Text style={styles.widgetTitle}>Activity</Text>
                     </View>
 
-                    <View>
-                        <Text style={{ color: "#347EFB" }}>3862</Text>
-                        <Text style={{ color: "darkgrey" }}>Steps</Text>
+                <View style={styles.widgetContent}>
+                    <View style={styles.widgetTextLayout}>
+                        <Text style={styles.widgetInfoText}>3862</Text>
+                        <Text style={styles.widgetSubTitle}>Steps</Text>
                     </View>
-                    <View>
-                        <Text style={{ color: "#347EFB" }}>1 hr 35min</Text>
-                        <Text style={{ color: "darkgrey" }}>Cardio</Text>
+                    <View style={styles.widgetTextLayout}>
+                        <Text style={styles.widgetInfoText}>1 hr 35min</Text>
+                        <Text style={styles.widgetSubTitle}>Cardio</Text>
                     </View>
-                    <View>
-                        <Text style={{ color: "#347EFB" }}>0 min</Text>
-                        <Text style={{ color: "darkgrey" }}>Strength</Text>
+                    <View style={styles.widgetTextLayout}>
+                        <Text style={styles.widgetInfoText}>0 min</Text>
+                        <Text style={styles.widgetSubTitle}>Strength</Text>
                     </View>
+                </View>
 
 
                 </TouchableOpacity>
@@ -221,10 +223,29 @@ const styles = StyleSheet.create({
         marginTop: 8,
         padding: 16,
     },
-    title: {
+    widgetContent: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 7,
+        paddingRight: 7,
+    },
+    widgetTitle: {
         color: '#FAFAFA',
         fontSize: 20,
         marginBottom: 16
+    },
+    widgetTextLayout: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    widgetSubTitle: {
+        color: "#DDDEDE",
+        fontSize: 12,
+        marginTop: 2
+    },
+    widgetInfoText: {
+        color: "#347EFB",
+        fontSize: 22
     },
     emoji: {
         height: 60,
