@@ -776,10 +776,7 @@ export default class ProfileScreen extends Component {
 const styles = StyleSheet.create({
   //Styling by Jeff March 17
   container: {
-    //flex: 1,
     backgroundColor: '#000',
-    //height: '100%',
-    // padding: 16
   },
   foodItems: { //accordian list items
     flexDirection: 'row',
@@ -802,8 +799,6 @@ const styles = StyleSheet.create({
   },
   listContainer: { //accodian background
     backgroundColor: '#1C1C1E',
-
-    //display: 'flex',
   },
   content: {  //item name in accordian
     color: '#DDDEDE',
@@ -826,7 +821,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignContent: 'center',
   },
-
   listItemTitle: { //foodlist catagories
     paddingLeft: 16,
     fontSize: 22,
@@ -845,7 +839,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row'
-
   },
   icon: { //fav & add portion icon style
     height: 30,
@@ -874,63 +867,40 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   tabsContainerStyleFood: {
     width: 250,
     alignSelf: 'center',
     marginTop: 16,
     marginBottom: 16,
-    //borderColor: '#636366'
   },
   tabStyleFood: {
     borderColor: '#636366',
     backgroundColor: '#1C1C1E'
-  },
-  firstTabStyleFood: {
-    //backgroundColor: '#1C1C1E'
-  },
-  lastTabStyleFood: {
-    //backgroundColor: '#636366'
   },
   tabTextStyleFood: {
     color: '#DDDEDE'
   },
   activeTabStyleFood: {
     backgroundColor: '#636366',
-    // borderRadius: 10,
-    // marginTop: 3,
-    // marginBottom: 3
   },
   activeTabTextStyleFood: {
     color: '#DDDEDE'
   },
-
   tabsContainerStyleFav: {
-
     width: 250,
     alignSelf: 'center',
     marginTop: 16,
     marginBottom: 16,
-    //borderColor: '#636366'
   },
   tabStyleFav: {
     borderColor: '#636366',
     backgroundColor: '#1C1C1E'
-  },
-  firstTabStyleFav: {
-    //backgroundColor: '#1C1C1E'
-  },
-  lastTabStyleFav: {
-    //backgroundColor: '#636366'
   },
   tabTextStyleFav: {
     color: '#DDDEDE'
   },
   activeTabStyleFav: {
     backgroundColor: '#636366',
-    // borderRadius: 10,
-    // marginTop: 3,
-    // marginBottom: 3
   },
   activeTabTextStyleFav: {
     color: '#DDDEDE'
