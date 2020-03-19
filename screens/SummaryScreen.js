@@ -117,13 +117,13 @@ export default class SummaryScreen extends Component {
             onTabPress={this.handleIndexChange}
 
             allowFontScaling={false}
-            tabsContainerStyle={styles.tabsContainerStyleFav}
-            tabStyle={styles.tabStyleFav}
-            firstTabStyle={styles.firstTabStyleFav}
-            lastTabStyle={styles.lastTabStyleFav}
-            tabTextStyle={styles.tabTextStyleFav}
-            activeTabStyle={styles.activeTabStyleFav}
-            activeTabTextStyle={styles.activeTabTextStyleFav}
+            tabsContainerStyle={styles.tabsContainerStyleSummary}
+            tabStyle={styles.tabStyleSummary}
+            firstTabStyle={styles.firstTabStyleSummary}
+            lastTabStyle={styles.lastTabStyleSummary}
+            tabTextStyle={styles.tabTextStyleSummary}
+            activeTabStyle={styles.activeTabStyleSummary}
+            activeTabTextStyle={styles.activeTabTextStyleSummary}
           />
 
           <NutritionWidget uid={this.state.uid} usersPlan={this.state.usersPlan} foodEntry={this.state.foodEntry} />
@@ -146,33 +146,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#000'
   },
 
-  tabsContainerStyleFood: {
+  tabsContainerStyleSummary: {
     width: 250,
     alignSelf: 'center',
     marginTop: 16,
     marginBottom: 16,
-    //borderColor: '#636366'
   },
-  tabStyleFood: {
+  tabStyleSummary: {
     borderColor: '#636366',
     backgroundColor: '#1C1C1E'
   },
-  firstTabStyleFood: {
-    //backgroundColor: '#1C1C1E'
-  },
-  lastTabStyleFood: {
-    //backgroundColor: '#636366'
-  },
-  tabTextStyleFood: {
+  tabTextStyleSummary: {
     color: '#DDDEDE'
   },
-  activeTabStyleFood: {
+  activeTabStyleSummary: {
     backgroundColor: '#636366',
-    // borderRadius: 10,
-    // marginTop: 3,
-    // marginBottom: 3
   },
-  activeTabTextStyleFood: {
+  activeTabTextStyleSummary: {
     color: '#DDDEDE'
   },
 
