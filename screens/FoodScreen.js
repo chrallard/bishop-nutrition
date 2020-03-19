@@ -457,7 +457,7 @@ export default class ProfileScreen extends Component {
     console.log(item.category)
   }
   _openDeleteOrHalfPortion = (item) => {
-    console.log("hi from long press")
+    console.log(item.key)
     this.setState({ longPressed: item.key })
   }
   _addHalfPortion = (item) => {
@@ -521,19 +521,57 @@ export default class ProfileScreen extends Component {
           <View style={styles.foodItemIcons}>
             <TouchableOpacity onPress={() => this._removeFavourite(item)}>
 
+
               <Image
-                style={styles.icon}
+                style={
+                  this.state.longPressed == item.key
+                    ? styles.hideStarIcon
+                    : styles.icon
+                }
                 source={require('../assets/star_Selected.png')}
               />
 
 
+
+
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this._addPortion(item)} onLongPress={() => this._openDeleteOrHalfPortion(item)}>
-              <Image
-                style={styles.icon}
-                source={require('../assets/add_Circle.png')}
-              />
-            </TouchableOpacity>
+            {(this.state.longPressed == item.key) ? (
+              //#region longpress buttons
+
+              <View style={{ flexDirection: 'row' }}>
+                <View>
+                  <TouchableOpacity onPress={() => this._addHalfPortion(item)}>
+                    <Image
+                      style={styles.icon}
+                      source={require('../assets/add_half_portion.png')}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={{ flexDirection: 'column' }}>
+                  <TouchableOpacity onPress={() => this._closeDeleteOrHalfPortion(item)} >
+                    <Image
+                      style={styles.closeIcon}
+                      source={require('../assets/longPress.png')}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => this._deleteHalfPortion(item)}>
+                    <Image
+                      style={styles.icon}
+                      source={require('../assets/minus_half_portion.png')}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              //#endregion
+            ) : (
+                <TouchableOpacity onPress={() => this._addPortion(item)} onLongPress={() => this._openDeleteOrHalfPortion(item)}>
+                  <Image
+                    style={styles.icon}
+                    source={require('../assets/add_Circle.png')}
+                  />
+                </TouchableOpacity>
+              )}
           </View>
         </View>
       ))
@@ -552,20 +590,20 @@ export default class ProfileScreen extends Component {
             <TouchableOpacity onPress={() => this._addFavourite(item)}>
               {item.favourite ? (
                 <Image
-                style={
-                  this.state.longPressed == item.key
+                  style={
+                    this.state.longPressed == item.key
                       ? styles.icon
                       : styles.hideStarIcon
-              }
+                  }
                   source={require('../assets/star_Selected.png')}
                 />
               ) : (
                   <Image
-                  style={
-                    this.state.longPressed == item.key
+                    style={
+                      this.state.longPressed == item.key
                         ? styles.hideStarIcon
                         : styles.icon
-                }
+                    }
                     source={require('../assets/star_NotSelected.png')}
                   />
                 )}
@@ -575,29 +613,29 @@ export default class ProfileScreen extends Component {
             {(this.state.longPressed == item.key) ? (
               //#region longpress buttons
 
-              <View style={{flexDirection: 'row'}}>
-              <View>
-              <TouchableOpacity onPress={() => this._addHalfPortion(item)}>
-                  <Image
-                    style={styles.icon}
-                    source={require('../assets/add_half_portion.png')}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View style={{flexDirection: 'column'}}>
-                <TouchableOpacity onPress={() => this._closeDeleteOrHalfPortion(item)} >
-                  <Image
-                    style={styles.closeIcon}
-                    source={require('../assets/longPress.png')}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this._deleteHalfPortion(item)}>
-                  <Image
-                    style={styles.icon}
-                    source={require('../assets/minus_half_portion.png')}
-                  />
-                </TouchableOpacity>
-              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <View>
+                  <TouchableOpacity onPress={() => this._addHalfPortion(item)}>
+                    <Image
+                      style={styles.icon}
+                      source={require('../assets/add_half_portion.png')}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={{ flexDirection: 'column' }}>
+                  <TouchableOpacity onPress={() => this._closeDeleteOrHalfPortion(item)} >
+                    <Image
+                      style={styles.closeIcon}
+                      source={require('../assets/longPress.png')}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => this._deleteHalfPortion(item)}>
+                    <Image
+                      style={styles.icon}
+                      source={require('../assets/minus_half_portion.png')}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
 
               //#endregion
