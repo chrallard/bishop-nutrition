@@ -8,20 +8,31 @@ export default class NutritionWidget extends Component {
     constructor(props){
         super(props)
         this.state = {
+            uid: "",
+            usersPlan: "",
             foodDataList: [],
-            maxPortionsList: []
+            planData: {}
+            //maxPortionsList: []
         }
     }
 
     async componentDidMount(){
         await this.setUid()
         await this.setUsersPlan()
+        await this.setPlanData()
         await this.buildFoodDataList()
+
     }
 
-    setUid = async() => {
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.foodEntry !== this.props.foodEntry){
+            this.buildUpdatedFoodDataList()
+        }
+    }
+
+    setUid = async () => {
         let uid = await firebase.auth().currentUser.uid
-        this.setState({ uid })
+        await this.setState({ uid })
     }
   
     setUsersPlan = async () => {
@@ -29,22 +40,48 @@ export default class NutritionWidget extends Component {
         this.setState({ usersPlan })
     }
 
-    buildFoodDataList = async () => {
-        let foodDataList = []
-
+    setPlanData = async () => {
         await firebase.firestore().collection("plans").doc(this.state.usersPlan).get().then((doc) => {
-            Object.values(this.props.foodEntry).forEach((item, index) => {
-                let obj = {
-                    name: item.name,
-                    portions: item.portions,
-                    maxPortions: Object.values(doc.data().portions)[index].maxPortions
-                }
+            this.setState({ planData: doc.data() })
+        })
+    }
+
+    buildFoodDataList = () => {
+        let foodDataList = []
+        
+        Object.values(this.props.foodEntry).forEach((item, index) => {
+
+            let obj = {
+                name: item.name,
+                portions: item.portions,
+                maxPortions: Object.values(this.state.planData.portions)[index].maxPortions
+            }
                 
-                foodDataList.push(obj)
+            foodDataList.push(obj)
+        })
+        
+        this.setState({ foodDataList })
+    }
+
+    buildUpdatedFoodDataList = () => {
+        let newFoodDataList = []
+
+        this.state.foodDataList.forEach((obj, index) => {
+            let newPortions = 0
+            this.props.foodEntry.forEach((entryObj) => {
+                newPortions += Object.values(entryObj)[index].portions
             })
+
+            let newObj = {
+                name: obj.name,
+                portions: newPortions,
+                maxPortions: Object.values(this.state.planData.portions)[index].maxPortions * this.props.foodEntry.length
+            }
+
+            newFoodDataList.push(newObj)
         })
 
-        this.setState({ foodDataList })
+        this.setState({ foodDataList: newFoodDataList })
     }
 
     render(){
