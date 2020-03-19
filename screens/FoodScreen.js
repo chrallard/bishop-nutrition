@@ -846,6 +846,13 @@ const styles = StyleSheet.create({
     marginRight: 16,
     resizeMode: 'center'
   },
+  closeIcon: {
+    height: 30,
+    width: 30,
+    marginRight: 16,
+    marginBottom: 16,
+    resizeMode: 'center'
+  },
   hideStarIcon: {
     height: 30,
     width: 30,
