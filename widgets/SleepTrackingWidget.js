@@ -176,6 +176,7 @@ const styles = StyleSheet.create({
         marginBottom: 16
     },
     widgetTextLayout: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -186,7 +187,7 @@ const styles = StyleSheet.create({
     },
     widgetInfoText: {
         color: "#347EFB",
-        fontSize: 22
+        fontSize: 47
     },
     emoji: {
         height: 60,
