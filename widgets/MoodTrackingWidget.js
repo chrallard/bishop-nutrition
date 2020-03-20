@@ -185,7 +185,7 @@ export default class MoodTrackingWidget extends Component {
 };
 
 const styles = StyleSheet.create({
-
+//Styled by Jeff March 20
     container: {
         display: 'flex',
         backgroundColor: '#1C1C1E',
