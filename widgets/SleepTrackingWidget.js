@@ -86,7 +86,7 @@ const SleepTrackingWidget = () => {
                     <View style={styles.modalHeader}>
 
                         <TouchableOpacity onPress={() => setShowMe(false)}>
-                            <Text style={styles.modalNav}>Back</Text>
+                            <Text style={styles.modalNav}>Cancel</Text>
                         </TouchableOpacity>
 
                         <Text style={styles.modalTitle}>Sleep</Text>
@@ -99,11 +99,12 @@ const SleepTrackingWidget = () => {
                             <Text style={styles.modalNav}>Save</Text>
                         </TouchableOpacity>
 
-                        <View style={styles.modalSeprateLine} />
 
                     </View>
 
+                    <View style={styles.modalContentLayout}>    
 
+                    <Text style={styles.datePickerTitles}>Sleep Start:</Text>
 
                     <DateTimePicker
                         testID="dateTimePicker"
@@ -113,7 +114,11 @@ const SleepTrackingWidget = () => {
                         is24Hour={false}
                         display="default"
                         onChange={onChange}
+                        style={{backgroundColor: 'white'}}
                     />
+
+                    <Text style={styles.datePickerTitles}>Sleep End:</Text>
+
                     <DateTimePicker
                         testID="dateTimePicker"
                         timeZoneOffsetInMinutes={0}
@@ -122,23 +127,22 @@ const SleepTrackingWidget = () => {
                         is24Hour={false}
                         display="default"
                         onChange={onChange2}
+                        style={{backgroundColor: 'white'}}
                     />
-                    <View>
-                        <Text style={styles.content}>Notes:</Text>
-                    </View>
+                        
 
-                    <View>
-                        <TextInput style={styles.modalInput, { height: 26 }}
+                    <View style={styles.notesInputLayout}>
+                        <Text style={styles.noteTitle}>Notes:</Text>
+                        <TextInput style={styles.modalInput}
                             underlineColorAndroid="transparent"
-                            multiline={false}
-                            numberOfLines={1}
-                            placeholder="Notes"
-                            placeholderTextColor='#B7B7B7'
+                            multiline={true}
+                            numberOfLines={2}
                             autoCapitalize="none"
                             color="white"
-                            borderColor="white"
+                            backgroundColor="#2C2C2E"
                             onChangeText={(notes) => setNotes(notes)}
                             value={notes} />
+                    </View>
                     </View>
                 </View>
             </Modal>
@@ -209,25 +213,30 @@ const styles = StyleSheet.create({
         color: '#DDDEDE',
         fontSize: 17,
     },
+    modalContentLayout: {
+        paddingTop: 24
+    },
     modalInput: {
-        height: 200,
+        height: 100,
         borderColor: '#B7B7B7',
-        borderWidth: 1,
         backgroundColor: '#2C2C2E',
         borderRadius: 8
     },
     modalStyle: {
-        padding: 16,
         height: '100%',
         backgroundColor: '#0D0D0D',
         marginTop: 88,
-        borderRadius: 25
+        borderRadius: 15
     },
     modalHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignContent: 'center',
-        marginBottom: 16
+        alignItems: 'center',
+        backgroundColor: '#1E1E1E',
+        width: '100%',
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        padding: 16
     },
     modalTitle: {
         color: '#FAFAFA',
@@ -238,12 +247,22 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: '#347EFB',
     },
-    modalSeprateLine: {
-        width: '100%',
-        height: 0.4,
-        position: 'absolute',
-        backgroundColor: '#DDDEDE',
-        bottom: -16,
+    datePickerTitles:{
+        color: '#DDDEDE',
+        fontSize: 16,
+        marginLeft: 16,
+        marginTop: 8,
+        marginBottom: 8,
     },
+    notesInputLayout:{
+        marginLeft: 16,
+        marginRight: 16,
+    },
+    noteTitle:{
+        color: '#DDDEDE',
+        fontSize: 16,
+        marginTop: 8,
+        marginBottom: 8
+    }
 
 });
