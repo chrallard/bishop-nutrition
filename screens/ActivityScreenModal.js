@@ -19,6 +19,7 @@ export default class ActivityTrackingModal extends Component {
             radio_props: [
                 { label: `Cardio`, value: "Cardio" },
                 { label: `Strength Training`, value: "Strength Trainging" },
+                { label: `Yoga`, value: "Yoga"},
                 { label: `Other`, value: "Other" }
             ]
 
@@ -43,9 +44,13 @@ export default class ActivityTrackingModal extends Component {
                 this.setState({ value3Index: 1 })
 
                 break;
+            case "Yoga":
+                this.setState({value3Index: 2})
+
+                break;
 
             case "Other":
-                this.setState({ value3Index: 2 })
+                this.setState({ value3Index: 3 })
 
                 break;
 
