@@ -231,7 +231,8 @@ const styles = StyleSheet.create({
     modalNoteInput: {
         height: 200,
         backgroundColor: '#2C2C2E',
-        borderRadius: 8
+        borderRadius: 8,
+        color: '#DDDEDE'
     },
     notesLabel: {
         marginBottom: 16,
