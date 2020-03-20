@@ -39,8 +39,7 @@ export default class MoodTrackingWidget extends Component {
                 <TouchableOpacity onPress={() => {
                     this.setState({
                         showMe: true,
-                        selectedMood: "",
-                        diary: ""
+                        selectedMood: ""
                     })
                 }
                 }>
@@ -80,10 +79,9 @@ export default class MoodTrackingWidget extends Component {
 
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.setState({ showMe: false })
-                                    console.log("Today I felt: " + this.state.selectedMood + "\n")
-                                    console.log("My Diary: " + this.state.diary)
-                                    //this onpress will be what pushs to the db
+                                    this.setState({
+                                        showMe: false
+                                    })
                                 }}>
                                 <Text style={styles.modalSave}>Save</Text>
                             </TouchableOpacity>
@@ -99,69 +97,27 @@ export default class MoodTrackingWidget extends Component {
                         <View style={styles.imageM1}>
 
                             <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Sick" })
+                                this.setState({ selectedMood: "Happy" })
                             }}>
-                                {(this.state.selectedMood == "Sick") ? (
-                                    <Image source={require('../Images/smile_1.png')} style={{ width: 65, height: 65, margin: 10, borderWidth: 2, borderColor: "red" }} />
-
-                                ) : (
-                                        <Image source={require('../Images/smile_1.png')} style={{ width: 65, height: 65, margin: 10 }} />
-                                    )}
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Sad" })
-                            }}>
-                                {(this.state.selectedMood == "Sad") ? (
-                                    <Image source={require('../Images/smile_2.png')} style={{ width: 65, height: 65, margin: 10, borderWidth: 2, borderColor: "red" }} />
+                                {(this.state.selectedMood == "Happy") ? (
+                                    <Image source={require('../Images/smile_1.png')} style={{ width: 65, height: 65, margin: 10 }} />
 
                                 ) : (
                                         <Image source={require('../Images/smile_2.png')} style={{ width: 65, height: 65, margin: 10 }} />
                                     )}
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Hungry" })
-                            }}>
-                                {(this.state.selectedMood == "Hungry") ? (
-                                    <Image source={require('../Images/smile_3.png')} style={{ width: 65, height: 65, margin: 10, borderWidth: 2, borderColor: "red" }} />
 
-                                ) : (
-                                        <Image source={require('../Images/smile_3.png')} style={{ width: 65, height: 65, margin: 10 }} />
-                                    )}
-                            </TouchableOpacity>
 
+
+
+
+                            <Image source={require('../Images/smile_2.png')} style={{ width: 65, height: 65, margin: 10 }} />
+                            <Image source={require('../Images/smile_3.png')} style={{ width: 65, height: 65, margin: 10 }} />
                         </View>
                         <View style={styles.imageM2}>
-
-                            <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Neutral" })
-                            }}>
-                                {(this.state.selectedMood == "Neutral") ? (
-                                    <Image source={require('../Images/smile_4.png')} style={{ width: 65, height: 65, margin: 10, borderWidth: 2, borderColor: "red" }} />
-
-                                ) : (
-                                        <Image source={require('../Images/smile_4.png')} style={{ width: 65, height: 65, margin: 10 }} />
-                                    )}
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Happy" })
-                            }}>
-                                {(this.state.selectedMood == "Happy") ? (
-                                    <Image source={require('../Images/smile_5.png')} style={{ width: 65, height: 65, margin: 10, borderWidth: 2, borderColor: "red" }} />
-
-                                ) : (
-                                        <Image source={require('../Images/smile_5.png')} style={{ width: 65, height: 65, margin: 10 }} />
-                                    )}
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Really Happy" })
-                            }}>
-                                {(this.state.selectedMood == "Really Happy") ? (
-                                    <Image source={require('../Images/smile_6.png')} style={{ width: 65, height: 65, margin: 10, borderWidth: 2, borderColor: "red" }} />
-
-                                ) : (
-                                        <Image source={require('../Images/smile_6.png')} style={{ width: 65, height: 65, margin: 10 }} />
-                                    )}
-                            </TouchableOpacity>
+                            <Image source={require('../Images/smile_4.png')} style={{ width: 65, height: 65, margin: 10 }} />
+                            <Image source={require('../Images/smile_5.png')} style={{ width: 65, height: 65, margin: 10 }} />
+                            <Image source={require('../Images/smile_6.png')} style={{ width: 65, height: 65, margin: 10 }} />
                         </View>
                         <View>
                             <Text>Diary:</Text>
@@ -173,8 +129,8 @@ export default class MoodTrackingWidget extends Component {
                                 numberOfLines={4}
                                 placeholderTextColor="#9a73ef"
                                 autoCapitalize="none"
-                                onChangeText={(diary) => this.setState({ diary })}
-                                value={this.state.diary} />
+                                onChangeText={(text) => this.setState({ Text: text })}
+                                value={this.state.Text} />
 
                         </View>
                     </View>
