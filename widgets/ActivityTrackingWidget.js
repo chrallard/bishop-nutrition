@@ -93,6 +93,7 @@ export default class ActivityTrackingWidget extends Component {
 
                 <Modal visible={this.state.showMe} animationType={'slide'}>
 
+
                     <View style={styles.modalStyle}>
                         <View style={styles.modalHeader}>
 
@@ -114,34 +115,38 @@ export default class ActivityTrackingWidget extends Component {
                                 <Text style={styles.modalNav}>Save</Text>
                             </TouchableOpacity>
 
-                            <View style={styles.modalSeprateLine} />
 
                         </View>
 
 
-
+                        <View style={styles.modalContentLayout}>
                         <View>
-                            <TextInput style={styles.modalInput, { height: 26 }}
+                            <TextInput style={styles.modalInput}
                                 underlineColorAndroid="transparent"
                                 multiline={false}
                                 numberOfLines={1}
                                 placeholder="Title"
-                                placeholderTextColor='#B7B7B7'
+                                placeholderTextColor='#DDDEDE'
                                 autoCapitalize="none"
+                                fontWeight='600'
                                 onChangeText={(text) => this.setState({ Title: text })}
                                 value={this.state.Text} />
                         </View>
                         <View>
-                            <TextInput style={styles.modalInput, { height: 26 }}
+                            <TextInput style={styles.modalInput}
                                 underlineColorAndroid="transparent"
                                 multiline={false}
                                 numberOfLines={1}
                                 placeholder="Duration"
-                                placeholderTextColor='#B7B7B7'
+                                placeholderTextColor='#DDDEDE'
+                                fontWeight='600'
                                 autoCapitalize="none"
                                 onChangeText={(text) => this.setState({ Duration: text })}
                                 value={this.state.Text} />
                         </View>
+                        
+                        <Text style={styles.typeLabel}>Type:</Text>
+                        
 
                         {/* <RadioForm 
                         radio_props={this.state.radio_props}
@@ -169,18 +174,16 @@ export default class ActivityTrackingWidget extends Component {
                                             index={i}
                                             isSelected={this.state.value3Index === i}
                                             onPress={() => this._radioButtonFunction(obj)}
-                                            borderWidth={1}
+                                            borderWidth={15}
                                             buttonInnerColor={'#347EFB'}
-                                            buttonOuterColor={this.state.value3Index === i ? '#2196f3' : '#000'}
-                                            buttonStyle={{}}
-                                            buttonWrapStyle={{ marginLeft: 10 }}
+                                            buttonOuterColor={this.state.value3Index === i ? '#347EFB' : '#DDDEDE'}
                                         />
                                         <RadioButtonLabel
                                             obj={obj}
                                             index={i}
                                             labelHorizontal={true}
                                             onPress={(value) => { this.setState({ value: value }) }}
-                                            labelStyle={{ fontSize: 20, color: '#347EFB' }}
+                                            labelStyle={styles.typeOptionLabel}
                                             labelWrapStyle={{}}
                                         />
                                     </RadioButton>
@@ -193,11 +196,11 @@ export default class ActivityTrackingWidget extends Component {
 
 
                         <View>
-                            <Text style={styles.content}>Notes:</Text>
+                            <Text style={styles.notesLabel}>Notes:</Text>
                         </View>
 
                         <View>
-                            <TextInput style={styles.modalInput}
+                            <TextInput style={styles.modalNoteInput}
                                 underlineColorAndroid="transparent"
                                 multiline={true}
                                 numberOfLines={4}
@@ -205,6 +208,7 @@ export default class ActivityTrackingWidget extends Component {
                                 autoCapitalize="none"
                                 onChangeText={(text) => this.setState({ Text: text })}
                                 value={this.state.Text} />
+                        </View>
                         </View>
                     </View>
                 </Modal>
@@ -262,46 +266,67 @@ const styles = StyleSheet.create({
         marginBottom: 16
     },
     content: {
-        marginTop: 24,
         marginBottom: 16,
         color: '#DDDEDE',
         fontSize: 17,
     },
-    modalInput: {
+    modalContentLayout: {
+        padding: 16,
+        paddingTop: 50
+    },
+    modalNoteInput: {
         height: 200,
-        borderColor: '#B7B7B7',
-        borderWidth: 1,
         backgroundColor: '#2C2C2E',
         borderRadius: 8
     },
+    modalInput: {
+        height: 26,
+        fontSize: 20,
+        color: '#DDDEDE',
+        marginBottom: 24,
+        borderBottomWidth: 1,
+        borderColor: '#DDDEDE'
+    },
     modalStyle: {
-        padding: 16,
         height: '100%',
         backgroundColor: '#0D0D0D',
         marginTop: 88,
-        borderRadius: 25
+        borderRadius: 15
     },
     modalHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignContent: 'center',
-        marginBottom: 16
+        alignItems: 'center',
+        backgroundColor: '#1E1E1E',
+        width: '100%',
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        padding: 16
     },
     modalTitle: {
         color: '#FAFAFA',
         fontSize: 20,
-        fontWeight: '700',
     },
     modalNav: {
         fontSize: 17,
         color: '#347EFB',
     },
-    modalSeprateLine: {
-        width: '100%',
-        height: 0.4,
-        position: 'absolute',
-        backgroundColor: '#DDDEDE',
-        bottom: -16,
+    typeOptionLabel: {
+        fontSize: 16,
+        color: '#DDDEDE'
+    },
+    typeLabel: {
+        marginBottom: 16,
+        marginTop: 16,
+        color: '#DDDEDE',
+        fontSize: 17,
+        fontWeight: '600'
+    },
+    notesLabel: {
+        marginBottom: 16,
+        marginTop: 40,
+        color: '#DDDEDE',
+        fontSize: 17,
     },
 
 });
