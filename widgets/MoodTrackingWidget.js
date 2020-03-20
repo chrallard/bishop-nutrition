@@ -99,7 +99,7 @@ export default class MoodTrackingWidget extends Component {
                         <TouchableOpacity onPress={() => {
                                 this.setState({ selectedMood: "Really Happy" })
                             }}>
-                                {(this.state.selectedMood == "Really Happy") ? (
+                                {((this.state.selectedMood == "Really Happy")  || (this.state.selectedMood == "")) ? (
                                     <Image source={require('../Images/smile_6.png')} style={styles.emojiSelect} />
 
                                 ) : (
@@ -158,7 +158,8 @@ export default class MoodTrackingWidget extends Component {
 
                                 ) : (
                                         <Image source={require('../Images/smile_1.png')} style={styles.emojiNoSelect} />
-                                    )}
+                                    )
+}
                             </TouchableOpacity>
                         </View>
                         
