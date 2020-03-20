@@ -41,7 +41,9 @@ export default class WelcomeWidget extends Component{
 
     render(){
         return(
-            <View style={styles.container}>
+           
+            <View style={styles.container}  >
+            
            
             <Text>Weight</Text>
             
@@ -50,6 +52,7 @@ export default class WelcomeWidget extends Component{
              <Text style={styles.weight}>{this.state.weightEntry}</Text>
             */}
             </View>
+          
         )
     }
 

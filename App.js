@@ -22,6 +22,8 @@ import ProgressScreen from './screens/ProgressScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import UpdatePasswordScreen from './screens/UpdatePasswordScreen'
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
+
+
 //////////////////////////////////// firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBa7mPzRK5vFZYMrIMtTjtJhecI0pqlYNc",
@@ -45,6 +47,7 @@ const ProgressStack = createStackNavigator()
 const ProfileStack = createStackNavigator()
 const LoginStack = createStackNavigator()
 
+
 function HomeStackScreen() {
   return(
     <HomeStack.Navigator>
@@ -54,6 +57,7 @@ function HomeStackScreen() {
     </HomeStack.Navigator>
   )
 }
+
 
 function FoodStackScreen() {
   return(
