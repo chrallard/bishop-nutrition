@@ -47,14 +47,14 @@ export default class MoodTrackingWidget extends Component {
 
                     <View style={styles.imageRow1}>
 
-                        <Image source={require('../Images/smile_1.png')} style={styles.emoji} />
-                        <Image source={require('../Images/smile_2.png')} style={styles.emoji} />
-                        <Image source={require('../Images/smile_3.png')} style={styles.emoji} />
+                        <Image source={require('../Images/smile_6.png')} style={styles.emoji} />
+                        <Image source={require('../Images/smile_5.png')} style={styles.emoji} />
+                        <Image source={require('../Images/smile_4.png')} style={styles.emoji} />
                     </View>
                     <View style={styles.imageRow2}>
-                        <Image source={require('../Images/smile_4.png')} style={styles.emoji} />
-                        <Image source={require('../Images/smile_5.png')} style={styles.emoji} />
-                        <Image source={require('../Images/smile_6.png')} style={styles.emoji} />
+                        <Image source={require('../Images/smile_3.png')} style={styles.emoji} />
+                        <Image source={require('../Images/smile_2.png')} style={styles.emoji} />
+                        <Image source={require('../Images/smile_1.png')} style={styles.emoji} />
                     </View>
                 </TouchableOpacity>
 
@@ -77,9 +77,6 @@ export default class MoodTrackingWidget extends Component {
 
                             <Text style={styles.modalTitle}>Mood</Text>
 
-
-
-
                             <TouchableOpacity
                                 onPress={() => {
                                     this.setState({ showMe: false })
@@ -99,49 +96,14 @@ export default class MoodTrackingWidget extends Component {
                         </View>
 
                         <View style={styles.imageRow1}>
-
-                            <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Sick" })
+                        <TouchableOpacity onPress={() => {
+                                this.setState({ selectedMood: "Really Happy" })
                             }}>
-                                {(this.state.selectedMood == "Sick") ? (
-                                    <Image source={require('../Images/smile_1.png')} style={styles.emojiSelect} />
+                                {(this.state.selectedMood == "Really Happy") ? (
+                                    <Image source={require('../Images/smile_6.png')} style={styles.emojiSelect} />
 
                                 ) : (
-                                        <Image source={require('../Images/smile_1.png')} style={styles.emojiNoSelect} />
-                                    )}
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Sad" })
-                            }}>
-                                {(this.state.selectedMood == "Sad") ? (
-                                    <Image source={require('../Images/smile_2.png')} style={styles.emojiSelect} />
-
-                                ) : (
-                                        <Image source={require('../Images/smile_2.png')} style={styles.emojiNoSelect} />
-                                    )}
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Hungry" })
-                            }}>
-                                {(this.state.selectedMood == "Hungry") ? (
-                                    <Image source={require('../Images/smile_3.png')} style={styles.emojiSelect} />
-
-                                ) : (
-                                        <Image source={require('../Images/smile_3.png')} style={styles.emojiNoSelect} />
-                                    )}
-                            </TouchableOpacity>
-
-                        </View>
-                        <View style={styles.imageRow2}>
-
-                            <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Neutral" })
-                            }}>
-                                {(this.state.selectedMood == "Neutral") ? (
-                                    <Image source={require('../Images/smile_4.png')} style={styles.emojiSelect} />
-
-                                ) : (
-                                        <Image source={require('../Images/smile_4.png')} style={styles.emojiNoSelect} />
+                                        <Image source={require('../Images/smile_6.png')} style={styles.emojiNoSelect} />
                                     )}
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => {
@@ -155,16 +117,51 @@ export default class MoodTrackingWidget extends Component {
                                     )}
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Really Happy" })
+                                this.setState({ selectedMood: "Neutral" })
                             }}>
-                                {(this.state.selectedMood == "Really Happy") ? (
-                                    <Image source={require('../Images/smile_6.png')} style={styles.emojiSelect} />
+                                {(this.state.selectedMood == "Neutral") ? (
+                                    <Image source={require('../Images/smile_4.png')} style={styles.emojiSelect} />
 
                                 ) : (
-                                        <Image source={require('../Images/smile_6.png')} style={styles.emojiNoSelect} />
+                                        <Image source={require('../Images/smile_4.png')} style={styles.emojiNoSelect} />
+                                    )}
+                            </TouchableOpacity> 
+                        </View>
+
+                        <View style={styles.imageRow2}>
+
+                        <TouchableOpacity onPress={() => {
+                                this.setState({ selectedMood: "Hungry" })
+                            }}>
+                                {(this.state.selectedMood == "Hungry") ? (
+                                    <Image source={require('../Images/smile_3.png')} style={styles.emojiSelect} />
+
+                                ) : (
+                                        <Image source={require('../Images/smile_3.png')} style={styles.emojiNoSelect} />
+                                    )}
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => {
+                                this.setState({ selectedMood: "Sad" })
+                            }}>
+                                {(this.state.selectedMood == "Sad") ? (
+                                    <Image source={require('../Images/smile_2.png')} style={styles.emojiSelect} />
+
+                                ) : (
+                                        <Image source={require('../Images/smile_2.png')} style={styles.emojiNoSelect} />
+                                    )}
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => {
+                                this.setState({ selectedMood: "Sick" })
+                            }}>
+                                {(this.state.selectedMood == "Sick") ? (
+                                    <Image source={require('../Images/smile_1.png')} style={styles.emojiSelect} />
+
+                                ) : (
+                                        <Image source={require('../Images/smile_1.png')} style={styles.emojiNoSelect} />
                                     )}
                             </TouchableOpacity>
                         </View>
+                        
                         <View>
                             <Text style={styles.content}>Diary:</Text>
                         </View>
@@ -198,80 +195,75 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     widgetTitle: {
-    color: '#FAFAFA',
-    fontSize: 20,
-    marginBottom: 16
-},
-emoji: {
-    height: 60,
-    width: 60
-},
-emojiSelect:{
-    height:65,
-    width:65,
-    opacity:1
-
-},
-emojiNoSelect:{
+        color: '#FAFAFA',
+        fontSize: 20,
+        marginBottom: 16
+    },
+    emoji: {
+        height: 60,
+        width: 60
+    },
+    emojiSelect:{
+        height:65,
+        width:65,
+        opacity:1
+    },
+    emojiNoSelect:{
         height: 60,
         width: 60,
         opacity: 0.6
-
-},
-imageRow1: {
-    flexDirection: "row",
-    justifyContent: 'space-around',
-    marginBottom: 16
-},
-imageRow2: {
-    flexDirection: "row",
-    justifyContent: 'space-around',
-    marginBottom: 16
-},
-
-modalStyle: {
-    height: '100%',
-    backgroundColor: '#0D0D0D',
-    marginTop: 88,
-    borderRadius: 15,
-
-},
-modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#1E1E1E',
-    width: '100%',
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    padding: 16
-},
-modalTitle: {
-    color: '#FAFAFA',
-    fontSize: 20,
-    fontWeight: '700',
-},
-modalNav: {
-    fontSize: 17,
-    color: '#347EFB',
-},
-modalInput: {
-    color: '#dddede',
-      
-    height: 200,
-    borderColor: '#B7B7B7',
-    backgroundColor: '#2C2C2E',
-    borderRadius: 8,
-    marginLeft: 16,
-    marginRight: 16
-},
-content: {
-    marginTop: 24,
-    marginBottom: 16,
-    marginLeft:  16,
-    color: '#DDDEDE',
-    fontSize: 17,
-},
+    },
+    imageRow1: {
+        flexDirection: "row",
+        justifyContent: 'space-around',
+        marginBottom: 16
+    },
+    imageRow2: {
+        flexDirection: "row",
+        justifyContent: 'space-around',
+        marginBottom: 16
+    },
+    modalStyle: {
+        height: '100%',
+        backgroundColor: '#0D0D0D',
+        marginTop: 88,
+        borderRadius: 15,
+    },
+    modalHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#1E1E1E',
+        width: '100%',
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        padding: 16
+    },
+    modalTitle: {
+        color: '#FAFAFA',
+        fontSize: 20,
+        fontWeight: '700',
+    },
+    modalNav: {
+        fontSize: 17,
+        color: '#347EFB',
+    },
+    modalInput: {
+        color: '#dddede',      
+        height: 150,
+        borderColor: '#B7B7B7',
+        backgroundColor: '#2C2C2E',
+        borderRadius: 8,
+        marginLeft: 16,
+        marginRight: 16
+    },
+    content: {
+        marginTop: 24,
+        marginBottom: 16,
+        marginLeft:  16,
+        color: '#DDDEDE',
+        fontSize: 17,
+    },
     modalSeprateLine: {
         width: '100%',
         height: '2%',
@@ -279,5 +271,4 @@ content: {
         backgroundColor: 'black',
         bottom: 0
     },
-
 });
