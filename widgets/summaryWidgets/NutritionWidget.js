@@ -12,7 +12,6 @@ export default class NutritionWidget extends Component {
             usersPlan: "",
             foodDataList: [],
             planData: {}
-            //maxPortionsList: []
         }
     }
 

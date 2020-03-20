@@ -11,7 +11,7 @@ export default class SleepWidget extends Component {
     }
 
     componentDidMount(){
-       
+       //console.log(this.props)
     }
 
     render(){

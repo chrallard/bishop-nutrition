@@ -20,17 +20,14 @@ export default class SummaryScreen extends Component {
       selectedIndex: 0,
 
       foodEntry: this.props.route.params.doc.foodEntry,
-      waterEntry: []
+      waterEntry: this.props.route.params.doc.waterEntry,
+      sleepEntry: this.props.route.params.doc.sleepEntry
     }
   }
 
   async componentDidMount() {
     await this.setUid()
     await this.getData()
-  }
-
-  componentDidUpdate() {
-    //console.log(this.state.foodEntry)
   }
 
   setUid = async() => {
@@ -63,7 +60,8 @@ export default class SummaryScreen extends Component {
       case 0:
         this.setState({ 
           foodEntry: [this.props.route.params.doc.foodEntry], 
-          waterEntry: [this.props.route.params.doc.waterEntry]
+          waterEntry: [this.props.route.params.doc.waterEntry],
+          sleepEntry: [this.props.route.params.doc.sleepEntry]
         })
         break
 
@@ -74,30 +72,36 @@ export default class SummaryScreen extends Component {
 
         let weekFoodEntry = []
         let weekWaterEntry = []
+        let weekSleepEntry = []
 
         weekHealthTrackingData.forEach((item) => {
           weekFoodEntry.push(item.foodEntry)
           weekWaterEntry.push(item.waterEntry)
+          weekSleepEntry.push(item.sleepEntry)
         })
 
         this.setState({
           foodEntry: weekFoodEntry,
-          waterEntry: weekWaterEntry
+          waterEntry: weekWaterEntry,
+          sleepEntry: weekSleepEntry
         })
         break
 
       case 2:
         let monthFoodEntry = []
         let monthWaterEntry = []
+        let monthSleepEntry = []
 
         this.state.healthTrackingData.forEach((item) => {
           monthFoodEntry.push(item.foodEntry)
           monthWaterEntry.push(item.waterEntry)
+          monthSleepEntry.push(item.sleepEntry)
         })
 
         this.setState({
           foodEntry: monthFoodEntry,
-          waterEntry: monthWaterEntry
+          waterEntry: monthWaterEntry,
+          sleepEntry: monthSleepEntry
         })
         break
         
@@ -126,10 +130,10 @@ export default class SummaryScreen extends Component {
             activeTabTextStyle={styles.activeTabTextStyleSummary}
           />
 
-          <NutritionWidget uid={this.state.uid} usersPlan={this.state.usersPlan} foodEntry={this.state.foodEntry} />
-          <WaterWidget />
+          <NutritionWidget foodEntry={this.state.foodEntry} />
+          <WaterWidget waterEntry={this.state.waterEntry} />
           <ActivityWidget />
-          <SleepWidget />
+          <SleepWidget sleepEntry={this.state.sleepEntry} />
           <MoodWidget />
 
         </View>
