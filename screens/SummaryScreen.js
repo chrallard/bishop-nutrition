@@ -8,6 +8,7 @@ import SleepWidget from '../widgets/summaryWidgets/SleepWidget'
 import MoodWidget from '../widgets/summaryWidgets/MoodWidget'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
+import { ThemeProvider } from 'react-native-paper'
 
 export default class SummaryScreen extends Component {
 
@@ -21,6 +22,7 @@ export default class SummaryScreen extends Component {
 
       foodEntry: this.props.route.params.doc.foodEntry,
       waterEntry: this.props.route.params.doc.waterEntry,
+      exerciseEntry: this.props.route.params.doc.exerciseEntry,
       sleepEntry: this.props.route.params.doc.sleepEntry
     }
   }
@@ -61,6 +63,7 @@ export default class SummaryScreen extends Component {
         this.setState({ 
           foodEntry: [this.props.route.params.doc.foodEntry], 
           waterEntry: [this.props.route.params.doc.waterEntry],
+          exerciseEntry: [this.props.route.params.doc.exerciseEntry],
           sleepEntry: [this.props.route.params.doc.sleepEntry]
         })
         break
@@ -72,17 +75,20 @@ export default class SummaryScreen extends Component {
 
         let weekFoodEntry = []
         let weekWaterEntry = []
+        let weekExerciseEntry = []
         let weekSleepEntry = []
 
         weekHealthTrackingData.forEach((item) => {
           weekFoodEntry.push(item.foodEntry)
           weekWaterEntry.push(item.waterEntry)
+          weekExerciseEntry.push(item.exerciseEntry)
           weekSleepEntry.push(item.sleepEntry)
         })
 
         this.setState({
           foodEntry: weekFoodEntry,
           waterEntry: weekWaterEntry,
+          exerciseEntry: weekExerciseEntry,
           sleepEntry: weekSleepEntry
         })
         break
@@ -90,17 +96,20 @@ export default class SummaryScreen extends Component {
       case 2:
         let monthFoodEntry = []
         let monthWaterEntry = []
+        let monthExerciseEntry = []
         let monthSleepEntry = []
 
         this.state.healthTrackingData.forEach((item) => {
           monthFoodEntry.push(item.foodEntry)
           monthWaterEntry.push(item.waterEntry)
+          monthExerciseEntry.push(item.exerciseEntry)
           monthSleepEntry.push(item.sleepEntry)
         })
 
         this.setState({
           foodEntry: monthFoodEntry,
           waterEntry: monthWaterEntry,
+          exerciseEntry: monthExerciseEntry,
           sleepEntry: monthSleepEntry
         })
         break
@@ -132,7 +141,7 @@ export default class SummaryScreen extends Component {
 
           <NutritionWidget foodEntry={this.state.foodEntry} />
           <WaterWidget waterEntry={this.state.waterEntry} />
-          <ActivityWidget />
+          <ActivityWidget exerciseEntry={this.state.exerciseEntry} />
           <SleepWidget sleepEntry={this.state.sleepEntry} />
           <MoodWidget />
 
