@@ -106,6 +106,7 @@ const SleepTrackingWidget = () => {
 
                     <Text style={styles.datePickerTitles}>Sleep Start:</Text>
 
+                    <View style={styles.datepickerStyle}>
                     <DateTimePicker
                         testID="dateTimePicker"
                         timeZoneOffsetInMinutes={0}
@@ -114,11 +115,13 @@ const SleepTrackingWidget = () => {
                         is24Hour={false}
                         display="default"
                         onChange={onChange}
-                        style={{backgroundColor: 'white'}}
+                        //style={{backgroundColor: 'white', borderRadius: 20, marginRight: 16, marginLeft: 16}}
                     />
+                    </View>
 
                     <Text style={styles.datePickerTitles}>Sleep End:</Text>
 
+                    <View style={styles.datepickerStyle}>
                     <DateTimePicker
                         testID="dateTimePicker"
                         timeZoneOffsetInMinutes={0}
@@ -127,9 +130,8 @@ const SleepTrackingWidget = () => {
                         is24Hour={false}
                         display="default"
                         onChange={onChange2}
-                        style={{backgroundColor: 'white'}}
                     />
-                        
+                    </View>
 
                     <View style={styles.notesInputLayout}>
                         <Text style={styles.noteTitle}>Notes:</Text>
@@ -263,6 +265,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 8,
         marginBottom: 8
+    },
+    datepickerStyle:{
+        backgroundColor: 'white', 
+        borderRadius: 8, 
+        marginRight: 16, 
+        marginLeft: 16
     }
 
 });
