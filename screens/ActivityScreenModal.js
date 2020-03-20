@@ -128,15 +128,15 @@ export default class ActivityTrackingModal extends Component {
                                             isSelected={this.state.value3Index === i}
                                             onPress={() => this._radioButtonFunction(obj)}
                                             borderWidth={15}
-                                            buttonInnerColor={'#347EFB'}
-                                            buttonOuterColor={this.state.value3Index === i ? '#347EFB' : '#DDDEDE'}
+                                            buttonInnerColor={'#6EFACC'}
+                                            buttonOuterColor={this.state.value3Index === i ? '#6EFACC' : '#DDDEDE'}
                                         />
                                         <RadioButtonLabel
                                             obj={obj}
                                             index={i}
                                             labelHorizontal={true}
                                             onPress={(value) => { this.setState({ value: value }) }}
-                                            labelStyle={{ fontSize: 20, color: '#347EFB' }}
+                                            labelStyle={{ fontSize: 20, color: '#DDDEDE' }}
                                             labelWrapStyle={{}}
                                         />
                                     </RadioButton>
@@ -180,47 +180,6 @@ const styles = StyleSheet.create({
         marginTop: 8,
         padding: 16,
     },
-    title: {
-        color: '#FAFAFA',
-        fontSize: 20,
-        marginBottom: 16
-    },
-    emoji: {
-        height: 60,
-        width: 60
-    },
-    imageRow1: {
-        flexDirection: "row",
-        justifyContent: 'space-around',
-        marginBottom: 16
-    },
-    imageRow2: {
-        flexDirection: "row",
-        justifyContent: 'space-around',
-        marginBottom: 16
-    },
-    content: {
-        marginBottom: 16,
-        color: '#DDDEDE',
-        fontSize: 17,
-    },
-    modalContentLayout: {
-        padding: 16,
-        paddingTop: 50
-    },
-    modalNoteInput: {
-        height: 200,
-        backgroundColor: '#2C2C2E',
-        borderRadius: 8
-    },
-    modalInput: {
-        height: 26,
-        fontSize: 20,
-        color: '#DDDEDE',
-        marginBottom: 24,
-        borderBottomWidth: 1,
-        borderColor: '#DDDEDE'
-    },
     modalStyle: {
         height: '100%',
         backgroundColor: '#0D0D0D',
@@ -245,9 +204,17 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: '#347EFB',
     },
-    typeOptionLabel: {
-        fontSize: 16,
-        color: '#DDDEDE'
+    modalContentLayout: {
+        padding: 16,
+        paddingTop: 50
+    },
+    modalInput: {
+        height: 26,
+        fontSize: 20,
+        color: '#DDDEDE',
+        marginBottom: 24,
+        borderBottomWidth: 1,
+        borderColor: '#DDDEDE'
     },
     typeLabel: {
         marginBottom: 16,
@@ -256,11 +223,15 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: '600'
     },
+    modalNoteInput: {
+        height: 200,
+        backgroundColor: '#2C2C2E',
+        borderRadius: 8
+    },
     notesLabel: {
         marginBottom: 16,
         marginTop: 40,
         color: '#DDDEDE',
         fontSize: 17,
-    },
-
+    }
 });
