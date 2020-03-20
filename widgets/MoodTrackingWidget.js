@@ -95,6 +95,7 @@ export default class MoodTrackingWidget extends Component {
                             <Text style={styles.content}>How is Your Mood Today:</Text>
                         </View>
 
+
                         <View style={styles.imageRow1}>
                         <TouchableOpacity onPress={() => {
                                 this.setState({ selectedMood: "Really Happy" })
@@ -205,8 +206,8 @@ const styles = StyleSheet.create({
         width: 60
     },
     emojiSelect:{
-        height:65,
-        width:65,
+        height:60,
+        width:60,
         opacity:1
     },
     emojiNoSelect:{
