@@ -256,6 +256,8 @@ modalNav: {
     color: '#347EFB',
 },
 modalInput: {
+    color: '#dddede',
+      
     height: 200,
     borderColor: '#B7B7B7',
     backgroundColor: '#2C2C2E',
