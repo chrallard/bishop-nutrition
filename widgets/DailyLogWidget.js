@@ -20,12 +20,25 @@ export default class DailyLogWidget extends Component {
         ])
 
         await this.setUid()
+        await this.setUsersPlan()
+        await this.setPlanData()
         await this.buildDaysList()
     }
 
     setUid = async () => {
         let uid = await firebase.auth().currentUser.uid
         this.setState({ uid })
+    }
+
+    setUsersPlan = async () => {
+        let usersPlan = await firebase.firestore().collection("userData").doc(this.state.uid).get().then((doc) => { return doc.data().plan })
+        this.setState({ usersPlan })
+    }
+
+    setPlanData = async () => {
+        await firebase.firestore().collection("plans").doc(this.state.usersPlan).get().then((doc) => {
+            this.setState({ planData: doc.data() })
+        })
     }
 
     buildDaysList = async () => {
@@ -39,13 +52,52 @@ export default class DailyLogWidget extends Component {
 
                 let obj = {
                     date: formatDate(item.data().timeStamp),
-                    doc: item.data()
+                    doc: item.data(),
+                    complete: this.checkDayComplete(item.data().foodEntry)
                 }
                 daysList.unshift(obj)
             })
         })
 
         this.setState({ daysList })
+    }
+
+    checkDayComplete = (foodEntry) => {
+        let foodList = []
+
+        Object.values(foodEntry).forEach((item, index) => {
+            foodList.push({
+                name: item.name,
+                portions: item.portions,
+                complete: null
+            })
+        })
+
+        let planList = []
+
+        Object.values(this.state.planData.portions).forEach((item) => {
+            planList.push({
+                name: item.name,
+                maxPortions: item.maxPortions
+            })
+        })
+
+        foodList.forEach((item, index) => {
+            if(item.portions < planList[index].maxPortions) {
+                item.complete = false
+            }else{
+                item.complete = true
+            }
+        })
+
+        let completeValues = []
+
+        foodList.forEach((item) => {
+            completeValues.push(item.complete)
+        })
+
+        const isTrue = (currentValue) => currentValue == true
+        return completeValues.every(isTrue)
     }
 
     formatDate = (d) => {
@@ -55,7 +107,7 @@ export default class DailyLogWidget extends Component {
         const date = dateObj.getDate()
         const month = months[dateObj.getMonth()]
         const year = dateObj.getFullYear()
-        const formattedDate = month + " " + date //looks like this: 4March2020
+        const formattedDate = month + " " + date //looks like this: March 4
       
         return formattedDate
       }
@@ -67,8 +119,11 @@ export default class DailyLogWidget extends Component {
                 <View style={styles.list}>
                     {this.state.daysList.map((item, index) => (
                         <TouchableOpacity onPress={() => {this.props.navProps.navigate("Summary", {doc: item.doc})}} key={index}>
-                            <Image source={require('../assets/summary_check_circle.png')} style={styles.check}/>
-                            <Image source={require('../assets/summary_warning_circle.png')} style={styles.warning}/>
+                            {item.complete ? 
+                                <Image source={require('../assets/summary_check_circle.png')} style={styles.status}/>
+                            :
+                                <Image source={require('../assets/summary_warning_circle.png')} style={styles.status}/>
+                            }
                             <Text style={styles.dateText}>{item.date}</Text>
                         </TouchableOpacity>
                     ))}
@@ -92,12 +147,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around'
     },
-    check:{
-        width: 40,
-        height: 40,
-        alignSelf: 'center'
-    },
-    warning:{
+    status:{
         width: 40,
         height: 40,
         alignSelf: 'center'
