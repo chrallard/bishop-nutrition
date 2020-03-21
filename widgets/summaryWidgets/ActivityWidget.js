@@ -87,14 +87,24 @@ export default class ActivityWidget extends Component {
         return(
             <View style={styles.container}>
                 <Text style={styles.title}>Activity</Text>
-                <Text style={styles.dateText}>{this.state.cardio}</Text>
-                <Text style={styles.dateText}>min of cardio</Text>
-                <Text style={styles.dateText}>{this.state.strength}</Text>
-                <Text style={styles.dateText}>min of strength</Text>
-                <Text style={styles.dateText}>{this.state.yoga}</Text>
-                <Text style={styles.dateText}>min of yoga</Text>
-                <Text style={styles.dateText}>{this.state.other}</Text>
-                <Text style={styles.dateText}>min of other</Text>
+
+                <View style={styles.infoContainer}>  
+                    <View style={styles.infoLoayout}>
+                        <Text style={styles.amountText}>{this.state.cardio}</Text>
+                        <Text style={styles.titleText}>min of cardio</Text>
+
+                        <Text style={styles.amountText}>{this.state.strength}</Text>
+                        <Text style={styles.titleText}>min of strength</Text>  
+                    </View>
+
+                    <View>
+                        <Text style={styles.amountText}>{this.state.yoga}</Text>
+                        <Text style={styles.titleText}>min of yoga</Text>
+
+                        <Text style={styles.amountText}>{this.state.other}</Text>
+                        <Text style={styles.titleText}>min of other</Text>
+                    </View>
+                </View>
             </View>
         )
     }
@@ -110,21 +120,32 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         marginTop: 44
     },
+    infoContainer:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        margin: 16,
+        marginRight: 40,
+        marginLeft: 40
+    },
+    infoLoayout:{
+        
+    },
     title:{
         color:'#FAFAFA',
         fontSize: 20,
     },
-    nameText:{
+    titleText:{
         flexDirection: 'column',
         color:'#FAFAFA',
-        fontSize: 28,
+        fontSize: 20,
         justifyContent: 'center',
         alignSelf:'center',
         marginBottom: 8
     },
-    dateText:{
+    amountText:{
         color:'#347EFB',
-        fontSize: 17,
+        fontSize: 40,
         justifyContent: 'center',
         alignSelf:'center'
     }
