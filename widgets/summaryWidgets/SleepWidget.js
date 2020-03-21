@@ -80,10 +80,22 @@ export default class SleepWidget extends Component {
         return(
             <View style={styles.container}>
                 <Text style={styles.title}>Sleep</Text>
-                <Text style={styles.dateText}>{this.state.avgSleep}</Text>
-                <Text style={styles.dateText}>Average time asleep</Text>
-                <Text style={styles.dateText}>Average start: {this.state.avgStart}</Text>
-                <Text style={styles.dateText}>Average end: {this.state.avgEnd}</Text>
+
+                <Text style={styles.amountText}>{this.state.avgSleep}</Text>
+                <Text style={styles.titleText}>Average time asleep</Text>
+
+                <View style={styles.averageTextLayout}>
+
+                    <View style={{flexDirection: 'row'}}>
+                        <Text style={styles.averageTitleText}>Average start: </Text>
+                        <Text style={styles.averageAmountText}>{this.state.avgStart}</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row'}}>
+                        <Text style={styles.averageTitleText}>Average end: </Text>
+                        <Text style={styles.averageAmountText}>{this.state.avgEnd}</Text>
+                    </View>
+                </View>
             </View>
         )
     }
@@ -103,18 +115,32 @@ const styles = StyleSheet.create({
         color:'#FAFAFA',
         fontSize: 20,
     },
-    nameText:{
+    titleText:{
         flexDirection: 'column',
-        color:'#FAFAFA',
-        fontSize: 28,
+        color:'#DDDEDE',
+        fontSize: 16,
         justifyContent: 'center',
         alignSelf:'center',
         marginBottom: 8
     },
-    dateText:{
+    amountText:{
         color:'#347EFB',
-        fontSize: 17,
+        fontSize: 36,
         justifyContent: 'center',
-        alignSelf:'center'
+        alignSelf:'center',
+        marginTop: 8
+    },
+    averageTextLayout:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 16
+    },
+    averageTitleText:{
+        fontSize: 13,
+        color: '#DDDEDE'
+    },
+    averageAmountText:{
+        fontSize: 13,
+        color: '#347EFB'
     }
 })
