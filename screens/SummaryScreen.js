@@ -23,7 +23,8 @@ export default class SummaryScreen extends Component {
       foodEntry: this.props.route.params.doc.foodEntry,
       waterEntry: this.props.route.params.doc.waterEntry,
       exerciseEntry: this.props.route.params.doc.exerciseEntry,
-      sleepEntry: this.props.route.params.doc.sleepEntry
+      sleepEntry: this.props.route.params.doc.sleepEntry,
+      moodEntry: this.props.route.params.doc.moodEntry
     }
   }
 
@@ -64,7 +65,8 @@ export default class SummaryScreen extends Component {
           foodEntry: [this.props.route.params.doc.foodEntry], 
           waterEntry: [this.props.route.params.doc.waterEntry],
           exerciseEntry: [this.props.route.params.doc.exerciseEntry],
-          sleepEntry: [this.props.route.params.doc.sleepEntry]
+          sleepEntry: [this.props.route.params.doc.sleepEntry],
+          moodEntry: this.props.route.params.doc.moodEntry
         })
         break
 
@@ -89,7 +91,8 @@ export default class SummaryScreen extends Component {
           foodEntry: weekFoodEntry,
           waterEntry: weekWaterEntry,
           exerciseEntry: weekExerciseEntry,
-          sleepEntry: weekSleepEntry
+          sleepEntry: weekSleepEntry,
+          moodEntry: null
         })
         break
 
@@ -110,7 +113,8 @@ export default class SummaryScreen extends Component {
           foodEntry: monthFoodEntry,
           waterEntry: monthWaterEntry,
           exerciseEntry: monthExerciseEntry,
-          sleepEntry: monthSleepEntry
+          sleepEntry: monthSleepEntry,
+          moodEntry: null
         })
         break
         
@@ -143,7 +147,7 @@ export default class SummaryScreen extends Component {
           <WaterWidget waterEntry={this.state.waterEntry} />
           <ActivityWidget exerciseEntry={this.state.exerciseEntry} />
           <SleepWidget sleepEntry={this.state.sleepEntry} />
-          <MoodWidget />
+          <MoodWidget moodEntry={this.state.moodEntry} />
 
         </View>
       </ScrollView>    
