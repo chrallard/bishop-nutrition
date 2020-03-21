@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
     title:{
         color:'#FAFAFA',
         fontSize: 20,
+        fontWeight: '600'
     },
     nameText:{
         flexDirection: 'column',
