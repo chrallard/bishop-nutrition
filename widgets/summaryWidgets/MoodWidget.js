@@ -62,8 +62,11 @@ export default class MoodWidget extends Component {
             return(
                 <View style={styles.container}>
                     <Text style={styles.title}>Mood</Text>
-                    <Image source={this.state.moodEmoji} />
-                    <Text style={styles.dateText}>{this.state.diary}</Text>
+
+                    <View style={styles.moodInfoLayout}>
+                        <Image source={this.state.moodEmoji} style={styles.moodIcon} />
+                        <Text style={styles.noteText}>{this.state.diary}</Text>
+                    </View>
                 </View>
             )
         }else{
@@ -85,19 +88,24 @@ const styles = StyleSheet.create({
     title:{
         color:'#FAFAFA',
         fontSize: 20,
+        fontWeight: '600'
     },
-    nameText:{
-        flexDirection: 'column',
-        color:'#FAFAFA',
-        fontSize: 28,
+    moodIcon:{
+        resizeMode: 'cover',
+        height: 66,
+        width: 66,
+        marginRight: 8
+    },
+    moodInfoLayout:{
+        flexDirection: 'row',
+        marginTop: 8
+    },
+    noteText:{
+        color:'#DDDEDE',
+        fontSize: 13,
         justifyContent: 'center',
         alignSelf:'center',
-        marginBottom: 8
-    },
-    dateText:{
-        color:'#347EFB',
-        fontSize: 17,
-        justifyContent: 'center',
-        alignSelf:'center'
+        flex: 1,
+        flexWrap: 'wrap'
     }
 })
