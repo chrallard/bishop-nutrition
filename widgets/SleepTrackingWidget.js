@@ -99,8 +99,6 @@ const SleepTrackingWidget = () => {
                         }}>
                             <Text style={styles.modalNav}>Save</Text>
                         </TouchableOpacity>
-
-
                     </View>
 
                     <View style={styles.modalContentLayout}>
@@ -116,7 +114,6 @@ const SleepTrackingWidget = () => {
                                 is24Hour={false}
                                 display="default"
                                 onChange={onChange}
-                            //style={{backgroundColor: 'white', borderRadius: 20, marginRight: 16, marginLeft: 16}}
                             />
                         </View>
 
@@ -141,6 +138,7 @@ const SleepTrackingWidget = () => {
                                 multiline={true}
                                 numberOfLines={2}
                                 autoCapitalize="none"
+                                padding={8}
                                 color="white"
                                 backgroundColor="#2C2C2E"
                                 onChangeText={(notes) => setNotes(notes)}
@@ -149,12 +147,6 @@ const SleepTrackingWidget = () => {
                     </View>
                 </View>
             </Modal>
-
-
-
-
-
-
         </View>
     );
 };
@@ -195,26 +187,6 @@ const styles = StyleSheet.create({
     widgetInfoText: {
         color: "#347EFB",
         fontSize: 47
-    },
-    emoji: {
-        height: 60,
-        width: 60
-    },
-    imageRow1: {
-        flexDirection: "row",
-        justifyContent: 'space-around',
-        marginBottom: 16
-    },
-    imageRow2: {
-        flexDirection: "row",
-        justifyContent: 'space-around',
-        marginBottom: 16
-    },
-    content: {
-        marginTop: 24,
-        marginBottom: 16,
-        color: '#DDDEDE',
-        fontSize: 17,
     },
     modalContentLayout: {
         paddingTop: 24
@@ -271,7 +243,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 8,
         marginRight: 16,
-        marginLeft: 16
+        marginLeft: 16,
+        marginBottom: 16
     }
 
 });
