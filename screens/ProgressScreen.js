@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View , FlatList, ScrollView} from 'react-native'
+import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native'
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import * as firebase from "firebase/app"
 import "firebase/firestore"
@@ -7,104 +7,104 @@ import 'firebase/auth'
 
 
 
-export default class ProgressScreen extends Component{
+export default class ProgressScreen extends Component {
 
-    constructor(props){
-      super(props)
-      this.state = {
-           weightEntry: [],
-           data:[],
-           timeStamp: [],
-           startingWeight: [],
-           selectedIndex: 0,
-           time: []
-          
-           
-      }
+    constructor(props) {
+        super(props)
+        this.state = {
+            weightEntry: [],
+            data: [],
+            timeStamp: [],
+            startingWeight: [],
+            selectedIndex: 0,
+            time: []
+
+
+        }
     }
 
-    async componentDidMount(){
-       await  this.list()
-       await this.time()
-       await this.startingWeight()
-      // await this.progress()
-       await this.handleIndexChange()
-      
+    async componentDidMount() {
+        await this.list()
+        await this.time()
+        await this.startingWeight()
+        // await this.progress()
+        await this.getTime()
+
     }
 
     handleIndexChange = async (index) => {
-        this.setState({
-          ...this.state,
-          selectedIndex: index,
-        });
+        console.log(index + " HI")
+        this.setState({ selectedIndex: index })
 
-        if(index == 1){
+
+
+    }
+
+    getTime = async () => {
+        if (index == 1) {
             let uid = await firebase.auth().currentUser.uid
-            await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp" , "desc").limit(10).get().then((doc) => {
+            await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "desc").limit(10).get().then((doc) => {
                 let time = []
                 doc.forEach((doc) => {
                     let D = new Date(doc.data().timeStamp)
-                    const Months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+                    const Months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
                     const datee = D.getDate()
                     const month = Months[D.getMonth()]
                     const year = D.getFullYear()
 
                     let obj = {
-                        time : `${month} ${datee} ${year}`
-                    } 
+                        time: `${month} ${datee} ${year}`
+                    }
                     time.push(obj)
-                    console.log(obj)
-                    this.setState({time})
+                    this.setState({ time })
                 })
             })
         }
+    }
 
-      }
-    
-
-    list = async() => {
+    list = async () => {
 
         let uid = await firebase.auth().currentUser.uid
-       
 
-         await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("weightEntry", "desc").limit(17).get().then((doc) => {
-           
+
+        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("weightEntry", "desc").limit(17).get().then((doc) => {
+
             let weightEntry = []
             doc.forEach((doc) => {
                 let obj = {
-                    weightEntry: doc.data().weightEntry  
+                    weightEntry: doc.data().weightEntry
                 }
                 weightEntry.push(obj)
-              //console.log(obj)
-            
-              this.setState({ weightEntry })
+                //console.log(obj)
+
+                this.setState({ weightEntry })
             })
-            
-          
+
+
         })
-       
-        
+
+
     }
 
-    startingWeight = async() => {
+    startingWeight = async () => {
 
         let uid = await firebase.auth().currentUser.uid
 
         let sw = await firebase.firestore().collection("userData").doc(uid).get().then((doc) => {
-             return doc.data().startingWeight
-         })
-         this.setState({startingWeight: sw})
-         
+            return doc.data().startingWeight
+        })
+        this.setState({ startingWeight: sw })
+
     }
 
     // progress = async() => {
     //     let uid = await firebase.auth().currentUser.uid
-        
+
     //      await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("weightEntry", "desc").limit(17).get().then((querySnapshot) => {
-                    
-                
+
+
     //                 let progress = []
-                  
+
     //                 querySnapshot.forEach((doc) => {
     //                     let Obj = {
     //                         progress: (doc.data().startingWeight) - ((doc.data().weightEntry))
@@ -115,117 +115,125 @@ export default class ProgressScreen extends Component{
     //                 })
 
     //         })
-            
+
     // }
 
-    time = async() => {
+    time = async () => {
 
         let uid = await firebase.auth().currentUser.uid
-        
-       await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "asc").limit(17).get().then((querySnapshot) => {
 
-           
-        let timeStamp = []
-       
+        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "asc").limit(17).get().then((querySnapshot) => {
+
+
+            let timeStamp = []
+
             querySnapshot.forEach((doc) => {
 
                 let d = new Date(doc.data().timeStamp)
-                const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
                 const date = d.getDate()
                 const Month = months[d.getMonth()]
                 const Year = d.getFullYear()
                 let obj = {
-                    timeStamp:  `${Month} ${date}, ${Year}`
+                    timeStamp: `${Month} ${date}, ${Year}`
                 }
-               
-            timeStamp.push(obj)
-            //console.log(obj)
-            this.setState({timeStamp})
+
+                timeStamp.push(obj)
+                //console.log(obj)
+                this.setState({ timeStamp })
             })
         })
 
     }
+    render() {
+        //this is how to use the segmented tabs, anything you want to display on the weight screen goes in the if (this.state.selectedIndex == 0) { return,
+        //anything you want on the progress bar goes in the  else if (this.state.selectedIndex == 1) {
 
-    renderIndex(){
-        
-        return(
+        if (this.state.selectedIndex == 0) {
+            return (
+                //this is where you build the weight screen
+                <View style={styles.container}  >
 
-            <ScrollView>
-            <View style={styles.container}>
-{/* 
-                <SegmentedControlTab
-                values={["Weight", "Measurement"]}
-                selectedIndex={this.state.selectedIndex}
-                onTabPress={this._handleIndexChange}
+                    <SegmentedControlTab
+                        values={["Weight", "Measurement"]}
+                        selectedIndex={this.state.selectedIndex}
+                        onTabPress={this.handleIndexChange}
 
-                allowFontScaling={false}
-                tabsContainerStyle={styles.tabsContainerStyleFood}
-                tabStyle={styles.tabStyleFood}
-                firstTabStyle={styles.firstTabStyleFood}
-                lastTabStyle={styles.lastTabStyleFood}
-                tabTextStyle={styles.tabTextStyleFood}
-                activeTabStyle={styles.activeTabStyleFood}
-                activeTabTextStyle={styles.activeTabTextStyleFood}
-              /> */}
-              {/* {this.handleIndexChange(this.state.time)} */}
-            
-            </View>
-            </ScrollView>
-        )
-    
-}
+                        allowFontScaling={false}
+                        tabsContainerStyle={styles.tabsContainerStyleFood}
+                        tabStyle={styles.tabStyleFood}
+                        firstTabStyle={styles.firstTabStyleFood}
+                        lastTabStyle={styles.lastTabStyleFood}
+                        tabTextStyle={styles.tabTextStyleFood}
+                        activeTabStyle={styles.activeTabStyleFood}
+                        activeTabTextStyle={styles.activeTabTextStyleFood}
+                    />
 
- 
-    render(){
-        
-        
-        return(
-           
-            <View style={styles.container}  >
 
-                <SegmentedControlTab
-                values={["Weight", "Measurement"]}
-                selectedIndex={this.state.selectedIndex}
-                onTabPress={this.handleIndexChange}
+                    <FlatList
 
-                allowFontScaling={false}
-                tabsContainerStyle={styles.tabsContainerStyleFood}
-                tabStyle={styles.tabStyleFood}
-                firstTabStyle={styles.firstTabStyleFood}
-                lastTabStyle={styles.lastTabStyleFood}
-                tabTextStyle={styles.tabTextStyleFood}
-                activeTabStyle={styles.activeTabStyleFood}
-                activeTabTextStyle={styles.activeTabTextStyleFood}
-              />
+                        data={this.state.weightEntry}
+                        keyExtractor={({ id }, index) => id}
+                        renderItem={({ item }) => <Text>{item.weightEntry}</Text>}
 
-                
-            <FlatList
-              
-                data = {this.state.weightEntry}
-                keyExtractor ={({id}, index) => id}
-                 renderItem={({item}) => <Text>{item.weightEntry}</Text> }
-                 
-                
-            />
 
-            <FlatList
-              
-              data = {this.state.timeStamp}
-              keyExtractor ={({id}, index) => id}
-               renderItem={({item}) => <Text>{item.timeStamp}</Text> }      
-            />
-            
+                    />
 
-            </View>
-          
-        )
+                    <FlatList
+
+                        data={this.state.timeStamp}
+                        keyExtractor={({ id }, index) => id}
+                        renderItem={({ item }) => <Text>{item.timeStamp}</Text>}
+                    />
+
+
+                </View>
+
+            )
+
+        }
+        else if (this.state.selectedIndex == 1) {
+            return (
+                //this is where you build the measurements screen
+                <View style={styles.container}  >
+
+                    <SegmentedControlTab
+                        values={["Weight", "Measurement"]}
+                        selectedIndex={this.state.selectedIndex}
+                        onTabPress={this.handleIndexChange}
+
+                        allowFontScaling={false}
+                        tabsContainerStyle={styles.tabsContainerStyleFood}
+                        tabStyle={styles.tabStyleFood}
+                        firstTabStyle={styles.firstTabStyleFood}
+                        lastTabStyle={styles.lastTabStyleFood}
+                        tabTextStyle={styles.tabTextStyleFood}
+                        activeTabStyle={styles.activeTabStyleFood}
+                        activeTabTextStyle={styles.activeTabTextStyleFood}
+                    />
+
+                    <Text>THIS IS THE MEASUREMENTS SCREEN</Text>
+
+                </View>
+
+            )
+        }
+        else {
+            return (
+                <View>
+                    <Text>Error</Text>
+                </View>
+            )
+        }
+
+
     }
 
 
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         backgroundColor: '#fff',
         alignItems: 'flex-start',
         paddingTop: 10,
