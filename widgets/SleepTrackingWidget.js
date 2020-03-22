@@ -42,6 +42,7 @@ const SleepTrackingWidget = () => {
     const compareTime = () => { //THIS WILL BE USED TO PASS DATA TO THE DB
         let d1 = Date.parse(date)
         let d2 = Date.parse(date2)
+        console.log(d1 + " " + d2)
         let duration = d2 - d1
 
         console.log(msToTime(duration))
@@ -102,49 +103,49 @@ const SleepTrackingWidget = () => {
 
                     </View>
 
-                    <View style={styles.modalContentLayout}>    
+                    <View style={styles.modalContentLayout}>
 
-                    <Text style={styles.datePickerTitles}>Sleep Start:</Text>
+                        <Text style={styles.datePickerTitles}>Sleep Start:</Text>
 
-                    <View style={styles.datepickerStyle}>
-                    <DateTimePicker
-                        testID="dateTimePicker"
-                        timeZoneOffsetInMinutes={0}
-                        value={date}
-                        mode={"datetime"}
-                        is24Hour={false}
-                        display="default"
-                        onChange={onChange}
-                        //style={{backgroundColor: 'white', borderRadius: 20, marginRight: 16, marginLeft: 16}}
-                    />
-                    </View>
+                        <View style={styles.datepickerStyle}>
+                            <DateTimePicker
+                                testID="dateTimePicker"
+                                timeZoneOffsetInMinutes={0}
+                                value={date}
+                                mode={"time"}
+                                is24Hour={false}
+                                display="default"
+                                onChange={onChange}
+                            //style={{backgroundColor: 'white', borderRadius: 20, marginRight: 16, marginLeft: 16}}
+                            />
+                        </View>
 
-                    <Text style={styles.datePickerTitles}>Sleep End:</Text>
+                        <Text style={styles.datePickerTitles}>Sleep End:</Text>
 
-                    <View style={styles.datepickerStyle}>
-                    <DateTimePicker
-                        testID="dateTimePicker"
-                        timeZoneOffsetInMinutes={0}
-                        value={date2}
-                        mode={"datetime"}
-                        is24Hour={false}
-                        display="default"
-                        onChange={onChange2}
-                    />
-                    </View>
+                        <View style={styles.datepickerStyle}>
+                            <DateTimePicker
+                                testID="dateTimePicker"
+                                timeZoneOffsetInMinutes={0}
+                                value={date2}
+                                mode={"time"}
+                                is24Hour={false}
+                                display="default"
+                                onChange={onChange2}
+                            />
+                        </View>
 
-                    <View style={styles.notesInputLayout}>
-                        <Text style={styles.noteTitle}>Notes:</Text>
-                        <TextInput style={styles.modalInput}
-                            underlineColorAndroid="transparent"
-                            multiline={true}
-                            numberOfLines={2}
-                            autoCapitalize="none"
-                            color="white"
-                            backgroundColor="#2C2C2E"
-                            onChangeText={(notes) => setNotes(notes)}
-                            value={notes} />
-                    </View>
+                        <View style={styles.notesInputLayout}>
+                            <Text style={styles.noteTitle}>Notes:</Text>
+                            <TextInput style={styles.modalInput}
+                                underlineColorAndroid="transparent"
+                                multiline={true}
+                                numberOfLines={2}
+                                autoCapitalize="none"
+                                color="white"
+                                backgroundColor="#2C2C2E"
+                                onChangeText={(notes) => setNotes(notes)}
+                                value={notes} />
+                        </View>
                     </View>
                 </View>
             </Modal>
@@ -249,27 +250,27 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: '#347EFB',
     },
-    datePickerTitles:{
+    datePickerTitles: {
         color: '#DDDEDE',
         fontSize: 16,
         marginLeft: 16,
         marginTop: 8,
         marginBottom: 8,
     },
-    notesInputLayout:{
+    notesInputLayout: {
         marginLeft: 16,
         marginRight: 16,
     },
-    noteTitle:{
+    noteTitle: {
         color: '#DDDEDE',
         fontSize: 16,
         marginTop: 8,
         marginBottom: 8
     },
-    datepickerStyle:{
-        backgroundColor: 'white', 
-        borderRadius: 8, 
-        marginRight: 16, 
+    datepickerStyle: {
+        backgroundColor: 'white',
+        borderRadius: 8,
+        marginRight: 16,
         marginLeft: 16
     }
 
