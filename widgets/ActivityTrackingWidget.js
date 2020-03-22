@@ -19,6 +19,7 @@ export default class ActivityTrackingWidget extends Component {
             radio_props: [
                 { label: `Cardio`, value: "Cardio" },
                 { label: `Strength Training`, value: "Strength Trainging" },
+                { label: `Yoga`, value: "Yoga"},
                 { label: `Other`, value: "Other" }
             ]
 
@@ -44,9 +45,12 @@ export default class ActivityTrackingWidget extends Component {
                 this.setState({ value3Index: 1 })
 
                 break;
+            case "Yoga":
+                this.setState({value3Index:2})
+                break;
 
             case "Other":
-                this.setState({ value3Index: 2 })
+                this.setState({ value3Index: 3 })
 
                 break;
 
@@ -175,7 +179,7 @@ export default class ActivityTrackingWidget extends Component {
                                             isSelected={this.state.value3Index === i}
                                             onPress={() => this._radioButtonFunction(obj)}
                                             borderWidth={15}
-                                            buttonInnerColor={'#347EFB'}
+                                            buttonInnerColor={'#6EFACC'}
                                             buttonOuterColor={this.state.value3Index === i ? '#347EFB' : '#DDDEDE'}
                                         />
                                         <RadioButtonLabel
@@ -205,6 +209,7 @@ export default class ActivityTrackingWidget extends Component {
                                 multiline={true}
                                 numberOfLines={4}
                                 placeholderTextColor='#B7B7B7'
+                                padding= {8}
                                 autoCapitalize="none"
                                 onChangeText={(text) => this.setState({ Text: text })}
                                 value={this.state.Text} />
@@ -277,7 +282,8 @@ const styles = StyleSheet.create({
     modalNoteInput: {
         height: 200,
         backgroundColor: '#2C2C2E',
-        borderRadius: 8
+        borderRadius: 8,
+        color: '#DDDEDE'
     },
     modalInput: {
         height: 26,
