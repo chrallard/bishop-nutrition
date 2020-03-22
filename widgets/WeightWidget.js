@@ -49,16 +49,8 @@ export default class WelcomeWidget extends Component{
            
                 <Text style={styles.titleText}>Weight</Text>
 
-             <Text>{this.state.startingWeight} ------- {this.state.subtract} ----------{this.state.weightEntry}</Text>
-             {/* <Text style={styles.difference}>{this.state.subtract}</Text>
-             <Text style={styles.weight}>{this.state.weightEntry}</Text>
-            */}
-
                 <View style={styles.textRow}>
-                    {/* <Text style={styles.startingText}>{this.state.startingWeight} -------{this.state.subtract}----------{this.state.weightEntry}</Text> */}
-                    {/* <Text style={styles.difference}>{this.state.subtract}</Text>
-                    <Text style={styles.weight}>{this.state.weightEntry}</Text>
-                    */}
+
                     <View style={styles.itemBox}>
                         <Text style={styles.startingText}>{this.state.startingWeight}</Text>
                         <Text style={styles.bodyTextStart}>Starting</Text>
@@ -101,6 +93,7 @@ const styles = StyleSheet.create({
     titleText:{
       color:'#FAFAFA',
       fontSize: 20,
+      marginBottom: 16
     },
     textRow:{
         flexDirection: 'row',
