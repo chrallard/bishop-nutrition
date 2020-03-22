@@ -180,7 +180,7 @@ export default class ActivityTrackingWidget extends Component {
                                             onPress={() => this._radioButtonFunction(obj)}
                                             borderWidth={15}
                                             buttonInnerColor={'#6EFACC'}
-                                            buttonOuterColor={this.state.value3Index === i ? '#347EFB' : '#DDDEDE'}
+                                            buttonOuterColor={this.state.value3Index === i ? '#6EFACC' : '#DDDEDE'}
                                         />
                                         <RadioButtonLabel
                                             obj={obj}
