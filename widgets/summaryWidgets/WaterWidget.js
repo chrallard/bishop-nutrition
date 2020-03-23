@@ -53,27 +53,27 @@ export default class WaterWidget extends Component {
         this.setState({ maxWater })
     }
 
-    buildUpdateWaterProg = () => {
+    setPercentage=()=>{
+        let percentage = (this.state.usersWater / this.state.maxWater) * 100
+
+        this.setState({
+            percentage: percentage
+        })
+    }
+
+    buildUpdateWaterProg = async () => {
         let newUsersWater = 0
 
         this.props.waterEntry.forEach((item) => {
             newUsersWater += item.portions
         })
 
-        this.setState({ 
+        await this.setState({ 
             usersWater: newUsersWater,
             maxWater: this.state.planData.water.maxPortions * this.props.waterEntry.length
         })
 
-    }
-    setPercentage=()=>{
-        let percentage = (this.state.usersWater / this.state.maxWater) * 100
-
-          console.log(percentage);
-
-          this.setState({
-            percentage: percentage
-          });
+        this.setPercentage()
     }
 
     render(){
@@ -82,22 +82,15 @@ export default class WaterWidget extends Component {
         return(
             <View style={styles.container}>
                  <View style={{flexDirection:'row'}}>
-         <Text  style={{color:'#ffffff'}}>Water</Text>
-         <TouchableOpacity >
-         <Text style={styles.descriptionContainerVer2}>Edit</Text>
-         </TouchableOpacity>
-         </View>
-         <View style={{flexDirection:'row',paddingTop:10}}>
-                <ProgressBarAnimated
-
-            width={barWidth}
-            value={this.state.percentage}
-            backgroundColorOnComplete="#6CC644"
-
-          />
-       
-       <Text style={styles.dateText}>{this.state.usersWater} of {this.state.maxWater} cups</Text>
-           </View>
+                    <Text  style={styles.title}>Water</Text>
+                </View>
+                <View style={{flexDirection:'row',paddingTop:10}}>
+                    <ProgressBarAnimated
+                    width={barWidth}
+                    value={this.state.percentage}
+                    backgroundColorOnComplete="#6CC644" />
+                    <Text style={styles.dateText}>{this.state.usersWater} of {this.state.maxWater} cups</Text>
+                </View>
             </View>
         )
     }
