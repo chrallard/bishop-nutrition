@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button, FlatList, Item } from 'react-native'
+import { StyleSheet, Text, View, Button, FlatList, Item, TouchableOpacity, Image} from 'react-native'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
@@ -108,10 +108,12 @@ export default class FoodTrackingWidget extends Component {
 
         selectedFood.userPortions += 1
         newFoodTrackingList.splice(Number(selectedFood.index), 1, selectedFood) //index is the same in selectedFood as well as in the FlatList. it indicates which food group to update
-        this.setState({foodTrackingList: newFoodTrackingList})
+        await this.setState({foodTrackingList: newFoodTrackingList})
+
+        this.updateDb()
     }
 
-    pushTest = async () => {
+    updateDb = async () => {
         let foodEntry = {}
 
         this.state.foodTrackingList.forEach((item) => {
@@ -140,14 +142,27 @@ export default class FoodTrackingWidget extends Component {
                     <View style={styles.itemList}>
                       <Text style={styles.itemText}>{item.name}</Text>
                       <Text style={styles.counterText}>{item.userPortions}/{item.maxPortions}</Text>
-                      <Button style={styles.addButton} title="Add" onPress={() => {this.incrementPortion(item.name)}} />
+                      {/* <Button style={styles.addButton} title="Add" onPress={() => {this.incrementPortion(item.name)}} /> */}
+                      <TouchableOpacity onPress={() => {this.incrementPortion(item.name)}}>
+                        <Image
+                        style={styles.icon}
+                        source={require('../assets/add_Circle.png')}
+                        />
+                      </TouchableOpacity>
+                      
                     </View>
                     )} />
-                <Button title="push test" onPress={this.pushTest} />
             </View>
       )
     }
   }
+
+{/* <TouchableOpacity onPress={() => this._addPortion(item.category)}>
+            <Image
+                style={styles.icon}
+                source={require('../assets/add_Circle.png')}
+            />
+</TouchableOpacity> */}
   
   const styles = StyleSheet.create({
     container:{
@@ -168,7 +183,7 @@ export default class FoodTrackingWidget extends Component {
     itemList:{
         flexDirection:'row',
         justifyContent: 'space-between',
-        //height: 40,
+        height: 40,
         marginBottom:8
     },
     itemText:{
@@ -186,16 +201,10 @@ export default class FoodTrackingWidget extends Component {
     },
     addButton:{
         flex:1,
-    }
-    
-    // cupRow:{
-    //     flexDirection: 'row',
-    //     justifyContent: 'space-between'
-    //   },
-    //   image: {
-    //         height: 45,
-    //         width: 40,
-    //         resizeMode: 'cover',     
-    //         alignItems: 'stretch'    
-    //     }
+    },
+    icon: {
+        height: 30,
+        width: 30,
+        marginRight: 16
+      },
   })
