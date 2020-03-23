@@ -194,11 +194,6 @@ export default class ActivityTrackingWidget extends Component {
                                 ))
                             }
                         </RadioForm>
-
-
-
-
-
                         <View>
                             <Text style={styles.notesLabel}>Notes:</Text>
                         </View>
