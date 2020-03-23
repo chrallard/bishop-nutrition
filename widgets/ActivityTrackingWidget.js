@@ -14,12 +14,15 @@ export default class ActivityTrackingWidget extends Component {
         super(props)
         this.state = {
             showMe: false,
-            value: 0,
+            value: -1,
             value3Index: 0,
+            Title: "",
+            Duration: "",
+            Notes: "",
             radio_props: [
                 { label: `Cardio`, value: "Cardio" },
                 { label: `Strength Training`, value: "Strength Trainging" },
-                { label: `Yoga`, value: "Yoga"},
+                { label: `Yoga`, value: "Yoga" },
                 { label: `Other`, value: "Other" }
             ]
 
@@ -35,7 +38,6 @@ export default class ActivityTrackingWidget extends Component {
         this.refs.addModal.showModal();
     }
     _radioButtonFunction = obj => {
-        console.log(obj.label)
 
         switch (obj.label) {
             case "Cardio":
@@ -46,7 +48,7 @@ export default class ActivityTrackingWidget extends Component {
 
                 break;
             case "Yoga":
-                this.setState({value3Index:2})
+                this.setState({ value3Index: 2 })
                 break;
 
             case "Other":
@@ -74,20 +76,20 @@ export default class ActivityTrackingWidget extends Component {
                         <Text style={styles.widgetTitle}>Activity</Text>
                     </View>
 
-                <View style={styles.widgetContent}>
-                    <View style={styles.widgetTextLayout}>
-                        <Text style={styles.widgetInfoText}>3862</Text>
-                        <Text style={styles.widgetSubTitle}>Steps</Text>
+                    <View style={styles.widgetContent}>
+                        <View style={styles.widgetTextLayout}>
+                            <Text style={styles.widgetInfoText}>3862</Text>
+                            <Text style={styles.widgetSubTitle}>Steps</Text>
+                        </View>
+                        <View style={styles.widgetTextLayout}>
+                            <Text style={styles.widgetInfoText}>1 hr 35min</Text>
+                            <Text style={styles.widgetSubTitle}>Cardio</Text>
+                        </View>
+                        <View style={styles.widgetTextLayout}>
+                            <Text style={styles.widgetInfoText}>0 min</Text>
+                            <Text style={styles.widgetSubTitle}>Strength</Text>
+                        </View>
                     </View>
-                    <View style={styles.widgetTextLayout}>
-                        <Text style={styles.widgetInfoText}>1 hr 35min</Text>
-                        <Text style={styles.widgetSubTitle}>Cardio</Text>
-                    </View>
-                    <View style={styles.widgetTextLayout}>
-                        <Text style={styles.widgetInfoText}>0 min</Text>
-                        <Text style={styles.widgetSubTitle}>Strength</Text>
-                    </View>
-                </View>
 
 
                 </TouchableOpacity>
@@ -115,6 +117,32 @@ export default class ActivityTrackingWidget extends Component {
                                 this.setState({
                                     showMe: false
                                 })
+                                console.log(this.state.Title + "\n")
+                                console.log(this.state.Duration + "\n")
+
+                                switch (this.state.value3Index) {
+                                    case 0:
+                                        console.log("Cardio \n")
+                                        break;
+                                    case 1:
+                                        console.log("Strength Trainging \n")
+
+                                        break;
+                                    case 2:
+                                        console.log("Yoga \n")
+
+                                        break;
+                                    case 3:
+                                        console.log("Other \n")
+
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                                console.log(this.state.Notes + "\n")
+
+
                             }}>
                                 <Text style={styles.modalNav}>Save</Text>
                             </TouchableOpacity>
@@ -124,91 +152,99 @@ export default class ActivityTrackingWidget extends Component {
 
 
                         <View style={styles.modalContentLayout}>
-                        <View>
-                            <TextInput style={styles.modalInput}
-                                underlineColorAndroid="transparent"
-                                multiline={false}
-                                numberOfLines={1}
-                                placeholder="Title"
-                                placeholderTextColor='#DDDEDE'
-                                autoCapitalize="none"
-                                fontWeight='600'
-                                onChangeText={(text) => this.setState({ Title: text })}
-                                value={this.state.Text} />
-                        </View>
-                        <View>
-                            <TextInput style={styles.modalInput}
-                                underlineColorAndroid="transparent"
-                                multiline={false}
-                                numberOfLines={1}
-                                placeholder="Duration"
-                                placeholderTextColor='#DDDEDE'
-                                fontWeight='600'
-                                autoCapitalize="none"
-                                onChangeText={(text) => this.setState({ Duration: text })}
-                                value={this.state.Text} />
-                        </View>
-                        
-                        <Text style={styles.typeLabel}>Type:</Text>
-                        
+                            <View>
+                                <TextInput style={styles.modalInput}
+                                    underlineColorAndroid="transparent"
+                                    multiline={false}
+                                    numberOfLines={1}
+                                    placeholder="Title"
+                                    placeholderTextColor='#DDDEDE'
+                                    autoCapitalize="none"
+                                    fontWeight='600'
+                                    onChangeText={(text) => this.setState({ Title: text })}
+                                    value={this.state.Text} />
+                            </View>
+                            <View>
+                                <TextInput style={styles.modalInput}
+                                    underlineColorAndroid="transparent"
+                                    multiline={false}
+                                    numberOfLines={1}
+                                    placeholder="Duration"
+                                    placeholderTextColor='#DDDEDE'
+                                    fontWeight='600'
+                                    autoCapitalize="none"
+                                    onChangeText={(text) => this.setState({ Duration: text })}
+                                    value={this.state.Text} />
+                            </View>
 
-                        {/* <RadioForm 
-                        radio_props={this.state.radio_props}
-                        initial={0}
-                        labelStyle={{ color: "#fff" }}
-
-                        onPress={(value) => { this.setState({ value: value }) }}
-                        >
+                            <Text style={styles.typeLabel}>Type:</Text>
 
 
-                        
-                        </RadioForm> */}
 
-                        <RadioForm
-                            formHorizontal={false}
-                            animation={true}
-                        >
-                            {/* To create radio buttons, loop through your array of options */}
-                            {
-                                this.state.radio_props.map((obj, i) => (
-                                    <RadioButton labelHorizontal={true} key={i} >
-                                        {/*  You can set RadioButtonLabel before RadioButtonInput */}
-                                        <RadioButtonInput
-                                            obj={obj}
-                                            index={i}
-                                            isSelected={this.state.value3Index === i}
-                                            onPress={() => this._radioButtonFunction(obj)}
-                                            borderWidth={15}
-                                            buttonInnerColor={'#6EFACC'}
-                                            buttonOuterColor={this.state.value3Index === i ? '#6EFACC' : '#DDDEDE'}
-                                        />
-                                        <RadioButtonLabel
-                                            obj={obj}
-                                            index={i}
-                                            labelHorizontal={true}
-                                            onPress={(value) => { this.setState({ value: value }) }}
-                                            labelStyle={styles.typeOptionLabel}
-                                            labelWrapStyle={{}}
-                                        />
-                                    </RadioButton>
-                                ))
-                            }
-                        </RadioForm>
-                        <View>
-                            <Text style={styles.notesLabel}>Notes:</Text>
-                        </View>
 
-                        <View>
-                            <TextInput style={styles.modalNoteInput}
-                                underlineColorAndroid="transparent"
-                                multiline={true}
-                                numberOfLines={4}
-                                placeholderTextColor='#B7B7B7'
-                                padding= {8}
-                                autoCapitalize="none"
-                                onChangeText={(text) => this.setState({ Text: text })}
-                                value={this.state.Text} />
-                        </View>
+                            <RadioForm
+                                formHorizontal={false}
+                                animation={true}
+                            >
+                                {
+                                    this.state.radio_props.map((obj, i) => (
+                                        <RadioButton labelHorizontal={true} key={i} >
+                                            <RadioButtonInput
+                                                obj={obj}
+                                                index={i}
+                                                isSelected={this.state.value3Index === i}
+                                                onPress={() => this._radioButtonFunction(obj)}
+                                                borderWidth={15}
+                                                buttonInnerColor={'#6EFACC'}
+                                                buttonOuterColor={this.state.value3Index === i ? '#6EFACC' : '#DDDEDE'}
+                                            />
+                                            {obj.label == "Cardio" ? (
+                                                <Image style={{ height: 30, width: 30 }}
+
+                                                    source={require('../assets/cardio_Icon.png')}
+                                                />
+                                            ) : obj.label == "Strength Training" ? (
+                                                <Image style={{ height: 30, width: 30 }}
+
+                                                    source={require('../assets/strength_Icon.png')}
+                                                />
+                                            ) : obj.label == "Yoga" ? (
+                                                <Image style={{ height: 30, width: 30 }}
+                                                    source={require('../assets/yoga.png')}
+                                                />
+                                            ) : (
+                                                            <Image style={{ height: 30, width: 30 }}
+                                                                source={require('../assets/other_Icon.png')}
+                                                            />
+                                                        )
+                                            }
+                                            <RadioButtonLabel
+                                                obj={obj}
+                                                index={i}
+                                                labelHorizontal={true}
+                                                onPress={(value) => { this.setState({ value: value }) }}
+                                                labelStyle={styles.typeOptionLabel}
+                                                labelWrapStyle={{}}
+                                            />
+                                        </RadioButton>
+                                    ))
+                                }
+                            </RadioForm>
+                            <View>
+                                <Text style={styles.notesLabel}>Notes:</Text>
+                            </View>
+
+                            <View>
+                                <TextInput style={styles.modalNoteInput}
+                                    underlineColorAndroid="transparent"
+                                    multiline={true}
+                                    numberOfLines={4}
+                                    placeholderTextColor='#B7B7B7'
+                                    padding={8}
+                                    autoCapitalize="none"
+                                    onChangeText={(text) => this.setState({ Notes: text })}
+                                    value={this.state.Text} />
+                            </View>
                         </View>
                     </View>
                 </Modal>
