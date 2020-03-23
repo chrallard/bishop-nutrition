@@ -14,18 +14,69 @@ export default class MoodTrackingWidget extends Component {
         super(props)
         this.state = {
             showMe: false,
-            selectedMood: ""
+            selectedMood: "",
+            moodValue: 0,
+            docId: ""
 
         }
         this.addModal = this.addModal.bind(this);
     }
 
-    componentDidMount() {
-
+    async componentDidMount() {
+        await this.setUid()
+        await this.setTodaysDocId()
     }
 
     addModal = () => {
         this.refs.addModal.showModal();
+    }
+
+    setUid = async() => {
+        let uid = await firebase.auth().currentUser.uid
+        this.setState({ uid })
+    }
+
+    setTodaysDocId = async () => {
+        //get todays date - format
+        let d = new Date()
+        let today = this.formatDate(d)
+        let formatDate = (d) => { //can't access this function inside the forEach for some reason
+            return this.formatDate(d)
+        }
+        let docId
+  
+        //loop through user data and get the dates to format
+        await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").orderBy("timeStamp", "desc").limit(15).get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                let formattedDate = formatDate(new Date(doc.data().timeStamp))
+  
+                if(formattedDate == today){ //selecting today's healthTracking document ID
+                    docId = doc.id
+                }  
+            })
+        })
+  
+        this.setState({ docId })
+    }
+
+    formatDate = (d) => {
+        const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+        const date = d.getDate()
+        const month = months[d.getMonth()]
+        const year = d.getFullYear()
+        const formattedDate = date + month + year //looks like this: 4March2020
+      
+        return formattedDate
+    }
+
+    updateDb = async () => {
+        await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").doc(this.state.docId)
+        .set({
+            moodEntry: {
+                diary: this.state.diary,
+                mood: this.state.moodValue
+            }}, 
+        {merge: true})
     }
 
     render() {
@@ -64,14 +115,8 @@ export default class MoodTrackingWidget extends Component {
                 <Modal visible={this.state.showMe} animationType={'slide'}>
 
                     <View style={styles.modalStyle}>
-
                         <View style={styles.modalHeader}>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    this.setState({
-                                        showMe: false
-                                    })
-                                }}>
+                            <TouchableOpacity onPress={() => {this.setState({ showMe: false })}}>
                                 <Text style={styles.modalNav}>Back</Text>
                             </TouchableOpacity>
 
@@ -82,14 +127,14 @@ export default class MoodTrackingWidget extends Component {
                                     this.setState({ showMe: false })
                                     console.log("Today I felt: " + this.state.selectedMood + "\n")
                                     console.log("My Diary: " + this.state.diary)
+                                    this.updateDb()
                                     //this onpress will be what pushs to the db
                                 }}>
                                 <Text style={styles.modalNav}>Save</Text>
                             </TouchableOpacity>
 
-
-
                             <View style={styles.modalSeprateLine} />
+
                         </View>
                         <View>
                             <Text style={styles.content}>How is Your Mood Today:</Text>
@@ -98,7 +143,10 @@ export default class MoodTrackingWidget extends Component {
 
                         <View style={styles.imageRow1}>
                         <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Really Happy" })
+                                this.setState({ 
+                                    selectedMood: "Really Happy",
+                                    moodValue: 6
+                                })
                             }}>
                                 {((this.state.selectedMood == "Really Happy")  || (this.state.selectedMood == "")) ? (
                                     <Image source={require('../Images/smile_6.png')} style={styles.emojiSelect} />
@@ -108,7 +156,10 @@ export default class MoodTrackingWidget extends Component {
                                     )}
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Happy" })
+                                this.setState({ 
+                                    selectedMood: "Happy",
+                                    moodValue: 5
+                                })
                             }}>
                                 {(this.state.selectedMood == "Happy") ? (
                                     <Image source={require('../Images/smile_5.png')} style={styles.emojiSelect} />
@@ -118,7 +169,10 @@ export default class MoodTrackingWidget extends Component {
                                     )}
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Neutral" })
+                                this.setState({ 
+                                    selectedMood: "Neutral",
+                                    moodValue: 4
+                                })
                             }}>
                                 {(this.state.selectedMood == "Neutral") ? (
                                     <Image source={require('../Images/smile_4.png')} style={styles.emojiSelect} />
@@ -132,7 +186,10 @@ export default class MoodTrackingWidget extends Component {
                         <View style={styles.imageRow2}>
 
                         <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Hungry" })
+                                this.setState({ 
+                                    selectedMood: "Hungry",
+                                    moodValue: 3
+                                })
                             }}>
                                 {(this.state.selectedMood == "Hungry") ? (
                                     <Image source={require('../Images/smile_3.png')} style={styles.emojiSelect} />
@@ -142,7 +199,10 @@ export default class MoodTrackingWidget extends Component {
                                     )}
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Sad" })
+                                this.setState({ 
+                                    selectedMood: "Sad",
+                                    moodValue: 2
+                                })
                             }}>
                                 {(this.state.selectedMood == "Sad") ? (
                                     <Image source={require('../Images/smile_2.png')} style={styles.emojiSelect} />
@@ -152,7 +212,10 @@ export default class MoodTrackingWidget extends Component {
                                     )}
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => {
-                                this.setState({ selectedMood: "Sick" })
+                                this.setState({ 
+                                    selectedMood: "Sick",
+                                    moodValue: 1
+                                })
                             }}>
                                 {(this.state.selectedMood == "Sick") ? (
                                     <Image source={require('../Images/smile_1.png')} style={styles.emojiSelect} />
