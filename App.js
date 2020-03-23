@@ -1,6 +1,7 @@
 //////////////////////////////////// firebase
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/firestore'
 import {decode, encode} from 'base-64'
 if (!global.btoa) {  global.btoa = encode }
 if (!global.atob) { global.atob = decode }
@@ -37,26 +38,80 @@ if (!firebase.apps.length) {
 ////////////////////////////////////
 
 const Tab = createBottomTabNavigator()
-
+const HomeStack = createStackNavigator()
+const FoodStack = createStackNavigator()
+const ActivitiesStack = createStackNavigator()
+const ProgressStack = createStackNavigator()
+const ProfileStack = createStackNavigator()
 const LoginStack = createStackNavigator()
-const ProfileStack = createStackNavigator();
 
-function LoginStackScreen() {
-  return (
-    <LoginStack.Navigator>
-      <LoginStack.Screen name="Login" component={LoginScreen} />
-      <LoginStack.Screen name="Forgot Password" component={ForgotPasswordScreen} />
-    </LoginStack.Navigator>
-  );
+function HomeStackScreen() {
+  return(
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Dashboard" component={HomeScreen} options={{
+        title: "JEFF/CONOR - STYLE"
+      }} />
+    </HomeStack.Navigator>
+  )
+}
+
+function FoodStackScreen() {
+  return(
+    <FoodStack.Navigator>
+      <FoodStack.Screen name="Food List" component={FoodScreen} options={{
+        title: "JEFF/CONOR - STYLE"
+      }} />
+    </FoodStack.Navigator>
+  )
+}
+
+function ActivitiesStackScreen() {
+  return(
+    <ActivitiesStack.Navigator>
+      <ActivitiesStack.Screen name="Activities" component={ActivitiesScreen} options={{
+        title: "JEFF/CONOR - STYLE"
+      }} />
+    </ActivitiesStack.Navigator>
+  )
+}
+
+function ProgressStackScreen() {
+  return(
+    <ProgressStack.Navigator>
+      <ProgressStack.Screen name="Progress" component={ProgressScreen} options={{
+        title: "JEFF/CONOR - STYLE"
+      }} />
+    </ProgressStack.Navigator>
+  )
 }
 
 function ProfileStackScreen() {
   return (
     <ProfileStack.Navigator>
-      <ProfileStack.Screen name="Profile" component={ProfileScreen} />
-      <ProfileStack.Screen name="Update Password" component={UpdatePasswordScreen} />
+      <ProfileStack.Screen name="Profile" component={ProfileScreen} options={{
+        title: "JEFF/CONOR - STYLE"
+      }} />
+      <ProfileStack.Screen name="Update Password" component={UpdatePasswordScreen} options={{
+        title: "JEFF/CONOR - STYLE"
+      }} />
     </ProfileStack.Navigator>
-  );
+  )
+}
+
+function LoginStackScreen() {
+  return (
+    <LoginStack.Navigator>
+      <LoginStack.Screen name="Login" component={LoginScreen} options={{
+        title: "",
+        headerStyle: {
+          backgroundColor: '#000',
+          shadowColor: 'transparent',
+          borderBottomWidth: 0
+        }
+      }}/>
+      <LoginStack.Screen name="Forgot Password" component={ForgotPasswordScreen} />
+    </LoginStack.Navigator>
+  )
 }
 
 export default function App() {
@@ -70,11 +125,17 @@ export default function App() {
   return (
     <NavigationContainer>
       {isLoggedIn ? (
-        <Tab.Navigator>
+        <Tab.Navigator 
+        tabBarOptions={{
+          activeTintColor: '#347EFB',
+          inactiveTintColor: '#DDDEDE',
+          inactiveBackgroundColor: '#000',
+          activeBackgroundColor: '#000'
+        }}>
           
           <Tab.Screen 
           name="Home" 
-          component={HomeScreen}
+          component={HomeStackScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color={color} size={size} />
@@ -83,7 +144,7 @@ export default function App() {
 
           <Tab.Screen 
           name="Food" 
-          component={FoodScreen}
+          component={FoodStackScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
@@ -92,7 +153,7 @@ export default function App() {
 
           <Tab.Screen 
           name="Activities" 
-          component={ActivitiesScreen}
+          component={ActivitiesStackScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="run" color={color} size={size} />
@@ -101,7 +162,7 @@ export default function App() {
 
           <Tab.Screen 
           name="Progress" 
-          component={ProgressScreen}
+          component={ProgressStackScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="chart-line" color={color} size={size} />
@@ -109,7 +170,7 @@ export default function App() {
           }} />
 
           <Tab.Screen 
-          name="Profile" 
+          name="Profile"
           component={ProfileStackScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
