@@ -160,13 +160,13 @@ export default class ProgressScreen extends Component {
                         onTabPress={this.handleIndexChange}
 
                         allowFontScaling={false}
-                        tabsContainerStyle={styles.tabsContainerStyleFood}
-                        tabStyle={styles.tabStyleFood}
-                        firstTabStyle={styles.firstTabStyleFood}
-                        lastTabStyle={styles.lastTabStyleFood}
-                        tabTextStyle={styles.tabTextStyleFood}
-                        activeTabStyle={styles.activeTabStyleFood}
-                        activeTabTextStyle={styles.activeTabTextStyleFood}
+                        tabsContainerStyle={segmented.tabsContainerStyle}
+                        tabStyle={segmented.tabStyle}
+                        firstTabStyle={segmented.firstTabStyle}
+                        lastTabStyle={segmented.lastTabStyle}
+                        tabTextStyle={segmented.tabTextStyle}
+                        activeTabStyle={segmented.activeTabStyle}
+                        activeTabTextStyle={segmented.activeTabTextStyle}
                     />
 
 
@@ -203,13 +203,13 @@ export default class ProgressScreen extends Component {
                         onTabPress={this.handleIndexChange}
 
                         allowFontScaling={false}
-                        tabsContainerStyle={styles.tabsContainerStyleFood}
-                        tabStyle={styles.tabStyleFood}
-                        firstTabStyle={styles.firstTabStyleFood}
-                        lastTabStyle={styles.lastTabStyleFood}
-                        tabTextStyle={styles.tabTextStyleFood}
-                        activeTabStyle={styles.activeTabStyleFood}
-                        activeTabTextStyle={styles.activeTabTextStyleFood}
+                        tabsContainerStyle={segmented.tabsContainerStyle}
+                        tabStyle={segmented.tabStyle}
+                        firstTabStyle={segmented.firstTabStyle}
+                        lastTabStyle={segmented.lastTabStyle}
+                        tabTextStyle={segmented.tabTextStyle}
+                        activeTabStyle={segmented.activeTabStyle}
+                        activeTabTextStyle={segmented.activeTabTextStyle}
                     />
 
                     <Text>THIS IS THE MEASUREMENTS SCREEN</Text>
@@ -241,5 +241,31 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         marginBottom: 20,
         marginTop: 20
-    }
+    },
+
+
+})
+
+
+//Segmented controls DONE******
+const segmented = StyleSheet.create({
+    tabsContainerStyle: {
+        width: 250,
+        alignSelf: 'center',
+        marginTop: 16,
+        marginBottom: 16,
+      },
+      tabStyle: {
+        borderColor: '#636366',
+        backgroundColor: '#1C1C1E'
+      },
+      tabTextStyle: {
+        color: '#DDDEDE'
+      },
+      activeTabStyle: {
+        backgroundColor: '#636366',
+      },
+      activeTabTextStyle: {
+        color: '#DDDEDE'
+      }
 })
