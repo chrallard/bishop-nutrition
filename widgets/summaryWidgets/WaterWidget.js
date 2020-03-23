@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, YellowBox } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, YellowBox,Dimensions } from 'react-native'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
+import ProgressBarAnimated from 'react-native-progress-bar-animated';
 
 export default class WaterWidget extends Component {
 
@@ -12,7 +13,8 @@ export default class WaterWidget extends Component {
             usersPlan: "",
             planData: {},
             usersWater: this.props.waterEntry.portions,
-            maxWater: 0
+            maxWater: 0,
+            percentage:0
         }
     }
 
@@ -21,6 +23,7 @@ export default class WaterWidget extends Component {
         await this.setUsersPlan()
         await this.setPlanData()
         await this.setMaxWater()
+        await this.setPercentage()
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -61,13 +64,40 @@ export default class WaterWidget extends Component {
             usersWater: newUsersWater,
             maxWater: this.state.planData.water.maxPortions * this.props.waterEntry.length
         })
+
+    }
+    setPercentage=()=>{
+        let percentage = (this.state.usersWater / this.state.maxWater) * 100
+
+          console.log(percentage);
+
+          this.setState({
+            percentage: percentage
+          });
     }
 
     render(){
+        const barWidth = Dimensions.get('screen').width - 130;
+        
         return(
             <View style={styles.container}>
-                <Text style={styles.title}>Water</Text>
-                <Text style={styles.dateText}>{this.state.usersWater} of {this.state.maxWater} cups</Text>
+                 <View style={{flexDirection:'row'}}>
+         <Text  style={{color:'#ffffff'}}>Water</Text>
+         <TouchableOpacity >
+         <Text style={styles.descriptionContainerVer2}>Edit</Text>
+         </TouchableOpacity>
+         </View>
+         <View style={{flexDirection:'row',paddingTop:10}}>
+                <ProgressBarAnimated
+
+            width={barWidth}
+            value={this.state.percentage}
+            backgroundColorOnComplete="#6CC644"
+
+          />
+       
+       <Text style={styles.dateText}>{this.state.usersWater} of {this.state.maxWater} cups</Text>
+           </View>
             </View>
         )
     }
@@ -86,8 +116,14 @@ const styles = StyleSheet.create({
     title:{
         color:'#FAFAFA',
         fontSize: 20,
-        fontWeight: '600'
     },
+    descriptionContainerVer2:{
+        flex: 1,
+        paddingLeft:325,
+        flexDirection:'row-reverse',
+        textAlign: 'right',
+        color:'#ffffff'
+        },
     nameText:{
         flexDirection: 'column',
         color:'#FAFAFA',
@@ -98,8 +134,10 @@ const styles = StyleSheet.create({
     },
     dateText:{
         color:'#347EFB',
-        fontSize: 17,
-        justifyContent: 'center',
-        alignSelf:'center'
+        flex: 1,
+        flexDirection:'row-reverse',
+        textAlign: 'right',
+        
+        
     }
 })
