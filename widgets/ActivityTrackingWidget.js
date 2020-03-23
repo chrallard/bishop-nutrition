@@ -260,6 +260,7 @@ const styles = StyleSheet.create({
         marginRight: 8,
         height: 30,
         width:30,
+        resizeMode: 'contain'
     },
     container: {
         display: 'flex',
@@ -293,25 +294,11 @@ const styles = StyleSheet.create({
         color: "#347EFB",
         fontSize: 22
     },
-    emoji: {
-        height: 60,
-        width: 60
-    },
-    imageRow1: {
-        flexDirection: "row",
-        justifyContent: 'space-around',
-        marginBottom: 16
-    },
-    imageRow2: {
-        flexDirection: "row",
-        justifyContent: 'space-around',
-        marginBottom: 16
-    },
-    content: {
-        marginBottom: 16,
-        color: '#DDDEDE',
-        fontSize: 17,
-    },
+
+
+
+
+
     modalContentLayout: {
         padding: 16,
         paddingTop: 50
