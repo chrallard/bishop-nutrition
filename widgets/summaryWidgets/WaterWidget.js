@@ -81,14 +81,15 @@ export default class WaterWidget extends Component {
         
         return(
             <View style={styles.container}>
-                 <View style={{flexDirection:'row'}}>
+                 <View>
                     <Text  style={styles.title}>Water</Text>
                 </View>
-                <View style={{flexDirection:'row',paddingTop:10}}>
+
+                <View style={styles.barContainer}>
                     <ProgressBarAnimated
                     width={barWidth}
                     value={this.state.percentage}
-                    backgroundColorOnComplete="#6CC644" />
+                    backgroundColorOnComplete="#1C1C1E" />
                     <Text style={styles.dateText}>{this.state.usersWater} of {this.state.maxWater} cups</Text>
                 </View>
             </View>
@@ -109,28 +110,17 @@ const styles = StyleSheet.create({
     title:{
         color:'#FAFAFA',
         fontSize: 20,
+        marginBottom: 16
     },
-    descriptionContainerVer2:{
-        flex: 1,
-        paddingLeft:325,
-        flexDirection:'row-reverse',
-        textAlign: 'right',
-        color:'#ffffff'
-        },
-    nameText:{
-        flexDirection: 'column',
-        color:'#FAFAFA',
-        fontSize: 28,
+    barContainer:{
+        flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'center',
-        alignSelf:'center',
-        marginBottom: 8
     },
     dateText:{
         color:'#347EFB',
         flex: 1,
-        flexDirection:'row-reverse',
         textAlign: 'right',
-        
-        
+       
     }
 })
