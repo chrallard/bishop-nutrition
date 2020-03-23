@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     },
     noteText:{
         color:'#DDDEDE',
-        fontSize: 13,
+        fontSize: 16,
         justifyContent: 'center',
         alignSelf:'center',
         flex: 1,
