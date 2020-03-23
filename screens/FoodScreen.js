@@ -331,6 +331,7 @@ export default class ProfileScreen extends Component {
 
   };
 
+
   _renderHeader = section => {
     return (
       <View style={styles.listItemContainer}>
@@ -667,8 +668,8 @@ export default class ProfileScreen extends Component {
   render() {
     const { search } = this.state;
 
-
     if (this.state.selectedIndex == 0) {
+
       return (
         <View style={styles.container}>
           <ScrollView>
@@ -804,11 +805,23 @@ export default class ProfileScreen extends Component {
         )
       }
     }
-
-
-
   }
 }
+// <View>
+
+//   <List.Section style={{ marginTop: 30 }} title="Food List">
+
+//     {this.state.lists.map((item, key) => (
+//       <List.Accordion key={key}
+//         title={item.type}
+//       >
+//         {item.list.map((item, key) => (
+//           <List.Item key={key} title={item.name} />
+//         ))}
+//       </List.Accordion>
+//     ))}
+//   </List.Section>
+// </View>
 
 
 const styles = StyleSheet.create({
