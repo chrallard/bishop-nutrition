@@ -188,7 +188,7 @@ export default class ActivityTrackingWidget extends Component {
                             >
                                 {
                                     this.state.radio_props.map((obj, i) => (
-                                        <RadioButton labelHorizontal={true} key={i} >
+                                        <RadioButton labelHorizontal={true} key={i} style={styles.buttonSpace}>
                                             <RadioButtonInput
                                                 obj={obj}
                                                 index={i}
@@ -197,6 +197,7 @@ export default class ActivityTrackingWidget extends Component {
                                                 borderWidth={15}
                                                 buttonInnerColor={'#6EFACC'}
                                                 buttonOuterColor={this.state.value3Index === i ? '#6EFACC' : '#DDDEDE'}
+                                                
                                             />
                                             {obj.label == "Cardio" ? (
                                                 <Image style={styles.icon}
@@ -255,13 +256,7 @@ export default class ActivityTrackingWidget extends Component {
 
 const styles = StyleSheet.create({
     //Styled by Jeff March 18
-    icon:{
-        marginLeft: 8,
-        marginRight: 8,
-        height: 30,
-        width:30,
-        resizeMode: 'contain'
-    },
+
     container: {
         display: 'flex',
         backgroundColor: '#1C1C1E',
@@ -293,6 +288,16 @@ const styles = StyleSheet.create({
     widgetInfoText: {
         color: "#347EFB",
         fontSize: 22
+    },
+    icon:{
+        marginLeft: 8,
+        marginRight: 8,
+        height: 30,
+        width:30,
+        resizeMode: 'contain'
+    },
+    buttonSpace:{
+        marginTop: 8
     },
 
 
@@ -342,6 +347,7 @@ const styles = StyleSheet.create({
         color: '#347EFB',
     },
     typeOptionLabel: {
+        //marginTop: 8,
         fontSize: 16,
         color: '#DDDEDE'
     },
