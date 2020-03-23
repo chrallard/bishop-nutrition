@@ -108,10 +108,12 @@ export default class FoodTrackingWidget extends Component {
 
         selectedFood.userPortions += 1
         newFoodTrackingList.splice(Number(selectedFood.index), 1, selectedFood) //index is the same in selectedFood as well as in the FlatList. it indicates which food group to update
-        this.setState({foodTrackingList: newFoodTrackingList})
+        await this.setState({foodTrackingList: newFoodTrackingList})
+
+        this.updateDb()
     }
 
-    pushTest = async () => {
+    updateDb = async () => {
         let foodEntry = {}
 
         this.state.foodTrackingList.forEach((item) => {
@@ -150,7 +152,6 @@ export default class FoodTrackingWidget extends Component {
                       
                     </View>
                     )} />
-                <Button title="push test" onPress={this.pushTest} />
             </View>
       )
     }
