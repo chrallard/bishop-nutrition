@@ -199,21 +199,21 @@ export default class ActivityTrackingWidget extends Component {
                                                 buttonOuterColor={this.state.value3Index === i ? '#6EFACC' : '#DDDEDE'}
                                             />
                                             {obj.label == "Cardio" ? (
-                                                <Image style={{ height: 30, width: 30 }}
+                                                <Image style={styles.icon}
 
                                                     source={require('../assets/cardio_Icon.png')}
                                                 />
                                             ) : obj.label == "Strength Training" ? (
-                                                <Image style={{ height: 30, width: 30 }}
+                                                <Image style={styles.icon}
 
                                                     source={require('../assets/strength_Icon.png')}
                                                 />
                                             ) : obj.label == "Yoga" ? (
-                                                <Image style={{ height: 30, width: 30 }}
+                                                <Image style={styles.icon}
                                                     source={require('../assets/yoga.png')}
                                                 />
                                             ) : (
-                                                            <Image style={{ height: 30, width: 30 }}
+                                                            <Image style={styles.icon}
                                                                 source={require('../assets/other_Icon.png')}
                                                             />
                                                         )
@@ -255,6 +255,12 @@ export default class ActivityTrackingWidget extends Component {
 
 const styles = StyleSheet.create({
     //Styled by Jeff March 18
+    icon:{
+        marginLeft: 8,
+        marginRight: 8,
+        height: 30,
+        width:30,
+    },
     container: {
         display: 'flex',
         backgroundColor: '#1C1C1E',

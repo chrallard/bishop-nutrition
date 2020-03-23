@@ -177,6 +177,12 @@ export default class ActivityTrackingModal extends Component {
 
 const styles = StyleSheet.create({
     //Styled by Jeff March 18
+    icon:{
+        marginLeft: 8,
+        marginRight: 8,
+        height: 30,
+        width:30
+    },
     container: {
         display: 'flex',
         backgroundColor: '#1C1C1E',
