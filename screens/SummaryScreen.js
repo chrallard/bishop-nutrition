@@ -162,12 +162,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#000'
   },
-
   tabsContainerStyleSummary: {
     width: 250,
     alignSelf: 'center',
-    marginTop: 16,
-    marginBottom: 16,
+    marginTop: 8,
+    marginBottom: 8,
   },
   tabStyleSummary: {
     borderColor: '#636366',

@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         padding: 16,
         alignSelf: 'stretch',
         marginBottom: 8,
-        marginTop: 44
+        marginTop: 16
     },
     title:{
         color:'#FAFAFA',
