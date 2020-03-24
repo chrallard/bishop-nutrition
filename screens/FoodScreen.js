@@ -135,6 +135,7 @@ export default class ProfileScreen extends Component {
     let proteinList = []
     let fatsList = []
     let freeVegList = []
+
     await this.setUid()
     await this.state.db.collection("foodList").doc("allFood").get().then((doc) => {
       Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
@@ -164,6 +165,7 @@ export default class ProfileScreen extends Component {
     }).catch((err) => {
       console.log(err)
     })
+
     var listArray = [...this.state.lists]
     listArray[0].list = dairyList
     listArray[1].list = restrictedList
