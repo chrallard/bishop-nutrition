@@ -26,7 +26,6 @@ export default class ProgressScreen extends Component {
         await this.list()
         await this.time()
         await this.startingWeight()
-        // await this.progress()
         await this.getTime()
         await this.getValues()
 
@@ -38,7 +37,7 @@ export default class ProgressScreen extends Component {
     }
 
     getTime = async () => {
-        // if (index == 1) {
+       
         let uid = await firebase.auth().currentUser.uid
         await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "desc").limit(5).get().then((querySnapshot) => {
             let time = []
@@ -53,12 +52,12 @@ export default class ProgressScreen extends Component {
                     time: `${month} ${datee}, ${year}`
                 }
                 time.push(obj)
-                //console.log(obj)
+                
                 this.setState({ time })
             })
 
         })
-        // }
+       
 
 
 
@@ -138,27 +137,6 @@ export default class ProgressScreen extends Component {
 
     }
 
-    // progress = async() => {
-    //     let uid = await firebase.auth().currentUser.uid
-
-    //      await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("weightEntry", "desc").limit(17).get().then((querySnapshot) => {
-
-
-    //                 let progress = []
-
-    //                 querySnapshot.forEach((doc) => {
-    //                     let Obj = {
-    //                         progress: (doc.data().startingWeight) - ((doc.data().weightEntry))
-    //                     }
-    //                     progress.push(Obj)
-    //                    // console.log(Obj)
-    //                     this.setState({progress})
-    //                 })
-
-    //         })
-
-    // }
-
     time = async () => {
 
         let uid = await firebase.auth().currentUser.uid
@@ -180,7 +158,6 @@ export default class ProgressScreen extends Component {
                 }
 
                 timeStamp.push(obj)
-                //console.log(obj)
                 this.setState({ timeStamp })
             })
         })
@@ -198,6 +175,7 @@ export default class ProgressScreen extends Component {
             ))
         )
     }
+   
     _renderMeasuermentsContent = () => {
         this.state.measurements.sort(function (a, b) { return b.timeStamp - a.timeStamp })
         return (
