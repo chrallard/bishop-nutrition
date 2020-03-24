@@ -8,7 +8,7 @@ import SleepWidget from '../widgets/summaryWidgets/SleepWidget'
 import MoodWidget from '../widgets/summaryWidgets/MoodWidget'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
-import { ThemeProvider } from 'react-native-paper'
+
 
 export default class SummaryScreen extends Component {
 
