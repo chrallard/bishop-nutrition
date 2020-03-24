@@ -26,9 +26,8 @@ export default class SleepWidget extends Component {
         let start = this.props.sleepEntry.start
         let end = this.props.sleepEntry.end
 
-
         this.setState({
-            avgSleep: this.msToDuration(end - start),
+            avgSleep: this.props.sleepEntry.duration,
             avgStart: this.msToTime(start + 1000 * 60 * 60 * 4),
             avgEnd: this.msToTime(end + 1000 * 60 * 60 * 4)
         })
@@ -42,10 +41,8 @@ export default class SleepWidget extends Component {
         let totalStartTime = 0
 
         this.props.sleepEntry.forEach((item) => {
-            let duration = item.end - item.start
+            let duration = item.durationMs
             totalSleepDuration += duration
-
-            totalStartTime += item.start
         })
         newAvgSleep = totalSleepDuration / this.props.sleepEntry.length
 
