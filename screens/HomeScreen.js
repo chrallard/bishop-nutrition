@@ -9,6 +9,7 @@ import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
 import WaterTrackingWidget from '../widgets/WaterTrackingWidget'
 import healthTrackingTemplate from '../dataTemplates/healthTrackingTemplate'
 import bodyTrackingTemplate from '../dataTemplates/bodyTrackingTemplate'
+import MoodTrackingWidget from '../widgets/MoodTrackingWidget'
 
 export default class HomeScreen extends Component {
 
@@ -117,7 +118,8 @@ export default class HomeScreen extends Component {
             <WelcomeWidget />
             <DailyLogWidget navProps={this.props.navigation} />
             <FoodTrackingWidget />
-            <WaterTrackingWidget />
+            <WaterTrackingWidget/>
+            <MoodTrackingWidget/>
           </View>
         </ScrollView> 
     )
