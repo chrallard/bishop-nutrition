@@ -9,7 +9,7 @@ if (!global.atob) { global.atob = decode }
 import React, { useState } from 'react'
 import {SafeAreaView, StatusBar} from 'react-native';
 //////////////////////////////////// react navigation
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, StackActions } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 //////////////////////////////////// icons
@@ -23,6 +23,8 @@ import ProgressScreen from './screens/ProgressScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import UpdatePasswordScreen from './screens/UpdatePasswordScreen'
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
+import DailyLogWidget from './widgets/DailyLogWidget'
+import SummaryScreen from './screens/SummaryScreen'
 //////////////////////////////////// firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBa7mPzRK5vFZYMrIMtTjtJhecI0pqlYNc",
@@ -61,6 +63,10 @@ function HomeStackScreen() {
           borderBottomWidth: 0.5
         }
 
+      }} />
+      <HomeStack.Screen name="DailyLogWidget" component={DailyLogWidget} />
+      <HomeStack.Screen name="Summary" component={SummaryScreen} options={{
+        title: "JEFF/CONOR - STYLE"
       }} />
     </HomeStack.Navigator>
   )
@@ -112,7 +118,14 @@ function ProfileStackScreen() {
 function LoginStackScreen() {
   return (
     <LoginStack.Navigator>
-      <LoginStack.Screen name="Login" component={LoginScreen} />
+      <LoginStack.Screen name="Login" component={LoginScreen} options={{
+        title: "",
+        headerStyle: {
+          backgroundColor: '#000',
+          shadowColor: 'transparent',
+          borderBottomWidth: 0
+        }
+      }}/>
       <LoginStack.Screen name="Forgot Password" component={ForgotPasswordScreen} />
     </LoginStack.Navigator>
   )
