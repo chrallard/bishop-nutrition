@@ -237,25 +237,6 @@ export default class ProgressScreen extends Component {
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
                         {this._renderWeightContent()}
-
-
-                        {/* <FlatList
-
-                        data={this.state.weightEntry}
-                        keyExtractor={({ id }, index) => id}
-                        renderItem={({ item }) => {
-
-                            <View>
-                                <Text>{item.weightEntry}</Text>
-                            </View>
-                        }}
-
-
-                    /> */}
-
-
-
-
                     </View>
                 </ScrollView>
             )
@@ -263,7 +244,6 @@ export default class ProgressScreen extends Component {
         }
         else if (this.state.selectedIndex == 1) {
             return (
-                //this is where you build the measurements screen
                 <ScrollView>
                     <View style={styles.container}  >
 
@@ -282,38 +262,6 @@ export default class ProgressScreen extends Component {
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
                         {this._renderMeasuermentsContent()}
-
-
-                        {/* <FlatList
-
-                        data={this.state.time}
-                        keyExtractor={({ id }, index) => id}
-                        renderItem={({ item }) => <Text>{item.time}</Text>}
-
-
-                    />
-
-                    <FlatList
-
-                        data={this.state.chest}
-                        keyExtractor={({ id }, index) => id}
-                        renderItem={({ item }) => <Text>Chest: {item.chest}</Text>}
-                    />
-
-                    <FlatList
-
-                        data={this.state.waist}
-                        keyExtractor={({ id }, index) => id}
-                        renderItem={({ item }) => <Text>Waist:{item.waist}</Text>}
-                    />
-
-                    <FlatList
-
-                        data={this.state.hips}
-                        keyExtractor={({ id }, index) => id}
-                        renderItem={({ item }) => <Text>Hips:{item.hips}</Text>}
-                    /> */}
-
                     </View>
                 </ScrollView>
 
