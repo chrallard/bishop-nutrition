@@ -2,7 +2,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button, ScrollView, YellowBox } from 'react-native'
+import { StyleSheet, Text, View, Button, ScrollView, YellowBox, StatusBar } from 'react-native'
 import WelcomeWidget from '../widgets/WelcomeWidget'
 import DailyLogWidget from '../widgets/DailyLogWidget'
 import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
@@ -114,6 +114,7 @@ export default class HomeScreen extends Component {
   render() {
     return (
         <ScrollView>
+          <StatusBar barStyle="light-content" />
           <View style={styles.container} >
             <WelcomeWidget />
             <DailyLogWidget navProps={this.props.navigation} />
