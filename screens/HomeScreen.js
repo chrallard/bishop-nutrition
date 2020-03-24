@@ -114,8 +114,8 @@ export default class HomeScreen extends Component {
   render() {
     return (
         <ScrollView>
-          <StatusBar barStyle="light-content" />
           <View style={styles.container} >
+            <StatusBar barStyle="light-content" />
             <WelcomeWidget />
             <DailyLogWidget navProps={this.props.navigation} />
             <FoodTrackingWidget />

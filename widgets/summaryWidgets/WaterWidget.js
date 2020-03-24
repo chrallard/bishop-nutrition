@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, YellowBox,Dimensions } from '
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default class WaterWidget extends Component {
 
@@ -78,6 +79,12 @@ export default class WaterWidget extends Component {
 
     render(){
         const barWidth = Dimensions.get('screen').width - 130;
+
+        const progressCustomStyles = {
+            backgroundColor: '#347EFB', 
+            borderWidth: 0,
+            borderRadius: 50
+          };
         
         return(
             <View style={styles.container}>
@@ -86,11 +93,16 @@ export default class WaterWidget extends Component {
                 </View>
 
                 <View style={styles.barContainer}>
+                    
+                    <View style={styles.barBackgroundColour}>
                     <ProgressBarAnimated
+                    {...progressCustomStyles}
                     width={barWidth}
                     value={this.state.percentage}
-                    backgroundColorOnComplete="#1C1C1E" />
-                    <Text style={styles.dateText}>{this.state.usersWater} of {this.state.maxWater} cups</Text>
+                    backgroundColorOnComplete="#1C1C1E"
+                    height={16}/>
+                    </View>
+                    <Text style={styles.waterText}>{this.state.usersWater} of {this.state.maxWater} cups</Text>
                 </View>
             </View>
         )
@@ -109,6 +121,7 @@ const styles = StyleSheet.create({
     },
     title:{
         color:'#FAFAFA',
+        fontWeight: '600',
         fontSize: 20,
         marginBottom: 16
     },
@@ -117,8 +130,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    dateText:{
-        color:'#347EFB',
+    barBackgroundColour:{
+        backgroundColor: '#DDDEDE',
+        borderRadius: 20,
+        borderWidth: 0,
+    },
+    waterText:{
+        color:'#DDDEDE',
         flex: 1,
         textAlign: 'right',
        
