@@ -2,8 +2,8 @@
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
-import {decode, encode} from 'base-64'
-if (!global.btoa) {  global.btoa = encode }
+import { decode, encode } from 'base-64'
+if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }
 //////////////////////////////////// react
 import React, { useState } from 'react'
@@ -18,7 +18,7 @@ import { MaterialCommunityIcons } from 'react-native-vector-icons'
 import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
 import FoodScreen from './screens/FoodScreen'
-import ActivitiesScreen from './screens/ActivitiesScreen'
+import ActivitiesScreen from './screens/ActivityScreenModal'
 import ProgressScreen from './screens/ProgressScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import UpdatePasswordScreen from './screens/UpdatePasswordScreen'
@@ -49,7 +49,7 @@ const ProfileStack = createStackNavigator()
 const LoginStack = createStackNavigator()
 
 function HomeStackScreen() {
-  return(
+  return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Dashboard" component={HomeScreen} options={{
         title: "JEFF/CONOR - STYLE",
@@ -73,7 +73,7 @@ function HomeStackScreen() {
 }
 
 function FoodStackScreen() {
-  return(
+  return (
     <FoodStack.Navigator>
       <FoodStack.Screen name="Food List" component={FoodScreen} options={{
         title: "JEFF/CONOR - STYLE"
@@ -83,17 +83,19 @@ function FoodStackScreen() {
 }
 
 function ActivitiesStackScreen() {
-  return(
+  console.log("hi")
+  return (
     <ActivitiesStack.Navigator>
       <ActivitiesStack.Screen name="Activities" component={ActivitiesScreen} options={{
-        title: "JEFF/CONOR - STYLE"
+        title: "JEFF/CONOR - STYLE",
+        showMe: true
       }} />
     </ActivitiesStack.Navigator>
   )
 }
 
 function ProgressStackScreen() {
-  return(
+  return (
     <ProgressStack.Navigator>
       <ProgressStack.Screen name="Progress" component={ProgressScreen} options={{
         title: "JEFF/CONOR - STYLE"
@@ -125,7 +127,7 @@ function LoginStackScreen() {
           shadowColor: 'transparent',
           borderBottomWidth: 0
         }
-      }}/>
+      }} />
       <LoginStack.Screen name="Forgot Password" component={ForgotPasswordScreen} />
     </LoginStack.Navigator>
   )
@@ -138,10 +140,11 @@ const MyTheme = {
   },
 };
 
-
 export default function App() {
 
   const [isLoggedIn, setLoginStatus] = useState(false)
+
+
 
   firebase.auth().onAuthStateChanged((user) => {
     user ? setLoginStatus(true) : setLoginStatus(false)
@@ -154,58 +157,59 @@ export default function App() {
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={{backgroundColor: '#000' }} />
       {isLoggedIn ? (
-        <Tab.Navigator 
-        tabBarOptions={{
-          activeTintColor: '#347EFB',
-          inactiveTintColor: '#DDDEDE',
-          inactiveBackgroundColor: '#000',
-          activeBackgroundColor: '#000'
-        }}>
-          
-          <Tab.Screen 
-          name="Home" 
-          component={HomeStackScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="home" color={color} size={size} />
-            )
-          }} />
+        <Tab.Navigator
 
-          <Tab.Screen 
-          name="Food" 
-          component={FoodStackScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
-            )
-          }} />
+          tabBarOptions={{
+            activeTintColor: '#347EFB',
+            inactiveTintColor: '#DDDEDE',
+            inactiveBackgroundColor: '#000',
+            activeBackgroundColor: '#000'
+          }}>
 
-          <Tab.Screen 
-          name="Activities" 
-          component={ActivitiesStackScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="run" color={color} size={size} />
-            )
-          }} />
+          <Tab.Screen
+            name="Home"
+            component={HomeStackScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="home" color={color} size={size} />
+              )
+            }} />
 
-          <Tab.Screen 
-          name="Progress" 
-          component={ProgressStackScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="chart-line" color={color} size={size} />
-            )
-          }} />
+          <Tab.Screen
+            name="Food"
+            component={FoodStackScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
+              )
+            }} />
 
-          <Tab.Screen 
-          name="Profile"
-          component={ProfileStackScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="account" color={color} size={size} />
-            )
-          }} />
+          <Tab.Screen
+            name="Activities"
+            component={ActivitiesStackScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="run" color={color} size={size} />
+              )
+            }} />
+
+          <Tab.Screen
+            name="Progress"
+            component={ProgressStackScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="chart-line" color={color} size={size} />
+              )
+            }} />
+
+          <Tab.Screen
+            name="Profile"
+            component={ProfileStackScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="account" color={color} size={size} />
+              )
+            }} />
 
         </Tab.Navigator>
       ) : (
