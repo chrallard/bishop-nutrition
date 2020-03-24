@@ -7,8 +7,9 @@ if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }
 //////////////////////////////////// react
 import React, { useState } from 'react'
+import {SafeAreaView, StatusBar} from 'react-native';
 //////////////////////////////////// react navigation
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, StackActions } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 //////////////////////////////////// icons
@@ -22,6 +23,8 @@ import ProgressScreen from './screens/ProgressScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import UpdatePasswordScreen from './screens/UpdatePasswordScreen'
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
+import DailyLogWidget from './widgets/DailyLogWidget'
+import SummaryScreen from './screens/SummaryScreen'
 //////////////////////////////////// firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBa7mPzRK5vFZYMrIMtTjtJhecI0pqlYNc",
@@ -49,6 +52,20 @@ function HomeStackScreen() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Dashboard" component={HomeScreen} options={{
+        title: "JEFF/CONOR - STYLE",
+        headerTitleStyle:{
+          fontSize: 17,
+          color:'#DDDEDE',
+          fontWeight: '700'
+        },
+        headerStyle:{
+          borderBottomColor: '#B7B7B7',
+          borderBottomWidth: 0.5
+        }
+
+      }} />
+      <HomeStack.Screen name="DailyLogWidget" component={DailyLogWidget} />
+      <HomeStack.Screen name="Summary" component={SummaryScreen} options={{
         title: "JEFF/CONOR - STYLE"
       }} />
     </HomeStack.Navigator>
@@ -116,7 +133,12 @@ function LoginStackScreen() {
   )
 }
 
-
+const MyTheme = {
+  colors: {
+    background: '#000',
+    text: '#DDDEDE',
+  },
+};
 
 export default function App() {
 
@@ -129,7 +151,11 @@ export default function App() {
   })
 
   return (
-    <NavigationContainer>
+    
+    
+    <NavigationContainer theme={MyTheme}>
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView style={{backgroundColor: '#000' }} />
       {isLoggedIn ? (
         <Tab.Navigator
 
@@ -187,8 +213,11 @@ export default function App() {
 
         </Tab.Navigator>
       ) : (
-          <LoginStackScreen />
-        )}
+        <LoginStackScreen />
+      )}
+      <SafeAreaView style={{backgroundColor: '#000' }} />
     </NavigationContainer>
+
   );
 }
+
