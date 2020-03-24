@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { StyleSheet, Text, View, Image, Button, TouchableOpacity, Modal, TextInput, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, TouchableOpacity, Modal, TextInput, Dimensions, StatusBar } from 'react-native';
 import * as firebase from 'firebase/app'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import '@firebase/firestore'
@@ -123,6 +123,7 @@ const SleepTrackingWidget = () => {
     return (
 
         <View style={styles.container}>
+            <StatusBar barStyle='light-content'/>
             <TouchableOpacity onPress={() => setShowMe(true)}>
                 <View>
                     <Text style={styles.widgetTitle}>Sleep</Text>
