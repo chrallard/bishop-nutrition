@@ -18,9 +18,7 @@ export default class ProgressScreen extends Component {
             startingWeight: [],
             selectedIndex: 0,
             time: [],
-            chest : [],
-            waist : [],
-            hips : []
+            measurements: []
         }
     }
 
@@ -35,64 +33,63 @@ export default class ProgressScreen extends Component {
     }
 
     handleIndexChange = async (index) => {
-        console.log(index + " HI")
         this.setState({ selectedIndex: index })
-
-
 
     }
 
     getTime = async () => {
-       // if (index == 1) {
-            let uid = await firebase.auth().currentUser.uid
-            await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "desc").limit(5).get().then((querySnapshot) => {
-                let time = []
-                querySnapshot.forEach((doc) => {
-                    let D = new Date(doc.data().timeStamp)
-                    const Months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-                    const datee = D.getDate()
-                    const month = Months[D.getMonth()]
-                    const year = D.getFullYear()
+        // if (index == 1) {
+        let uid = await firebase.auth().currentUser.uid
+        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "desc").limit(5).get().then((querySnapshot) => {
+            let time = []
+            querySnapshot.forEach((doc) => {
+                let D = new Date(doc.data().timeStamp)
+                const Months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                const datee = D.getDate()
+                const month = Months[D.getMonth()]
+                const year = D.getFullYear()
 
-                    let obj = {
-                        time: `${month} ${datee}, ${year}`
-                    }
-                    time.push(obj)
-                    //console.log(obj)
-                    this.setState({ time })
-                })
-               
+                let obj = {
+                    time: `${month} ${datee}, ${year}`
+                }
+                time.push(obj)
+                //console.log(obj)
+                this.setState({ time })
             })
-       // }
-      
-       
-        
+
+        })
+        // }
+
+
+
     }
 
-    getValues = async() => {
+    getValues = async () => {
 
         let uid = await firebase.auth().currentUser.uid
         await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").limit(5).get().then((querySnapshot) => {
-           
-            let chest = []
-            let waist = []
-            let hips = []
+
+            let measurements = []
             querySnapshot.forEach((doc) => {
+
+                let d = new Date(doc.data().timeStamp)
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                const date = d.getDate()
+                const Month = months[d.getMonth()]
+                const Year = d.getFullYear()
                 let obj = {
-                   
-                    chest : doc.data().chestEntry,
+
+                    date: `${Month} ${date}, ${Year}`,
+                    timeStamp: doc.data().timeStamp,
+                    chest: doc.data().chestEntry,
                     waist: doc.data().waistEntry,
                     hips: doc.data().hipsEntry
                 }
-               
-                chest.push(obj)
-                waist.push(obj)
-                hips.push(obj)
-                console.log(obj)
-               
-                this.setState({chest})
-                this.setState({waist})
-                this.setState({hips})
+                measurements.push(obj)
+
+
+
+                this.setState({ measurements })
             })
         })
 
@@ -109,11 +106,17 @@ export default class ProgressScreen extends Component {
 
             let weightEntry = []
             doc.forEach((doc) => {
+                let d = new Date(doc.data().timeStamp)
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                const date = d.getDate()
+                const Month = months[d.getMonth()]
+                const Year = d.getFullYear()
                 let obj = {
+                    date: `${Month} ${date}, ${Year}`,
+                    timeStamp: doc.data().timeStamp,
                     weightEntry: doc.data().weightEntry
                 }
                 weightEntry.push(obj)
-                //console.log(obj)
 
                 this.setState({ weightEntry })
             })
@@ -183,6 +186,32 @@ export default class ProgressScreen extends Component {
         })
 
     }
+    _renderWeightContent = () => {
+        this.state.weightEntry.reverse(function (a, b) { return a.timeStamp - b.timeStamp })
+        return (
+            this.state.weightEntry.map((item, key) => (
+                <View key={key} style={{ margin: 20 }}>
+                    <Text>{item.date}</Text>
+                    <Text>Weight: {item.weightEntry} </Text>
+                    <Text>Progress = -{this.state.startingWeight - item.weightEntry}lbs</Text>
+                </View>
+            ))
+        )
+    }
+    _renderMeasuermentsContent = () => {
+        this.state.measurements.reverse(function (a, b) { return a.timeStamp - b.timeStamp })
+        return (
+            this.state.measurements.map((item, key) => (
+                <View key={key} style={{ margin: 20 }}>
+                    <Text>{item.date}</Text>
+                    <Text>Chest: {item.chest} </Text>
+                    <Text>Waist: {item.waist} </Text>
+                    <Text>Hips: {item.hips} </Text>
+                </View>
+            ))
+        )
+
+    }
     render() {
         //this is how to use the segmented tabs, anything you want to display on the weight screen goes in the if (this.state.selectedIndex == 0) { return,
         //anything you want on the progress bar goes in the  else if (this.state.selectedIndex == 1) {
@@ -190,97 +219,103 @@ export default class ProgressScreen extends Component {
         if (this.state.selectedIndex == 0) {
             return (
                 //this is where you build the weight screen
-                <View style={styles.container}  >
+                <ScrollView>
+                    <View style={styles.container}  >
 
-                    <SegmentedControlTab
-                        values={["Weight", "Measurement"]}
-                        selectedIndex={this.state.selectedIndex}
-                        onTabPress={this.handleIndexChange}
+                        <SegmentedControlTab
+                            values={["Weight", "Measurement"]}
+                            selectedIndex={this.state.selectedIndex}
+                            onTabPress={this.handleIndexChange}
 
-                        allowFontScaling={false}
-                        tabsContainerStyle={segmented.tabsContainerStyle}
-                        tabStyle={segmented.tabStyle}
-                        firstTabStyle={segmented.firstTabStyle}
-                        lastTabStyle={segmented.lastTabStyle}
-                        tabTextStyle={segmented.tabTextStyle}
-                        activeTabStyle={segmented.activeTabStyle}
-                        activeTabTextStyle={segmented.activeTabTextStyle}
-                    />
+                            allowFontScaling={false}
+                            tabsContainerStyle={segmented.tabsContainerStyle}
+                            tabStyle={segmented.tabStyle}
+                            firstTabStyle={segmented.firstTabStyle}
+                            lastTabStyle={segmented.lastTabStyle}
+                            tabTextStyle={segmented.tabTextStyle}
+                            activeTabStyle={segmented.activeTabStyle}
+                            activeTabTextStyle={segmented.activeTabTextStyle}
+                        />
+                        {this._renderWeightContent()}
 
 
-                    <FlatList
+                        {/* <FlatList
 
                         data={this.state.weightEntry}
                         keyExtractor={({ id }, index) => id}
-                        renderItem={({ item }) => <Text>{item.weightEntry}</Text>}
+                        renderItem={({ item }) => {
+
+                            <View>
+                                <Text>{item.weightEntry}</Text>
+                            </View>
+                        }}
 
 
-                    />
-
-                    <FlatList
-
-                        data={this.state.timeStamp}
-                        keyExtractor={({ id }, index) => id}
-                        renderItem={({ item }) => <Text>{item.timeStamp}</Text>}
-                    />
+                    /> */}
 
 
-                </View>
 
+
+                    </View>
+                </ScrollView>
             )
 
         }
         else if (this.state.selectedIndex == 1) {
             return (
                 //this is where you build the measurements screen
-                <View style={styles.container}  >
+                <ScrollView>
+                    <View style={styles.container}  >
 
-                    <SegmentedControlTab
-                        values={["Weight", "Measurement"]}
-                        selectedIndex={this.state.selectedIndex}
-                        onTabPress={this.handleIndexChange}
+                        <SegmentedControlTab
+                            values={["Weight", "Measurement"]}
+                            selectedIndex={this.state.selectedIndex}
+                            onTabPress={this.handleIndexChange}
 
-                        allowFontScaling={false}
-                        tabsContainerStyle={segmented.tabsContainerStyle}
-                        tabStyle={segmented.tabStyle}
-                        firstTabStyle={segmented.firstTabStyle}
-                        lastTabStyle={segmented.lastTabStyle}
-                        tabTextStyle={segmented.tabTextStyle}
-                        activeTabStyle={segmented.activeTabStyle}
-                        activeTabTextStyle={segmented.activeTabTextStyle}
+                            allowFontScaling={false}
+                            tabsContainerStyle={segmented.tabsContainerStyle}
+                            tabStyle={segmented.tabStyle}
+                            firstTabStyle={segmented.firstTabStyle}
+                            lastTabStyle={segmented.lastTabStyle}
+                            tabTextStyle={segmented.tabTextStyle}
+                            activeTabStyle={segmented.activeTabStyle}
+                            activeTabTextStyle={segmented.activeTabTextStyle}
+                        />
+                        {this._renderMeasuermentsContent()}
+
+
+                        {/* <FlatList
+
+                        data={this.state.time}
+                        keyExtractor={({ id }, index) => id}
+                        renderItem={({ item }) => <Text>{item.time}</Text>}
+
+
                     />
 
                     <FlatList
-
-                    data={this.state.time}
-                    keyExtractor={({ id }, index) => id}
-                    renderItem={({ item }) => <Text>{item.time}</Text>}
-
-
-                    />
-                    
-                     <FlatList
 
                         data={this.state.chest}
                         keyExtractor={({ id }, index) => id}
                         renderItem={({ item }) => <Text>Chest: {item.chest}</Text>}
-                        />
-
-                    <FlatList
-
-                    data={this.state.waist}
-                    keyExtractor={({ id }, index) => id}
-                    renderItem={({ item }) => <Text>Waist:{item.waist}</Text>}
                     />
 
                     <FlatList
 
-                    data={this.state.hips}
-                    keyExtractor={({ id }, index) => id}
-                    renderItem={({ item }) => <Text>Hips:{item.hips}</Text>}
+                        data={this.state.waist}
+                        keyExtractor={({ id }, index) => id}
+                        renderItem={({ item }) => <Text>Waist:{item.waist}</Text>}
                     />
 
-                </View>
+                    <FlatList
+
+                        data={this.state.hips}
+                        keyExtractor={({ id }, index) => id}
+                        renderItem={({ item }) => <Text>Hips:{item.hips}</Text>}
+                    /> */}
+
+                    </View>
+                </ScrollView>
 
             )
         }
@@ -320,18 +355,18 @@ const segmented = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 16,
         marginBottom: 16,
-      },
-      tabStyle: {
+    },
+    tabStyle: {
         borderColor: '#636366',
         backgroundColor: '#1C1C1E'
-      },
-      tabTextStyle: {
+    },
+    tabTextStyle: {
         color: '#DDDEDE'
-      },
-      activeTabStyle: {
+    },
+    activeTabStyle: {
         backgroundColor: '#636366',
-      },
-      activeTabTextStyle: {
+    },
+    activeTabTextStyle: {
         color: '#DDDEDE'
-      }
+    }
 })
