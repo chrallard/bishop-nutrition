@@ -187,7 +187,7 @@ export default class ProgressScreen extends Component {
 
     }
     _renderWeightContent = () => {
-        this.state.weightEntry.sort(function (a, b) { return a.timeStamp - b.timeStamp })
+        this.state.weightEntry.sort(function (a, b) { return b.timeStamp - a.timeStamp })
         return (
             this.state.weightEntry.map((item, key) => (
                 <View key={key} style={{ margin: 20 }}>
@@ -199,7 +199,7 @@ export default class ProgressScreen extends Component {
         )
     }
     _renderMeasuermentsContent = () => {
-        this.state.measurements.sort(function (a, b) { return a.timeStamp - b.timeStamp })
+        this.state.measurements.sort(function (a, b) { return b.timeStamp - a.timeStamp })
         return (
             this.state.measurements.map((item, key) => (
                 <View key={key} style={{ margin: 20 }}>
