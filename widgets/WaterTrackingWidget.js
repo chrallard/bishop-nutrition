@@ -24,12 +24,12 @@ export default class WaterTrackingWidget extends Component {
   }
     
   async componentDidMount(){
-    // await this.setUid()
-    // await this.setUsersPlan()
-    // await this.setTodaysDocId()
-    // await this.setMaxWater()
-    // await this.setUsersWater()
-    // this.buildCupsArray()
+    await this.setUid()
+    await this.setUsersPlan()
+    await this.setTodaysDocId()
+    await this.setMaxWater()
+    await this.setUsersWater()
+    this.buildCupsArray()
   }
 
   setUid = async() => {
