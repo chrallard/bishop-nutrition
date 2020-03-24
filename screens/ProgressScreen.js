@@ -17,9 +17,10 @@ export default class ProgressScreen extends Component {
             timeStamp: [],
             startingWeight: [],
             selectedIndex: 0,
-            time: []
-
-
+            time: [],
+            chest : [],
+            waist : [],
+            hips : []
         }
     }
 
@@ -29,6 +30,7 @@ export default class ProgressScreen extends Component {
         await this.startingWeight()
         // await this.progress()
         await this.getTime()
+        await this.getValues()
 
     }
 
@@ -41,11 +43,11 @@ export default class ProgressScreen extends Component {
     }
 
     getTime = async () => {
-        if (index == 1) {
+       // if (index == 1) {
             let uid = await firebase.auth().currentUser.uid
-            await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "desc").limit(10).get().then((doc) => {
+            await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "desc").limit(5).get().then((querySnapshot) => {
                 let time = []
-                doc.forEach((doc) => {
+                querySnapshot.forEach((doc) => {
                     let D = new Date(doc.data().timeStamp)
                     const Months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
                     const datee = D.getDate()
@@ -53,14 +55,50 @@ export default class ProgressScreen extends Component {
                     const year = D.getFullYear()
 
                     let obj = {
-                        time: `${month} ${datee} ${year}`
+                        time: `${month} ${datee}, ${year}`
                     }
                     time.push(obj)
+                    //console.log(obj)
                     this.setState({ time })
                 })
+               
             })
-        }
+       // }
+      
+       
+        
     }
+
+    getValues = async() => {
+
+        let uid = await firebase.auth().currentUser.uid
+        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").limit(5).get().then((querySnapshot) => {
+           
+            let chest = []
+            let waist = []
+            let hips = []
+            querySnapshot.forEach((doc) => {
+                let obj = {
+                   
+                    chest : doc.data().chestEntry,
+                    waist: doc.data().waistEntry,
+                    hips: doc.data().hipsEntry
+                }
+               
+                chest.push(obj)
+                waist.push(obj)
+                hips.push(obj)
+                console.log(obj)
+               
+                this.setState({chest})
+                this.setState({waist})
+                this.setState({hips})
+            })
+        })
+
+
+    }
+
 
     list = async () => {
 
@@ -212,7 +250,35 @@ export default class ProgressScreen extends Component {
                         activeTabTextStyle={styles.activeTabTextStyleFood}
                     />
 
-                    <Text>THIS IS THE MEASUREMENTS SCREEN</Text>
+                    <FlatList
+
+                    data={this.state.time}
+                    keyExtractor={({ id }, index) => id}
+                    renderItem={({ item }) => <Text>{item.time}</Text>}
+
+
+                    />
+                    
+                     <FlatList
+
+                        data={this.state.chest}
+                        keyExtractor={({ id }, index) => id}
+                        renderItem={({ item }) => <Text>Chest: {item.chest}</Text>}
+                        />
+
+                    <FlatList
+
+                    data={this.state.waist}
+                    keyExtractor={({ id }, index) => id}
+                    renderItem={({ item }) => <Text>Waist:{item.waist}</Text>}
+                    />
+
+                    <FlatList
+
+                    data={this.state.hips}
+                    keyExtractor={({ id }, index) => id}
+                    renderItem={({ item }) => <Text>Hips:{item.hips}</Text>}
+                    />
 
                 </View>
 
