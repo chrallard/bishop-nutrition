@@ -34,7 +34,7 @@ export default class HomeScreen extends Component {
     let uid = await firebase.auth().currentUser.uid
     this.setState({ uid })
 
-    //this.checkIfTodaysObjectsExist()
+    this.checkIfTodaysObjectsExist()
   }
 
   checkIfTodaysObjectsExist = async () => { //checking if there are existing objects for today in the db
@@ -52,6 +52,8 @@ export default class HomeScreen extends Component {
       .collection("userData")
       .doc(this.state.uid)
       .collection("healthTracking")
+      .orderBy("timeStamp", "desc")
+      .limit(1)
       .get()
       .then(function (querySnapshot) {
         querySnapshot.forEach((doc) => {
