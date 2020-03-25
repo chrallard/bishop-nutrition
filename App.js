@@ -7,7 +7,7 @@ if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }
 //////////////////////////////////// react
 import React, { useState } from 'react'
-import {SafeAreaView, StatusBar} from 'react-native';
+import { SafeAreaView, StatusBar } from 'react-native';
 //////////////////////////////////// react navigation
 import { NavigationContainer, StackActions } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -18,7 +18,6 @@ import { MaterialCommunityIcons } from 'react-native-vector-icons'
 import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
 import FoodScreen from './screens/FoodScreen'
-import ActivitiesScreen from './screens/ActivityScreenModal'
 import ProgressScreen from './screens/ProgressScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import UpdatePasswordScreen from './screens/UpdatePasswordScreen'
@@ -53,12 +52,12 @@ function HomeStackScreen() {
     <HomeStack.Navigator>
       <HomeStack.Screen name="Dashboard" component={HomeScreen} options={{
         title: "JEFF/CONOR - STYLE",
-        headerTitleStyle:{
+        headerTitleStyle: {
           fontSize: 17,
-          color:'#DDDEDE',
+          color: '#DDDEDE',
           fontWeight: '700'
         },
-        headerStyle:{
+        headerStyle: {
           borderBottomColor: '#B7B7B7',
           borderBottomWidth: 0.5
         }
@@ -82,17 +81,17 @@ function FoodStackScreen() {
   )
 }
 
-function ActivitiesStackScreen() {
-  console.log("hi")
-  return (
-    <ActivitiesStack.Navigator>
-      <ActivitiesStack.Screen name="Activities" component={ActivitiesScreen} options={{
-        title: "JEFF/CONOR - STYLE",
-        showMe: true
-      }} />
-    </ActivitiesStack.Navigator>
-  )
-}
+// function ActivitiesStackScreen() {
+//   console.log("hi")
+//   return (
+//     <ActivitiesStack.Navigator>
+//       <ActivitiesStack.Screen name="Activities" component={ActivitiesScreen} options={{
+//         title: "JEFF/CONOR - STYLE",
+//         showMe: true
+//       }} />
+//     </ActivitiesStack.Navigator>
+//   )
+// }
 
 function ProgressStackScreen() {
   return (
@@ -151,11 +150,11 @@ export default function App() {
   })
 
   return (
-    
-    
+
+
     <NavigationContainer theme={MyTheme}>
       <StatusBar barStyle="light-content" />
-      <SafeAreaView style={{backgroundColor: '#000' }} />
+      <SafeAreaView style={{ backgroundColor: '#000' }} />
       {isLoggedIn ? (
         <Tab.Navigator
 
@@ -184,14 +183,7 @@ export default function App() {
               )
             }} />
 
-          <Tab.Screen
-            name="Activities"
-            component={ActivitiesStackScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="run" color={color} size={size} />
-              )
-            }} />
+
 
           <Tab.Screen
             name="Progress"
@@ -213,9 +205,9 @@ export default function App() {
 
         </Tab.Navigator>
       ) : (
-        <LoginStackScreen />
-      )}
-      <SafeAreaView style={{backgroundColor: '#000' }} />
+          <LoginStackScreen />
+        )}
+      <SafeAreaView style={{ backgroundColor: '#000' }} />
     </NavigationContainer>
 
   );
