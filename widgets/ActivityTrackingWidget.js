@@ -97,7 +97,7 @@ export default class ActivityTrackingWidget extends Component {
 
 
 
-                <Modal visible={this.state.showMe} animationType={'slide'}>
+                <Modal visible={this.state.showMe} animationType={'slide'} transparent={true}>
 
 
                     <View style={styles.modalStyle}>
@@ -197,7 +197,7 @@ export default class ActivityTrackingWidget extends Component {
                                                 borderWidth={15}
                                                 buttonInnerColor={'#6EFACC'}
                                                 buttonOuterColor={this.state.value3Index === i ? '#6EFACC' : '#DDDEDE'}
-                                                
+
                                             />
                                             {obj.label == "Cardio" ? (
                                                 <Image style={styles.icon}
@@ -289,14 +289,14 @@ const styles = StyleSheet.create({
         color: "#347EFB",
         fontSize: 22
     },
-    icon:{
+    icon: {
         marginLeft: 8,
         marginRight: 8,
         height: 30,
-        width:30,
+        width: 30,
         resizeMode: 'contain'
     },
-    buttonSpace:{
+    buttonSpace: {
         marginTop: 8
     },
 
