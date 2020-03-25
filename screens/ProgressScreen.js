@@ -167,10 +167,15 @@ export default class ProgressScreen extends Component {
         this.state.weightEntry.sort(function (a, b) { return b.timeStamp - a.timeStamp })
         return (
             this.state.weightEntry.map((item, key) => (
-                <View key={key} style={{ margin: 20 }}>
-                    <Text>{item.date}</Text>
-                    <Text>Weight: {item.weightEntry} </Text>
-                    <Text>Progress = -{this.state.startingWeight - item.weightEntry}lbs</Text>
+                <View key={key}>
+                    <Text style={weight.date}>{item.date}</Text>
+                    <View style={weight.container}>
+                    <View style={weight.progressContainer}>
+                            <Text style={weight.progressText}>Progress </Text>
+                            <Text style={weight.progressDifference}>-{this.state.startingWeight - item.weightEntry}lbs</Text>
+                        </View>
+                        <Text style={weight.weight}>{item.weightEntry} </Text>                        
+                    </View>
                 </View>
             ))
         )
@@ -180,11 +185,27 @@ export default class ProgressScreen extends Component {
         this.state.measurements.sort(function (a, b) { return b.timeStamp - a.timeStamp })
         return (
             this.state.measurements.map((item, key) => (
-                <View key={key} style={{ margin: 20 }}>
-                    <Text>{item.date}</Text>
-                    <Text>Chest: {item.chest} </Text>
-                    <Text>Waist: {item.waist} </Text>
-                    <Text>Hips: {item.hips} </Text>
+                <View key={key}>
+                    <Text style={measurement.date}>{item.date}</Text> 
+
+                    <View style={measurement.container}>
+
+                        <View style={measurement.entryContainer}>
+                            <Text style={measurement.content}>Chest: </Text>
+                            <Text style={measurement.content}>{item.chest}</Text>
+                        </View>
+                            
+                        <View style={measurement.entryContainer}>
+                            <Text style={measurement.content}>Waist: </Text>
+                            <Text style={measurement.content}>{item.waist}</Text>
+                        </View>
+                            
+                        <View style={measurement.entryContainer}>
+                                <Text style={measurement.content}>Hips: </Text>
+                                <Text style={measurement.content}>{item.hips}</Text>
+                        </View>
+                            
+                    </View>
                 </View>
             ))
         )
@@ -240,11 +261,7 @@ export default class ProgressScreen extends Component {
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
                         {this._renderMeasuermentsContent()}
-
-
-
-
-                    </View>
+                   </View>
                 </ScrollView>
 
             )
@@ -256,8 +273,6 @@ export default class ProgressScreen extends Component {
                 </View>
             )
         }
-
-
     }
 
 
@@ -265,16 +280,64 @@ export default class ProgressScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
-        alignItems: 'flex-start',
-        paddingTop: 10,
-        paddingBottom: 10,
-        alignSelf: 'stretch',
-        marginBottom: 20,
-        marginTop: 20
+        backgroundColor: '#000000',
+        paddingLeft: 16,
+        paddingRight: 16
+    },
+})
+
+const weight =StyleSheet.create({
+    container:{
+        flexDirection:'row',
+        alignItems:'center',
+        marginBottom: 8
+    },
+    date:{
+        color:'#DDDEDE',
+        fontSize: 20,
+        marginTop:8
+    },
+    weight:{
+        fontSize:22,
+        color:'#347EFB',
     },
 
+    progressContainer:{
+        flexDirection:'row',
+        flex:1,
+    },
+    progressText:{
+        color:'#DDDEDE',
+        opacity: 0.6
+    },
+    progressDifference:{
+        color:'#347EFB'
+    }
 
+})
+
+const measurement =StyleSheet.create({
+    container:{
+        flexDirection:'row',
+        marginBottom: 8,
+        flex:1,
+        justifyContent:'space-between',
+        alignItems: 'center'
+    },
+    entryContainer:{
+        flexDirection:'row',
+        marginBottom:8,
+    },
+    date:{
+        color:'#DDDEDE',
+        fontSize: 20,
+        marginTop:8,
+        marginBottom:8
+    },
+    content:{
+        color:'#347EFB',
+        fontSize:16
+    },
 })
 
 
