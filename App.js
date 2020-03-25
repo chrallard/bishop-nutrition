@@ -51,7 +51,7 @@ function HomeStackScreen() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Dashboard" component={HomeScreen} options={{
-        title: "JEFF/CONOR - STYLE",
+        title: "Dashboard",
         headerTitleStyle: {
           fontSize: 17,
           color: '#DDDEDE',
@@ -65,7 +65,7 @@ function HomeStackScreen() {
       }} />
       <HomeStack.Screen name="DailyLogWidget" component={DailyLogWidget} />
       <HomeStack.Screen name="Summary" component={SummaryScreen} options={{
-        title: "JEFF/CONOR - STYLE"
+        title: "Summary"
       }} />
     </HomeStack.Navigator>
   )
@@ -75,7 +75,7 @@ function FoodStackScreen() {
   return (
     <FoodStack.Navigator>
       <FoodStack.Screen name="Food List" component={FoodScreen} options={{
-        title: "JEFF/CONOR - STYLE"
+        title: "Food List"
       }} />
     </FoodStack.Navigator>
   )
@@ -97,7 +97,7 @@ function ProgressStackScreen() {
   return (
     <ProgressStack.Navigator>
       <ProgressStack.Screen name="Progress" component={ProgressScreen} options={{
-        title: "JEFF/CONOR - STYLE"
+        title: "Progress"
       }} />
     </ProgressStack.Navigator>
   )
@@ -107,10 +107,10 @@ function ProfileStackScreen() {
   return (
     <ProfileStack.Navigator>
       <ProfileStack.Screen name="Profile" component={ProfileScreen} options={{
-        title: "JEFF/CONOR - STYLE"
+        title: "Profile"
       }} />
       <ProfileStack.Screen name="Update Password" component={UpdatePasswordScreen} options={{
-        title: "JEFF/CONOR - STYLE"
+        title: "Update Password"
       }} />
     </ProfileStack.Navigator>
   )
