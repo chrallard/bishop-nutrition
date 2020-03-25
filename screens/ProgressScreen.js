@@ -259,7 +259,7 @@ export default class ProgressScreen extends Component {
                                         <Text style={styles.modalNav}>Back</Text>
                                     </TouchableOpacity>
 
-                                    <Text style={styles.modalTitle}>Mood</Text>
+                                    <Text style={styles.modalTitle}>Weight</Text>
 
                                     <TouchableOpacity
                                         onPress={() => {
@@ -274,14 +274,14 @@ export default class ProgressScreen extends Component {
                                     </TouchableOpacity>
                                 </View>
                                 <View>
-                                    <Image source={require('../assets/scale.png')} style={{ height: 100, width: 100 }} />
+                                    <Image source={require('../assets/scale.png')} style={styles.scaleImage} />
                                 </View>
                                 <View>
-                                    <TextInput style={styles.modalInput}
+                                    <TextInput style={styles.weightInput}
                                         underlineColorAndroid="transparent"
                                         multiline={false}
                                         numberOfLines={1}
-                                        placeholder="Weight"
+                                        placeholder="Current Weight"
                                         placeholderTextColor='#DDDEDE'
                                         fontWeight='600'
                                         autoCapitalize="none"
@@ -329,7 +329,7 @@ export default class ProgressScreen extends Component {
                                         <Text style={styles.modalNav}>Back</Text>
                                     </TouchableOpacity>
 
-                                    <Text style={styles.modalTitle}>Mood</Text>
+                                    <Text style={styles.modalTitle}>Measurement</Text>
 
                                     <TouchableOpacity
                                         onPress={() => {
@@ -345,40 +345,41 @@ export default class ProgressScreen extends Component {
                                         <Text style={styles.modalNav}>Save</Text>
                                     </TouchableOpacity>
                                 </View>
-                                <View>
-                                    <Image source={require('../assets/body.png')} style={{ height: 100, width: 100 }} />
-                                </View>
-                                <View>
-                                    <TextInput style={styles.modalInput}
-                                        underlineColorAndroid="transparent"
-                                        multiline={false}
-                                        numberOfLines={1}
-                                        placeholder="Chest"
-                                        placeholderTextColor='#DDDEDE'
-                                        fontWeight='600'
-                                        autoCapitalize="none"
-                                        onChangeText={(text) => this.setState({ chest: text })}
-                                        value={this.state.Text} />
-                                    <TextInput style={styles.modalInput}
-                                        underlineColorAndroid="transparent"
-                                        multiline={false}
-                                        numberOfLines={1}
-                                        placeholder="Waist"
-                                        placeholderTextColor='#DDDEDE'
-                                        fontWeight='600'
-                                        autoCapitalize="none"
-                                        onChangeText={(text) => this.setState({ waist: text })}
-                                        value={this.state.Text} />
-                                    <TextInput style={styles.modalInput}
-                                        underlineColorAndroid="transparent"
-                                        multiline={false}
-                                        numberOfLines={1}
-                                        placeholder="Hips"
-                                        placeholderTextColor='#DDDEDE'
-                                        fontWeight='600'
-                                        autoCapitalize="none"
-                                        onChangeText={(text) => this.setState({ hips: text })}
-                                        value={this.state.Text} />
+                                <View style={styles.measurementModalLayout}>
+                                        <Image source={require('../assets/body.png')} style={styles.bodyImage} />
+                                    
+                                    <View style={styles.measurementInputLayout}>
+                                        <TextInput style={styles.measurementInput}
+                                            underlineColorAndroid="transparent"
+                                            multiline={false}
+                                            numberOfLines={1}
+                                            placeholder="Chest"
+                                            placeholderTextColor='#DDDEDE'
+                                            fontWeight='600'
+                                            autoCapitalize="none"
+                                            onChangeText={(text) => this.setState({ chest: text })}
+                                            value={this.state.Text} />
+                                        <TextInput style={styles.measurementInput}
+                                            underlineColorAndroid="transparent"
+                                            multiline={false}
+                                            numberOfLines={1}
+                                            placeholder="Waist"
+                                            placeholderTextColor='#DDDEDE'
+                                            fontWeight='600'
+                                            autoCapitalize="none"
+                                            onChangeText={(text) => this.setState({ waist: text })}
+                                            value={this.state.Text} />
+                                        <TextInput style={styles.measurementInput}
+                                            underlineColorAndroid="transparent"
+                                            multiline={false}
+                                            numberOfLines={1}
+                                            placeholder="Hips"
+                                            placeholderTextColor='#DDDEDE'
+                                            fontWeight='600'
+                                            autoCapitalize="none"
+                                            onChangeText={(text) => this.setState({ hips: text })}
+                                            value={this.state.Text} />
+                                        </View>
                                 </View>
                             </View>
                         </Modal>
@@ -436,6 +437,11 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: '#347EFB',
     },
+    measurementModalLayout:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignContent: 'center'
+    },
     modalInput: {
         height: 26,
         fontSize: 20,
@@ -444,13 +450,51 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: '#DDDEDE'
     },
+    weightInput:{
+        height: 30,
+        width: 245,
+        marginTop: 45,
+        fontSize: 24,
+        color: '#DDDEDE',
+        borderBottomWidth: 1,
+        borderColor: '#DDDEDE',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        textAlign: 'center'
+    },
+    measurementInput:{
+        height: 26,
+        width: 135,
+        fontSize: 22,
+        color: '#DDDEDE',
+        marginBottom: 45,
+        borderBottomWidth: 1,
+        borderColor: '#DDDEDE'
+    },
+    measurementInputLayout:{
+        justifyContent: 'center',
+        alignContent: 'center'
+    },
     modalSeprateLine: {
         width: '100%',
         height: '2%',
         position: 'absolute',
         backgroundColor: 'black',
         bottom: 0
-    }
+    },
+    scaleImage: {
+        height: 176,
+        width: 184,
+        marginTop: 45,
+        justifyContent: 'center',
+        alignSelf: 'center'
+    },
+    bodyImage:{
+        height: 480,
+        width: 146,
+        marginTop: '20%',
+        marginRight: 32
+    },
 })
 
 const weight = StyleSheet.create({
