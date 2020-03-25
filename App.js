@@ -2,11 +2,12 @@
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
-import {decode, encode} from 'base-64'
-if (!global.btoa) {  global.btoa = encode }
+import { decode, encode } from 'base-64'
+if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }
 //////////////////////////////////// react
 import React, { useState } from 'react'
+import { Button } from 'react-native'
 //////////////////////////////////// react navigation
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -49,7 +50,7 @@ const LoginStack = createStackNavigator()
 
 
 function HomeStackScreen() {
-  return(
+  return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Dashboard" component={HomeScreen} options={{
         title: "JEFF/CONOR - STYLE"
@@ -60,7 +61,7 @@ function HomeStackScreen() {
 
 
 function FoodStackScreen() {
-  return(
+  return (
     <FoodStack.Navigator>
       <FoodStack.Screen name="Food List" component={FoodScreen} options={{
         title: "JEFF/CONOR - STYLE"
@@ -70,7 +71,7 @@ function FoodStackScreen() {
 }
 
 function ActivitiesStackScreen() {
-  return(
+  return (
     <ActivitiesStack.Navigator>
       <ActivitiesStack.Screen name="Activities" component={ActivitiesScreen} options={{
         title: "JEFF/CONOR - STYLE"
@@ -80,10 +81,11 @@ function ActivitiesStackScreen() {
 }
 
 function ProgressStackScreen() {
-  return(
+  return (
     <ProgressStack.Navigator>
       <ProgressStack.Screen name="Progress" component={ProgressScreen} options={{
-        title: "JEFF/CONOR - STYLE"
+        title: "Progress"
+
       }} />
     </ProgressStack.Navigator>
   )
@@ -123,56 +125,56 @@ export default function App() {
     <NavigationContainer>
       {isLoggedIn ? (
         <Tab.Navigator>
-          
-          <Tab.Screen 
-          name="Home" 
-          component={HomeStackScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="home" color={color} size={size} />
-            )
-          }} />
 
-          <Tab.Screen 
-          name="Food" 
-          component={FoodStackScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
-            )
-          }} />
+          <Tab.Screen
+            name="Home"
+            component={HomeStackScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="home" color={color} size={size} />
+              )
+            }} />
 
-          <Tab.Screen 
-          name="Activities" 
-          component={ActivitiesStackScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="run" color={color} size={size} />
-            )
-          }} />
+          <Tab.Screen
+            name="Food"
+            component={FoodStackScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
+              )
+            }} />
 
-          <Tab.Screen 
-          name="Progress" 
-          component={ProgressStackScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="chart-line" color={color} size={size} />
-            )
-          }} />
+          <Tab.Screen
+            name="Activities"
+            component={ActivitiesStackScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="run" color={color} size={size} />
+              )
+            }} />
 
-          <Tab.Screen 
-          name="Profile"
-          component={ProfileStackScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="account" color={color} size={size} />
-            )
-          }} />
+          <Tab.Screen
+            name="Progress"
+            component={ProgressStackScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="chart-line" color={color} size={size} />
+              )
+            }} />
+
+          <Tab.Screen
+            name="Profile"
+            component={ProfileStackScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="account" color={color} size={size} />
+              )
+            }} />
 
         </Tab.Navigator>
       ) : (
-        <LoginStackScreen />
-      )}
+          <LoginStackScreen />
+        )}
     </NavigationContainer>
   );
 }
