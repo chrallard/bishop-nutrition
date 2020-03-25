@@ -1,6 +1,6 @@
 export default {
     exerciseEntry: {
-      durationMins: null,
+      durationMins: 0,
       notes: "",
       title: "",
       type: "",
@@ -36,9 +36,9 @@ export default {
       mood: null,
     },
     sleepEntry: {
-      end: null,
-      notes: "",
-      start: null,
+      duration: "0 hr 0 min",
+      durationMs: 0,
+      notes: ""
     },
     timeStamp: 0,
     humanDate: "",
