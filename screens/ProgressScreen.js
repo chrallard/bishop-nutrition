@@ -326,9 +326,7 @@ export default class ProgressScreen extends Component {
                             activeTabStyle={segmented.activeTabStyle}
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
-                        <Button title="Add" onPress={() => {
-                            this.setState({ showMeasurementAdd: true })
-                        }} />
+                        
                         {this._renderMeasuermentsContent()}
                         <Modal visible={this.state.showMeasurementAdd} animationType={'slide'} transparent={true}>
 
