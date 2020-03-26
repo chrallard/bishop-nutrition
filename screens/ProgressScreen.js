@@ -229,6 +229,9 @@ export default class ProgressScreen extends Component {
         if (this.state.selectedIndex == 0) {
             return (
                 //this is where you build the weight screen
+                <>
+                
+                
                 <ScrollView>
                     <View style={styles.container}  >
 
@@ -246,9 +249,6 @@ export default class ProgressScreen extends Component {
                             activeTabStyle={segmented.activeTabStyle}
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
-                        <Button title="Add" onPress={() => {
-                            this.setState({ showWeightAdd: true })
-                        }} />
                         {this._renderWeightContent()}
 
                         <Modal visible={this.state.showWeightAdd} animationType={'slide'} transparent={true}>
@@ -295,11 +295,20 @@ export default class ProgressScreen extends Component {
 
 
                 </ScrollView>
+                
+                <TouchableOpacity title="Add" onPress={() => {
+                    this.setState({ showWeightAdd: true })
+                }} style={styles.addBtn}>
+                    <Text style={styles.addBtnText}>+</Text>
+                </TouchableOpacity>
+                </>
             )
 
         }
         else if (this.state.selectedIndex == 1) {
             return (
+
+                <>
                 <ScrollView>
                     <View style={styles.container}  >
 
@@ -386,6 +395,12 @@ export default class ProgressScreen extends Component {
                     </View>
                 </ScrollView>
 
+                <TouchableOpacity title="Add" onPress={() => {
+                    this.setState({ showMeasurementAdd: true })
+                }} style={styles.addBtn}>
+                    <Text style={styles.addBtnText}>+</Text>
+                </TouchableOpacity>
+                </>
             )
         }
         else {
@@ -495,6 +510,19 @@ const styles = StyleSheet.create({
         marginTop: '20%',
         marginRight: 32
     },
+    addBtn:{
+        width: 50,  
+        height: 50,   
+        borderRadius: 25,            
+        backgroundColor: '#00FFC9',
+        alignSelf: 'center',
+        alignItems: 'center',                                
+        position: 'absolute',
+        top: '88%'
+    },
+    addBtnText:{
+        fontSize: 40,
+    }
 })
 
 const weight = StyleSheet.create({
@@ -523,7 +551,7 @@ const weight = StyleSheet.create({
     },
     progressDifference: {
         color: '#347EFB'
-    }
+    },
 
 })
 
