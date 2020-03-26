@@ -255,7 +255,7 @@ export default class ProgressScreen extends Component {
 
                             <View style={styles.modalStyle}>
                                 <View style={styles.modalHeader}>
-                                    <TouchableOpacity onPress={() => { this.setState({ showMeasurementAdd: false }) }}>
+                                    <TouchableOpacity onPress={() => { this.setState({ showWeightAdd: false }) }}>
                                         <Text style={styles.modalNav}>Back</Text>
                                     </TouchableOpacity>
 
@@ -346,8 +346,8 @@ export default class ProgressScreen extends Component {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.measurementModalLayout}>
-                                        <Image source={require('../assets/body.png')} style={styles.bodyImage} />
-                                    
+                                    <Image source={require('../assets/body.png')} style={styles.bodyImage} />
+
                                     <View style={styles.measurementInputLayout}>
                                         <TextInput style={styles.measurementInput}
                                             underlineColorAndroid="transparent"
@@ -379,7 +379,7 @@ export default class ProgressScreen extends Component {
                                             autoCapitalize="none"
                                             onChangeText={(text) => this.setState({ hips: text })}
                                             value={this.state.Text} />
-                                        </View>
+                                    </View>
                                 </View>
                             </View>
                         </Modal>
@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: '#347EFB',
     },
-    measurementModalLayout:{
+    measurementModalLayout: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignContent: 'center'
@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: '#DDDEDE'
     },
-    weightInput:{
+    weightInput: {
         height: 30,
         width: 245,
         marginTop: 45,
@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center'
     },
-    measurementInput:{
+    measurementInput: {
         height: 26,
         width: 135,
         fontSize: 22,
@@ -471,7 +471,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: '#DDDEDE'
     },
-    measurementInputLayout:{
+    measurementInputLayout: {
         justifyContent: 'center',
         alignContent: 'center'
     },
@@ -489,7 +489,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center'
     },
-    bodyImage:{
+    bodyImage: {
         height: 480,
         width: 146,
         marginTop: '20%',
