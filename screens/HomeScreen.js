@@ -8,9 +8,9 @@ import DailyLogWidget from '../widgets/DailyLogWidget'
 import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
 import WaterTrackingWidget from '../widgets/WaterTrackingWidget'
 import ActivityTrackingWidget from '../widgets/ActivityTrackingWidget'
-
 import healthTrackingTemplate from '../dataTemplates/healthTrackingTemplate'
 import bodyTrackingTemplate from '../dataTemplates/bodyTrackingTemplate'
+import WeightWidget from '../widgets/WeightWidget'
 import MoodTrackingWidget from '../widgets/MoodTrackingWidget'
 
 export default class HomeScreen extends Component {
@@ -123,6 +123,7 @@ export default class HomeScreen extends Component {
           <DailyLogWidget navProps={this.props.navigation} />
           <FoodTrackingWidget />
           <WaterTrackingWidget />
+          <WeightWidget/>
           <MoodTrackingWidget />
           <ActivityTrackingWidget />
         </View>
