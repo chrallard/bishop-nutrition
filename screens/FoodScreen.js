@@ -866,7 +866,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     flex: 1.5,
     flexWrap: 'wrap',
-    paddingLeft: 8
+    marginRight: 15
   },
   foodItemIcons: {  //accorian add portion/fav icon
     flexDirection: 'row',
