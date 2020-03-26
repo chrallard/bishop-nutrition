@@ -24,12 +24,12 @@ export default class WaterTrackingWidget extends Component {
   }
     
   async componentDidMount(){
-    // await this.setUid()
-    // await this.setUsersPlan()
-    // await this.setTodaysDocId()
-    // await this.setMaxWater()
-    // await this.setUsersWater()
-    // this.buildCupsArray()
+    await this.setUid()
+    await this.setUsersPlan()
+    await this.setTodaysDocId()
+    await this.setMaxWater()
+    await this.setUsersWater()
+    this.buildCupsArray()
   }
 
   setUid = async() => {
@@ -135,6 +135,9 @@ export default class WaterTrackingWidget extends Component {
     //pushing the number of full cups to the db
     await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").doc(this.state.docId)
     .set({waterEntry: {portions: n}}, {merge: true})
+
+    //updating the state so the number values reflect the change
+    this.setState({ usersWater: n })
   }
     
   render() {

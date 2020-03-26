@@ -15,9 +15,9 @@ export default class FoodTrackingWidget extends Component {
     }
 
     async componentDidMount(){
-        // await this.setUid()
-        // await this.setTodaysDocId()
-        // this.buildList()
+        await this.setUid()
+        await this.setTodaysDocId()
+        this.buildList()
     }
 
     setUid = async () => {

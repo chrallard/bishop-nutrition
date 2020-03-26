@@ -31,7 +31,7 @@ export default class MoodTrackingWidget extends Component {
         this.refs.addModal.showModal();
     }
 
-    setUid = async() => {
+    setUid = async () => {
         let uid = await firebase.auth().currentUser.uid
         this.setState({ uid })
     }
@@ -44,39 +44,40 @@ export default class MoodTrackingWidget extends Component {
             return this.formatDate(d)
         }
         let docId
-  
+
         //loop through user data and get the dates to format
         await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").orderBy("timeStamp", "desc").limit(15).get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 let formattedDate = formatDate(new Date(doc.data().timeStamp))
-  
-                if(formattedDate == today){ //selecting today's healthTracking document ID
+
+                if (formattedDate == today) { //selecting today's healthTracking document ID
                     docId = doc.id
-                }  
+                }
             })
         })
-  
+
         this.setState({ docId })
     }
 
     formatDate = (d) => {
-        const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         const date = d.getDate()
         const month = months[d.getMonth()]
         const year = d.getFullYear()
         const formattedDate = date + month + year //looks like this: 4March2020
-      
+
         return formattedDate
     }
 
     updateDb = async () => {
         await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").doc(this.state.docId)
-        .set({
-            moodEntry: {
-                diary: this.state.diary,
-                mood: this.state.moodValue
-            }}, 
-        {merge: true})
+            .set({
+                moodEntry: {
+                    diary: this.state.diary,
+                    mood: this.state.moodValue
+                }
+            },
+                { merge: true })
     }
 
     render() {
@@ -112,11 +113,11 @@ export default class MoodTrackingWidget extends Component {
 
 
 
-                <Modal visible={this.state.showMe} animationType={'slide'}>
+                <Modal visible={this.state.showMe} animationType={'slide'} transparent={true}>
 
                     <View style={styles.modalStyle}>
                         <View style={styles.modalHeader}>
-                            <TouchableOpacity onPress={() => {this.setState({ showMe: false })}}>
+                            <TouchableOpacity onPress={() => { this.setState({ showMe: false }) }}>
                                 <Text style={styles.modalNav}>Back</Text>
                             </TouchableOpacity>
 
@@ -142,13 +143,13 @@ export default class MoodTrackingWidget extends Component {
 
 
                         <View style={styles.imageRow1}>
-                        <TouchableOpacity onPress={() => {
-                                this.setState({ 
+                            <TouchableOpacity onPress={() => {
+                                this.setState({
                                     selectedMood: "Really Happy",
                                     moodValue: 6
                                 })
                             }}>
-                                {((this.state.selectedMood == "Really Happy")  || (this.state.selectedMood == "")) ? (
+                                {((this.state.selectedMood == "Really Happy") || (this.state.selectedMood == "")) ? (
                                     <Image source={require('../Images/smile_6.png')} style={styles.emojiSelect} />
 
                                 ) : (
@@ -156,7 +157,7 @@ export default class MoodTrackingWidget extends Component {
                                     )}
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => {
-                                this.setState({ 
+                                this.setState({
                                     selectedMood: "Happy",
                                     moodValue: 5
                                 })
@@ -169,7 +170,7 @@ export default class MoodTrackingWidget extends Component {
                                     )}
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => {
-                                this.setState({ 
+                                this.setState({
                                     selectedMood: "Neutral",
                                     moodValue: 4
                                 })
@@ -180,13 +181,13 @@ export default class MoodTrackingWidget extends Component {
                                 ) : (
                                         <Image source={require('../Images/smile_4.png')} style={styles.emojiNoSelect} />
                                     )}
-                            </TouchableOpacity> 
+                            </TouchableOpacity>
                         </View>
 
                         <View style={styles.imageRow2}>
 
-                        <TouchableOpacity onPress={() => {
-                                this.setState({ 
+                            <TouchableOpacity onPress={() => {
+                                this.setState({
                                     selectedMood: "Hungry",
                                     moodValue: 3
                                 })
@@ -199,7 +200,7 @@ export default class MoodTrackingWidget extends Component {
                                     )}
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => {
-                                this.setState({ 
+                                this.setState({
                                     selectedMood: "Sad",
                                     moodValue: 2
                                 })
@@ -212,7 +213,7 @@ export default class MoodTrackingWidget extends Component {
                                     )}
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => {
-                                this.setState({ 
+                                this.setState({
                                     selectedMood: "Sick",
                                     moodValue: 1
                                 })
@@ -223,10 +224,10 @@ export default class MoodTrackingWidget extends Component {
                                 ) : (
                                         <Image source={require('../Images/smile_1.png')} style={styles.emojiNoSelect} />
                                     )
-}
+                                }
                             </TouchableOpacity>
                         </View>
-                        
+
                         <View>
                             <Text style={styles.content}>Diary:</Text>
                         </View>
@@ -250,7 +251,7 @@ export default class MoodTrackingWidget extends Component {
 };
 
 const styles = StyleSheet.create({
-//Styled by Jeff March 20
+    //Styled by Jeff March 20
     container: {
         display: 'flex',
         backgroundColor: '#1C1C1E',
@@ -268,12 +269,12 @@ const styles = StyleSheet.create({
         height: 60,
         width: 60
     },
-    emojiSelect:{
-        height:60,
-        width:60,
-        opacity:1
+    emojiSelect: {
+        height: 60,
+        width: 60,
+        opacity: 1
     },
-    emojiNoSelect:{
+    emojiNoSelect: {
         height: 60,
         width: 60,
         opacity: 0.6
@@ -314,7 +315,7 @@ const styles = StyleSheet.create({
         color: '#347EFB',
     },
     modalInput: {
-        color: '#dddede',      
+        color: '#dddede',
         height: 150,
         borderColor: '#B7B7B7',
         backgroundColor: '#2C2C2E',
@@ -325,7 +326,7 @@ const styles = StyleSheet.create({
     content: {
         marginTop: 24,
         marginBottom: 16,
-        marginLeft:  16,
+        marginLeft: 16,
         color: '#DDDEDE',
         fontSize: 17,
     },
