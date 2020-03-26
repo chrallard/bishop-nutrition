@@ -44,23 +44,40 @@ export default class WelcomeWidget extends Component{
     render(){
         return(
             <View style={styles.container}>
-                <Text>Welcome</Text>
-                <Text>{this.state.name}</Text>
-                <Text>{this.state.date}</Text>
+                <Text style={styles.title}>Welcome</Text>
+                <Text style={styles.nameText}>{this.state.name}</Text>
+                <Text style={styles.dateText}>{this.state.date}</Text>
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
+    // STYLING JEFF March 6
     container:{
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: 10,
-        paddingBottom: 10,
+        flexDirection: 'column',
+        backgroundColor: '#1C1C1E',
+        padding: 16,
         alignSelf: 'stretch',
-        marginBottom: 20,
-        marginTop: 20
+        marginBottom: 8,
+        //marginTop: 44
+    },
+    title:{
+        color:'#FAFAFA',
+        fontSize: 20,
+    },
+    nameText:{
+        flexDirection: 'column',
+        color:'#FAFAFA',
+        fontSize: 28,
+        justifyContent: 'center',
+        alignSelf:'center',
+        marginBottom: 8
+    },
+    dateText:{
+        color:'#347EFB',
+        fontSize: 17,
+        justifyContent: 'center',
+        alignSelf:'center'
     }
 })

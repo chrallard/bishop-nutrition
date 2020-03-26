@@ -3,5 +3,6 @@ export default {
     hipsEntry: null,
     waistEntry: null,
     weightEntry: null,
-    timeStamp: 0
+    timeStamp: 0,
+    humanDate: ""
 }
