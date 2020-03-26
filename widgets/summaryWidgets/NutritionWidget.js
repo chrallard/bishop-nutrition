@@ -110,7 +110,13 @@ export default class NutritionWidget extends Component {
             let newObj = {
                 name: obj.name,
                 portions: newPortions,
-                maxPortions: Object.values(this.state.planData.portions)[index].maxPortions * this.props.foodEntry.length
+                maxPortions: Object.values(this.state.planData.portions)[index].maxPortions * this.props.foodEntry.length,
+                progressColor: "#347EFB",
+                foodIcon: obj.foodIcon
+            }
+
+            if((newObj.portions / newObj.maxPortions) > 1){
+              newObj.progressColor = "#F0DB5C"
             }
 
             newFoodDataList.push(newObj)
