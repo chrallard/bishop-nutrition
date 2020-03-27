@@ -512,7 +512,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignItems: 'center',                                
         position: 'absolute',
-        top: '96%'
+        top: '95%'
     },
     addBtnSize:{
         height: 30,
