@@ -181,7 +181,8 @@ export default class ProfileScreen extends Component {
     let uid = await firebase.auth().currentUser.uid
     this.setState({ uid })
   }
-  updateSearch = search => {
+  updateFavouriteSearch = search => {
+
     let lists = [
       {
         type: "Dairy",
@@ -215,6 +216,100 @@ export default class ProfileScreen extends Component {
 
     if (search != "") {
       this.setState({ searchActive: true })
+      console.log("search active")
+
+    }
+    else {
+      this.setState({ searchActive: false })
+
+    }
+    this.state.favouriteLists[0].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        // console.log(element)
+        lists[0].list.push(element)
+      }
+    });
+    this.state.favouriteLists[1].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        // console.log(element)
+        lists[1].list.push(element)
+      }
+    });
+
+    this.state.favouriteLists[2].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        // console.log(element)
+        lists[2].list.push(element)
+      }
+    });
+    this.state.favouriteLists[3].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        // console.log(element)
+        lists[3].list.push(element)
+      }
+    });
+    this.state.favouriteLists[4].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        // console.log(element)
+        lists[4].list.push(element)
+      }
+    });
+    this.state.favouriteLists[5].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        // console.log(element)
+        lists[5].list.push(element)
+      }
+    });
+    this.state.favouriteLists[6].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        // console.log(element)
+        lists[6].list.push(element)
+      }
+    });
+
+
+    this.setState({ searchLists: lists })
+    this.setState({ search });
+  };
+
+
+
+  updateSearch = search => {
+
+    let lists = [
+      {
+        type: "Dairy",
+        list: []
+      },
+      {
+        type: "Restricted Vegetables",
+        list: []
+      },
+      {
+        type: "Fruits",
+        list: []
+      },
+      {
+        type: "Simple Carbs",
+        list: []
+      },
+      {
+        type: "Proteins",
+        list: []
+      },
+      {
+        type: "Fats",
+        list: []
+      },
+      {
+        type: "Free Vegetables",
+        list: []
+      }
+    ]
+
+    if (search != "") {
+      this.setState({ searchActive: true })
+      console.log("search active")
 
     }
     else {
@@ -671,51 +766,102 @@ export default class ProfileScreen extends Component {
     const { search } = this.state;
 
     if (this.state.selectedIndex == 0) {
-
-      return (
-        <View style={styles.container}>
-          <ScrollView>
-            <View>
-
-
-              <SearchBar
-                placeholder="Search Your Food Here..."
-                platform="ios"
-                containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
-                inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
-                onChangeText={this.updateSearch}
-                value={search}
-                placeholderTextColor='#B7B7B7'
-                inputStyle={{ color: '#DDDEDE' }}
-
-              />
-              <SegmentedControlTab
-                values={["Favourites", "Food List"]}
-                selectedIndex={this.state.selectedIndex}
-                onTabPress={this._handleIndexChange}
-
-                allowFontScaling={false}
-                tabsContainerStyle={styles.tabsContainerStyleFood}
-                tabStyle={styles.tabStyleFood}
-                firstTabStyle={styles.firstTabStyleFood}
-                lastTabStyle={styles.lastTabStyleFood}
-                tabTextStyle={styles.tabTextStyleFood}
-                activeTabStyle={styles.activeTabStyleFood}
-                activeTabTextStyle={styles.activeTabTextStyleFood}
-              />
-              {this._renderFavouriteContent(this.state.favouriteLists[0])}
-              {this._renderFavouriteContent(this.state.favouriteLists[1])}
-              {this._renderFavouriteContent(this.state.favouriteLists[2])}
-              {this._renderFavouriteContent(this.state.favouriteLists[3])}
-              {this._renderFavouriteContent(this.state.favouriteLists[4])}
-              {this._renderFavouriteContent(this.state.favouriteLists[5])}
-              {this._renderFavouriteContent(this.state.favouriteLists[6])}
+      if (this.state.searchActive) {
+        return (
+          <View style={styles.container}>
+            <ScrollView>
+              <View>
 
 
-            </View>
-          </ScrollView>
-        </View>
-      )
+                <SearchBar
+                  placeholder="Search Your Food Here..."
+                  platform="ios"
+                  containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
+                  inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
+                  onChangeText={this.updateFavouriteSearch}
+                  value={search}
+                  placeholderTextColor='#B7B7B7'
+                  inputStyle={{ color: '#DDDEDE' }}
+
+                />
+                <SegmentedControlTab
+                  values={["Favourites", "Food List"]}
+                  selectedIndex={this.state.selectedIndex}
+                  onTabPress={this._handleIndexChange}
+
+                  allowFontScaling={false}
+                  tabsContainerStyle={styles.tabsContainerStyleFood}
+                  tabStyle={styles.tabStyleFood}
+                  firstTabStyle={styles.firstTabStyleFood}
+                  lastTabStyle={styles.lastTabStyleFood}
+                  tabTextStyle={styles.tabTextStyleFood}
+                  activeTabStyle={styles.activeTabStyleFood}
+                  activeTabTextStyle={styles.activeTabTextStyleFood}
+                />
+                {this._renderFavouriteContent(this.state.searchLists[0])}
+                {this._renderFavouriteContent(this.state.searchLists[1])}
+                {this._renderFavouriteContent(this.state.searchLists[2])}
+                {this._renderFavouriteContent(this.state.searchLists[3])}
+                {this._renderFavouriteContent(this.state.searchLists[4])}
+                {this._renderFavouriteContent(this.state.searchLists[5])}
+                {this._renderFavouriteContent(this.state.searchLists[6])}
+
+
+              </View>
+            </ScrollView>
+          </View>
+        )
+
+      }
+      else if (!this.state.searchActive) {
+        return (
+          <View style={styles.container}>
+            <ScrollView>
+              <View>
+
+
+                <SearchBar
+                  placeholder="Search Your Food Here..."
+                  platform="ios"
+                  containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
+                  inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
+                  onChangeText={this.updateFavouriteSearch}
+                  value={search}
+                  placeholderTextColor='#B7B7B7'
+                  inputStyle={{ color: '#DDDEDE' }}
+
+                />
+                <SegmentedControlTab
+                  values={["Favourites", "Food List"]}
+                  selectedIndex={this.state.selectedIndex}
+                  onTabPress={this._handleIndexChange}
+
+                  allowFontScaling={false}
+                  tabsContainerStyle={styles.tabsContainerStyleFood}
+                  tabStyle={styles.tabStyleFood}
+                  firstTabStyle={styles.firstTabStyleFood}
+                  lastTabStyle={styles.lastTabStyleFood}
+                  tabTextStyle={styles.tabTextStyleFood}
+                  activeTabStyle={styles.activeTabStyleFood}
+                  activeTabTextStyle={styles.activeTabTextStyleFood}
+                />
+                {this._renderFavouriteContent(this.state.favouriteLists[0])}
+                {this._renderFavouriteContent(this.state.favouriteLists[1])}
+                {this._renderFavouriteContent(this.state.favouriteLists[2])}
+                {this._renderFavouriteContent(this.state.favouriteLists[3])}
+                {this._renderFavouriteContent(this.state.favouriteLists[4])}
+                {this._renderFavouriteContent(this.state.favouriteLists[5])}
+                {this._renderFavouriteContent(this.state.favouriteLists[6])}
+
+
+              </View>
+            </ScrollView>
+          </View>
+        )
+
+      }
+
+
     }
     else if (this.state.selectedIndex == 1) {
       if (this.state.searchActive) {
@@ -809,21 +955,7 @@ export default class ProfileScreen extends Component {
     }
   }
 }
-// <View>
 
-//   <List.Section style={{ marginTop: 30 }} title="Food List">
-
-//     {this.state.lists.map((item, key) => (
-//       <List.Accordion key={key}
-//         title={item.type}
-//       >
-//         {item.list.map((item, key) => (
-//           <List.Item key={key} title={item.name} />
-//         ))}
-//       </List.Accordion>
-//     ))}
-//   </List.Section>
-// </View>
 
 
 const styles = StyleSheet.create({
