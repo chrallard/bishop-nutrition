@@ -216,7 +216,6 @@ export default class ProfileScreen extends Component {
 
     if (search != "") {
       this.setState({ searchActive: true })
-      console.log("search active")
 
     }
     else {
