@@ -246,9 +246,13 @@ export default class ProgressScreen extends Component {
                             activeTabStyle={segmented.activeTabStyle}
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
+
+
                         <Button title="Add" onPress={() => {
                             this.setState({ showWeightAdd: true })
                         }} />
+
+
                         {this._renderWeightContent()}
 
                         <Modal visible={this.state.showWeightAdd} animationType={'slide'} transparent={true}>
@@ -317,9 +321,12 @@ export default class ProgressScreen extends Component {
                             activeTabStyle={segmented.activeTabStyle}
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
+
                         <Button title="Add" onPress={() => {
                             this.setState({ showMeasurementAdd: true })
                         }} />
+
+
                         {this._renderMeasuermentsContent()}
                         <Modal visible={this.state.showMeasurementAdd} animationType={'slide'} transparent={true}>
 
@@ -401,10 +408,12 @@ export default class ProgressScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+
     container: {
         backgroundColor: '#000000',
         paddingLeft: 16,
-        paddingRight: 16
+        paddingRight: 16,
+        display: 'flex'
     },
     modalNoteInput: {
         height: 200,
