@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, FlatList, ScrollView, Image, Button, Modal, TouchableOpacity, TextInput } from 'react-native'
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts'
 import * as firebase from "firebase/app"
@@ -20,9 +20,20 @@ export default class ProgressScreen extends Component {
             selectedIndex: 0,
             time: [],
             measurements: [],
+
             
             
+
+            showWeightAdd: false,
+            showMeasurementAdd: false,
+            chest: 0,
+            hips: 0,
+            waist: 0,
+            weight: 0
+
+
         }
+        this.addModal = this.addModal.bind(this);
     }
 
     async componentDidMount() {
@@ -39,10 +50,16 @@ export default class ProgressScreen extends Component {
 
     }
 
+
     
    
+
+    addModal = () => {
+        this.refs.addModal.showModal();
+    }
+
     getTime = async () => {
-       
+
         let uid = await firebase.auth().currentUser.uid
         await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "desc").limit(5).get().then((querySnapshot) => {
             let time = []
@@ -57,12 +74,12 @@ export default class ProgressScreen extends Component {
                     time: `${month} ${datee}, ${year}`
                 }
                 time.push(obj)
-                
+
                 this.setState({ time })
             })
 
         })
-       
+
 
 
 
@@ -174,24 +191,45 @@ export default class ProgressScreen extends Component {
         this.state.weightEntry.sort(function (a, b) { return b.timeStamp - a.timeStamp })
         return (
             this.state.weightEntry.map((item, key) => (
-                <View key={key} style={{ margin: 20 }}>
-                    <Text>{item.date}</Text>
-                    <Text>Weight: {item.weightEntry} </Text>
-                    <Text>Progress = -{this.state.startingWeight - item.weightEntry}lbs</Text>
+                <View key={key}>
+                    <Text style={weight.date}>{item.date}</Text>
+                    <View style={weight.container}>
+                        <View style={weight.progressContainer}>
+                            <Text style={weight.progressText}>Progress </Text>
+                            <Text style={weight.progressDifference}>-{this.state.startingWeight - item.weightEntry}lbs</Text>
+                        </View>
+                        <Text style={weight.weight}>{item.weightEntry} </Text>
+                    </View>
                 </View>
             ))
         )
     }
-   
+
     _renderMeasuermentsContent = () => {
         this.state.measurements.sort(function (a, b) { return b.timeStamp - a.timeStamp })
         return (
             this.state.measurements.map((item, key) => (
-                <View key={key} style={{ margin: 20 }}>
-                    <Text>{item.date}</Text>
-                    <Text>Chest: {item.chest} </Text>
-                    <Text>Waist: {item.waist} </Text>
-                    <Text>Hips: {item.hips} </Text>
+                <View key={key}>
+                    <Text style={measurement.date}>{item.date}</Text>
+
+                    <View style={measurement.container}>
+
+                        <View style={measurement.entryContainer}>
+                            <Text style={measurement.content}>Chest: </Text>
+                            <Text style={measurement.content}>{item.chest}</Text>
+                        </View>
+
+                        <View style={measurement.entryContainer}>
+                            <Text style={measurement.content}>Waist: </Text>
+                            <Text style={measurement.content}>{item.waist}</Text>
+                        </View>
+
+                        <View style={measurement.entryContainer}>
+                            <Text style={measurement.content}>Hips: </Text>
+                            <Text style={measurement.content}>{item.hips}</Text>
+                        </View>
+
+                    </View>
                 </View>
             ))
         )
@@ -256,8 +294,58 @@ export default class ProgressScreen extends Component {
                             activeTabStyle={segmented.activeTabStyle}
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
+
+
+                        <Button title="Add" onPress={() => {
+                            this.setState({ showWeightAdd: true })
+                        }} />
+
+
                         {this._renderWeightContent()}
+
+                        <Modal visible={this.state.showWeightAdd} animationType={'slide'} transparent={true}>
+
+                            <View style={styles.modalStyle}>
+                                <View style={styles.modalHeader}>
+                                    <TouchableOpacity onPress={() => { this.setState({ showMeasurementAdd: false }) }}>
+                                        <Text style={styles.modalNav}>Back</Text>
+                                    </TouchableOpacity>
+
+                                    <Text style={styles.modalTitle}>Weight</Text>
+
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            this.setState({ showWeightAdd: false })
+                                            console.log(this.state.weight)
+                                            let timeStamp = Date.now()
+                                            console.log(timeStamp)
+                                            // this.updateDb()
+                                            //this onpress will be what pushs to the db
+                                        }}>
+                                        <Text style={styles.modalNav}>Save</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View>
+                                    <Image source={require('../assets/scale.png')} style={styles.scaleImage} />
+                                </View>
+                                <View>
+                                    <TextInput style={styles.weightInput}
+                                        underlineColorAndroid="transparent"
+                                        multiline={false}
+                                        numberOfLines={1}
+                                        placeholder="Current Weight"
+                                        placeholderTextColor='#DDDEDE'
+                                        fontWeight='600'
+                                        autoCapitalize="none"
+                                        onChangeText={(text) => this.setState({ weight: text })}
+                                        value={this.state.Text} />
+
+                                </View>
+                            </View>
+                        </Modal>
                     </View>
+
+
                 </ScrollView>
                
              
@@ -283,7 +371,79 @@ export default class ProgressScreen extends Component {
                             activeTabStyle={segmented.activeTabStyle}
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
+
                         {this._renderMeasuermentsContent()}
+
+
+
+                        <Button title="Add" onPress={() => {
+                            this.setState({ showMeasurementAdd: true })
+                        }} />
+
+
+                        {this._renderMeasuermentsContent()}
+                        <Modal visible={this.state.showMeasurementAdd} animationType={'slide'} transparent={true}>
+
+                            <View style={styles.modalStyle}>
+                                <View style={styles.modalHeader}>
+                                    <TouchableOpacity onPress={() => { this.setState({ showMeasurementAdd: false }) }}>
+                                        <Text style={styles.modalNav}>Back</Text>
+                                    </TouchableOpacity>
+
+                                    <Text style={styles.modalTitle}>Measurement</Text>
+
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            this.setState({ showMeasurementAdd: false })
+                                            console.log(`Chest: ${this.state.chest}, Waist: ${this.state.waist}, Hips: ${this.state.hips}`)
+                                            let timeStamp = Date.now()
+                                            console.log(timeStamp)
+
+
+                                            // this.updateDb()
+                                            //this onpress will be what pushs to the db
+                                        }}>
+                                        <Text style={styles.modalNav}>Save</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={styles.measurementModalLayout}>
+                                        <Image source={require('../assets/body.png')} style={styles.bodyImage} />
+                                    
+                                    <View style={styles.measurementInputLayout}>
+                                        <TextInput style={styles.measurementInput}
+                                            underlineColorAndroid="transparent"
+                                            multiline={false}
+                                            numberOfLines={1}
+                                            placeholder="Chest"
+                                            placeholderTextColor='#DDDEDE'
+                                            fontWeight='600'
+                                            autoCapitalize="none"
+                                            onChangeText={(text) => this.setState({ chest: text })}
+                                            value={this.state.Text} />
+                                        <TextInput style={styles.measurementInput}
+                                            underlineColorAndroid="transparent"
+                                            multiline={false}
+                                            numberOfLines={1}
+                                            placeholder="Waist"
+                                            placeholderTextColor='#DDDEDE'
+                                            fontWeight='600'
+                                            autoCapitalize="none"
+                                            onChangeText={(text) => this.setState({ waist: text })}
+                                            value={this.state.Text} />
+                                        <TextInput style={styles.measurementInput}
+                                            underlineColorAndroid="transparent"
+                                            multiline={false}
+                                            numberOfLines={1}
+                                            placeholder="Hips"
+                                            placeholderTextColor='#DDDEDE'
+                                            fontWeight='600'
+                                            autoCapitalize="none"
+                                            onChangeText={(text) => this.setState({ hips: text })}
+                                            value={this.state.Text} />
+                                        </View>
+                                </View>
+                            </View>
+                        </Modal>
 
                     </View>
                 </ScrollView>
@@ -297,25 +457,162 @@ export default class ProgressScreen extends Component {
                 </View>
             )
         }
-
-
     }
 
 
 }
 
 const styles = StyleSheet.create({
+
     container: {
-        backgroundColor: '#fff',
-        alignItems: 'flex-start',
-        paddingTop: 10,
-        paddingBottom: 10,
-        alignSelf: 'stretch',
-        marginBottom: 20,
-        marginTop: 20
+        backgroundColor: '#000000',
+        paddingLeft: 16,
+        paddingRight: 16,
+        display: 'flex'
+    },
+    modalNoteInput: {
+        height: 200,
+        backgroundColor: '#2C2C2E',
+        borderRadius: 8,
+        color: '#DDDEDE'
+    },
+    modalStyle: {
+        height: '100%',
+        backgroundColor: '#0D0D0D',
+        marginTop: 88,
+        borderRadius: 15,
+    },
+    modalHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#1E1E1E',
+        width: '100%',
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        padding: 16
+    },
+    modalTitle: {
+        color: '#FAFAFA',
+        fontSize: 20,
+        fontWeight: '700',
+    },
+    modalNav: {
+        fontSize: 17,
+        color: '#347EFB',
+    },
+    measurementModalLayout:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignContent: 'center'
+    },
+    modalInput: {
+        height: 26,
+        fontSize: 20,
+        color: '#DDDEDE',
+        marginBottom: 24,
+        borderBottomWidth: 1,
+        borderColor: '#DDDEDE'
+    },
+    weightInput:{
+        height: 30,
+        width: 245,
+        marginTop: 45,
+        fontSize: 24,
+        color: '#DDDEDE',
+        borderBottomWidth: 1,
+        borderColor: '#DDDEDE',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        textAlign: 'center'
+    },
+    measurementInput:{
+        height: 26,
+        width: 135,
+        fontSize: 22,
+        color: '#DDDEDE',
+        marginBottom: 45,
+        borderBottomWidth: 1,
+        borderColor: '#DDDEDE'
+    },
+    measurementInputLayout:{
+        justifyContent: 'center',
+        alignContent: 'center'
+    },
+    modalSeprateLine: {
+        width: '100%',
+        height: '2%',
+        position: 'absolute',
+        backgroundColor: 'black',
+        bottom: 0
+    },
+    scaleImage: {
+        height: 176,
+        width: 184,
+        marginTop: 45,
+        justifyContent: 'center',
+        alignSelf: 'center'
+    },
+    bodyImage:{
+        height: 480,
+        width: 146,
+        marginTop: '20%',
+        marginRight: 32
+    },
+})
+
+const weight = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 8
+    },
+    date: {
+        color: '#DDDEDE',
+        fontSize: 20,
+        marginTop: 8
+    },
+    weight: {
+        fontSize: 22,
+        color: '#347EFB',
     },
 
+    progressContainer: {
+        flexDirection: 'row',
+        flex: 1,
+    },
+    progressText: {
+        color: '#DDDEDE',
+        opacity: 0.6
+    },
+    progressDifference: {
+        color: '#347EFB'
+    }
 
+})
+
+const measurement = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        marginBottom: 8,
+        flex: 1,
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    entryContainer: {
+        flexDirection: 'row',
+        marginBottom: 8,
+    },
+    date: {
+        color: '#DDDEDE',
+        fontSize: 20,
+        marginTop: 8,
+        marginBottom: 8
+    },
+    content: {
+        color: '#347EFB',
+        fontSize: 16
+    },
 })
 
 
@@ -341,3 +638,4 @@ const segmented = StyleSheet.create({
         color: '#DDDEDE'
     }
 })
+
