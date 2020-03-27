@@ -9,7 +9,9 @@ export default class ActivityWidget extends Component {
             cardio: 0,
             strength: 0,
             yoga: 0,
-            other: 0
+            other: 0,
+            notes: this.props.exerciseEntry.notes,
+            notesDisplay: "block"
         }
     }
 
@@ -79,8 +81,15 @@ export default class ActivityWidget extends Component {
             cardio: totalCardio,
             strength: totalStrength,
             yoga: totalYoga,
-            other: totalOther
+            other: totalOther,
+            notesDisplay: "none"
         })
+
+        if(this.props.exerciseEntry.length == 1){
+            this.setState({
+                notesDisplay: "block"
+            })
+        }
     }
 
     render(){
@@ -104,6 +113,27 @@ export default class ActivityWidget extends Component {
                         <Text style={styles.amountText}>{this.state.other}</Text>
                         <Text style={styles.titleText}>min of other</Text>
                     </View>
+                    
+                    {/* CONOR PLEASE STYLE THANKS */}
+                    {/* CONOR PLEASE STYLE THANKS */}
+                    {/* CONOR PLEASE STYLE THANKS */}
+                    {/* CONOR PLEASE STYLE THANKS */}
+                    {/* CONOR PLEASE STYLE THANKS */}
+                    {/* CONOR PLEASE STYLE THANKS */}
+                    {/* CONOR PLEASE STYLE THANKS */}
+                    {/* CONOR PLEASE STYLE THANKS */}
+                    <View style={{ display: this.state.notesDisplay }}>
+                        <Text style={{ color: 'white'}} >Notes:</Text>
+                        <Text style={{ color: 'white' }} >{this.state.notes}</Text>
+                    </View>
+                    {/* CONOR PLEASE STYLE THANKS */}
+                    {/* CONOR PLEASE STYLE THANKS */}
+                    {/* CONOR PLEASE STYLE THANKS */}
+                    {/* CONOR PLEASE STYLE THANKS */}
+                    {/* CONOR PLEASE STYLE THANKS */}
+                    {/* CONOR PLEASE STYLE THANKS */}
+                    {/* CONOR PLEASE STYLE THANKS */}
+                        
                 </View>
             </View>
         )
