@@ -281,7 +281,7 @@ export default class ProgressScreen extends Component {
                                         underlineColorAndroid="transparent"
                                         multiline={false}
                                         numberOfLines={1}
-                                        placeholder="Current Weight"
+                                        placeholder="Current Weight (lbs)"
                                         placeholderTextColor='#DDDEDE'
                                         fontWeight='600'
                                         autoCapitalize="none"
@@ -498,7 +498,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     bodyImage: {
-        height: 480,
+        height: 380,
         width: 146,
         marginTop: '20%',
         marginRight: 32,
@@ -508,10 +508,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignItems: 'center',                                
         position: 'absolute',
-        top: '95%'
+        top: '93%'
     },
     addBtnSize:{
-        height: 30,
+        height: 40,
         resizeMode: 'contain'
     }
 })
