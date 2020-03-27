@@ -68,7 +68,7 @@ export default class FoodTrackingWidget extends Component {
                 maxPortions: item.maxPortions,
                 userPortions: userPortions[index],
                 index: index,
-                key: Math.floor(Math.random() * Math.floor(900)).toString()
+                key: index.toString()
             }
 
             foodTrackingList.push(listItem)
