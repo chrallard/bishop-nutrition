@@ -37,7 +37,7 @@ export default {
     },
     sleepEntry: {
       duration: "0 hr 0 min",
-      durationMs: 0,
+      durationMs: null,
       notes: ""
     },
     timeStamp: 0,
