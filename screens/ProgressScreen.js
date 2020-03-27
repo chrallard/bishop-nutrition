@@ -297,7 +297,7 @@ export default class ProgressScreen extends Component {
                 </ScrollView>
                 
                 <TouchableOpacity title="Add" onPress={() => {
-                    this.setState({ showMeasurementAdd: true })
+                    this.setState({ showWeightAdd: true })
                 }} style={styles.addBtn}>
                     <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize}/>
                 </TouchableOpacity>
@@ -413,6 +413,8 @@ export default class ProgressScreen extends Component {
 
 }
 
+/********* Weight and Measurement Modals DONE ********/
+
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#000000',
@@ -488,13 +490,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center'
     },
-    modalSeprateLine: {
-        width: '100%',
-        height: '2%',
-        position: 'absolute',
-        backgroundColor: 'black',
-        bottom: 0
-    },
     scaleImage: {
         height: 176,
         width: 184,
@@ -506,7 +501,8 @@ const styles = StyleSheet.create({
         height: 480,
         width: 146,
         marginTop: '20%',
-        marginRight: 32
+        marginRight: 32,
+        resizeMode: 'contain'
     },
     addBtn:{
         alignSelf: 'center',
