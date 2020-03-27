@@ -195,6 +195,10 @@ export default class FoodTrackingWidget extends Component {
             />
 </TouchableOpacity> */}
   
+
+
+
+//CHECKED BY JEFF
   const styles = StyleSheet.create({
     container:{
         display: 'flex',
@@ -213,7 +217,8 @@ export default class FoodTrackingWidget extends Component {
 
     itemList:{
         flexDirection:'row',
-        justifyContent: 'space-between',
+        flex: 1,
+        alignItems: 'center',
         height: 40,
         marginBottom:8
     },
@@ -227,15 +232,14 @@ export default class FoodTrackingWidget extends Component {
     itemText:{
         color:'#DDDEDE',
         fontSize: 17,
-        flex: 1,
+        flex: 2,
         alignSelf:'center'
     },
     counterText:{
         color:'#DDDEDE',
         fontSize: 17,
         flex:1,
-        alignSelf:'center',
-        opacity: 0.9
+        opacity: 0.9,
     },
     addButton:{
         flex:1,
