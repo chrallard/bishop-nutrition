@@ -101,6 +101,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+
+  /***** Update Password Modal DONE ******/
   modalStyle: {
     height: '100%',
     backgroundColor: '#0D0D0D',

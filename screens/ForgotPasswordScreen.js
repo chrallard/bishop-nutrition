@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Button, TextInput, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Button, TextInput, Text, TouchableOpacity, Image } from 'react-native'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 
@@ -22,13 +22,19 @@ export default class ForgotPasswordScreen extends Component {
 
     render(){
         return(
-            <View style={styles.container} >
+          <View style={styles.forgotPasswordLayout}>
+            <Image source={require('../assets/forgotpasswordicon.png')} style={styles.forgotPasswordIcon}/>
+            <Text style={styles.resetPasswordTitle}>Forgot your Password?</Text>
+            <Text style={styles.resetPasswordText}>Please enter your email and we will send you password reset instructions!</Text>
+            <View style={styles.input} >
                 <TextInput
-                style={styles.input}
+                style={styles.textInput}
                 placeholder="Email"
+                placeholderTextColor="#6E6F6F"
                 onChangeText={(text) => this.setState({emailInput: text})}
                 value={this.state.usernameInput}
                 />
+                </View>
                 <View style={styles.loginBtn}>
                     <TouchableOpacity style={ styles.loginTouchable } title="Login" 
                     onPress={() => this.resetPassword(this.state.emailInput)}
@@ -36,51 +42,70 @@ export default class ForgotPasswordScreen extends Component {
                       <Text style={styles.loginBtnText}>Reset</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+                </View>
         )
     }
 }
 
+
+/******** Forgot Password Screen DONE **********/
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
       backgroundColor: '#000000',
-      justifyContent: 'center',
       alignItems: 'center',
       paddingBottom: 150
     },
+    resetPasswordTitle:{
+      color: '#DDDEDE',
+      fontSize: 30,
+      fontWeight: '600'
+    },
+    resetPasswordText:{
+      color: '#DDDEDE',
+      fontSize: 16,
+      width: '75%',
+      textAlign: 'center',
+      marginTop: 16,
+      marginBottom: 45
+    },
+    forgotPasswordIcon:{
+      height: 200,
+      resizeMode: 'contain',
+      marginBottom: 45
+    },
+    forgotPasswordLayout:{
+      flex: 1,
+      flexDirection: 'column', 
+      alignItems: 'center',
+      marginTop: '25%'
+    },
     input: {
-        height: 45,
-        width: '90%',
-        paddingLeft: 10,
-        borderRadius: 5,
-        margin: 5,
-        backgroundColor: '#1C1C1E',
-        marginBottom: 8,
-        flexDirection: 'row',
-        alignSelf: 'center',
-      },
-      textInput: {
-        flex: 1,
-        color: '#DDDEDE',
-        fontSize: 15
-      },
+      height: 45,
+      width: '75%',
+      paddingLeft: 10,
+      borderRadius: 5,
+      margin: 5,
+      backgroundColor: '#1C1C1E',
+      marginBottom: 8,
+      flexDirection: 'row',
+      alignSelf: 'center',
+    },
+    textInput: {
+      flex: 1,
+      color: '#DDDEDE',
+      fontSize: 15
+    },
     btn: {
       paddingTop: 50
     },
     loginBtn: {
-        marginTop: 45,
-        borderRadius: 28,
+        marginTop: 8,
+        borderRadius: 5,
         backgroundColor: '#347EFB',
-        height: 55,
+        height: 45,
         width: '75%',
-        justifyContent: "center",
-        alignContent: 'center',
         marginBottom: 20,
         shadowColor: '#347EFB',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.6,
-        shadowRadius: 15,
       },
       loginBtnText: {
         color: '#FAFAFA'
