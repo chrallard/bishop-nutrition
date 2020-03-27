@@ -775,7 +775,7 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
+                  containerStyle={{ backgroundColor: '#000', width: 300, alignSelf: 'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateFavouriteSearch}
                   value={search}
@@ -822,7 +822,7 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
+                  containerStyle={{ backgroundColor: '#000', width: 300, alignSelf: 'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateFavouriteSearch}
                   value={search}
@@ -874,7 +874,7 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
+                  containerStyle={{ backgroundColor: '#000', width: 300, alignSelf: 'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateSearch}
                   value={search}
@@ -913,7 +913,7 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
+                  containerStyle={{ backgroundColor: '#000', width: 300, alignSelf: 'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateSearch}
                   value={search}
