@@ -129,7 +129,13 @@ function LoginStackScreen() {
           borderBottomWidth: 0
         }
       }} />
-      <LoginStack.Screen name="Forgot Password" component={ForgotPasswordScreen} />
+      <LoginStack.Screen name="Forgot Password" component={ForgotPasswordScreen} options={{
+        headerStyle: {
+          backgroundColor: '#000',
+          shadowColor: 'transparent',
+          borderBottomWidth: 0
+        }
+      }}/>
     </LoginStack.Navigator>
   )
 }
