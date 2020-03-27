@@ -297,9 +297,9 @@ export default class ProgressScreen extends Component {
                 </ScrollView>
                 
                 <TouchableOpacity title="Add" onPress={() => {
-                    this.setState({ showWeightAdd: true })
+                    this.setState({ showMeasurementAdd: true })
                 }} style={styles.addBtn}>
-                    <Text style={styles.addBtnText}>+</Text>
+                    <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize}/>
                 </TouchableOpacity>
                 </>
             )
@@ -396,7 +396,7 @@ export default class ProgressScreen extends Component {
                 <TouchableOpacity title="Add" onPress={() => {
                     this.setState({ showMeasurementAdd: true })
                 }} style={styles.addBtn}>
-                    <Text style={styles.addBtnText}>+</Text>
+                    <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize}/>
                 </TouchableOpacity>
                 </>
             )
@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#000000',
         paddingLeft: 16,
-        paddingRight: 16
+        paddingRight: 16,
     },
     modalNoteInput: {
         height: 200,
@@ -509,17 +509,14 @@ const styles = StyleSheet.create({
         marginRight: 32
     },
     addBtn:{
-        width: 50,  
-        height: 50,   
-        borderRadius: 25,            
-        backgroundColor: '#00FFC9',
         alignSelf: 'center',
         alignItems: 'center',                                
         position: 'absolute',
-        top: '88%'
+        top: '96%'
     },
-    addBtnText:{
-        fontSize: 40,
+    addBtnSize:{
+        height: 30,
+        resizeMode: 'contain'
     }
 })
 
