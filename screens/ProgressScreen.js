@@ -229,6 +229,9 @@ export default class ProgressScreen extends Component {
         if (this.state.selectedIndex == 0) {
             return (
                 //this is where you build the weight screen
+                <>
+                
+                
                 <ScrollView>
                     <View style={styles.container}  >
 
@@ -246,9 +249,6 @@ export default class ProgressScreen extends Component {
                             activeTabStyle={segmented.activeTabStyle}
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
-                        <Button title="Add" onPress={() => {
-                            this.setState({ showWeightAdd: true })
-                        }} />
                         {this._renderWeightContent()}
 
                         <Modal visible={this.state.showWeightAdd} animationType={'slide'} transparent={true}>
@@ -281,7 +281,7 @@ export default class ProgressScreen extends Component {
                                         underlineColorAndroid="transparent"
                                         multiline={false}
                                         numberOfLines={1}
-                                        placeholder="Current Weight"
+                                        placeholder="Current Weight (lbs)"
                                         placeholderTextColor='#DDDEDE'
                                         fontWeight='600'
                                         autoCapitalize="none"
@@ -295,11 +295,20 @@ export default class ProgressScreen extends Component {
 
 
                 </ScrollView>
+                
+                <TouchableOpacity title="Add" onPress={() => {
+                    this.setState({ showWeightAdd: true })
+                }} style={styles.addBtn}>
+                    <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize}/>
+                </TouchableOpacity>
+                </>
             )
 
         }
         else if (this.state.selectedIndex == 1) {
             return (
+
+                <>
                 <ScrollView>
                     <View style={styles.container}  >
 
@@ -317,9 +326,7 @@ export default class ProgressScreen extends Component {
                             activeTabStyle={segmented.activeTabStyle}
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
-                        <Button title="Add" onPress={() => {
-                            this.setState({ showMeasurementAdd: true })
-                        }} />
+                        
                         {this._renderMeasuermentsContent()}
                         <Modal visible={this.state.showMeasurementAdd} animationType={'slide'} transparent={true}>
 
@@ -386,6 +393,12 @@ export default class ProgressScreen extends Component {
                     </View>
                 </ScrollView>
 
+                <TouchableOpacity title="Add" onPress={() => {
+                    this.setState({ showMeasurementAdd: true })
+                }} style={styles.addBtn}>
+                    <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize}/>
+                </TouchableOpacity>
+                </>
             )
         }
         else {
@@ -400,11 +413,13 @@ export default class ProgressScreen extends Component {
 
 }
 
+/********* Weight and Measurement Modals DONE ********/
+
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#000000',
         paddingLeft: 16,
-        paddingRight: 16
+        paddingRight: 16,
     },
     modalNoteInput: {
         height: 200,
@@ -475,13 +490,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center'
     },
-    modalSeprateLine: {
-        width: '100%',
-        height: '2%',
-        position: 'absolute',
-        backgroundColor: 'black',
-        bottom: 0
-    },
     scaleImage: {
         height: 176,
         width: 184,
@@ -490,11 +498,22 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     bodyImage: {
-        height: 480,
+        height: 380,
         width: 146,
         marginTop: '20%',
-        marginRight: 32
+        marginRight: 32,
+        resizeMode: 'contain'
     },
+    addBtn:{
+        alignSelf: 'center',
+        alignItems: 'center',                                
+        position: 'absolute',
+        top: '93%'
+    },
+    addBtnSize:{
+        height: 40,
+        resizeMode: 'contain'
+    }
 })
 
 const weight = StyleSheet.create({
@@ -523,7 +542,7 @@ const weight = StyleSheet.create({
     },
     progressDifference: {
         color: '#347EFB'
-    }
+    },
 
 })
 
