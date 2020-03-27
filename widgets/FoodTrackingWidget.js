@@ -64,11 +64,41 @@ export default class FoodTrackingWidget extends Component {
 
             let listItem = { //for display only!!
                 name: item.name,
+                foodIcon: "",
                 dbName: item.dbName,
                 maxPortions: item.maxPortions,
                 userPortions: userPortions[index],
                 index: index,
                 key: index.toString()
+            }
+
+            switch(item.name) {
+            
+                case "Dairy":
+                    listItem.foodIcon = require('../assets/dairy_Icon.png')
+                    break
+    
+                case "Fats":
+                    listItem.foodIcon = require('../assets/fats_icon.png')
+                    break
+    
+                case "Fruit":
+                    listItem.foodIcon = require('../assets/fruit_icon.png')
+                    break
+    
+                case "Protein":
+                    listItem.foodIcon = require('../assets/protein_icon.png')
+                    break
+    
+                case "Res. Vegetables":
+                    listItem.foodIcon = require('../assets/restrictedVeg_Icon.png')
+                    break
+    
+                case "Simple Carbs":
+                    listItem.foodIcon = require('../assets/carb_icon.png')
+                    break
+    
+                default:
             }
 
             foodTrackingList.push(listItem)
@@ -140,15 +170,16 @@ export default class FoodTrackingWidget extends Component {
               data={this.state.foodTrackingList} 
               renderItem={({item}) => (
                     <View style={styles.itemList}>
-                      <Text style={styles.itemText}>{item.name}</Text>
-                      <Text style={styles.counterText}>{item.userPortions}/{item.maxPortions}</Text>
-                      {/* <Button style={styles.addButton} title="Add" onPress={() => {this.incrementPortion(item.name)}} /> */}
-                      <TouchableOpacity onPress={() => {this.incrementPortion(item.name)}}>
-                        <Image
-                        style={styles.icon}
-                        source={require('../assets/add_Circle.png')}
-                        />
-                      </TouchableOpacity>
+                        <Image style={styles.foodIcon} source={item.foodIcon} />
+                        <Text style={styles.itemText}>{item.name}</Text>
+                        <Text style={styles.counterText}>{item.userPortions}/{item.maxPortions}</Text>
+                        {/* <Button style={styles.addButton} title="Add" onPress={() => {this.incrementPortion(item.name)}} /> */}
+                        <TouchableOpacity onPress={() => {this.incrementPortion(item.name)}}>
+                            <Image
+                            style={styles.icon}
+                            source={require('../assets/add_Circle.png')}
+                            />
+                        </TouchableOpacity>
                       
                     </View>
                     )} />
@@ -185,6 +216,13 @@ export default class FoodTrackingWidget extends Component {
         justifyContent: 'space-between',
         height: 40,
         marginBottom:8
+    },
+    foodIcon: {
+        alignSelf: 'center',
+        width: 30,
+        height: 30,
+        marginRight: 14,
+        resizeMode: 'contain',
     },
     itemText:{
         color:'#DDDEDE',
