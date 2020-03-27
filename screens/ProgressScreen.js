@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native'
 import SegmentedControlTab from "react-native-segmented-control-tab";
+import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts'
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
@@ -18,7 +19,9 @@ export default class ProgressScreen extends Component {
             startingWeight: [],
             selectedIndex: 0,
             time: [],
-            measurements: []
+            measurements: [],
+            
+            
         }
     }
 
@@ -28,7 +31,7 @@ export default class ProgressScreen extends Component {
         await this.startingWeight()
         await this.getTime()
         await this.getValues()
-
+       // await this.chartData()
     }
 
     handleIndexChange = async (index) => {
@@ -36,6 +39,8 @@ export default class ProgressScreen extends Component {
 
     }
 
+    
+   
     getTime = async () => {
        
         let uid = await firebase.auth().currentUser.uid
@@ -163,6 +168,8 @@ export default class ProgressScreen extends Component {
         })
 
     }
+
+
     _renderWeightContent = () => {
         this.state.weightEntry.sort(function (a, b) { return b.timeStamp - a.timeStamp })
         return (
@@ -191,16 +198,51 @@ export default class ProgressScreen extends Component {
 
     }
     render() {
+        const axesSvg = { fontSize: 10, fill: 'grey' };
+        const verticalContentInset = { top: 10, bottom: 10 }
+        const xAxisHeight = 30
+        let time = []
+        let weightEntry = []
+        
         //this is how to use the segmented tabs, anything you want to display on the weight screen goes in the if (this.state.selectedIndex == 0) { return,
         //anything you want on the progress bar goes in the  else if (this.state.selectedIndex == 1) {
-
+           
         if (this.state.selectedIndex == 0) {
+            
             return (
                 //this is where you build the weight screen
+                
+                
                 <ScrollView>
                     <View style={styles.container}  >
 
-                        <SegmentedControlTab
+                    <View style={{ height: 200, padding: 20, flexDirection: 'row' }}>
+                <YAxis
+                    data={weightEntry}
+                    style={{ marginBottom: xAxisHeight }}
+                    contentInset={verticalContentInset}
+                    svg={axesSvg}
+                />
+                <View style={{ flex: 1, marginLeft: 10 }}>
+                    <LineChart
+                        style={{ flex: 1 }}
+                        data={weightEntry}
+                        contentInset={verticalContentInset}
+                        svg={{ stroke: 'rgb(134, 65, 244)' }}
+                    >
+                        <Grid/>
+                    </LineChart>
+                    <XAxis
+                        style={{ marginHorizontal: -10, height: xAxisHeight }}
+                        data={time}
+                        formatLabel={(value, index) => index}
+                        contentInset={{ left: 10, right: 10 }}
+                        svg={axesSvg}
+                    />
+                </View>
+            </View>
+
+                            <SegmentedControlTab
                             values={["Weight", "Measurement"]}
                             selectedIndex={this.state.selectedIndex}
                             onTabPress={this.handleIndexChange}
@@ -217,6 +259,8 @@ export default class ProgressScreen extends Component {
                         {this._renderWeightContent()}
                     </View>
                 </ScrollView>
+               
+             
             )
 
         }
@@ -240,9 +284,6 @@ export default class ProgressScreen extends Component {
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
                         {this._renderMeasuermentsContent()}
-
-
-
 
                     </View>
                 </ScrollView>

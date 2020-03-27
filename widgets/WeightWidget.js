@@ -14,7 +14,8 @@ export default class WelcomeWidget extends Component{
         this.state = {
             startingWeight: "",
             weightEntry: "",
-            subtract:""
+            subtract:"",
+            chart: []
         }
     }
 
@@ -39,8 +40,8 @@ export default class WelcomeWidget extends Component{
     //    this.setState({subtract: (this.state.startingWeight) - (this.state.weightEntry)})
         this.setState({subtract: (this.state.weightEntry) - (this.state.startingWeight)})
     }
-   
 
+    
     render(){
         return(
            
