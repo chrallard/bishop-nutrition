@@ -39,12 +39,19 @@ export default class SleepWidget extends Component {
         let newAvgEnd
         let totalSleepDuration = 0
         let totalStartTime = 0
+        let nullEntries = 0
 
         this.props.sleepEntry.forEach((item) => {
-            let duration = item.durationMs
-            totalSleepDuration += duration
+            if(item.durationMs != null){
+                let durationMs = item.durationMs
+                totalSleepDuration += durationMs
+            }else{
+                nullEntries += 1
+            }
         })
-        newAvgSleep = totalSleepDuration / this.props.sleepEntry.length
+        
+        let numberOfSleepEntries = this.props.sleepEntry.length - nullEntries
+        newAvgSleep = totalSleepDuration / ((numberOfSleepEntries) == 0 ? 1 : numberOfSleepEntries) //if the user hasn't entered sleep yet, numberOfSleepEntries will be 0. you can't divide by 0, so it returns 1 instead
 
         this.setState({ 
             avgSleep: this.msToDuration(newAvgSleep),
