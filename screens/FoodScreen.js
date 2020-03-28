@@ -664,11 +664,13 @@ export default class ProfileScreen extends Component {
     );
   };
   onSwipeLeft = (gestureState) => {
-    this.setState({ selectedIndex: 1 });
+    let newIndex = this.state.selectedIndex + 1
+    this.setState({ selectedIndex: newIndex });
   }
 
   onSwipeRight = (gestureState) => {
-    this.setState({ selectedIndex: 0 });
+    let newIndex = this.state.selectedIndex - 1
+    this.setState({ selectedIndex: newIndex });
   }
   _updateSections = activeSections => {
     this.setState({ activeSections });
