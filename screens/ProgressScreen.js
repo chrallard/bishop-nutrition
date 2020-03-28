@@ -51,9 +51,6 @@ export default class ProgressScreen extends Component {
     }
 
 
-    
-   
-
     addModal = () => {
         this.refs.addModal.showModal();
     }
