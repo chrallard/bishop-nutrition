@@ -186,7 +186,7 @@ export default class ProgressScreen extends Component {
                     <Text style={weight.date}>{item.date}</Text>
                     <View style={weight.container}>
                         <View style={weight.progressContainer}>
-                            <Text style={weight.progressText}>Progress: </Text>
+                            <Text style={weight.progressText}>Total Lost: </Text>
                             <Text style={weight.progressDifference}>{item.weightEntry - this.state.startingWeight} lbs</Text>
                         </View>
                         <Text style={weight.weight}>{item.weightEntry} lbs </Text>
