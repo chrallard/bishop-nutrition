@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList, Button, ScrollView, Item, SectionList, TouchableOpacity, Image } from 'react-native'
+import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { List, Checkbox } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
+
 import { SearchBar } from 'react-native-elements';
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import Accordion from 'react-native-collapsible/Accordion';
@@ -34,6 +36,7 @@ export default class ProfileScreen extends Component {
       searchActive: false,
       selectedIndex: 1,
       longPressed: 0,
+      gestureName: 'none',
       lists: [
         {
           type: "Dairy",
@@ -660,65 +663,81 @@ export default class ProfileScreen extends Component {
 
     );
   };
+  onSwipeLeft = (gestureState) => {
+    this.setState({ selectedIndex: 1 });
+  }
 
+  onSwipeRight = (gestureState) => {
+    this.setState({ selectedIndex: 0 });
+  }
   _updateSections = activeSections => {
     this.setState({ activeSections });
 
   };
   render() {
     const { search } = this.state;
+    const config = {
+      velocityThreshold: 0.3,
+      directionalOffsetThreshold: 80
+    };
 
     if (this.state.selectedIndex == 0) {
 
       return (
-        <View style={styles.container}>
-          <ScrollView>
-            <View>
+        <GestureRecognizer
+          onSwipeLeft={(state) => this.onSwipeLeft(state)}
+          config={config} >
+          <View style={styles.container}>
+
+            <ScrollView>
+              <View>
 
 
-              <SearchBar
-                placeholder="Search Your Food Here..."
-                platform="ios"
-                containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
-                inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
-                onChangeText={this.updateSearch}
-                value={search}
-                placeholderTextColor='#B7B7B7'
-                inputStyle={{ color: '#DDDEDE' }}
+                <SearchBar
+                  placeholder="Search Your Food Here..."
+                  platform="ios"
+                  containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
+                  inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
+                  onChangeText={this.updateSearch}
+                  value={search}
+                  placeholderTextColor='#B7B7B7'
+                  inputStyle={{ color: '#DDDEDE' }}
 
-              />
-              <SegmentedControlTab
-                values={["Favourites", "Food List"]}
-                selectedIndex={this.state.selectedIndex}
-                onTabPress={this._handleIndexChange}
+                />
+                <SegmentedControlTab
+                  values={["Favourites", "Food List"]}
+                  selectedIndex={this.state.selectedIndex}
+                  onTabPress={this._handleIndexChange}
 
-                allowFontScaling={false}
-                tabsContainerStyle={styles.tabsContainerStyleFood}
-                tabStyle={styles.tabStyleFood}
-                firstTabStyle={styles.firstTabStyleFood}
-                lastTabStyle={styles.lastTabStyleFood}
-                tabTextStyle={styles.tabTextStyleFood}
-                activeTabStyle={styles.activeTabStyleFood}
-                activeTabTextStyle={styles.activeTabTextStyleFood}
-              />
-              {this._renderFavouriteContent(this.state.favouriteLists[0])}
-              {this._renderFavouriteContent(this.state.favouriteLists[1])}
-              {this._renderFavouriteContent(this.state.favouriteLists[2])}
-              {this._renderFavouriteContent(this.state.favouriteLists[3])}
-              {this._renderFavouriteContent(this.state.favouriteLists[4])}
-              {this._renderFavouriteContent(this.state.favouriteLists[5])}
-              {this._renderFavouriteContent(this.state.favouriteLists[6])}
+                  allowFontScaling={false}
+                  tabsContainerStyle={styles.tabsContainerStyleFood}
+                  tabStyle={styles.tabStyleFood}
+                  firstTabStyle={styles.firstTabStyleFood}
+                  lastTabStyle={styles.lastTabStyleFood}
+                  tabTextStyle={styles.tabTextStyleFood}
+                  activeTabStyle={styles.activeTabStyleFood}
+                  activeTabTextStyle={styles.activeTabTextStyleFood}
+                />
+                {this._renderFavouriteContent(this.state.favouriteLists[0])}
+                {this._renderFavouriteContent(this.state.favouriteLists[1])}
+                {this._renderFavouriteContent(this.state.favouriteLists[2])}
+                {this._renderFavouriteContent(this.state.favouriteLists[3])}
+                {this._renderFavouriteContent(this.state.favouriteLists[4])}
+                {this._renderFavouriteContent(this.state.favouriteLists[5])}
+                {this._renderFavouriteContent(this.state.favouriteLists[6])}
 
 
-            </View>
-          </ScrollView>
-        </View>
+              </View>
+            </ScrollView>
+          </View>
+        </GestureRecognizer>
       )
     }
     else if (this.state.selectedIndex == 1) {
       if (this.state.searchActive) {
 
         return (
+
           <View style={styles.container}>
             <ScrollView>
               <View>
@@ -758,49 +777,52 @@ export default class ProfileScreen extends Component {
       }
       else if (!this.state.searchActive) {
         return (
-          <View style={styles.container}>
-            <ScrollView>
-              <View>
+          <GestureRecognizer
+            onSwipeRight={(state) => this.onSwipeRight(state)}
+            config={config} >
+            <View style={styles.container}>
+              <ScrollView>
+                <View>
 
 
-                <SearchBar
-                  placeholder="Search Your Food Here..."
-                  platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
-                  inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
-                  onChangeText={this.updateSearch}
-                  value={search}
-                  placeholderTextColor='#B7B7B7'
-                  inputStyle={{ color: '#DDDEDE' }}
+                  <SearchBar
+                    placeholder="Search Your Food Here..."
+                    platform="ios"
+                    containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
+                    inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
+                    onChangeText={this.updateSearch}
+                    value={search}
+                    placeholderTextColor='#B7B7B7'
+                    inputStyle={{ color: '#DDDEDE' }}
 
-                />
-                <SegmentedControlTab
-                  values={["Favourites", "Food List"]}
-                  selectedIndex={this.state.selectedIndex}
-                  onTabPress={this._handleIndexChange}
+                  />
+                  <SegmentedControlTab
+                    values={["Favourites", "Food List"]}
+                    selectedIndex={this.state.selectedIndex}
+                    onTabPress={this._handleIndexChange}
 
-                  allowFontScaling={false}
-                  tabsContainerStyle={styles.tabsContainerStyleFav}
-                  tabStyle={styles.tabStyleFav}
-                  firstTabStyle={styles.firstTabStyleFav}
-                  lastTabStyle={styles.lastTabStyleFav}
-                  tabTextStyle={styles.tabTextStyleFav}
-                  activeTabStyle={styles.activeTabStyleFav}
-                  activeTabTextStyle={styles.activeTabTextStyleFav}
-                />
-                <Accordion style={styles.listContainer}
-                  sections={this.state.lists}
-                  activeSections={this.state.activeSections}
-                  renderSectionTitle={this._renderSectionTitle}
-                  renderHeader={this._renderHeader}
-                  renderContent={this._renderContent}
-                  onChange={this._updateSections}
-                />
+                    allowFontScaling={false}
+                    tabsContainerStyle={styles.tabsContainerStyleFav}
+                    tabStyle={styles.tabStyleFav}
+                    firstTabStyle={styles.firstTabStyleFav}
+                    lastTabStyle={styles.lastTabStyleFav}
+                    tabTextStyle={styles.tabTextStyleFav}
+                    activeTabStyle={styles.activeTabStyleFav}
+                    activeTabTextStyle={styles.activeTabTextStyleFav}
+                  />
+                  <Accordion style={styles.listContainer}
+                    sections={this.state.lists}
+                    activeSections={this.state.activeSections}
+                    renderSectionTitle={this._renderSectionTitle}
+                    renderHeader={this._renderHeader}
+                    renderContent={this._renderContent}
+                    onChange={this._updateSections}
+                  />
 
-              </View>
-            </ScrollView>
-          </View>
-
+                </View>
+              </ScrollView>
+            </View>
+          </GestureRecognizer>
 
         )
       }
