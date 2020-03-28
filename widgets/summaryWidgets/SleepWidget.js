@@ -6,7 +6,9 @@ export default class SleepWidget extends Component {
     constructor(props){
         super(props)
         this.state = {
-            avgSleep: 0
+            avgSleep: 0,
+            notes: this.props.sleepEntry.notes,
+            notesDisplay: "block"
         }
     }
 
@@ -48,8 +50,15 @@ export default class SleepWidget extends Component {
         newAvgSleep = totalSleepDuration / ((numberOfSleepEntries) == 0 ? 1 : numberOfSleepEntries) //if the user hasn't entered sleep yet, numberOfSleepEntries will be 0. you can't divide by 0, so it returns 1 instead
 
         this.setState({ 
-            avgSleep: this.msToDuration(newAvgSleep)
+            avgSleep: this.msToDuration(newAvgSleep),
+            notesDisplay: "none"
         })
+
+        if(this.props.sleepEntry.length == 1){
+            this.setState({
+                notesDisplay: "block"
+            })
+        }
     }
 
     msToTime = (ms) => {
@@ -79,6 +88,27 @@ export default class SleepWidget extends Component {
 
                 <Text style={styles.amountText}>{this.state.avgSleep}</Text>
                 <Text style={styles.titleText}>Average time asleep</Text>
+
+                {/* CONOR PLEASE STYLE THANKS */}
+                {/* CONOR PLEASE STYLE THANKS */}
+                {/* CONOR PLEASE STYLE THANKS */}
+                {/* CONOR PLEASE STYLE THANKS */}
+                {/* CONOR PLEASE STYLE THANKS */}
+                {/* CONOR PLEASE STYLE THANKS */}
+                {/* CONOR PLEASE STYLE THANKS */}
+                {/* CONOR PLEASE STYLE THANKS */}
+                <View style={{ display: this.state.notesDisplay }}>
+                    <Text style={{ color: 'white'}} >Notes:</Text>
+                    <Text style={{ color: 'white' }} >{this.state.notes}</Text>
+                </View>
+                {/* CONOR PLEASE STYLE THANKS */}
+                {/* CONOR PLEASE STYLE THANKS */}
+                {/* CONOR PLEASE STYLE THANKS */}
+                {/* CONOR PLEASE STYLE THANKS */}
+                {/* CONOR PLEASE STYLE THANKS */}
+                {/* CONOR PLEASE STYLE THANKS */}
+                {/* CONOR PLEASE STYLE THANKS */}
+
             </View>
         )
     }
