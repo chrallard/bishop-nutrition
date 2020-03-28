@@ -20,6 +20,8 @@ export default class ProgressScreen extends Component {
             selectedIndex: 0,
             time: [],
             measurements: [],
+            xData: [],
+            yData: [],
 
             
             
@@ -42,12 +44,55 @@ export default class ProgressScreen extends Component {
         await this.startingWeight()
         await this.getTime()
         await this.getValues()
-       // await this.chartData()
+        await this.xData()
+        await this.yData()
     }
 
     handleIndexChange = async (index) => {
         this.setState({ selectedIndex: index })
 
+    }
+
+    xData = async() => {
+
+        let uid = await firebase.auth().currentUser.uid
+        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").limit(7).get().then((querySnapshot) => {
+            let xData = []
+            querySnapshot.forEach((doc) => {
+
+                let dt = new Date(doc.data().timeStamp)
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                const date = dt.getDate()
+                const Month = months[dt.getMonth()]
+                let obj = {
+                    xData : `${Month} ${date}`
+                }
+                xData.push(obj)
+                console.log(obj)
+                this.setState({xData})
+            })
+
+        })
+
+    }
+
+    yData = async() => {
+        let uid = await firebase.auth().currentUser.uid
+        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").limit(7).get().then((querySnapshot) => {
+
+            let yData = []
+            querySnapshot.forEach((doc) => {
+                let ob = {
+                    yData: doc.data().weightEntry
+                }
+
+                yData.push(ob)
+            console.log(ob)
+            this.setState({yData})
+            })
+            
+
+        })
     }
 
 
@@ -232,50 +277,67 @@ export default class ProgressScreen extends Component {
         )
 
     }
+
     render() {
-        const axesSvg = { fontSize: 10, fill: 'grey' };
-        const verticalContentInset = { top: 10, bottom: 10 }
-        const xAxisHeight = 30
-        let time = []
-        let weightEntry = []
         
         //this is how to use the segmented tabs, anything you want to display on the weight screen goes in the if (this.state.selectedIndex == 0) { return,
         //anything you want on the progress bar goes in the  else if (this.state.selectedIndex == 1) {
            
         if (this.state.selectedIndex == 0) {
             
+           
+            const data = []
+            const xData = []
+            const yData = []
+            const axesSvg = { fontSize: 10, fill: '#F3F3F3' };
+            const verticalContentInset = { top: 10, bottom: 10 }
+            const xAxisHeight = 30
+        
+
             return (
                 //this is where you build the weight screen
-                
                 
                 <ScrollView>
                     <View style={styles.container}  >
 
-                    <View style={{ height: 200, padding: 20, flexDirection: 'row' }}>
-                <YAxis
-                    data={weightEntry}
-                    style={{ marginBottom: xAxisHeight }}
-                    contentInset={verticalContentInset}
-                    svg={axesSvg}
-                />
-                <View style={{ flex: 1, marginLeft: 10 }}>
-                    <LineChart
-                        style={{ flex: 1 }}
-                        data={weightEntry}
-                        contentInset={verticalContentInset}
-                        svg={{ stroke: 'rgb(134, 65, 244)' }}
-                    >
-                        <Grid/>
-                    </LineChart>
-                    <XAxis
-                        style={{ marginHorizontal: -10, height: xAxisHeight }}
-                        data={time}
-                        formatLabel={(value, index) => index}
-                        contentInset={{ left: 10, right: 10 }}
-                        svg={axesSvg}
-                    />
-                </View>
-            </View>
+                        <View style={{ height: 200, padding: 10, flexDirection: 'row', backgroundColor: '#347EFB' }}>
+
+                            <YAxis
+                                data={data}
+                                style={{ marginBottom: xAxisHeight, }}
+                                contentInset={verticalContentInset}
+                                yAccessor={({ item }) => item.yData}
+                                xAccessor={({ item }) => item.xData}
+                                svg={axesSvg}
+                            />
+
+                            <View style={{ flex: 1, marginLeft: 10, }}>
+                                <LineChart
+                                    style={{ flex: 1 }}
+                                    data={data}
+                                    contentInset={verticalContentInset}
+                                    svg={{ 
+                                        stroke: '#F3F3F3',
+                                        strokeWidth: 3
+                                    }}
+                                >
+
+                                    <Grid style={{ color: 'white', borderBottomWidth: 50, borderColor: 'red' }} />
+
+                                </LineChart>
+
+                                <XAxis
+                                    style={{ marginHorizontal: -10, height: xAxisHeight }}
+                                    data={data}
+                                    formatLabel={(value, index) => index}
+                                    yAccessor={({ item }) => item.yData}
+                                    xAccessor={({ item }) => item.xData}
+                                    contentInset={{ left: 10, right: 10 }}
+                                    svg={axesSvg}
+                                />
+                            </View>
+
+                        </View>
 
                             <SegmentedControlTab
                             values={["Weight", "Measurement"]}
