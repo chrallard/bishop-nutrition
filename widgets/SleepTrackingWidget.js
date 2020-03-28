@@ -8,12 +8,12 @@ import 'firebase/auth'
 const SleepTrackingWidget = () => {
 
     const formatDate = (d) => {
-        const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         const date = d.getDate()
         const month = months[d.getMonth()]
         const year = d.getFullYear()
         const formattedDate = date + month + year //looks like this: 4March2020
-    
+
         return formattedDate
     }
 
@@ -36,10 +36,10 @@ const SleepTrackingWidget = () => {
         await firebase.firestore().collection("userData").doc(uid).collection("healthTracking").orderBy("timeStamp", "desc").limit(5).get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 let formattedDate = formatDate(new Date(doc.data().timeStamp))
-  
-                if(formattedDate == today){ //selecting today's healthTracking document ID
+
+                if (formattedDate == today) { //selecting today's healthTracking document ID
                     setDocId(doc.id)
-                }  
+                }
             })
         })
     }
@@ -51,7 +51,7 @@ const SleepTrackingWidget = () => {
             // let end = doc.data().sleepEntry.end
             // let durationMs = end - start
             // let duration = msToTime(durationMs)
-            if(sleepDuration == "0 hr 0 min"){
+            if (sleepDuration == "0 hr 0 min") {
                 setSleepDuration(doc.data().sleepEntry.duration)
             }
         })
@@ -94,16 +94,18 @@ const SleepTrackingWidget = () => {
 
     const updateDb = async (duration, durationMs) => {
         await firebase.firestore().collection("userData").doc(uid).collection("healthTracking").doc(docId)
-        .set({sleepEntry: {
-            duration: duration,
-            durationMs: durationMs,
-            notes: notes
-        }}, {merge: true})
-        .then(() => {
-            console.log("Document written successfully.")
-        }).catch((err) => {
-            console.log(err)
-        })
+            .set({
+                sleepEntry: {
+                    duration: duration,
+                    durationMs: durationMs,
+                    notes: notes
+                }
+            }, { merge: true })
+            .then(() => {
+                console.log("Document written successfully.")
+            }).catch((err) => {
+                console.log(err)
+            })
     }
 
     const msToTime = (duration) => {
@@ -123,7 +125,7 @@ const SleepTrackingWidget = () => {
     return (
 
         <View style={styles.container}>
-            <StatusBar barStyle='light-content'/>
+            <StatusBar barStyle='light-content' />
             <TouchableOpacity onPress={() => setShowMe(true)}>
                 <View>
                     <Text style={styles.widgetTitle}>Sleep</Text>
@@ -139,7 +141,7 @@ const SleepTrackingWidget = () => {
 
 
             </TouchableOpacity>
-            <Modal visible={showMe} animationType={'slide'}>
+            <Modal visible={showMe} animationType={'slide'} transparent={true}>
 
                 <View style={styles.modalStyle}>
                     <View style={styles.modalHeader}>
@@ -250,7 +252,7 @@ const styles = StyleSheet.create({
         paddingTop: 24
     },
     modalInput: {
-        height: 100,
+        height: 50,
         borderColor: '#B7B7B7',
         backgroundColor: '#2C2C2E',
         borderRadius: 8
@@ -302,7 +304,8 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginRight: 16,
         marginLeft: 16,
-        marginBottom: 16
+        marginBottom: 0,
+        height: 200
     }
 
 });
