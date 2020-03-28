@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
       padding: 16,
       alignSelf: 'stretch',
       marginBottom: 8,
-      marginTop: 16 
+      marginTop: 8 
     },
     title:{
       color:'#FAFAFA',
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     },
     portionsText: {
       flexDirection: 'column',
-      color:'#FAFAFA',
+      color:'#DDDEDE',
       fontSize: 12,
       alignSelf: 'center',
       position: 'absolute',
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     },
     nameText:{
         flexDirection: 'column',
-        color:'#FAFAFA',
+        color:'#DDDEDE',
         fontSize: 14,
         alignSelf:'center',
         marginBottom: 8

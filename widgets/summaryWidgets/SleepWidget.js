@@ -88,26 +88,10 @@ export default class SleepWidget extends Component {
 
                 <Text style={styles.amountText}>{this.state.avgSleep}</Text>
                 <Text style={styles.titleText}>Average time asleep</Text>
-
-                {/* CONOR PLEASE STYLE THANKS */}
-                {/* CONOR PLEASE STYLE THANKS */}
-                {/* CONOR PLEASE STYLE THANKS */}
-                {/* CONOR PLEASE STYLE THANKS */}
-                {/* CONOR PLEASE STYLE THANKS */}
-                {/* CONOR PLEASE STYLE THANKS */}
-                {/* CONOR PLEASE STYLE THANKS */}
-                {/* CONOR PLEASE STYLE THANKS */}
                 <View style={{ display: this.state.notesDisplay }}>
-                    <Text style={{ color: 'white'}} >Notes:</Text>
-                    <Text style={{ color: 'white' }} >{this.state.notes}</Text>
+                    <Text style={styles.notesTitle} >Notes:</Text>
+                    <Text style={styles.notesText} >{this.state.notes}</Text>
                 </View>
-                {/* CONOR PLEASE STYLE THANKS */}
-                {/* CONOR PLEASE STYLE THANKS */}
-                {/* CONOR PLEASE STYLE THANKS */}
-                {/* CONOR PLEASE STYLE THANKS */}
-                {/* CONOR PLEASE STYLE THANKS */}
-                {/* CONOR PLEASE STYLE THANKS */}
-                {/* CONOR PLEASE STYLE THANKS */}
 
             </View>
         )
@@ -122,7 +106,7 @@ const styles = StyleSheet.create({
         padding: 16,
         alignSelf: 'stretch',
         marginBottom: 8,
-        marginTop: 16
+        marginTop: 8
     },
     title:{
         color:'#FAFAFA',
@@ -135,7 +119,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         justifyContent: 'center',
         alignSelf:'center',
-        marginBottom: 8
+        marginBottom: 16
     },
     amountText:{
         color:'#347EFB',
@@ -156,5 +140,14 @@ const styles = StyleSheet.create({
     averageAmountText:{
         fontSize: 13,
         color: '#347EFB'
+    },
+    notesTitle:{
+        color: '#DDDEDE', 
+        fontSize: 16, 
+        marginBottom: 8
+    },
+    notesText:{
+        color: '#DDDEDE', 
+        fontSize: 12 
     }
 })

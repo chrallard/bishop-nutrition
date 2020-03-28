@@ -143,7 +143,6 @@ const styles = StyleSheet.create({
     },
     list:{
         marginTop: 16,
-        marginBottom: 16,
         flexDirection: 'row',
         justifyContent: 'space-around'
     },
@@ -158,8 +157,9 @@ const styles = StyleSheet.create({
     },
     dateText:{
         color:'#DDDEDE',
-        fontSize: 12,
+        fontSize: 15,
         justifyContent: 'center',
-        alignSelf:'center'
+        alignSelf:'center',
+        marginTop: 8
     }
 })

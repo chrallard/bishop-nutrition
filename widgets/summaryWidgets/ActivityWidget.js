@@ -98,7 +98,7 @@ export default class ActivityWidget extends Component {
                 <Text style={styles.title}>Activity</Text>
 
                 <View style={styles.infoContainer}>  
-                    <View style={styles.infoLoayout}>
+                    <View>
                         <Text style={styles.amountText}>{this.state.cardio}</Text>
                         <Text style={styles.titleText}>min of cardio</Text>
 
@@ -113,27 +113,11 @@ export default class ActivityWidget extends Component {
                         <Text style={styles.amountText}>{this.state.other}</Text>
                         <Text style={styles.titleText}>min of other</Text>
                     </View>
-                    
-                    {/* CONOR PLEASE STYLE THANKS */}
-                    {/* CONOR PLEASE STYLE THANKS */}
-                    {/* CONOR PLEASE STYLE THANKS */}
-                    {/* CONOR PLEASE STYLE THANKS */}
-                    {/* CONOR PLEASE STYLE THANKS */}
-                    {/* CONOR PLEASE STYLE THANKS */}
-                    {/* CONOR PLEASE STYLE THANKS */}
-                    {/* CONOR PLEASE STYLE THANKS */}
-                    <View style={{ display: this.state.notesDisplay }}>
-                        <Text style={{ color: 'white'}} >Notes:</Text>
-                        <Text style={{ color: 'white' }} >{this.state.notes}</Text>
-                    </View>
-                    {/* CONOR PLEASE STYLE THANKS */}
-                    {/* CONOR PLEASE STYLE THANKS */}
-                    {/* CONOR PLEASE STYLE THANKS */}
-                    {/* CONOR PLEASE STYLE THANKS */}
-                    {/* CONOR PLEASE STYLE THANKS */}
-                    {/* CONOR PLEASE STYLE THANKS */}
-                    {/* CONOR PLEASE STYLE THANKS */}
-                        
+                </View>
+
+                <View style={{ display: this.state.notesDisplay }}>
+                    <Text style={styles.notesTitle} >Notes:</Text>
+                    <Text style={styles.notesText} >{this.state.notes}</Text>
                 </View>
             </View>
         )
@@ -148,7 +132,7 @@ const styles = StyleSheet.create({
         padding: 16,
         alignSelf: 'stretch',
         marginBottom: 8,
-        marginTop: 16
+        marginTop: 8
     },
     infoContainer:{
         flexDirection: 'row',
@@ -157,10 +141,7 @@ const styles = StyleSheet.create({
         margin: 16,
         marginRight: 40,
         marginLeft: 40
-    },
-    infoLoayout:{
-        
-    },
+    }, 
     title:{
         color:'#FAFAFA',
         fontSize: 20,
@@ -179,5 +160,14 @@ const styles = StyleSheet.create({
         fontSize: 40,
         justifyContent: 'center',
         alignSelf:'center'
+    },
+    notesTitle:{
+        color: '#DDDEDE', 
+        fontSize: 16, 
+        marginBottom: 8
+    },
+    notesText:{
+        color: '#DDDEDE', 
+        fontSize: 12 
     }
 })
