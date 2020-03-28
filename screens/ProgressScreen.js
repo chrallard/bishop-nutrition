@@ -181,13 +181,14 @@ export default class ProgressScreen extends Component {
     }
 
     onSwipeLeft = (gestureState) => {
-        this.setState({ selectedIndex: 1 });
+        let newIndex = this.state.selectedIndex + 1
+        this.setState({ selectedIndex: newIndex });
     }
 
     onSwipeRight = (gestureState) => {
-        this.setState({ selectedIndex: 0 });
+        let newIndex = this.state.selectedIndex - 1
+        this.setState({ selectedIndex: newIndex });
     }
-
 
     _renderWeightContent = () => {
         this.state.weightEntry.sort(function (a, b) { return b.timeStamp - a.timeStamp })
