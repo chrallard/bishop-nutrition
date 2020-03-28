@@ -1,6 +1,6 @@
 export default {
     exerciseEntry: {
-      durationMins: 0,
+      durationMins: null,
       notes: "",
       title: "",
       type: "",
