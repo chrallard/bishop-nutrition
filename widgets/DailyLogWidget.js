@@ -3,12 +3,16 @@ import { StyleSheet, Text, View, TouchableOpacity, YellowBox, Image } from 'reac
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 
+import { DataContext } from '../contexts/DataContext'
+
+
 export default class DailyLogWidget extends Component {
+
+    static contextType = DataContext
 
     constructor(props){
         super(props)
         this.state = {
-            uid: "",
             daysList: []
         }
     }
@@ -19,44 +23,34 @@ export default class DailyLogWidget extends Component {
             'VirtualizedLists should never be nested', // TODO: Remove when fixed
         ])
 
-        await this.setUid()
-        await this.setUsersPlan()
-        await this.setPlanData()
+     
         await this.buildDaysList()
-    }
 
-    setUid = async () => {
-        let uid = await firebase.auth().currentUser.uid
-        this.setState({ uid })
-    }
-
-    setUsersPlan = async () => {
-        let usersPlan = await firebase.firestore().collection("userData").doc(this.state.uid).get().then((doc) => { return doc.data().plan })
-        this.setState({ usersPlan })
-    }
-
-    setPlanData = async () => {
-        await firebase.firestore().collection("plans").doc(this.state.usersPlan).get().then((doc) => {
-            this.setState({ planData: doc.data() })
-        })
+        //console.log(this.context.healthTrackingData)
     }
 
     buildDaysList = async () => {
+        let fiveHealthTrackingData = []
         let daysList = []
         let formatDate = (d) => { //can't access this function inside the forEach for some reason
             return this.formatDate(d)
         }
 
-        await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").orderBy("timeStamp", "desc").limit(5).get().then((querySnapshot) => {
-            querySnapshot.forEach((item) => {
+        for(let i = 0; i < 5; i++){
+            if(this.context.healthTrackingData[i] !== undefined){
+                fiveHealthTrackingData.push(this.context.healthTrackingData[i])
+            }
+        }
 
-                let obj = {
-                    date: formatDate(item.data().timeStamp),
-                    doc: item.data(),
-                    complete: this.checkDayComplete(item.data().foodEntry)
-                }
-                daysList.unshift(obj)
-            })
+        fiveHealthTrackingData.forEach((item) => {
+
+            let obj = {
+                date: formatDate(item.timeStamp),
+                doc: item,
+                complete: this.checkDayComplete(item.foodEntry)
+            }
+            daysList.unshift(obj)
+
         })
 
         this.setState({ daysList })
@@ -75,7 +69,7 @@ export default class DailyLogWidget extends Component {
 
         let planList = []
 
-        Object.values(this.state.planData.portions).forEach((item) => {
+        Object.values(this.context.planData.portions).forEach((item) => {
             planList.push({
                 name: item.name,
                 maxPortions: item.maxPortions
