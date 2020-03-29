@@ -46,6 +46,9 @@ export default class ProgressScreen extends Component {
         await this.getValues()
         await this.xData()
         await this.yData()
+
+         console.log(this.state.xData)
+        // console.log(this.state.yData)
     }
 
     handleIndexChange = async (index) => {
@@ -56,42 +59,33 @@ export default class ProgressScreen extends Component {
     xData = async() => {
 
         let uid = await firebase.auth().currentUser.uid
-        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").limit(7).get().then((querySnapshot) => {
+        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "asc").limit(17).get().then((querySnapshot) => {
             let xData = []
             querySnapshot.forEach((doc) => {
 
                 let dt = new Date(doc.data().timeStamp)
-                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
                 const date = dt.getDate()
                 const Month = months[dt.getMonth()]
-                let obj = {
-                    xData : `${Month} ${date}`
-                }
-                xData.push(obj)
-                console.log(obj)
-                this.setState({xData})
+                let xValue = `${Month} ${date}`
+
+                xData.push(xValue)
             })
-
+            this.setState({xData}) 
         })
-
     }
 
     yData = async() => {
         let uid = await firebase.auth().currentUser.uid
-        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").limit(7).get().then((querySnapshot) => {
+        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").limit(17).get().then((querySnapshot) => {
 
             let yData = []
             querySnapshot.forEach((doc) => {
-                let ob = {
-                    yData: doc.data().weightEntry
-                }
+                let yValue = doc.data().weightEntry
 
-                yData.push(ob)
-            console.log(ob)
-            this.setState({yData})
+                yData.push(yValue)
             })
-            
-
+            this.setState({yData}) 
         })
     }
 
@@ -284,11 +278,8 @@ export default class ProgressScreen extends Component {
         //anything you want on the progress bar goes in the  else if (this.state.selectedIndex == 1) {
            
         if (this.state.selectedIndex == 0) {
-            
-           
-            const data = []
-            const xData = []
-            const yData = []
+
+        
             const axesSvg = { fontSize: 10, fill: '#F3F3F3' };
             const verticalContentInset = { top: 10, bottom: 10 }
             const xAxisHeight = 30
@@ -303,22 +294,21 @@ export default class ProgressScreen extends Component {
                         <View style={{ height: 200, padding: 10, flexDirection: 'row', backgroundColor: '#347EFB' }}>
 
                             <YAxis
-                                data={data}
-                                style={{ marginBottom: xAxisHeight, }}
+                                data={this.state.yData}
+                                style={{ marginBottom: xAxisHeight }}
                                 contentInset={verticalContentInset}
-                                yAccessor={({ item }) => item.yData}
-                                xAccessor={({ item }) => item.xData}
                                 svg={axesSvg}
                             />
 
                             <View style={{ flex: 1, marginLeft: 10, }}>
                                 <LineChart
                                     style={{ flex: 1 }}
-                                    data={data}
+                                    data={this.state.yData}
                                     contentInset={verticalContentInset}
                                     svg={{ 
                                         stroke: '#F3F3F3',
-                                        strokeWidth: 3
+                                        strokeWidth: 3,
+        
                                     }}
                                 >
 
@@ -327,11 +317,9 @@ export default class ProgressScreen extends Component {
                                 </LineChart>
 
                                 <XAxis
-                                    style={{ marginHorizontal: -10, height: xAxisHeight }}
-                                    data={data}
-                                    formatLabel={(value, index) => index}
-                                    yAccessor={({ item }) => item.yData}
-                                    xAccessor={({ item }) => item.xData}
+                                    data={this.state.yData} 
+                                    style={{ marginHorizontal: -10, height: xAxisHeight  }}
+                                    formatLabel={(value, index) => this.state.xData[index]}
                                     contentInset={{ left: 10, right: 10 }}
                                     svg={axesSvg}
                                 />
