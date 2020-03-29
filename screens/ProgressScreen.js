@@ -26,7 +26,7 @@ export default class ProgressScreen extends Component {
             waist: 0,
             weight: 0,
 
-            loadingStyle: styles.container,
+            loadingStyle: styles.loading,
             displayStyle: styles.invisible
         }
         this.addModal = this.addModal.bind(this);
@@ -521,6 +521,10 @@ const styles = StyleSheet.create({
     addBtnSize:{
         height: 40,
         resizeMode: 'contain'
+    },
+    loading: {
+        height: '100%',
+        justifyContent: 'center'
     },
 
     invisible:{

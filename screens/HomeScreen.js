@@ -22,7 +22,7 @@ export default class HomeScreen extends Component {
       uid: "",
       loadingVisible: true,
       mountedComponents: 0,
-      displayStyle: styles.container
+      displayStyle: styles.loading
     }
   }
 
@@ -134,34 +134,24 @@ export default class HomeScreen extends Component {
 
   render() {
       return (
-        <ScrollView>
-          <View style={styles.container} >
-
-            {/* <Modal
-              //animationType="fade"
-              transparent={true}
-              visible={this.state.loadingVisible}
-            >
-              <View style={styles.modalStyle}>
-                <ActivityIndicator size="large" color="red" />
-              </View>
-            </Modal> */}
-
-            <View style={this.state.displayStyle}>
-              <ActivityIndicator size="large" color="red" /> 
-            </View>
-            
-            <WelcomeWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
-            <DailyLogWidget mounted={this.handleMount} visible={!this.state.loadingVisible} navProps={this.props.navigation} />
-            <FoodTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
-            <WaterTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
-            <WeightWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
-            {/* <SleepTrackingWidget mounted={this.handleMount} /> */}
-            <ActivityTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
-            <MoodTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
-
+        <>
+          <View style={this.state.displayStyle} >
+            <ActivityIndicator color = 'red' size = "large" />
           </View>
-        </ScrollView>
+
+          <ScrollView>
+            <View style={styles.container} >
+              <WelcomeWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+              <DailyLogWidget mounted={this.handleMount} visible={!this.state.loadingVisible} navProps={this.props.navigation} />
+              <FoodTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+              <WaterTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+              <WeightWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+              {/* <SleepTrackingWidget mounted={this.handleMount} /> */}
+              <ActivityTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+              <MoodTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+            </View>
+          </ScrollView>
+        </>
       )
   }
 }
@@ -170,16 +160,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
+  loading: {
+    height: '100%',
+    justifyContent: 'center'
+  },
+
   invisible: {
     display: 'none'
   }
-
-  // modalStyle: {
-  //   display: 'flex',
-  //   justifyContent: 'center',
-  //   height: '50%',
-  //   backgroundColor: 'rgba(0, 0, 0, 0.7)',
-  // }
 })
