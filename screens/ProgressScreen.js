@@ -318,10 +318,10 @@ export default class ProgressScreen extends Component {
 
                                 <XAxis
                                     data={this.state.yData} 
-                                    style={{ marginHorizontal: -10, height: xAxisHeight  }}
+                                    style={{ marginHorizontal: 10, height: xAxisHeight, width: '100%'  }}
                                     formatLabel={(value, index) => this.state.xData[index]}
-                                    contentInset={{ left: 10, right: 10 }}
-                                    svg={axesSvg}
+                                    contentInset={{ left: 20, right: 20 }}
+                                    svg={{rotation: 30, fontSize: 8, fill: '#F3F3F3', y: 10 }}
                                 />
                             </View>
 
