@@ -38,11 +38,12 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }
 ////////////////////////////////////
+import DataContextProvider from './contexts/DataContext'
+///////////////////////////////////
 
 const Tab = createBottomTabNavigator()
 const HomeStack = createStackNavigator()
 const FoodStack = createStackNavigator()
-const ActivitiesStack = createStackNavigator()
 const ProgressStack = createStackNavigator()
 const ProfileStack = createStackNavigator()
 const LoginStack = createStackNavigator()
@@ -72,7 +73,6 @@ function HomeStackScreen() {
   )
 }
 
-
 function FoodStackScreen() {
   return (
     <FoodStack.Navigator>
@@ -82,18 +82,6 @@ function FoodStackScreen() {
     </FoodStack.Navigator>
   )
 }
-
-// function ActivitiesStackScreen() {
-//   console.log("hi")
-//   return (
-//     <ActivitiesStack.Navigator>
-//       <ActivitiesStack.Screen name="Activities" component={ActivitiesScreen} options={{
-//         title: "JEFF/CONOR - STYLE",
-//         showMe: true
-//       }} />
-//     </ActivitiesStack.Navigator>
-//   )
-// }
 
 function ProgressStackScreen() {
   return (
@@ -151,8 +139,6 @@ export default function App() {
 
   const [isLoggedIn, setLoginStatus] = useState(false)
 
-
-
   firebase.auth().onAuthStateChanged((user) => {
     user ? setLoginStatus(true) : setLoginStatus(false)
   })
@@ -164,6 +150,7 @@ export default function App() {
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={{ backgroundColor: '#000' }} />
       {isLoggedIn ? (
+<DataContextProvider>
         <Tab.Navigator
           tabBarOptions={{
             activeTintColor: '#347EFB',
@@ -209,12 +196,12 @@ export default function App() {
             }} />
 
         </Tab.Navigator>
+</DataContextProvider>
       ) : (
           <LoginStackScreen />
         )}
       <SafeAreaView style={{ backgroundColor: '#000' }} />
     </NavigationContainer>
-
   );
 }
 
