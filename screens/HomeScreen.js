@@ -3,6 +3,7 @@ import 'firebase/auth'
 import 'firebase/firestore'
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Button, ScrollView, YellowBox, StatusBar, ActivityIndicator, Modal, TouchableHighlight } from 'react-native'
+import {MaterialIndicator} from 'react-native-indicators';
 import WelcomeWidget from '../widgets/WelcomeWidget'
 import DailyLogWidget from '../widgets/DailyLogWidget'
 import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
@@ -136,7 +137,7 @@ export default class HomeScreen extends Component {
       return (
         <>
           <View style={this.state.displayStyle} >
-            <ActivityIndicator color = 'red' size = "large" />
+            <MaterialIndicator color='#347EFB' size={50} />
           </View>
 
           <ScrollView>

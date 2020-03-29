@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList, ScrollView, Image, Button, Modal, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native'
 import SegmentedControlTab from "react-native-segmented-control-tab";
+import {MaterialIndicator} from 'react-native-indicators';
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
@@ -238,7 +239,7 @@ export default class ProgressScreen extends Component {
                 <>
                 
                     <View style={this.state.loadingStyle}>
-                        <ActivityIndicator size="large" color="red" /> 
+                        <MaterialIndicator color='#347EFB' size={50} />
                     </View>
                 
                     <ScrollView>
