@@ -7,7 +7,7 @@ import WelcomeWidget from '../widgets/WelcomeWidget'
 import DailyLogWidget from '../widgets/DailyLogWidget'
 import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
 import WaterTrackingWidget from '../widgets/WaterTrackingWidget'
-import SleepTrackingWidget from '../widgets/SleepTrackingWidget'
+import SleepTrackingWidget from '../widgets/SleepTrackingWidget'  //imports all needed widgets and components
 import ActivityTrackingWidget from '../widgets/ActivityTrackingWidget'
 import healthTrackingTemplate from '../dataTemplates/healthTrackingTemplate'
 import bodyTrackingTemplate from '../dataTemplates/bodyTrackingTemplate'
@@ -124,7 +124,7 @@ export default class HomeScreen extends Component {
           <DailyLogWidget navProps={this.props.navigation} />
           <FoodTrackingWidget />
           <WaterTrackingWidget />
-          <WeightWidget/>
+          <WeightWidget />
           <SleepTrackingWidget />
           <ActivityTrackingWidget />
           <MoodTrackingWidget />

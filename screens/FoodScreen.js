@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList, Button, ScrollView, Item, SectionList, TouchableOpacity, Image } from 'react-native'
 import { List, Checkbox } from 'react-native-paper';
-import Collapsible from 'react-native-collapsible';
+import Collapsible from 'react-native-collapsible';     //imports all required components and libraries
 import { SearchBar } from 'react-native-elements';
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import Accordion from 'react-native-collapsible/Accordion';
@@ -30,7 +30,7 @@ export default class ProfileScreen extends Component {
       expanded: false,
       uid: "",
       activeSections: [],
-      search: '',
+      search: '',               //initialized state variables
       searchActive: false,
       selectedIndex: 1,
       longPressed: 0,
@@ -138,7 +138,7 @@ export default class ProfileScreen extends Component {
 
     await this.setUid()
     await this.state.db.collection("foodList").doc("allFood").get().then((doc) => {
-      Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
+      Object.values(doc.data()).forEach((item) => { //pulls all data from Firebase and assigns it to the respective list
         if (item.category == "Dairy") {
           dairyList.push(item)
         }
@@ -179,9 +179,9 @@ export default class ProfileScreen extends Component {
   }
   setUid = async () => {
     let uid = await firebase.auth().currentUser.uid
-    this.setState({ uid })
+    this.setState({ uid }) //finds the current users ID
   }
-  updateFavouriteSearch = search => {
+  updateFavouriteSearch = search => { //updates a search list when searching on the favourite screen
 
     let lists = [
       {
@@ -224,56 +224,47 @@ export default class ProfileScreen extends Component {
     }
     this.state.favouriteLists[0].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[0].list.push(element)
       }
     });
     this.state.favouriteLists[1].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[1].list.push(element)
       }
     });
 
     this.state.favouriteLists[2].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[2].list.push(element)
       }
     });
     this.state.favouriteLists[3].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[3].list.push(element)
       }
     });
     this.state.favouriteLists[4].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[4].list.push(element)
       }
     });
     this.state.favouriteLists[5].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[5].list.push(element)
       }
     });
     this.state.favouriteLists[6].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[6].list.push(element)
       }
     });
-
-
     this.setState({ searchLists: lists })
     this.setState({ search });
   };
 
 
 
-  updateSearch = search => {
+  updateSearch = search => { //updates a search list when searching on the foodlist screen
 
     let lists = [
       {
@@ -316,39 +307,33 @@ export default class ProfileScreen extends Component {
 
     }
     this.state.lists[0].list.forEach(element => {
-      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") { //compares what was typed to any food in a specific category
         lists[0].list.push(element)
       }
     });
     this.state.lists[1].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[1].list.push(element)
       }
     });
 
     this.state.lists[2].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[2].list.push(element)
       }
     });
     this.state.lists[3].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[3].list.push(element)
       }
     });
     this.state.lists[4].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[4].list.push(element)
       }
     });
     this.state.lists[5].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[5].list.push(element)
       }
     });
@@ -363,12 +348,12 @@ export default class ProfileScreen extends Component {
     this.setState({ searchLists: lists })
     this.setState({ search });
   };
-  _handlePress = (food) =>
+  _handlePress = (food) => //function that opens and closes the accordian list
     this.setState({
       expanded: !this.state.expanded
     });
 
-  _handleIndexChange = async (index) => {
+  _handleIndexChange = async (index) => { //changes which segemented tab is displayed
     this.setState({ selectedIndex: index });
     let dairyList = []
     let restrictedList = []
@@ -380,7 +365,7 @@ export default class ProfileScreen extends Component {
 
     if (index == 0) {
       await this.state.db.collection("userData").doc(this.state.uid).collection("favouriteFoodList").doc("allFavFood").get().then((doc) => {
-        Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
+        Object.values(doc.data()).forEach((item) => {
           if (item.category == "Dairy") {
             dairyList.push(item)
           }
@@ -428,7 +413,7 @@ export default class ProfileScreen extends Component {
   };
 
 
-  _renderHeader = section => {
+  _renderHeader = section => { //renders the accordion list headers based on what food categories are there
     return (
       <View style={styles.listItemContainer}>
 
@@ -479,7 +464,7 @@ export default class ProfileScreen extends Component {
     );
   };
 
-  _addFavourite = async (item) => {
+  _addFavourite = async (item) => { //adds an item to the users favourite list when clicked
 
     await firebase.firestore().collection("userData").doc(this.state.uid).collection("favouriteFoodList").doc("allFavFood").set({
       [item.name]: {
@@ -496,7 +481,7 @@ export default class ProfileScreen extends Component {
     }, { merge: true })
 
   };
-  _removeFavourite = async (item) => {
+  _removeFavourite = async (item) => { //removes an item from  a users favourite list
     let dairyList = []
     let restrictedList = []
     let fruitList = []
@@ -550,23 +535,22 @@ export default class ProfileScreen extends Component {
     this.setState({ favouriteLists: listArray })
 
   }
-  _addPortion = (item) => {
+  _addPortion = (item) => { //adds a portion of the selected food to the users daily
     console.log(item.category)
   }
-  _openDeleteOrHalfPortion = (item) => {
-    console.log(item.key)
+  _openDeleteOrHalfPortion = (item) => { //displays two smaller buttons 
     this.setState({ longPressed: item.key })
   }
-  _addHalfPortion = (item) => {
+  _addHalfPortion = (item) => {//adds a portion of the selected food to the users daily
     console.log(item.category)
   }
-  _deleteHalfPortion = (item) => {
+  _deleteHalfPortion = (item) => {//removes a portion of the selected food to the users daily
     console.log(item.category)
   }
-  _closeDeleteOrHalfPortion = (item) => {
+  _closeDeleteOrHalfPortion = (item) => { //closes the smaller buttons
     this.setState({ longPressed: "" })
   }
-  _renderFavouriteContent = section => {
+  _renderFavouriteContent = section => { //renders the items on the favourite list 
     return (
 
 
@@ -675,7 +659,7 @@ export default class ProfileScreen extends Component {
 
     );
   };
-  _renderContent = section => {
+  _renderContent = section => {//renders the lists of foods in the accordion list
     return (
 
 
@@ -707,7 +691,7 @@ export default class ProfileScreen extends Component {
 
             </TouchableOpacity>
 
-            {(this.state.longPressed == item.key) ? (
+            {(this.state.longPressed == item.key) ? ( //checks if someone longpressed an add button
               //#region longpress buttons
 
               <View style={{ flexDirection: 'row' }}>
