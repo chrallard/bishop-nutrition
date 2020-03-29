@@ -31,24 +31,12 @@
     "react-native-reanimated": "~1.4.0",
     "react-native-safe-area-context": "0.6.0",
     "react-native-screens": "2.0.0-alpha.12",
-<<<<<<< HEAD
     "react-native-segmented-control-tab": "^3.4.1",
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-svg": "^9.13.3",
-    "react-native-svg-charts": "^5.2.0",
     "react-native-web": "~0.11.7",
-
-    "react-native-web": "~0.11.7",
-    "react-native-simple-radio-button": "^2.7.4",
-=======
->>>>>>> cf2b15445265e6795f1c19ca080f0ac4ec6acc2f
-    "react-native-segmented-control-tab": "^3.4.1",
-    "react-native-simple-radio-button": "^2.7.4",
-    "react-native-svg": "9.13.3",
     "react-native-svg-charts": "^5.3.0",
-    "react-native-swipe-gestures": "^1.0.5",
-    "react-native-web": "~0.11.7",
-    "victory-native": "^34.1.0"
+    "react-native-swipe-gestures": "^1.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
