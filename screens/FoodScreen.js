@@ -33,6 +33,7 @@ export default class ProfileScreen extends Component {
       search: '',               //initialized state variables
       searchActive: false,
       selectedIndex: 1,
+      docId: "",
       longPressed: 0,
       lists: [
         {
@@ -136,7 +137,10 @@ export default class ProfileScreen extends Component {
     let fatsList = []
     let freeVegList = []
 
+
     await this.setUid()
+    await this.setTodaysDocId()
+
     await this.state.db.collection("foodList").doc("allFood").get().then((doc) => {
       Object.values(doc.data()).forEach((item) => { //pulls all data from Firebase and assigns it to the respective list
         if (item.category == "Dairy") {
@@ -261,8 +265,37 @@ export default class ProfileScreen extends Component {
     this.setState({ searchLists: lists })
     this.setState({ search });
   };
+  setTodaysDocId = async () => {
+    //get todays date - format
+    let d = new Date()
+    let today = this.formatDate(d)
+    let formatDate = (d) => { //can't access this function inside the forEach for some reason
+      return this.formatDate(d)
+    }
+    let docId
 
+    //loop through user data and get the dates to format
+    await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").orderBy("timeStamp", "desc").limit(15).get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        let formattedDate = formatDate(new Date(doc.data().timeStamp))
 
+        if (formattedDate == today) {
+          docId = doc.id
+        }
+      })
+    })
+
+    this.setState({ docId })
+  }
+  formatDate = (d) => {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    const date = d.getDate()
+    const month = months[d.getMonth()]
+    const year = d.getFullYear()
+    const formattedDate = date + month + year //looks like this: 4March2020
+
+    return formattedDate
+  }
 
   updateSearch = search => { //updates a search list when searching on the foodlist screen
 
@@ -411,6 +444,40 @@ export default class ProfileScreen extends Component {
 
 
   };
+  updateDb = async (item) => {
+    let foodEntry = {}
+
+
+    let obj = {
+      [item.category]: {
+        name: item.name,
+        portions: 1
+      }
+    }
+
+    Object.assign(foodEntry, obj)
+
+
+    await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").doc(this.state.docId)
+      .set({ foodEntry }, { merge: true })
+  }
+  updateHalfDb = async (item) => {
+    let foodEntry = {}
+
+
+    let obj = {
+      [item.category]: {
+        name: item.name,
+        portions: 0.5
+      }
+    }
+
+    Object.assign(foodEntry, obj)
+
+
+    await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").doc(this.state.docId)
+      .set({ foodEntry }, { merge: true })
+  }
 
 
   _renderHeader = section => { //renders the accordion list headers based on what food categories are there
@@ -537,12 +604,14 @@ export default class ProfileScreen extends Component {
   }
   _addPortion = (item) => { //adds a portion of the selected food to the users daily
     console.log(item.category)
+    this.updateDb(item)
   }
   _openDeleteOrHalfPortion = (item) => { //displays two smaller buttons 
     this.setState({ longPressed: item.key })
   }
   _addHalfPortion = (item) => {//adds a portion of the selected food to the users daily
     console.log(item.category)
+    this.updateHalfDb(item)
   }
   _deleteHalfPortion = (item) => {//removes a portion of the selected food to the users daily
     console.log(item.category)
