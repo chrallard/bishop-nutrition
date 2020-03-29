@@ -2,7 +2,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button, ScrollView, YellowBox, StatusBar } from 'react-native'
+import { StyleSheet, Text, View, Button, ScrollView, YellowBox, StatusBar, ActivityIndicator, Modal, TouchableHighlight } from 'react-native'
 import WelcomeWidget from '../widgets/WelcomeWidget'
 import DailyLogWidget from '../widgets/DailyLogWidget'
 import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
@@ -19,7 +19,10 @@ export default class HomeScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      uid: ""
+      uid: "",
+      loadingVisible: true,
+      mountedComponents: 0,
+      displayStyle: styles.container
     }
   }
 
@@ -116,21 +119,50 @@ export default class HomeScreen extends Component {
     return formattedDate
   }
 
+  handleMount = () => {
+    let num = this.state.mountedComponents
+    num += 1
+    this.setState({ mountedComponents: num })
+
+    if(num == 7) { // this number is based on how many widgets are mounting
+      this.setState({ 
+        loadingVisible: false,
+        displayStyle: styles.invisible
+      })
+    }
+  }
+
   render() {
-    return (
-      <ScrollView>
-        <View style={styles.container} >
-          <WelcomeWidget />
-          <DailyLogWidget navProps={this.props.navigation} />
-          <FoodTrackingWidget />
-          <WaterTrackingWidget />
-          <WeightWidget/>
-          <SleepTrackingWidget />
-          <ActivityTrackingWidget />
-          <MoodTrackingWidget />
-        </View>
-      </ScrollView>
-    )
+      return (
+        <ScrollView>
+          <View style={styles.container} >
+
+            {/* <Modal
+              //animationType="fade"
+              transparent={true}
+              visible={this.state.loadingVisible}
+            >
+              <View style={styles.modalStyle}>
+                <ActivityIndicator size="large" color="red" />
+              </View>
+            </Modal> */}
+
+            <View style={this.state.displayStyle}>
+              <ActivityIndicator size="large" color="red" /> 
+            </View>
+            
+            <WelcomeWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+            <DailyLogWidget mounted={this.handleMount} visible={!this.state.loadingVisible} navProps={this.props.navigation} />
+            <FoodTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+            <WaterTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+            <WeightWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+            {/* <SleepTrackingWidget mounted={this.handleMount} /> */}
+            <ActivityTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+            <MoodTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+
+          </View>
+        </ScrollView>
+      )
   }
 }
 
@@ -138,6 +170,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+  },
+  invisible: {
+    display: 'none'
   }
+
+  // modalStyle: {
+  //   display: 'flex',
+  //   justifyContent: 'center',
+  //   height: '50%',
+  //   backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  // }
 })

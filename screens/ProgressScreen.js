@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, FlatList, ScrollView, Image, Button, Modal, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, Text, View, FlatList, ScrollView, Image, Button, Modal, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native'
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import * as firebase from "firebase/app"
 import "firebase/firestore"
@@ -24,8 +24,10 @@ export default class ProgressScreen extends Component {
             chest: 0,
             hips: 0,
             waist: 0,
-            weight: 0
+            weight: 0,
 
+            loadingStyle: styles.container,
+            displayStyle: styles.invisible
         }
         this.addModal = this.addModal.bind(this);
     }
@@ -37,6 +39,10 @@ export default class ProgressScreen extends Component {
         await this.getTime()
         await this.getValues()
 
+        this.setState({ 
+            loadingStyle: styles.invisible,
+            displayStyle: styles.container
+         })
     }
 
     handleIndexChange = async (index) => {
@@ -231,79 +237,81 @@ export default class ProgressScreen extends Component {
                 //this is where you build the weight screen
                 <>
                 
-                
-                <ScrollView>
-                    <View style={styles.container}  >
-
-                        <SegmentedControlTab
-                            values={["Weight", "Measurement"]}
-                            selectedIndex={this.state.selectedIndex}
-                            onTabPress={this.handleIndexChange}
-
-                            allowFontScaling={false}
-                            tabsContainerStyle={segmented.tabsContainerStyle}
-                            tabStyle={segmented.tabStyle}
-                            firstTabStyle={segmented.firstTabStyle}
-                            lastTabStyle={segmented.lastTabStyle}
-                            tabTextStyle={segmented.tabTextStyle}
-                            activeTabStyle={segmented.activeTabStyle}
-                            activeTabTextStyle={segmented.activeTabTextStyle}
-                        />
-                        {this._renderWeightContent()}
-
-                        <Modal visible={this.state.showWeightAdd} animationType={'slide'} transparent={true}>
-
-                            <View style={styles.modalStyle}>
-                                <View style={styles.modalHeader}>
-                                    <TouchableOpacity onPress={() => { this.setState({ showWeightAdd: false }) }}>
-                                        <Text style={styles.modalNav}>Back</Text>
-                                    </TouchableOpacity>
-
-                                    <Text style={styles.modalTitle}>Weight</Text>
-
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            this.setState({ showWeightAdd: false })
-                                            console.log(this.state.weight)
-                                            let timeStamp = Date.now()
-                                            console.log(timeStamp)
-                                            // this.updateDb()
-                                            //this onpress will be what pushs to the db
-                                        }}>
-                                        <Text style={styles.modalNav}>Save</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View>
-                                    <Image source={require('../assets/scale.png')} style={styles.scaleImage} />
-                                </View>
-                                <View>
-                                    <TextInput style={styles.weightInput}
-                                        underlineColorAndroid="transparent"
-                                        multiline={false}
-                                        numberOfLines={1}
-                                        placeholder="Current Weight (lbs)"
-                                        placeholderTextColor='#DDDEDE'
-                                        fontWeight='600'
-                                        autoCapitalize="none"
-                                        onChangeText={(text) => this.setState({ weight: text })}
-                                        value={this.state.Text} />
-
-                                </View>
-                            </View>
-                        </Modal>
+                    <View style={this.state.loadingStyle}>
+                        <ActivityIndicator size="large" color="red" /> 
                     </View>
-
-
-                </ScrollView>
                 
-                <TouchableOpacity title="Add" onPress={() => {
-                    this.setState({ showWeightAdd: true })
-                }} style={styles.addBtn}>
-                    <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize}/>
-                </TouchableOpacity>
+                    <ScrollView>
+                        <View style={this.state.displayStyle} >
+
+                            <SegmentedControlTab
+                                values={["Weight", "Measurement"]}
+                                selectedIndex={this.state.selectedIndex}
+                                onTabPress={this.handleIndexChange}
+
+                                allowFontScaling={false}
+                                tabsContainerStyle={segmented.tabsContainerStyle}
+                                tabStyle={segmented.tabStyle}
+                                firstTabStyle={segmented.firstTabStyle}
+                                lastTabStyle={segmented.lastTabStyle}
+                                tabTextStyle={segmented.tabTextStyle}
+                                activeTabStyle={segmented.activeTabStyle}
+                                activeTabTextStyle={segmented.activeTabTextStyle}
+                            />
+                            {this._renderWeightContent()}
+
+                            <Modal visible={this.state.showWeightAdd} animationType={'slide'} transparent={true}>
+
+                                <View style={styles.modalStyle}>
+                                    <View style={styles.modalHeader}>
+                                        <TouchableOpacity onPress={() => { this.setState({ showWeightAdd: false }) }}>
+                                            <Text style={styles.modalNav}>Back</Text>
+                                        </TouchableOpacity>
+
+                                        <Text style={styles.modalTitle}>Weight</Text>
+
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                this.setState({ showWeightAdd: false })
+                                                console.log(this.state.weight)
+                                                let timeStamp = Date.now()
+                                                console.log(timeStamp)
+                                                // this.updateDb()
+                                                //this onpress will be what pushs to the db
+                                            }}>
+                                            <Text style={styles.modalNav}>Save</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View>
+                                        <Image source={require('../assets/scale.png')} style={styles.scaleImage} />
+                                    </View>
+                                    <View>
+                                        <TextInput style={styles.weightInput}
+                                            underlineColorAndroid="transparent"
+                                            multiline={false}
+                                            numberOfLines={1}
+                                            placeholder="Current Weight (lbs)"
+                                            placeholderTextColor='#DDDEDE'
+                                            fontWeight='600'
+                                            autoCapitalize="none"
+                                            onChangeText={(text) => this.setState({ weight: text })}
+                                            value={this.state.Text} />
+
+                                    </View>
+                                </View>
+                            </Modal>
+                        </View>
+
+                    </ScrollView>
+                
+                    <TouchableOpacity title="Add" onPress={() => {
+                        this.setState({ showWeightAdd: true })
+                    }} style={styles.addBtn}>
+                        <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize}/>
+                    </TouchableOpacity>
+
                 </>
             )
-
         }
         else if (this.state.selectedIndex == 1) {
             return (
@@ -513,6 +521,10 @@ const styles = StyleSheet.create({
     addBtnSize:{
         height: 40,
         resizeMode: 'contain'
+    },
+
+    invisible:{
+        display: 'none'
     }
 })
 

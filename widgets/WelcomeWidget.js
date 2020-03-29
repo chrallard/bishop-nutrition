@@ -10,13 +10,27 @@ export default class WelcomeWidget extends Component{
         super(props)
         this.state = {
             name: "",
-            date: "" 
+            date: "",
+            
+            displayStyle: styles.invisible
         }
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
         await this.userinfo()
-   }
+
+        this.props.mounted()
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.visible !== this.props.visible){
+            this.updateVisibility()
+        }
+    }
+
+    updateVisibility = () => {
+        this.setState({ displayStyle: styles.container })
+    }
 
     userinfo = async () => {
 
@@ -43,7 +57,7 @@ export default class WelcomeWidget extends Component{
 
     render(){
         return(
-            <View style={styles.container}>
+            <View style={this.state.displayStyle} >
                 <Text style={styles.title}>Welcome</Text>
                 <Text style={styles.nameText}>{this.state.name}</Text>
                 <Text style={styles.dateText}>{this.state.date}</Text>
@@ -79,5 +93,9 @@ const styles = StyleSheet.create({
         fontSize: 17,
         justifyContent: 'center',
         alignSelf:'center'
+    },
+
+    invisible:{
+        display: 'none'
     }
 })

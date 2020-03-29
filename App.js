@@ -151,15 +151,11 @@ export default function App() {
 
   const [isLoggedIn, setLoginStatus] = useState(false)
 
-
-
   firebase.auth().onAuthStateChanged((user) => {
     user ? setLoginStatus(true) : setLoginStatus(false)
   })
 
   return (
-
-
     <NavigationContainer theme={MyTheme}>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={{ backgroundColor: '#000' }} />
@@ -214,7 +210,6 @@ export default function App() {
         )}
       <SafeAreaView style={{ backgroundColor: '#000' }} />
     </NavigationContainer>
-
-  );
+  )
 }
 

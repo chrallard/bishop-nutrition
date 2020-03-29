@@ -9,7 +9,9 @@ export default class DailyLogWidget extends Component {
         super(props)
         this.state = {
             uid: "",
-            daysList: []
+            daysList: [],
+
+            displayStyle: styles.invisible
         }
     }
 
@@ -23,6 +25,18 @@ export default class DailyLogWidget extends Component {
         await this.setUsersPlan()
         await this.setPlanData()
         await this.buildDaysList()
+
+        this.props.mounted()
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.visible !== this.props.visible){
+            this.updateVisibility()
+        }
+    }
+
+    updateVisibility = () => {
+        this.setState({ displayStyle: styles.container })
     }
 
     setUid = async () => {
@@ -114,7 +128,7 @@ export default class DailyLogWidget extends Component {
 
     render(){
         return(
-            <View style={styles.container}>
+            <View style={this.state.displayStyle}>
                 <Text style={styles.title}>Daily Log</Text>
                 <View style={styles.list}>
                     {this.state.daysList.map((item, index) => (
@@ -161,5 +175,9 @@ const styles = StyleSheet.create({
         fontSize: 12,
         justifyContent: 'center',
         alignSelf:'center'
+    },
+
+    invisible:{
+        display: 'none'
     }
 })

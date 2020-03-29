@@ -16,15 +16,29 @@ export default class MoodTrackingWidget extends Component {
             showMe: false,
             selectedMood: "",
             moodValue: 0,
-            docId: ""
+            docId: "",
 
+            displayStyle: styles.invisible
         }
+
         this.addModal = this.addModal.bind(this);
     }
 
     async componentDidMount() {
         await this.setUid()
         await this.setTodaysDocId()
+
+        this.props.mounted()
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.visible !== this.props.visible){
+            this.updateVisibility()
+        }
+    }
+
+    updateVisibility = () => {
+        this.setState({ displayStyle: styles.container })
     }
 
     addModal = () => {
@@ -83,7 +97,7 @@ export default class MoodTrackingWidget extends Component {
     render() {
         return (
 
-            <View style={styles.container}>
+            <View style={this.state.displayStyle}>
 
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.widgetTitle}>Mood</Text>
@@ -337,4 +351,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         bottom: 0
     },
+
+    invisible:{
+        display: 'none'
+    }
 });
