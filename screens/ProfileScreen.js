@@ -6,7 +6,7 @@ export default class ProfileScreen extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
+    this.state = {//initializes needed state vairables
       currentPasswordInput: "",
       newPasswordInput: "",
       showUpdatePassword: false

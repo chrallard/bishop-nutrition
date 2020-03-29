@@ -8,7 +8,7 @@ export default class LoginScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      usernameInput: "",
+      usernameInput: "",//initializes needed state vairables
       passwordInput: ""
     }
   }
