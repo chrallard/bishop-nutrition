@@ -76,18 +76,18 @@ userIfo = async () =>{
     return (
 
       
-          <View style={styles.container} >
-           
-              <View style={styles.textContainer}>
-              <View style={styles.headerBox}>
+          <View style={styles.container} >   
+          <View style={styles.headerBox}>
             <Text style={styles.nameText}>{this.state.name}</Text>
            <TouchableOpacity onPress={() => {this.setState({showMe: true,})}}>
-           <Image style={{height: 25,width: 25,paddingLeft:20}} source={require('../assets/edit.png')}/>
+           <Image style={styles.pencilIcon} source={require('../assets/edit.png')}/>
            </TouchableOpacity>
-           </View>
+           </View>        
+              <View style={styles.textContainer}>
+              
  
           <View>
-  <Text style={styles.infoTitle}>DATE OF BIRTHDAY</Text>
+  <Text style={styles.infoTitle}>DATE OF BIRTH</Text>
           <Text style={styles.infoText}>{this.state.dob}</Text>
           <View style={styles.seprateLine}/> 
           </View>
@@ -158,19 +158,19 @@ userIfo = async () =>{
             color="#fff"
           />
         </View> 
-        <Modal visible={this.state.showMe} animationType={'slide'} >
+        <Modal visible={this.state.showMe} animationType={'slide'} transparent={'true'}>
 
        
-        <View style={styles.modalStyle}>
-    <View style={styles.modalHeader}>
-        <TouchableOpacity onPress={() => { this.setState({ showMe: false }) }}>
-            <Text style={styles.modalNav}>Back</Text>
-        </TouchableOpacity>
+          <View style={styles.modalStyle}>
+            <View style={styles.modalHeader}>
+              <TouchableOpacity onPress={() => { this.setState({ showMe: false }) }}>
+                <Text style={styles.modalNav}>Back</Text>
+              </TouchableOpacity>
 
-        <Text style={styles.modalTitle}>Mood</Text>
+            <Text style={styles.modalTitle}>Mood</Text>
 
-        <TouchableOpacity
-            onPress={() => {
+            <TouchableOpacity
+              onPress={() => {
                 this.setState({ showMe: false })
                
                 this.updateDb()
@@ -179,36 +179,40 @@ userIfo = async () =>{
             <Text style={styles.modalNav}>Save</Text>
         </TouchableOpacity>
 
-        <View style={styles.modalSeprateLine} />
 
     </View>
-    <View>
-        <Text style={styles.content}>FULL NAME</Text>
-        <TextInput style = {styles.input}
+    
+        <Text style={styles.infoTitle}>FULL NAME</Text>
+        <TextInput style = {styles.infoText}
               
                placeholder = 'name'
                placeholderTextColor = "#ffffff"
                autoCapitalize = "none"
                onChangeText = {(name)=>this.setState({name})}
                value={this.state.name}/>
-        <Text style={styles.content}>DATE OF BIRTH</Text>
-        <TextInput style = {styles.input}
+        <View style={styles.seprateLine}/> 
+
+        <Text style={styles.infoTitle}>DATE OF BIRTH</Text>
+        <TextInput style = {styles.infoText}
                
                placeholder = {this.state.dob}
                placeholderTextColor = "#ffffff"
                autoCapitalize = "none"
                onChangeText = {(dob)=>this.setState({dob})}
                value={this.state.dob}/>
-               <Text style={styles.content}>HEIGHT</Text>
-        <TextInput style = {styles.input}
+
+          <View style={styles.seprateLine}/> 
+               <Text style={styles.infoTitle}>HEIGHT</Text>
+        <TextInput style = {styles.infoText}
                
                placeholder = {this.state.height}
                placeholderTextColor = "#ffffff"
                autoCapitalize = "none"
                onChangeText = {(height)=>this.setState({height})}
                value={this.state.height}/>
-               <Text style={styles.content}>STARTING WEIGHT</Text>
-        <TextInput style = {styles.input}
+                <View style={styles.seprateLine}/> 
+               <Text style={styles.infoTitle}>STARTING WEIGHT</Text>
+        <TextInput style = {styles.infoText}
                
                 
                keyboardType={'numeric'} 
@@ -216,16 +220,18 @@ userIfo = async () =>{
                autoCapitalize = "none"
                onChangeText = {(weight)=>this.setState({weight})}
                value={this.state.weight}/>
-               <Text style={styles.content}>GENDER</Text>
-        <TextInput style = {styles.input}
+               <View style={styles.seprateLine}/> 
+               <Text style={styles.infoTitle}>GENDER</Text>
+        <TextInput style = {styles.infoText}
                
                placeholder = {this.state.gender}
                placeholderTextColor = "#ffffff"
                autoCapitalize = "none"
                onChangeText = {(gender)=>this.setState({gender})}
                value={this.state.gender}/>
-               <Text style={styles.content}>EMAIL</Text>
-        <TextInput style = {styles.input}
+               <View style={styles.seprateLine}/> 
+               <Text style={styles.infoTitle}>EMAIL</Text>
+        <TextInput style = {styles.infoText}
                
                placeholder = {this.state.email}
                placeholderTextColor = "#ffffff"
@@ -233,7 +239,8 @@ userIfo = async () =>{
                onChangeText = {(email)=>this.setState({email})}
                value={this.state.email}/>
 
-</View>
+<View style={styles.seprateLine}/> 
+
 
            </View>
                  </Modal>
@@ -249,7 +256,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    marginTop: 16
   },
   updatePassword:{
       flexDirection: 'row',
@@ -275,12 +282,9 @@ const styles = StyleSheet.create({
       alignSelf: 'stretch',
   },
   nameText:{
-    marginTop: 10,
-    paddingBottom:40,
-    color:'#fff',
-    alignItems: 'center',
-    textAlign:'center',
-    fontSize:30
+    color:'#FAFAFA',
+    fontSize:30,
+    marginRight: 8
   },
   infoText:{
     color:'#347EFB',
@@ -300,7 +304,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     height: 1,
-    position:'absolute',
     backgroundColor:'#B7B7B7',
     bottom:0,
   },
@@ -349,13 +352,14 @@ const styles = StyleSheet.create({
   },
   headerBox:{
     flexDirection:'row',
-    paddingBottom:40,
-    paddingLeft:30,
-    justifyContent:'center',
     alignItems: 'center',
-      textAlign:'center',
+    marginBottom: 25
   }, 
-  
+  pencilIcon:{
+    width:21, 
+    height: 21, 
+    resizeMode: 'contain'
+  },
   SeprateLine:{
           width:'110%',
           height:'2%',
@@ -377,7 +381,8 @@ const styles = StyleSheet.create({
           width: '100%',
           borderTopLeftRadius: 15,
           borderTopRightRadius: 15,
-          padding: 16
+          padding: 16,
+          marginBottom: 16
       },
       modalTitle: {
           color: '#FAFAFA',
