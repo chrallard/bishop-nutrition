@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button,Body,Right,Container,Content,Image,TouchableOpacity, ScrollView,Modal} from 'react-native'
+import { StyleSheet, Text, View, Button,Image,TouchableOpacity,Modal,TextInput} from 'react-native'
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
