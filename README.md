@@ -89,7 +89,7 @@ expo eject
 ```
 4. When prompted in the terminal, select **Bare**, not ExpoKit.
 
-5. When prompted in the terminal, type **sudo gem install cocoapods** if you haven’t installed cocoapods
+5. When prompted in the terminal, type **sudo gem install cocoapods** if you don't already have cocoapods installed
 
 6. Navigate to the **ios** folder within the project folder and install pods
 ```sh
