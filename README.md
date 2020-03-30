@@ -57,8 +57,6 @@ Describe in brief about your high-level architecture.
 
 <!-- Getting Started -->
 ## Getting Started
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
@@ -99,3 +97,33 @@ pod install
 ```sh
 yarn ios
 ```
+<!-- USAGE EXAMPLES -->
+## Usage
+
+Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+
+_For more examples, please refer to the [Documentation](https://example.com)_
+
+<!-- ROADMAP -->
+## Roadmap
+
+List of Sprint two features (and known issues, if any).
+- First item
+- Second item
+- Third item
+- Fourth item
+
+<!-- Contact -->
+## Contact
+
+**Project Lead:** [Dylan Durbano](mailto:durb0004@algonquinlive.com)
+
+**Technical Lead:** [Christian Allard](mailto:alla0243@algonquinlive.com)
+
+**Design Lead:** [Jeff Lichty](mailto:lich0020@algonquinlive.com)
+
+**Developer:** [Brinda Shah](mailto:shah0220@algonquinlive.com)
+
+**Developer:** [Viraj Vashi](mailto:vash0006@algonquinlive.com)
+
+**UX Designer:** [Conor Scott](mailto:scot0359@algonquinlive.com)
