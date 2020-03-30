@@ -26,7 +26,7 @@
 <img src="Images/4phones.png" alt="Team logo">
 
 <p>
-      This is a food tracking app made specific for Dr. Bishops Weight Management clinic. It is meant to replace their current paper food tracking sheets. We have implemented not only food tracking, but also water, activity, mood and sleep tracking. We have worked hard to streamline the way their clients track their food intake with our quick select food tracking.
+      Bishop Nutrition an app made specifically for Dr. Bishops Weight Management Clinic. It is meant to replace their current paper food tracking sheets. We have implemented not only food tracking, but also water, activity, mood and sleep tracking. We have worked hard to streamline the way their clients track their food intake with our quick select food tracking.
 </p>
 
 ### Built With
@@ -97,6 +97,7 @@ pod install
 ```sh
 yarn ios
 ```
+
 <!-- USAGE EXAMPLES -->
 ## Usage
 
@@ -127,3 +128,7 @@ List of Sprint two features (and known issues, if any).
 **Developer:** [Viraj Vashi](mailto:vash0006@algonquinlive.com)
 
 **UX Designer:** [Conor Scott](mailto:scot0359@algonquinlive.com)
+
+<!-- Acknowledgements -->
+## Acknowledgements
+Everyone at Infinite Studio would like the thank our Professors Su Cheng Lee and Adesh Shah for all their support throughout the design and development of Bishop Nutrition. They added a lot of great insight and mentorship towards the app and Infinite Studio team. We are forever grateful for their help in the development of Bishop Nutrition and help to further our knowledge. We'd also like to thank everyone at Dr. Bishops Weight Management Clinic. Their support and positivity towards the team and development of Bishop Nutrition were truly wonderful. The Infinite Studio team is truly grateful for this opportunity and will never forget all the support and dedication that went into this project. Thank you to everyone involved!
