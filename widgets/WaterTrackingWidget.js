@@ -21,13 +21,27 @@ export default class WaterTrackingWidget extends Component {
         maxWater: null,
         usersWater: null,
         cups: [],
+
+        displayStyle: styles.invisible
       }
   }
     
   async componentDidMount(){
     await this.setMaxWater()
     await this.setUsersWater()
-    this.buildCupsArray()
+    await this.buildCupsArray()
+
+    this.props.mounted()
+  }
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.visible !== this.props.visible){
+      this.updateVisibility()
+    }
+  }
+
+  updateVisibility = () => {
+    this.setState({ displayStyle: styles.container })
   }
 
   setMaxWater = async () => {
@@ -91,7 +105,7 @@ export default class WaterTrackingWidget extends Component {
     
   render() {
     return(
-      <View style={styles.container}>
+      <View style={this.state.displayStyle}>
 
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>Water</Text>
@@ -128,31 +142,34 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     marginBottom: 8,
     marginTop: 8
-},
+  },
 
   titleContainer:{
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 8
-},
+  },
   titleText:{
     color:'#FAFAFA',
     fontSize: 20,
-},
-bodyText:{
+  },
+  bodyText:{
     color:'#DDDEDE',
     fontSize: 12,
-},
+  },
+  cupRow:{
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  image: {
+    height: 45,
+    width: 40,
+    resizeMode: 'cover',     
+    alignItems: 'stretch'
+  },
 
-cupRow:{
-  flexDirection: 'row',
-  justifyContent: 'space-between'
-},
-image: {
-      height: 45,
-      width: 40,
-      resizeMode: 'cover',     
-      alignItems: 'stretch'    
+  invisible:{
+    display: 'none'
   }
 });

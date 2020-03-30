@@ -17,12 +17,26 @@ export default class WeightWidget extends Component{
         this.state = {
             startingWeight: "",
             weightEntry: "",
-            subtract:""
+            subtract:"",
+
+            displayStyle: styles.invisible
         }
     }
 
     async componentDidMount(){
        await this.weightInfo()
+
+       this.props.mounted()
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.visible !== this.props.visible){
+            this.updateVisibility()
+        }
+    }
+
+    updateVisibility = () => {
+        this.setState({ displayStyle: styles.container })
     }
 
     weightInfo = async() => {
@@ -35,7 +49,7 @@ export default class WeightWidget extends Component{
     render(){
         return(
            
-            <View style={styles.container}  >
+            <View style={this.state.displayStyle}  >
             
            
                 <Text style={styles.titleText}>Weight</Text>
@@ -131,4 +145,8 @@ const styles = StyleSheet.create({
         fontSize: 8,     
         marginTop: 4
     },
+
+    invisible:{
+        display: 'none'
+    }
 })

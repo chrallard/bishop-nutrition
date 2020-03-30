@@ -13,7 +13,9 @@ export default class DailyLogWidget extends Component {
     constructor(props){
         super(props)
         this.state = {
-            daysList: []
+            daysList: [],
+
+            displayStyle: styles.invisible
         }
     }
 
@@ -25,6 +27,18 @@ export default class DailyLogWidget extends Component {
 
      
         await this.buildDaysList()
+
+        this.props.mounted()
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.visible !== this.props.visible){
+            this.updateVisibility()
+        }
+    }
+
+    updateVisibility = () => {
+        this.setState({ displayStyle: styles.container })
     }
 
     buildDaysList = async () => {
@@ -104,9 +118,9 @@ export default class DailyLogWidget extends Component {
         return formattedDate
     }
 
-    render() {
-        return (
-            <View style={styles.container}>
+    render(){
+        return(
+            <View style={this.state.displayStyle}>
                 <Text style={styles.title}>Daily Log</Text>
                 <View style={styles.list}>
                     {this.state.daysList.map((item, index) => (
@@ -152,6 +166,10 @@ const styles = StyleSheet.create({
         color: '#DDDEDE',
         fontSize: 12,
         justifyContent: 'center',
-        alignSelf: 'center'
+        alignSelf:'center'
+    },
+
+    invisible:{
+        display: 'none'
     }
 })
