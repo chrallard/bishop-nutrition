@@ -4,8 +4,12 @@ import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
 
+import { DataContext } from '../contexts/DataContext'
+
 
 export default class ProfileScreen extends Component {
+
+  static contextType = DataContext
 
   constructor(props) {
     super(props)
@@ -23,7 +27,6 @@ export default class ProfileScreen extends Component {
 
   async componentDidMount(){
     await this.userIfo()
-    await this.setUid()
 }
   
   signOut = async () => {
@@ -32,12 +35,7 @@ export default class ProfileScreen extends Component {
       console.log(err)
     });
   }
-  
-  setUid = async () => {
-    let uid = await firebase.auth().currentUser.uid
-    this.setState({ uid })
-  }
-  
+
   updatePassword = () => {
     let currentUser = firebase.auth().currentUser
     let cred = firebase.auth.EmailAuthProvider.credential(currentUser.email, this.state.currentPasswordInput)
@@ -54,7 +52,10 @@ export default class ProfileScreen extends Component {
 }
 
   updateDb = async () => {
-    await firebase.firestore().collection("userData").doc(this.state.uid)
+
+    console.log(this.state)
+
+    await firebase.firestore().collection("userData").doc(this.context.uid)
         .set({
            
                 name: this.state.name,
@@ -69,8 +70,8 @@ export default class ProfileScreen extends Component {
   }
   
 userIfo = async () =>{
-  let uid = await firebase.auth().currentUser.uid
-  await firebase.firestore().collection("userData").doc(uid).get().then((doc) => {
+
+  await firebase.firestore().collection("userData").doc(this.context.uid).get().then((doc) => {
     if(doc.exists){
         this.setState({
             name: doc.data().name,
