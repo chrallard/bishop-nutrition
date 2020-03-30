@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Button,Image,TouchableOpacity,Modal,TextInput} from 'react-native'
+import { MaterialIndicator } from 'react-native-indicators'
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
@@ -21,12 +22,20 @@ export default class ProfileScreen extends Component {
       dob:"",
       email:"",
       showMe: false,
-      showUpdatePassword: false
+      showUpdatePassword: false,
+
+      loadingStyle: styles.loading,
+      displayStyle: styles.invisible
       }
   }
 
   async componentDidMount(){
     await this.userIfo()
+
+    this.setState({ 
+      loadingStyle: styles.invisible,
+      displayStyle: styles.visible
+   })
 }
   
   signOut = async () => {
@@ -52,9 +61,6 @@ export default class ProfileScreen extends Component {
 }
 
   updateDb = async () => {
-
-    console.log(this.state)
-
     await firebase.firestore().collection("userData").doc(this.context.uid)
         .set({
            
@@ -79,8 +85,7 @@ userIfo = async () =>{
             height:doc.data().height,
             weight:doc.data().startingWeight,
             dob:doc.data().dob,
-            email:doc.data().email
-            
+            email:doc.data().email 
         })
 
     }else{
@@ -98,194 +103,200 @@ addModal = () => {
 
   render() {
     return (
-      
-      <View>
-      <Modal visible={this.state.showUpdatePassword} animationType={'slide'} transparent={true}>
 
-        <View style={styles.modalStyle}>
-
-          <View style={styles.modalHeader}>
-            <TouchableOpacity onPress={() => { this.setState({ showUpdatePassword: false }) }}>
-                <Text style={styles.modalNav}>Back</Text>
-            </TouchableOpacity>
-
-            <Text style={styles.modalTitle}>Update Password</Text>
-
-            <TouchableOpacity onPress={this.updatePassword}>
-              <Text style={styles.modalNav}>Save</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.updatePasswordInput}>
-            <TextInput
-            style={styles.textInput}
-            placeholder="Current password"
-            placeholderTextColor="#6E6F6F"
-            onChangeText={(text) => this.setState({currentPasswordInput: text})}
-            value={this.state.currentPasswordInput}
-            secureTextEntry={true}
-            />
-          </View>
-
-          <View style={styles.updatePasswordInput}>
-              <TextInput
-              style={styles.textInput}
-              placeholder="New password"
-              placeholderTextColor="#6E6F6F"
-              onChangeText={(text) => this.setState({newPasswordInput: text})}
-              value={this.state.newPasswordInput}
-              secureTextEntry={true}
-              />
-          </View>
-
-        </View>
-      </Modal>
-      
-      <View style={styles.container}>
-        <View style={styles.headerBox}>
-          <Text style={styles.nameText}>{this.state.name}</Text>
-
-          <TouchableOpacity onPress={() => {this.setState({showMe: true,})}}>
-            <Image style={styles.pencilIcon} source={require('../assets/edit.png')}/>
-          </TouchableOpacity>
-        </View>  
-
-        <View style={styles.textContainer}>
-          <View>
-            <Text style={styles.infoTitle}>DATE OF BIRTH</Text>
-            <Text style={styles.infoText}>{this.state.dob}</Text>
-            <View style={styles.seprateLine}/> 
-          </View>
-
-          <View>
-            <Text style={styles.infoTitle}>GENDER</Text>
-            <Text style={styles.infoText}>{this.state.gender}</Text>
-            <View style={styles.seprateLine}/> 
-          </View>
-
-          <View>
-            <Text style={styles.infoTitle}>HEIGHT</Text>
-            <Text style={styles.infoText}>{this.state.height}</Text>
-            <View style={styles.seprateLine}/> 
-          </View>
-
-          <View>
-            <Text style={styles.infoTitle}>STARTING WEIGHT</Text>
-            <Text style={styles.infoText}>{this.state.weight} lbs</Text>
-            <View style={styles.seprateLine}/> 
-          </View>
-
-          <View>
-            <Text style={styles.infoTitle}>EMAIL</Text>
-            <Text style={styles.infoText}>{this.state.email} </Text>
-            <View style={styles.seprateLine}/> 
-          </View>
-        </View>
-       
-        
-
-        <View style={styles.textContainer1}> 
-          <TouchableOpacity onPress={() => this.setState({ showUpdatePassword: true }) }>
-            <View style={styles.updatePassword}>
-              <Image style={styles.lockIcon} source={require('../assets/changePassword.png')}/>
-
-              <Text style={styles.changePasswordText}> Change Password</Text>
-             
-              <Image style={styles.chevronIcon} source={require('../assets/chevron.png')}/>
-                    
-            </View> 
-          </TouchableOpacity>
-
-          <View style={styles.buttonSeprateLine}/> 
-
-          <TouchableOpacity onPress={() => {this.props.navigation.navigate("About")}}>
-            <View style={styles.updatePassword}>
-              <Image style={styles.aboutIcon} source={require('../assets/about.png')}/>
-
-              <Text style={styles.aboutText}> About</Text>
-             
-              <Image style={styles.chevronIcon} source={require('../assets/chevron.png')}/>
-            </View>  
-          </TouchableOpacity>         
+      <>
+        <View style={this.state.loadingStyle}>
+          <MaterialIndicator color='#347EFB' size={50} />
         </View>
 
-        <View style={styles.logoutButton}>
-          <Button onPress={this.signOut} fontSize={20} title="Log Out" color="#fff"/>
-        </View>
+        <View style={this.state.displayStyle}>
+        <Modal visible={this.state.showUpdatePassword} animationType={'slide'} transparent={true}>
 
-        <Modal visible={this.state.showMe} animationType={'slide'} transparent={'true'}>
           <View style={styles.modalStyle}>
+
             <View style={styles.modalHeader}>
-              <TouchableOpacity onPress={() => { this.setState({ showMe: false }) }}>
-                <Text style={styles.modalNav}>Back</Text>
+              <TouchableOpacity onPress={() => { this.setState({ showUpdatePassword: false }) }}>
+                  <Text style={styles.modalNav}>Back</Text>
               </TouchableOpacity>
 
-              <Text style={styles.modalTitle}>Edit Profile</Text>
-            
-              <TouchableOpacity onPress={() => { this.setState({ showMe: false }), this.updateDb()}}>
+              <Text style={styles.modalTitle}>Update Password</Text>
+
+              <TouchableOpacity onPress={this.updatePassword}>
                 <Text style={styles.modalNav}>Save</Text>
               </TouchableOpacity>
             </View>
-    
-          <Text style={styles.infoTitle}>FULL NAME</Text>
-          <TextInput style = {styles.infoText}
-                 placeholder = 'name'
-                 placeholderTextColor = "#ffffff"
-                 autoCapitalize = "none"
-                 onChangeText = {(name)=>this.setState({name})}
-                 value={this.state.name}/>
-          <View style={styles.seprateLine}/> 
 
-          <Text style={styles.infoTitle}>DATE OF BIRTH</Text>
-          <TextInput style = {styles.infoText}
-            placeholder = {this.state.dob}
-            placeholderTextColor = "#ffffff"
-            autoCapitalize = "none"
-            onChangeText = {(dob)=>this.setState({dob})}
-            value={this.state.dob}/>
-          <View style={styles.seprateLine}/> 
+            <View style={styles.updatePasswordInput}>
+              <TextInput
+              style={styles.textInput}
+              placeholder="Current password"
+              placeholderTextColor="#6E6F6F"
+              onChangeText={(text) => this.setState({currentPasswordInput: text})}
+              value={this.state.currentPasswordInput}
+              secureTextEntry={true}
+              />
+            </View>
 
-          <Text style={styles.infoTitle}>HEIGHT</Text>
-          <TextInput style = {styles.infoText}
-            placeholder = {this.state.height}
-            placeholderTextColor = "#ffffff"
-            autoCapitalize = "none"
-            onChangeText = {(height)=>this.setState({height})}
-            value={this.state.height}/>
-          <View style={styles.seprateLine}/> 
-               
-          <Text style={styles.infoTitle}>STARTING WEIGHT</Text>
-          <TextInput style = {styles.infoText}
-            keyboardType={'numeric'} 
-            placeholderTextColor = "#ffffff"
-            autoCapitalize = "none"
-            onChangeText = {(weight)=>this.setState({weight})}
-            value={this.state.weight}/>
-          <View style={styles.seprateLine}/> 
-
-          <Text style={styles.infoTitle}>GENDER</Text>
-          <TextInput style = {styles.infoText}
-            placeholder = {this.state.gender}
-            placeholderTextColor = "#ffffff"
-            autoCapitalize = "none"
-            onChangeText = {(gender)=>this.setState({gender})}
-            value={this.state.gender}/>
-          <View style={styles.seprateLine}/> 
-
-          <Text style={styles.infoTitle}>EMAIL</Text>
-          <TextInput style = {styles.infoText}  
-            placeholder = {this.state.email}
-            placeholderTextColor = "#ffffff"
-            autoCapitalize = "none"
-            onChangeText = {(email)=>this.setState({email})}
-            value={this.state.email}/>
-          <View style={styles.seprateLine}/> 
-
+            <View style={styles.updatePasswordInput}>
+                <TextInput
+                style={styles.textInput}
+                placeholder="New password"
+                placeholderTextColor="#6E6F6F"
+                onChangeText={(text) => this.setState({newPasswordInput: text})}
+                value={this.state.newPasswordInput}
+                secureTextEntry={true}
+                />
+            </View>
 
           </View>
-        </Modal> 
-      </View>
-      </View>   
+        </Modal>
+        
+        <View style={styles.container}>
+          <View style={styles.headerBox}>
+            <Text style={styles.nameText}>{this.state.name}</Text>
+
+            <TouchableOpacity onPress={() => {this.setState({showMe: true,})}}>
+              <Image style={styles.pencilIcon} source={require('../assets/edit.png')}/>
+            </TouchableOpacity>
+          </View>  
+
+          <View style={styles.textContainer}>
+            <View>
+              <Text style={styles.infoTitle}>DATE OF BIRTH</Text>
+              <Text style={styles.infoText}>{this.state.dob}</Text>
+              <View style={styles.seprateLine}/> 
+            </View>
+
+            <View>
+              <Text style={styles.infoTitle}>GENDER</Text>
+              <Text style={styles.infoText}>{this.state.gender}</Text>
+              <View style={styles.seprateLine}/> 
+            </View>
+
+            <View>
+              <Text style={styles.infoTitle}>HEIGHT</Text>
+              <Text style={styles.infoText}>{this.state.height}</Text>
+              <View style={styles.seprateLine}/> 
+            </View>
+
+            <View>
+              <Text style={styles.infoTitle}>STARTING WEIGHT</Text>
+              <Text style={styles.infoText}>{this.state.weight} lbs</Text>
+              <View style={styles.seprateLine}/> 
+            </View>
+
+            <View>
+              <Text style={styles.infoTitle}>EMAIL</Text>
+              <Text style={styles.infoText}>{this.state.email} </Text>
+              <View style={styles.seprateLine}/> 
+            </View>
+          </View>
+        
+          
+
+          <View style={styles.textContainer1}> 
+            <TouchableOpacity onPress={() => this.setState({ showUpdatePassword: true }) }>
+              <View style={styles.updatePassword}>
+                <Image style={styles.lockIcon} source={require('../assets/changePassword.png')}/>
+
+                <Text style={styles.changePasswordText}> Change Password</Text>
+              
+                <Image style={styles.chevronIcon} source={require('../assets/chevron.png')}/>
+                      
+              </View> 
+            </TouchableOpacity>
+
+            <View style={styles.buttonSeprateLine}/> 
+
+            <TouchableOpacity onPress={() => {this.props.navigation.navigate("About")}}>
+              <View style={styles.updatePassword}>
+                <Image style={styles.aboutIcon} source={require('../assets/about.png')}/>
+
+                <Text style={styles.aboutText}> About</Text>
+              
+                <Image style={styles.chevronIcon} source={require('../assets/chevron.png')}/>
+              </View>  
+            </TouchableOpacity>         
+          </View>
+
+          <View style={styles.logoutButton}>
+            <Button onPress={this.signOut} fontSize={20} title="Log Out" color="#fff"/>
+          </View>
+
+          <Modal visible={this.state.showMe} animationType={'slide'} transparent={'true'}>
+            <View style={styles.modalStyle}>
+              <View style={styles.modalHeader}>
+                <TouchableOpacity onPress={() => { this.setState({ showMe: false }) }}>
+                  <Text style={styles.modalNav}>Back</Text>
+                </TouchableOpacity>
+
+                <Text style={styles.modalTitle}>Edit Profile</Text>
+              
+                <TouchableOpacity onPress={() => { this.setState({ showMe: false }), this.updateDb()}}>
+                  <Text style={styles.modalNav}>Save</Text>
+                </TouchableOpacity>
+              </View>
+      
+            <Text style={styles.infoTitle}>FULL NAME</Text>
+            <TextInput style = {styles.infoText}
+                  placeholder = 'name'
+                  placeholderTextColor = "#ffffff"
+                  autoCapitalize = "none"
+                  onChangeText = {(name)=>this.setState({name})}
+                  value={this.state.name}/>
+            <View style={styles.seprateLine}/> 
+
+            <Text style={styles.infoTitle}>DATE OF BIRTH</Text>
+            <TextInput style = {styles.infoText}
+              placeholder = {this.state.dob}
+              placeholderTextColor = "#ffffff"
+              autoCapitalize = "none"
+              onChangeText = {(dob)=>this.setState({dob})}
+              value={this.state.dob}/>
+            <View style={styles.seprateLine}/> 
+
+            <Text style={styles.infoTitle}>HEIGHT</Text>
+            <TextInput style = {styles.infoText}
+              placeholder = {this.state.height}
+              placeholderTextColor = "#ffffff"
+              autoCapitalize = "none"
+              onChangeText = {(height)=>this.setState({height})}
+              value={this.state.height}/>
+            <View style={styles.seprateLine}/> 
+                
+            <Text style={styles.infoTitle}>STARTING WEIGHT</Text>
+            <TextInput style = {styles.infoText}
+              keyboardType={'numeric'} 
+              placeholderTextColor = "#ffffff"
+              autoCapitalize = "none"
+              onChangeText = {(weight)=>this.setState({weight})}
+              value={this.state.weight}/>
+            <View style={styles.seprateLine}/> 
+
+            <Text style={styles.infoTitle}>GENDER</Text>
+            <TextInput style = {styles.infoText}
+              placeholder = {this.state.gender}
+              placeholderTextColor = "#ffffff"
+              autoCapitalize = "none"
+              onChangeText = {(gender)=>this.setState({gender})}
+              value={this.state.gender}/>
+            <View style={styles.seprateLine}/> 
+
+            <Text style={styles.infoTitle}>EMAIL</Text>
+            <TextInput style = {styles.infoText}  
+              placeholder = {this.state.email}
+              placeholderTextColor = "#ffffff"
+              autoCapitalize = "none"
+              onChangeText = {(email)=>this.setState({email})}
+              value={this.state.email}/>
+            <View style={styles.seprateLine}/> 
+
+
+            </View>
+          </Modal> 
+        </View>
+        </View>  
+      </> 
     )
   }
 }
@@ -474,5 +485,16 @@ const styles = StyleSheet.create({
      textInput:{
        marginLeft: 8,
        color: '#DDDEDE'
-     } 
+     },
+
+     loading: {
+      height: '100%',
+      justifyContent: 'center'
+    },
+    invisible: { 
+        display: 'none'
+    },
+    visible: {
+
+    }
 })

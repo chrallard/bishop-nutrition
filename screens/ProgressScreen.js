@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button,Image,TouchableOpacity,Modal,TextInput} from 'react-native'
+import { StyleSheet, Text, View, FlatList, ScrollView, Image, Button, Modal, TouchableOpacity, TextInput } from 'react-native'
+import {MaterialIndicator} from 'react-native-indicators';
+import SegmentedControlTab from "react-native-segmented-control-tab";
+import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts'
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
@@ -7,471 +10,696 @@ import 'firebase/auth'
 import { DataContext } from '../contexts/DataContext'
 
 
-export default class ProfileScreen extends Component {
+export default class ProgressScreen extends Component {
 
-  static contextType = DataContext
+    static contextType = DataContext
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      name: "",
-      gender:"",
-      height:"",
-      weight:"",
-      dob:"",
-      email:"",
-      showMe: false,
-      showUpdatePassword: false
-      }
-  }
+    constructor(props) {
+        super(props)
+        this.state = {
+            weightEntry: [],
+            data: [],
+            timeStamp: [],
+            startingWeight: [],
+            selectedIndex: 0,
+            time: [],
+            measurements: [],
+            xData: [],
+            yData: [],
 
-  async componentDidMount(){
-    await this.userIfo()
-}
-  
-  signOut = async () => {
-    await firebase.auth().signOut().then()
-    .catch((err) => {
-      console.log(err)
-    });
-  }
+            showWeightAdd: false,
+            showMeasurementAdd: false,
+            chest: 0,
+            hips: 0,
+            waist: 0,
+            weight: 0,
 
-  updatePassword = () => {
-    let currentUser = firebase.auth().currentUser
-    let cred = firebase.auth.EmailAuthProvider.credential(currentUser.email, this.state.currentPasswordInput)
-    currentUser.reauthenticateWithCredential(cred).then(() => {
-        currentUser.updatePassword(this.state.newPasswordInput).then(() => {
-            alert("Password updated successfully.")
-            this.setState({ showUpdatePassword: false })
-        }).catch((err) => {
-            alert(err)
-        })
-    }).catch((err) => {
-        alert(err)
-    })  
-}
-
-  updateDb = async () => {
-
-    console.log(this.state)
-
-    await firebase.firestore().collection("userData").doc(this.context.uid)
-        .set({
-           
-                name: this.state.name,
-                weight: this.state.weight,
-                gender:this.state.gender,
-                dob:this.state.dob,
-                email:this.state.email,
-                height:this.state.height
-           
-        },
-            { merge: true })
-  }
-  
-userIfo = async () =>{
-
-  await firebase.firestore().collection("userData").doc(this.context.uid).get().then((doc) => {
-    if(doc.exists){
-        this.setState({
-            name: doc.data().name,
-            gender:doc.data().gender,
-            height:doc.data().height,
-            weight:doc.data().startingWeight,
-            dob:doc.data().dob,
-            email:doc.data().email 
-        })
-
-    }else{
-        alert("Error")
+            loadingStyle: styles.loading,
+            displayStyle: styles.invisible
+        }
+        this.addModal = this.addModal.bind(this);
     }
-   console.log(this.state.name)
-}).catch((err) => {
-    alert(err)
-})  
-}
 
-addModal = () => {
-    this.refs.addModal.showModal();
-  }
+    async componentDidMount() {
+        await this.list()
+        await this.time()
+        await this.startingWeight()
+        await this.getTime()
+        await this.getValues()
+        await this.xData()
+        await this.yData()
 
-  render() {
-    return (
-      
-      <View>
-      <Modal visible={this.state.showUpdatePassword} animationType={'slide'} transparent={true}>
+        this.setState({ 
+          loadingStyle: styles.invisible,
+          displayStyle: styles.container
+       })
+    }
 
-        <View style={styles.modalStyle}>
+    handleIndexChange = async (index) => {
+        this.setState({ selectedIndex: index })
 
-          <View style={styles.modalHeader}>
-            <TouchableOpacity onPress={() => { this.setState({ showUpdatePassword: false }) }}>
-                <Text style={styles.modalNav}>Back</Text>
-            </TouchableOpacity>
+    }
 
-            <Text style={styles.modalTitle}>Update Password</Text>
+    xData = async() => {
 
-            <TouchableOpacity onPress={this.updatePassword}>
-              <Text style={styles.modalNav}>Save</Text>
-            </TouchableOpacity>
-          </View>
+        let bodyTrackingData = this.context.bodyTrackingData
+        
+            let xData = []
+            bodyTrackingData.forEach((doc) => {
 
-          <View style={styles.updatePasswordInput}>
-            <TextInput
-            style={styles.textInput}
-            placeholder="Current password"
-            placeholderTextColor="#6E6F6F"
-            onChangeText={(text) => this.setState({currentPasswordInput: text})}
-            value={this.state.currentPasswordInput}
-            secureTextEntry={true}
-            />
-          </View>
+                let dt = new Date(doc.timeStamp)
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+                const date = dt.getDate()
+                const Month = months[dt.getMonth()]
+                let xValue = `${Month} ${date}`
 
-          <View style={styles.updatePasswordInput}>
-              <TextInput
-              style={styles.textInput}
-              placeholder="New password"
-              placeholderTextColor="#6E6F6F"
-              onChangeText={(text) => this.setState({newPasswordInput: text})}
-              value={this.state.newPasswordInput}
-              secureTextEntry={true}
-              />
-          </View>
+                xData.unshift(xValue)
+            })
+            this.setState({xData}) 
+        
+    }
 
-        </View>
-      </Modal>
-      
-      <View style={styles.container}>
-        <View style={styles.headerBox}>
-          <Text style={styles.nameText}>{this.state.name}</Text>
+    yData = async() => {
 
-          <TouchableOpacity onPress={() => {this.setState({showMe: true,})}}>
-            <Image style={styles.pencilIcon} source={require('../assets/edit.png')}/>
-          </TouchableOpacity>
-        </View>  
+            let yData = []
+            this.context.bodyTrackingData.forEach((doc) => {
+                let yValue = doc.weightEntry
 
-        <View style={styles.textContainer}>
-          <View>
-            <Text style={styles.infoTitle}>DATE OF BIRTH</Text>
-            <Text style={styles.infoText}>{this.state.dob}</Text>
-            <View style={styles.seprateLine}/> 
-          </View>
+                yData.push(yValue)
+            })
+            this.setState({yData}) 
+    }
 
-          <View>
-            <Text style={styles.infoTitle}>GENDER</Text>
-            <Text style={styles.infoText}>{this.state.gender}</Text>
-            <View style={styles.seprateLine}/> 
-          </View>
 
-          <View>
-            <Text style={styles.infoTitle}>HEIGHT</Text>
-            <Text style={styles.infoText}>{this.state.height}</Text>
-            <View style={styles.seprateLine}/> 
-          </View>
+    addModal = () => {
+        this.refs.addModal.showModal();
+    }
 
-          <View>
-            <Text style={styles.infoTitle}>STARTING WEIGHT</Text>
-            <Text style={styles.infoText}>{this.state.weight} lbs</Text>
-            <View style={styles.seprateLine}/> 
-          </View>
+    getTime = async () => {
 
-          <View>
-            <Text style={styles.infoTitle}>EMAIL</Text>
-            <Text style={styles.infoText}>{this.state.email} </Text>
-            <View style={styles.seprateLine}/> 
-          </View>
-        </View>
-       
+            let time = []
+            this.context.bodyTrackingData.forEach((doc) => {
+                let D = new Date(doc.timeStamp)
+                const Months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                const datee = D.getDate()
+                const month = Months[D.getMonth()]
+                const year = D.getFullYear()
+
+                let obj = {
+                    time: `${month} ${datee}, ${year}`
+                }
+                time.push(obj)
+
+                this.setState({ time })
+            })
+
+    }
+
+    getValues = async () => {
+
+        let uid = await firebase.auth().currentUser.uid
+        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").limit(5).get().then((querySnapshot) => {
+
+            let measurements = []
+            querySnapshot.forEach((doc) => {
+
+                let d = new Date(doc.data().timeStamp)
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                const date = d.getDate()
+                const Month = months[d.getMonth()]
+                const Year = d.getFullYear()
+                let obj = {
+
+                    date: `${Month} ${date}, ${Year}`,
+                    timeStamp: doc.data().timeStamp,
+                    chest: doc.data().chestEntry,
+                    waist: doc.data().waistEntry,
+                    hips: doc.data().hipsEntry
+                }
+                measurements.push(obj)
+
+                this.setState({ measurements })
+            })
+        })
+
+
+    }
+
+
+    list = async () => {
+
+            let weightEntry = []
+
+            let nullChecker = []
+            let lastWeightEntry = ""
+
+            this.context.bodyTrackingData.forEach((doc) => {
+                nullChecker.unshift(doc)
+            })
+
+            nullChecker.forEach((doc) => {
+                if(doc.weightEntry !== null){
+                    lastWeightEntry = doc.weightEntry
+                }
+            })
+
+            this.context.bodyTrackingData.forEach((doc) => {
+
+                let d = new Date(doc.timeStamp)
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                const date = d.getDate()
+                const Month = months[d.getMonth()]
+                const Year = d.getFullYear()
+                let obj = {
+                    date: `${Month} ${date}, ${Year}`,
+                    timeStamp: doc.timeStamp,
+                    weightEntry: doc.weightEntry
+                }
+
+                if(doc.weightEntry == null){
+                    obj.weightEntry = lastWeightEntry
+                }
+
+                weightEntry.push(obj)
+
+                this.setState({ weightEntry })
+            })
+
+    }
+
+    startingWeight = async () => {
+        this.setState({ startingWeight: this.context.userInfo.startingWeight })
+    }
+
+    time = async () => {
+
+    
+
+
+            let timeStamp = []
+
+            this.context.bodyTrackingData.forEach((doc) => {
+
+                let d = new Date(doc.timeStamp)
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                const date = d.getDate()
+                const Month = months[d.getMonth()]
+                const Year = d.getFullYear()
+                let obj = {
+                    timeStamp: `${Month} ${date}, ${Year}`
+                }
+
+                timeStamp.unshift(obj)
+                this.setState({ timeStamp })
+            })
+
+    }
+
+
+    _renderWeightContent = () => {
+        this.state.weightEntry.sort(function (a, b) { return b.timeStamp - a.timeStamp })
+        return (
+            this.state.weightEntry.map((item, key) => (
+                <View key={key}>
+                    <Text style={weight.date}>{item.date}</Text>
+                    <View style={weight.container}>
+                        <View style={weight.progressContainer}>
+                            <Text style={weight.progressText}>Progress </Text>
+                            <Text style={weight.progressDifference}>-{this.state.startingWeight - item.weightEntry}lbs</Text>
+                        </View>
+                        <Text style={weight.weight}>{item.weightEntry} </Text>
+                    </View>
+                </View>
+            ))
+        )
+    }
+
+    _renderMeasuermentsContent = () => {
+        this.state.measurements.sort(function (a, b) { return b.timeStamp - a.timeStamp })
+        return (
+            this.state.measurements.map((item, key) => (
+                <View key={key}>
+                    <Text style={measurement.date}>{item.date}</Text>
+
+                    <View style={measurement.container}>
+
+                        <View style={measurement.entryContainer}>
+                            <Text style={measurement.content}>Chest: </Text>
+                            <Text style={measurement.content}>{item.chest}</Text>
+                        </View>
+
+                        <View style={measurement.entryContainer}>
+                            <Text style={measurement.content}>Waist: </Text>
+                            <Text style={measurement.content}>{item.waist}</Text>
+                        </View>
+
+                        <View style={measurement.entryContainer}>
+                            <Text style={measurement.content}>Hips: </Text>
+                            <Text style={measurement.content}>{item.hips}</Text>
+                        </View>
+
+                    </View>
+                </View>
+            ))
+        )
+
+    }
+
+    render() {
+        
+        //this is how to use the segmented tabs, anything you want to display on the weight screen goes in the if (this.state.selectedIndex == 0) { return,
+        //anything you want on the progress bar goes in the  else if (this.state.selectedIndex == 1) {
+           
+        if (this.state.selectedIndex == 0) {
+
+        
+            const axesSvg = { fontSize: 10, fill: '#F3F3F3' };
+            const verticalContentInset = { top: 10, bottom: 10 }
+            const xAxisHeight = 30
         
 
-        <View style={styles.textContainer1}> 
-          <TouchableOpacity onPress={() => this.setState({ showUpdatePassword: true }) }>
-            <View style={styles.updatePassword}>
-              <Image style={styles.lockIcon} source={require('../assets/changePassword.png')}/>
+            return (
+                //this is where you build the weight screen
 
-              <Text style={styles.changePasswordText}> Change Password</Text>
+                <>
+                  <View style={this.state.loadingStyle}>
+                          <MaterialIndicator color='#347EFB' size={50} />
+                  </View>
+                  
+                  <ScrollView>
+                      <View style={this.state.displayStyle} >
+
+                          <View style={{ height: 200, padding: 10, flexDirection: 'row', backgroundColor: '#347EFB' }}>
+
+                              <YAxis
+                                  data={this.state.yData}
+                                  style={{ marginBottom: xAxisHeight }}
+                                  contentInset={verticalContentInset}
+                                  svg={axesSvg}
+                              />
+
+                              <View style={{ flex: 1, marginLeft: 10, }}>
+                                  <LineChart
+                                      style={{ flex: 1 }}
+                                      data={this.state.yData}
+                                      contentInset={verticalContentInset}
+                                      svg={{ 
+                                          stroke: '#F3F3F3',
+                                          strokeWidth: 3,
+          
+                                      }}
+                                  >
+
+                                      <Grid style={{ color: 'white', borderBottomWidth: 50, borderColor: 'red' }} />
+
+                                  </LineChart>
+
+                                  <XAxis
+                                      data={this.state.yData} 
+                                      style={{ marginHorizontal: 10, height: xAxisHeight, width: '100%'  }}
+                                      formatLabel={(value, index) => this.state.xData[index]}
+                                      contentInset={{ left: 20, right: 20 }}
+                                      svg={{rotation: 30, fontSize: 8, fill: '#F3F3F3', y: 10 }}
+                                  />
+                              </View>
+
+                          </View>
+
+                              <SegmentedControlTab
+                              values={["Weight", "Measurement"]}
+                              selectedIndex={this.state.selectedIndex}
+                              onTabPress={this.handleIndexChange}
+
+                              allowFontScaling={false}
+                              tabsContainerStyle={segmented.tabsContainerStyle}
+                              tabStyle={segmented.tabStyle}
+                              firstTabStyle={segmented.firstTabStyle}
+                              lastTabStyle={segmented.lastTabStyle}
+                              tabTextStyle={segmented.tabTextStyle}
+                              activeTabStyle={segmented.activeTabStyle}
+                              activeTabTextStyle={segmented.activeTabTextStyle}
+                          />
+
+
+                          {this._renderWeightContent()}
+
+                          <Modal visible={this.state.showWeightAdd} animationType={'slide'} transparent={true}>
+
+                              <View style={styles.modalStyle}>
+                                  <View style={styles.modalHeader}>
+                                      <TouchableOpacity onPress={() => { this.setState({ showMeasurementAdd: false }) }}>
+                                          <Text style={styles.modalNav}>Back</Text>
+                                      </TouchableOpacity>
+
+                                      <Text style={styles.modalTitle}>Weight</Text>
+
+                                      <TouchableOpacity
+                                          onPress={() => {
+                                              this.setState({ showWeightAdd: false })
+                                              console.log(this.state.weight)
+                                              let timeStamp = Date.now()
+                                              console.log(timeStamp)
+                                              // this.updateDb()
+                                              //this onpress will be what pushs to the db
+                                          }}>
+                                          <Text style={styles.modalNav}>Save</Text>
+                                      </TouchableOpacity>
+                                  </View>
+                                  <View>
+                                      <Image source={require('../assets/scale.png')} style={styles.scaleImage} />
+                                  </View>
+                                  <View>
+                                      <TextInput style={styles.weightInput}
+                                          underlineColorAndroid="transparent"
+                                          multiline={false}
+                                          numberOfLines={1}
+                                          placeholder="Current Weight"
+                                          placeholderTextColor='#DDDEDE'
+                                          fontWeight='600'
+                                          autoCapitalize="none"
+                                          onChangeText={(text) => this.setState({ weight: text })}
+                                          value={this.state.Text} />
+
+                                  </View>
+                              </View>
+                          </Modal>
+                      </View>
+
+                  </ScrollView>
+
+                  <TouchableOpacity title="Add" onPress={() => {
+                        this.setState({ showWeightAdd: true })
+                    }} style={styles.addBtn}>
+                        <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize} />
+                    </TouchableOpacity>
+
+               </>
              
-              <Image style={styles.chevronIcon} source={require('../assets/chevron.png')}/>
-                    
-            </View> 
-          </TouchableOpacity>
+            )
 
-          <View style={styles.buttonSeprateLine}/> 
+        }
+        else if (this.state.selectedIndex == 1) {
+            return (
+                <>
+                  <ScrollView>
+                      <View style={styles.container}  >
 
-          <TouchableOpacity onPress={() => {this.props.navigation.navigate("About")}}>
-            <View style={styles.updatePassword}>
-              <Image style={styles.aboutIcon} source={require('../assets/about.png')}/>
+                          <SegmentedControlTab
+                              values={["Weight", "Measurement"]}
+                              selectedIndex={this.state.selectedIndex}
+                              onTabPress={this.handleIndexChange}
 
-              <Text style={styles.aboutText}> About</Text>
-             
-              <Image style={styles.chevronIcon} source={require('../assets/chevron.png')}/>
-            </View>  
-          </TouchableOpacity>         
-        </View>
-
-        <View style={styles.logoutButton}>
-          <Button onPress={this.signOut} fontSize={20} title="Log Out" color="#fff"/>
-        </View>
-
-        <Modal visible={this.state.showMe} animationType={'slide'} transparent={'true'}>
-          <View style={styles.modalStyle}>
-            <View style={styles.modalHeader}>
-              <TouchableOpacity onPress={() => { this.setState({ showMe: false }) }}>
-                <Text style={styles.modalNav}>Back</Text>
-              </TouchableOpacity>
-
-              <Text style={styles.modalTitle}>Edit Profile</Text>
-            
-              <TouchableOpacity onPress={() => { this.setState({ showMe: false }), this.updateDb()}}>
-                <Text style={styles.modalNav}>Save</Text>
-              </TouchableOpacity>
-            </View>
-    
-          <Text style={styles.infoTitle}>FULL NAME</Text>
-          <TextInput style = {styles.infoText}
-                 placeholder = 'name'
-                 placeholderTextColor = "#ffffff"
-                 autoCapitalize = "none"
-                 onChangeText = {(name)=>this.setState({name})}
-                 value={this.state.name}/>
-          <View style={styles.seprateLine}/> 
-
-          <Text style={styles.infoTitle}>DATE OF BIRTH</Text>
-          <TextInput style = {styles.infoText}
-            placeholder = {this.state.dob}
-            placeholderTextColor = "#ffffff"
-            autoCapitalize = "none"
-            onChangeText = {(dob)=>this.setState({dob})}
-            value={this.state.dob}/>
-          <View style={styles.seprateLine}/> 
-
-          <Text style={styles.infoTitle}>HEIGHT</Text>
-          <TextInput style = {styles.infoText}
-            placeholder = {this.state.height}
-            placeholderTextColor = "#ffffff"
-            autoCapitalize = "none"
-            onChangeText = {(height)=>this.setState({height})}
-            value={this.state.height}/>
-          <View style={styles.seprateLine}/> 
-               
-          <Text style={styles.infoTitle}>STARTING WEIGHT</Text>
-          <TextInput style = {styles.infoText}
-            keyboardType={'numeric'} 
-            placeholderTextColor = "#ffffff"
-            autoCapitalize = "none"
-            onChangeText = {(weight)=>this.setState({weight})}
-            value={this.state.weight}/>
-          <View style={styles.seprateLine}/> 
-
-          <Text style={styles.infoTitle}>GENDER</Text>
-          <TextInput style = {styles.infoText}
-            placeholder = {this.state.gender}
-            placeholderTextColor = "#ffffff"
-            autoCapitalize = "none"
-            onChangeText = {(gender)=>this.setState({gender})}
-            value={this.state.gender}/>
-          <View style={styles.seprateLine}/> 
-
-          <Text style={styles.infoTitle}>EMAIL</Text>
-          <TextInput style = {styles.infoText}  
-            placeholder = {this.state.email}
-            placeholderTextColor = "#ffffff"
-            autoCapitalize = "none"
-            onChangeText = {(email)=>this.setState({email})}
-            value={this.state.email}/>
-          <View style={styles.seprateLine}/> 
+                              allowFontScaling={false}
+                              tabsContainerStyle={segmented.tabsContainerStyle}
+                              tabStyle={segmented.tabStyle}
+                              firstTabStyle={segmented.firstTabStyle}
+                              lastTabStyle={segmented.lastTabStyle}
+                              tabTextStyle={segmented.tabTextStyle}
+                              activeTabStyle={segmented.activeTabStyle}
+                              activeTabTextStyle={segmented.activeTabTextStyle}
+                          />
 
 
-          </View>
-        </Modal> 
-      </View>
-      </View>   
-    )
-  }
+                          {this._renderMeasuermentsContent()}
+
+                          <Modal visible={this.state.showMeasurementAdd} animationType={'slide'} transparent={true}>
+
+                              <View style={styles.modalStyle}>
+                                  <View style={styles.modalHeader}>
+                                      <TouchableOpacity onPress={() => { this.setState({ showMeasurementAdd: false }) }}>
+                                          <Text style={styles.modalNav}>Back</Text>
+                                      </TouchableOpacity>
+
+                                      <Text style={styles.modalTitle}>Measurement</Text>
+
+                                      <TouchableOpacity
+                                          onPress={() => {
+                                              this.setState({ showMeasurementAdd: false })
+                                              console.log(`Chest: ${this.state.chest}, Waist: ${this.state.waist}, Hips: ${this.state.hips}`)
+                                              let timeStamp = Date.now()
+                                              console.log(timeStamp)
+
+
+                                              // this.updateDb()
+                                              //this onpress will be what pushs to the db
+                                          }}>
+                                          <Text style={styles.modalNav}>Save</Text>
+                                      </TouchableOpacity>
+                                  </View>
+                                  <View style={styles.measurementModalLayout}>
+                                          <Image source={require('../assets/body.png')} style={styles.bodyImage} />
+                                      
+                                      <View style={styles.measurementInputLayout}>
+                                          <TextInput style={styles.measurementInput}
+                                              underlineColorAndroid="transparent"
+                                              multiline={false}
+                                              numberOfLines={1}
+                                              placeholder="Chest"
+                                              placeholderTextColor='#DDDEDE'
+                                              fontWeight='600'
+                                              autoCapitalize="none"
+                                              onChangeText={(text) => this.setState({ chest: text })}
+                                              value={this.state.Text} />
+                                          <TextInput style={styles.measurementInput}
+                                              underlineColorAndroid="transparent"
+                                              multiline={false}
+                                              numberOfLines={1}
+                                              placeholder="Waist"
+                                              placeholderTextColor='#DDDEDE'
+                                              fontWeight='600'
+                                              autoCapitalize="none"
+                                              onChangeText={(text) => this.setState({ waist: text })}
+                                              value={this.state.Text} />
+                                          <TextInput style={styles.measurementInput}
+                                              underlineColorAndroid="transparent"
+                                              multiline={false}
+                                              numberOfLines={1}
+                                              placeholder="Hips"
+                                              placeholderTextColor='#DDDEDE'
+                                              fontWeight='600'
+                                              autoCapitalize="none"
+                                              onChangeText={(text) => this.setState({ hips: text })}
+                                              value={this.state.Text} />
+                                          </View>
+                                  </View>
+                              </View>
+                          </Modal>
+
+                      </View>
+                  </ScrollView>
+
+                  <TouchableOpacity title="Add" onPress={() => {
+                    this.setState({ showMeasurementAdd: true })
+                  }} style={styles.addBtn}>
+                    <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize} />
+                  </TouchableOpacity>
+
+                </>
+            )
+        }
+        else {
+            return (
+                <View>
+                    <Text>Error</Text>
+                </View>
+            )
+        }
+    }
+
+
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    marginTop: 16
-  },
-  updatePassword:{
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: '#1E1E1E',
-      width: '100%',
-      borderTopLeftRadius: 15,
-      borderTopRightRadius: 15,
-      padding: 16
-  },
-  textContainer1:{
-      flexDirection: 'column',
-      backgroundColor: '#1C1C1E',
-      padding: 5,
-      alignSelf: 'stretch',
-      marginBottom: 2,
-      marginTop: 5
-  },
-  textContainer:{
-      flexDirection: 'column',
-      backgroundColor: '#000000',
-      paddingBottom: 20,
-      alignSelf: 'stretch',
-  },
-  nameText:{
-    color:'#FAFAFA',
-    fontSize:30,
-    marginRight: 8
-  },
-  infoText:{
-    color:'#347EFB',
-    paddingTop:10,
-    paddingBottom:5,
-    paddingLeft:16,
-    fontSize:20
-  },
-  infoTitle:{
-    fontSize:13,
-    paddingLeft:16,
-    paddingTop:10,
-    color: '#FAFAFA'
-  },
-  seprateLine:{
-    width: 385,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    height: 1,
-    backgroundColor:'#B7B7B7',
-    bottom:0,
-  },
-  buttonSeprateLine:{
-    width: '97%',
-    alignSelf: 'flex-end',
-    height: 1,
-    backgroundColor:'#3A3A3D',
-    bottom:0,
-  },
-  lockIcon:{
-    height: 30,
-    width: 20,
-    paddingRight:10,
-    resizeMode: 'center'
-  },
-  aboutIcon:{
-    height: 32,
-    width: 22,
-    resizeMode: 'contain'
-  },
-  chevronIcon:{
-    height: 20,
-    width: 10,
-    alignSelf: "flex-end",
-    resizeMode: 'contain'
-  },
-  logoutButton:{
-    width: "100%", 
-    margin: 10, 
-    backgroundColor: "#347EFB", 
-    height: 55, 
-    justifyContent: 'center'
-  },
-  aboutText:{
-    color:"#ffffff",
-    paddingRight:285,
-    paddingLeft:10,
-    fontSize: 17
-  },
-  changePasswordText:{
-    color:"#ffffff",
-    paddingRight:195,
-    paddingLeft:10,
-    fontSize: 17
-  },
-  headerBox:{
-    flexDirection:'row',
-    alignItems: 'center',
-    marginBottom: 25
-  }, 
-  pencilIcon:{
-    width:21, 
-    height: 21, 
-    resizeMode: 'contain'
-  },
-  SeprateLine:{
-          width:'110%',
-          height:'2%',
-          position:'absolute',
-          backgroundColor:'black',
-          bottom:0
-         },
-         modalStyle: {
-          height: '100%',
-          backgroundColor: '#0D0D0D',
-          marginTop: 88,
-          borderRadius: 15,
-      },
-      modalHeader: {
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          backgroundColor: '#1E1E1E',
-          width: '100%',
-          borderTopLeftRadius: 15,
-          borderTopRightRadius: 15,
-          padding: 16,
-          marginBottom: 16
-      },
-      modalTitle: {
-          color: '#FAFAFA',
-          fontSize: 17,
-          fontWeight: '600',
-      },
-      modalNav: {
-          fontSize: 17,
-          color: '#347EFB',
-      },
-      modalInput: {
-          color: '#dddede',
-          height: 150,
-          borderColor: '#B7B7B7',
-          backgroundColor: '#2C2C2E',
-          borderRadius: 8,
-          marginLeft: 16,
-          marginRight: 16
-      },
-      content: {
-          marginTop: 15,
-          marginBottom: 10,
-          marginLeft: 16,
-          color: '#DDDEDE',
-          fontSize: 17,
-      },
-      modalSeprateLine: {
-          width: '100%',
-          height: '2%',
-          position: 'absolute',
-          backgroundColor: 'black',
-          bottom: 0
-      },
-      input: {
-        fontSize:20,
+
+    container: {
+        backgroundColor: '#000000',
+        paddingLeft: 16,
+        paddingRight: 16,
+        display: 'flex'
+    },
+    modalNoteInput: {
+        height: 200,
+        backgroundColor: '#2C2C2E',
+        borderRadius: 8,
+        color: '#DDDEDE'
+    },
+    modalStyle: {
+        height: '100%',
+        backgroundColor: '#0D0D0D',
+        marginTop: 88,
+        borderRadius: 15,
+    },
+    modalHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#1E1E1E',
         width: '100%',
-        color:'#347EFB',
-        borderBottomColor: "#505050",
-        borderBottomWidth: 1,
-        margin: 5,
-        marginLeft: 16,
-     },
-     updatePasswordInput:{
-        height: 45,
-        backgroundColor: '#1C1C1E',
-        marginRight: 16,
-        marginLeft: 16,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        padding: 16
+    },
+    modalTitle: {
+        color: '#FAFAFA',
+        fontSize: 20,
+        fontWeight: '700',
+    },
+    modalNav: {
+        fontSize: 17,
+        color: '#347EFB',
+    },
+    measurementModalLayout:{
+        flexDirection: 'row',
         justifyContent: 'center',
-        borderRadius: 5,
+        alignContent: 'center'
+    },
+    modalInput: {
+        height: 26,
+        fontSize: 20,
+        color: '#DDDEDE',
+        marginBottom: 24,
+        borderBottomWidth: 1,
+        borderColor: '#DDDEDE'
+    },
+    weightInput:{
+        height: 30,
+        width: 245,
+        marginTop: 45,
+        fontSize: 24,
+        color: '#DDDEDE',
+        borderBottomWidth: 1,
+        borderColor: '#DDDEDE',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        textAlign: 'center'
+    },
+    measurementInput:{
+        height: 26,
+        width: 135,
+        fontSize: 22,
+        color: '#DDDEDE',
+        marginBottom: 45,
+        borderBottomWidth: 1,
+        borderColor: '#DDDEDE'
+    },
+    measurementInputLayout:{
+        justifyContent: 'center',
+        alignContent: 'center'
+    },
+    modalSeprateLine: {
+        width: '100%',
+        height: '2%',
+        position: 'absolute',
+        backgroundColor: 'black',
+        bottom: 0
+    },
+    scaleImage: {
+        height: 176,
+        width: 184,
+        marginTop: 45,
+        justifyContent: 'center',
+        alignSelf: 'center'
+    },
+    bodyImage:{
+        height: 480,
+        width: 146,
+        marginTop: '20%',
+        marginRight: 32
+    },
+    addBtn: {
+      alignSelf: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      top: '93%'
+    },
+    addBtnSize: {
+        height: 40,
+        resizeMode: 'contain'
+    },
+
+    loading: {
+      height: '100%',
+      justifyContent: 'center'
+    },
+    invisible:{
+        display: 'none'
+    }
+})
+
+const weight = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 8
+    },
+    date: {
+        color: '#DDDEDE',
+        fontSize: 20,
         marginTop: 8
-     },
-     textInput:{
-       marginLeft: 8,
-       color: '#DDDEDE'
-     } 
+    },
+    weight: {
+        fontSize: 22,
+        color: '#347EFB',
+    },
+
+    progressContainer: {
+        flexDirection: 'row',
+        flex: 1,
+    },
+    progressText: {
+        color: '#DDDEDE',
+        opacity: 0.6
+    },
+    progressDifference: {
+        color: '#347EFB'
+    }
+
+})
+
+const measurement = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        marginBottom: 8,
+        flex: 1,
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    entryContainer: {
+        flexDirection: 'row',
+        marginBottom: 8,
+    },
+    date: {
+        color: '#DDDEDE',
+        fontSize: 20,
+        marginTop: 8,
+        marginBottom: 8
+    },
+    content: {
+        color: '#347EFB',
+        fontSize: 16
+    },
+})
+
+
+//Segmented controls DONE******
+const segmented = StyleSheet.create({
+    tabsContainerStyle: {
+        width: 250,
+        alignSelf: 'center',
+        marginTop: 16,
+        marginBottom: 16,
+    },
+    tabStyle: {
+        borderColor: '#636366',
+        backgroundColor: '#1C1C1E'
+    },
+    tabTextStyle: {
+        color: '#DDDEDE'
+    },
+    activeTabStyle: {
+        backgroundColor: '#636366',
+    },
+    activeTabTextStyle: {
+        color: '#DDDEDE'
+    }
 })
