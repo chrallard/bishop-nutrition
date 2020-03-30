@@ -1,21 +1,16 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useContext } from 'react';
 import { StyleSheet, Text, View, Image, Button, TouchableOpacity, Modal, TextInput, Dimensions, StatusBar } from 'react-native';
 import * as firebase from 'firebase/app'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import '@firebase/firestore'
 import 'firebase/auth'
 
+import { DataContext } from '../contexts/DataContext'
+
+
 const SleepTrackingWidget = () => {
 
-    const formatDate = (d) => {
-        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        const date = d.getDate()
-        const month = months[d.getMonth()]
-        const year = d.getFullYear()
-        const formattedDate = date + month + year //looks like this: 4March2020
-
-        return formattedDate
-    }
+    const context = useContext(DataContext) // hook style of contextType
 
     const [date, setDate] = useState(new Date(1598050800000));
     const [date2, setDate2] = useState(new Date(1598079600000));
@@ -23,41 +18,7 @@ const SleepTrackingWidget = () => {
     const [show, setShow] = useState(false);
     const [showMe, setShowMe] = useState(false)
     const [notes, setNotes] = useState("")
-    const [uid, setUid] = useState(firebase.auth().currentUser.uid)
-    const [docId, setDocId] = useState("")
-    const [sleepDuration, setSleepDuration] = useState("0 hr 0 min")
-
-    const setTodaysDocId = async () => {
-        //get todays date - format
-        let d = new Date()
-        let today = formatDate(d)
-
-        //loop through user data and get the dates to format
-        await firebase.firestore().collection("userData").doc(uid).collection("healthTracking").orderBy("timeStamp", "desc").limit(5).get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                let formattedDate = formatDate(new Date(doc.data().timeStamp))
-
-                if (formattedDate == today) { //selecting today's healthTracking document ID
-                    setDocId(doc.id)
-                }
-            })
-        })
-    }
-    setTodaysDocId()
-
-    const getSleepEntry = async () => {
-        await firebase.firestore().collection("userData").doc(uid).collection("healthTracking").doc(docId).get().then((doc) => {
-            // let start = doc.data().sleepEntry.start
-            // let end = doc.data().sleepEntry.end
-            // let durationMs = end - start
-            // let duration = msToTime(durationMs)
-            if (sleepDuration == "0 hr 0 min") {
-                setSleepDuration(doc.data().sleepEntry.duration)
-            }
-        })
-    }
-    getSleepEntry()
-
+    const [sleepDuration, setSleepDuration] = useState(context.healthTrackingData[0].sleepEntry.duration)
 
 
     const onChange = (event, selectedDate) => {
@@ -93,7 +54,7 @@ const SleepTrackingWidget = () => {
     }
 
     const updateDb = async (duration, durationMs) => {
-        await firebase.firestore().collection("userData").doc(uid).collection("healthTracking").doc(docId)
+        await firebase.firestore().collection("userData").doc(context.uid).collection("healthTracking").doc(context.todaysHealthTrackingDocId)
             .set({
                 sleepEntry: {
                     duration: duration,
