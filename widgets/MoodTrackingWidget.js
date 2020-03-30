@@ -5,10 +5,13 @@ import * as firebase from 'firebase/app'
 import '@firebase/firestore'
 import 'firebase/auth'
 
+import { DataContext } from '../contexts/DataContext'
+
 
 var screen = Dimensions.get('window');
 export default class MoodTrackingWidget extends Component {
 
+    static contextType = DataContext
 
     constructor(props) {
         super(props)
@@ -16,7 +19,6 @@ export default class MoodTrackingWidget extends Component {
             showMe: false,
             selectedMood: "",
             moodValue: 0,
-            docId: "",
 
             displayStyle: styles.invisible
         }
@@ -25,9 +27,6 @@ export default class MoodTrackingWidget extends Component {
     }
 
     async componentDidMount() {
-        await this.setUid()
-        await this.setTodaysDocId()
-
         this.props.mounted()
     }
 
@@ -45,46 +44,8 @@ export default class MoodTrackingWidget extends Component {
         this.refs.addModal.showModal();
     }
 
-    setUid = async () => {
-        let uid = await firebase.auth().currentUser.uid
-        this.setState({ uid })
-    }
-
-    setTodaysDocId = async () => {
-        //get todays date - format
-        let d = new Date()
-        let today = this.formatDate(d)
-        let formatDate = (d) => { //can't access this function inside the forEach for some reason
-            return this.formatDate(d)
-        }
-        let docId
-
-        //loop through user data and get the dates to format
-        await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").orderBy("timeStamp", "desc").limit(15).get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                let formattedDate = formatDate(new Date(doc.data().timeStamp))
-
-                if (formattedDate == today) { //selecting today's healthTracking document ID
-                    docId = doc.id
-                }
-            })
-        })
-
-        this.setState({ docId })
-    }
-
-    formatDate = (d) => {
-        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        const date = d.getDate()
-        const month = months[d.getMonth()]
-        const year = d.getFullYear()
-        const formattedDate = date + month + year //looks like this: 4March2020
-
-        return formattedDate
-    }
-
     updateDb = async () => {
-        await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").doc(this.state.docId)
+        await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
             .set({
                 moodEntry: {
                     diary: this.state.diary,

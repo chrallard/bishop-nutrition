@@ -40,6 +40,8 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }
 ////////////////////////////////////
+import DataContextProvider from './contexts/DataContext'
+///////////////////////////////////
 
 const Tab = createBottomTabNavigator()
 const HomeStack = createStackNavigator()
@@ -140,14 +142,11 @@ export default function App() {
   const [isLoggedIn, setLoginStatus] = useState(false)
   const [checkedLogIn, setCheckedLogIn] = useState(false)
   
-
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       setCheckedLogIn(true)
       user ? setLoginStatus(true) : setLoginStatus(false)
-  })
-
-    console.log(isLoggedIn)
+     })
   });
 
 
@@ -173,56 +172,57 @@ export default function App() {
           <LoginStackScreen />
 
         :
+          <DataContextProvider>
+            <Tab.Navigator
+              tabBarOptions={{
+                activeTintColor: '#347EFB',
+                inactiveTintColor: '#DDDEDE',
+                inactiveBackgroundColor: '#000',
+                activeBackgroundColor: '#000'
+              }}>
 
-          <Tab.Navigator
-            tabBarOptions={{
-              activeTintColor: '#347EFB',
-              inactiveTintColor: '#DDDEDE',
-              inactiveBackgroundColor: '#000',
-              activeBackgroundColor: '#000'
-            }}>
+              <Tab.Screen
+                name="Home"
+                component={HomeStackScreen}
+                options={{
+                  tabBarIcon: ({ color, size }) => (
+                    <MaterialCommunityIcons name="home" color={color} size={size} />
+                  )
+                }} />
 
-            <Tab.Screen
-              name="Home"
-              component={HomeStackScreen}
-              options={{
-                tabBarIcon: ({ color, size }) => (
-                  <MaterialCommunityIcons name="home" color={color} size={size} />
-                )
-              }} />
+              <Tab.Screen
+                name="Food"
+                component={FoodStackScreen}
+                options={{
+                  tabBarIcon: ({ color, size }) => (
+                    <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
+                  )
+                }} />
 
-            <Tab.Screen
-              name="Food"
-              component={FoodStackScreen}
-              options={{
-                tabBarIcon: ({ color, size }) => (
-                  <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
-                )
-              }} />
+              <Tab.Screen
+                name="Progress"
+                component={ProgressStackScreen}
+                options={{
+                  tabBarIcon: ({ color, size }) => (
+                    <MaterialCommunityIcons name="chart-line" color={color} size={size} />
+                  )
+                }} />
 
-            <Tab.Screen
-              name="Progress"
-              component={ProgressStackScreen}
-              options={{
-                tabBarIcon: ({ color, size }) => (
-                  <MaterialCommunityIcons name="chart-line" color={color} size={size} />
-                )
-              }} />
-
-            <Tab.Screen
-              name="Profile"
-              component={ProfileStackScreen}
-              options={{
-                tabBarIcon: ({ color, size }) => (
-                  <MaterialCommunityIcons name="account" color={color} size={size} />
-                )
-              }} />
-          </Tab.Navigator>
-
+              <Tab.Screen
+                name="Profile"
+                component={ProfileStackScreen}
+                options={{
+                  tabBarIcon: ({ color, size }) => (
+                    <MaterialCommunityIcons name="account" color={color} size={size} />
+                  )
+                }} />
+            </Tab.Navigator>
+          </DataContextProvider>
       }
 
       <SafeAreaView style={{ backgroundColor: '#000' }} />
     </NavigationContainer>
+
   )
 }
 

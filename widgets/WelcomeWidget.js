@@ -4,7 +4,11 @@ import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
 
+import { DataContext } from '../contexts/DataContext'
+
 export default class WelcomeWidget extends Component{
+
+    static contextType = DataContext
 
     constructor(props){
         super(props)
@@ -39,20 +43,11 @@ export default class WelcomeWidget extends Component{
         const currentDate = d.getDate()
         const currentMonth = months[d.getMonth()]
         const currentYear = d.getFullYear()
-        let uid = await firebase.auth().currentUser.uid
 
-        await firebase.firestore().collection("userData").doc(uid).get().then((doc) => {
-                if(doc.exists){
-                    this.setState({
-                        name: doc.data().name,
-                        date: `${currentMonth} ${currentDate}, ${currentYear}`
-                    })
-                }else{
-                    alert("Error")
-                }
-            }).catch((err) => {
-                alert(err)
-            })  
+        this.setState({
+            name: this.context.userInfo.name,
+            date: `${currentMonth} ${currentDate}, ${currentYear}`
+        })  
     }
 
     render(){
