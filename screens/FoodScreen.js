@@ -449,7 +449,7 @@ export default class ProfileScreen extends Component {
 
 
     let obj = {
-      [item.category]: {
+      [item.category.toLowerCase()]: {
         name: item.name,
         portions: 1
       }
@@ -466,7 +466,7 @@ export default class ProfileScreen extends Component {
 
 
     let obj = {
-      [item.category]: {
+      [item.category.toLowerCase()]: {
         name: item.name,
         portions: 0.5
       }
@@ -604,14 +604,14 @@ export default class ProfileScreen extends Component {
   }
   _addPortion = (item) => { //adds a portion of the selected food to the users daily
     console.log(item.category)
-    this.updateDb(item)
+    //this.updateDb(item)
   }
   _openDeleteOrHalfPortion = (item) => { //displays two smaller buttons 
     this.setState({ longPressed: item.key })
   }
   _addHalfPortion = (item) => {//adds a portion of the selected food to the users daily
     console.log(item.category)
-    this.updateHalfDb(item)
+    //this.updateHalfDb(item)
   }
   _deleteHalfPortion = (item) => {//removes a portion of the selected food to the users daily
     console.log(item.category)

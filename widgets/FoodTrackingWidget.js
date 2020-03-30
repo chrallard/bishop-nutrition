@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button, FlatList, Item, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, Button, FlatList, Item, TouchableOpacity, Image } from 'react-native'//imports all required components and libraries
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
@@ -12,22 +12,22 @@ export default class FoodTrackingWidget extends Component {
     static contextType = DataContext
 
     constructor(props) {
-      super(props)
-      this.state = {
-        foodTrackingList: [],
+        super(props)
+        this.state = {
+            foodTrackingList: [],//initialized state variables
 
-        displayStyle: styles.invisible
-      }
+            displayStyle: styles.invisible
+        }
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
         await this.buildList()
 
         this.props.mounted()
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.visible !== this.props.visible){
+        if (prevProps.visible !== this.props.visible) {
             this.updateVisibility()
         }
     }
@@ -141,9 +141,9 @@ export default class FoodTrackingWidget extends Component {
 
             Object.assign(foodEntry, obj)
         })
-        
+
         await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
-        .set({foodEntry}, {merge: true})
+            .set({ foodEntry }, { merge: true })
     }
 
     render() {
@@ -221,9 +221,9 @@ const styles = StyleSheet.create({
         height: 30,
         width: 30,
         marginRight: 16
-      },
+    },
 
-      invisible:{
+    invisible: {
         display: 'none'
-      }
-  })
+    }
+})
