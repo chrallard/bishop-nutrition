@@ -2,7 +2,7 @@ import React, { createContext, Component } from 'react'
 
 import { getUid } from '../backend/auth'
 import { checkIfTodaysObjectsExist, todaysHealthTrackingDocId, todaysBodyTrackingDocId } from '../backend/dbObjects'
-import { userInfo, planData, healthTrackingData } from '../backend/userData'
+import { userInfo, planData, healthTrackingData, bodyTrackingData } from '../backend/userData'
 
 
 export const DataContext = createContext()
@@ -18,7 +18,8 @@ class DataContextProvider extends Component {
 
         userInfo: "",
         planData: "",
-        healthTrackingData: ""
+        healthTrackingData: "",
+        bodyTrackingData: ""
     }
 
     async componentDidMount() {
@@ -43,6 +44,7 @@ class DataContextProvider extends Component {
         await this.setState({ userInfo: await userInfo(this.state.uid) })
         await this.setState({ planData: await planData(this.state.userInfo.plan) })
         await this.setState({ healthTrackingData: await healthTrackingData(this.state.uid) })
+        await this.setState({ bodyTrackingData: await bodyTrackingData(this.state.uid) })
 
         
         

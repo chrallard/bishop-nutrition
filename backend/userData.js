@@ -46,3 +46,17 @@ export const healthTrackingData = async (uid) => {
     return result
 
 }
+
+export const bodyTrackingData = async (uid) => {
+
+    let result = []
+
+    await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "desc").limit(14).get().then((querySnapshot) => {
+        querySnapshot.forEach((item) => {
+            result.push(item.data())
+        })
+    })
+
+    return result
+
+}
