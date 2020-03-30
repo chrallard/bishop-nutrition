@@ -56,11 +56,11 @@ userIfo = async () =>{
     if(doc.exists){
         this.setState({
             name: doc.data().name,
-            gender:doc.data().Gender,
-            height:doc.data().Height,
+            gender:doc.data().gender,
+            height:doc.data().height,
             weight:doc.data().startingWeight,
             dob:doc.data().dob,
-            email:doc.data().Email
+            email:doc.data().email
             
         })
 
