@@ -1,4 +1,4 @@
-import React, { Component, useState, useContext } from 'react';
+import React, { Component, useState, useContext, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, Image, Button, TouchableOpacity, Modal, TextInput, Dimensions, StatusBar } from 'react-native';
 import * as firebase from 'firebase/app'
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -8,7 +8,7 @@ import 'firebase/auth'
 import { DataContext } from '../contexts/DataContext'
 
 
-const SleepTrackingWidget = () => {
+const SleepTrackingWidget = (props) => {
 
     const context = useContext(DataContext) // hook style of contextType
 
@@ -19,7 +19,16 @@ const SleepTrackingWidget = () => {
     const [showMe, setShowMe] = useState(false)
     const [notes, setNotes] = useState("")
     const [sleepDuration, setSleepDuration] = useState(context.healthTrackingData[0].sleepEntry.duration)
+    const [displayStyle, setDisplayStyle] = useState(styles.invisible)
+    const [renders, setRenders] = useState(0)
 
+    useEffect(() => {
+    if (renders == 0) {
+        console.log("useeffect")
+        props.mounted()
+        setDisplayStyle(styles.container)
+        setRenders(1)
+    }})
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
@@ -85,7 +94,7 @@ const SleepTrackingWidget = () => {
 
     return (
 
-        <View style={styles.container}>
+        <View style={displayStyle}>
             <StatusBar barStyle='light-content' />
             <TouchableOpacity onPress={() => setShowMe(true)}>
                 <View>
@@ -267,6 +276,10 @@ const styles = StyleSheet.create({
         marginLeft: 16,
         marginBottom: 0,
         height: 200
+    },
+
+    invisible:{
+        display: 'none'
     }
 
 });

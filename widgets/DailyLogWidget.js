@@ -25,7 +25,7 @@ export default class DailyLogWidget extends Component {
             'VirtualizedLists should never be nested', // TODO: Remove when fixed
         ])
 
-     
+        
         await this.buildDaysList()
 
         this.props.mounted()
@@ -55,14 +55,13 @@ export default class DailyLogWidget extends Component {
         }
 
         fiveHealthTrackingData.forEach((item) => {
-
             let obj = {
                 date: formatDate(item.timeStamp),
                 doc: item,
                 complete: this.checkDayComplete(item.foodEntry)
             }
             daysList.unshift(obj)
-
+            
         })
 
         this.setState({ daysList })
@@ -70,6 +69,8 @@ export default class DailyLogWidget extends Component {
 
     checkDayComplete = (foodEntry) => { //compares if the user met the days portion limits
         let foodList = []
+
+        //console.log(foodEntry)
 
         Object.values(foodEntry).forEach((item, index) => {
             foodList.push({

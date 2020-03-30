@@ -1,4 +1,6 @@
 import React, { createContext, Component } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { MaterialIndicator } from 'react-native-indicators'
 
 import { getUid } from '../backend/auth'
 import { checkIfTodaysObjectsExist, todaysHealthTrackingDocId, todaysBodyTrackingDocId } from '../backend/dbObjects'
@@ -58,10 +60,20 @@ class DataContextProvider extends Component {
                     {this.props.children}
                 </DataContext.Provider>
             ) : (
-                <></>
+                <View style={styles.loading}>
+                    <MaterialIndicator color='#347EFB' size={50} />
+                </View>
             )
         )
     }
 }
 
 export default DataContextProvider
+
+const styles = StyleSheet.create({
+    loading: {
+        backgroundColor: '#000000',
+        height: '100%',
+        justifyContent: 'center'
+    }
+  })

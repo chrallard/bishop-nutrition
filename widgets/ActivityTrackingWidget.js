@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput, Dimensions } from 'react-native';//imports required for functionality
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-import * as firebase from 'firebase/app'
-import '@firebase/firestore'
-import 'firebase/auth'
 
 
 var screen = Dimensions.get('window');
@@ -33,7 +30,7 @@ export default class ActivityTrackingWidget extends Component {
     }
 
     componentDidMount() {
-        this.props.mounted()
+        //this.props.mounted()
     }
 
     componentDidUpdate(prevProps) {

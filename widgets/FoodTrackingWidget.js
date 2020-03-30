@@ -14,7 +14,7 @@ export default class FoodTrackingWidget extends Component {
     constructor(props) {
       super(props)
       this.state = {
-        foodTrackingList: []
+        foodTrackingList: [],
 
         displayStyle: styles.invisible
       }

@@ -25,7 +25,7 @@ export default class ProgressScreen extends Component {
             hips: 0,
             waist: 0,
             weight: 0,
-            prevWeight: 0
+            prevWeight: 0,
 
             loadingStyle: styles.loading,
             displayStyle: styles.invisible
