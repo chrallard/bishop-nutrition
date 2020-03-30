@@ -6,9 +6,12 @@ import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
 
+import { DataContext } from '../contexts/DataContext'
 
 
 export default class ProgressScreen extends Component {
+
+    static contextType = DataContext
 
     constructor(props) {
         super(props)
@@ -58,35 +61,32 @@ export default class ProgressScreen extends Component {
 
     xData = async() => {
 
-        let uid = await firebase.auth().currentUser.uid
-        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "asc").limit(17).get().then((querySnapshot) => {
+        let bodyTrackingData = this.context.bodyTrackingData
+        
             let xData = []
-            querySnapshot.forEach((doc) => {
+            bodyTrackingData.forEach((doc) => {
 
-                let dt = new Date(doc.data().timeStamp)
+                let dt = new Date(doc.timeStamp)
                 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
                 const date = dt.getDate()
                 const Month = months[dt.getMonth()]
                 let xValue = `${Month} ${date}`
 
-                xData.push(xValue)
+                xData.unshift(xValue)
             })
             this.setState({xData}) 
-        })
+        
     }
 
     yData = async() => {
-        let uid = await firebase.auth().currentUser.uid
-        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").limit(17).get().then((querySnapshot) => {
 
             let yData = []
-            querySnapshot.forEach((doc) => {
-                let yValue = doc.data().weightEntry
+            this.context.bodyTrackingData.forEach((doc) => {
+                let yValue = doc.weightEntry
 
                 yData.push(yValue)
             })
             this.setState({yData}) 
-        })
     }
 
 
@@ -96,11 +96,9 @@ export default class ProgressScreen extends Component {
 
     getTime = async () => {
 
-        let uid = await firebase.auth().currentUser.uid
-        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "desc").limit(5).get().then((querySnapshot) => {
             let time = []
-            querySnapshot.forEach((doc) => {
-                let D = new Date(doc.data().timeStamp)
+            this.context.bodyTrackingData.forEach((doc) => {
+                let D = new Date(doc.timeStamp)
                 const Months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
                 const datee = D.getDate()
                 const month = Months[D.getMonth()]
@@ -113,11 +111,6 @@ export default class ProgressScreen extends Component {
 
                 this.setState({ time })
             })
-
-        })
-
-
-
 
     }
 
@@ -144,8 +137,6 @@ export default class ProgressScreen extends Component {
                 }
                 measurements.push(obj)
 
-
-
                 this.setState({ measurements })
             })
         })
@@ -156,57 +147,59 @@ export default class ProgressScreen extends Component {
 
     list = async () => {
 
-        let uid = await firebase.auth().currentUser.uid
-
-
-        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("weightEntry", "desc").limit(17).get().then((doc) => {
-
             let weightEntry = []
-            doc.forEach((doc) => {
-                let d = new Date(doc.data().timeStamp)
+
+            let nullChecker = []
+            let lastWeightEntry = ""
+
+            this.context.bodyTrackingData.forEach((doc) => {
+                nullChecker.unshift(doc)
+            })
+
+            nullChecker.forEach((doc) => {
+                if(doc.weightEntry !== null){
+                    lastWeightEntry = doc.weightEntry
+                }
+            })
+
+            this.context.bodyTrackingData.forEach((doc) => {
+
+                let d = new Date(doc.timeStamp)
                 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
                 const date = d.getDate()
                 const Month = months[d.getMonth()]
                 const Year = d.getFullYear()
                 let obj = {
                     date: `${Month} ${date}, ${Year}`,
-                    timeStamp: doc.data().timeStamp,
-                    weightEntry: doc.data().weightEntry
+                    timeStamp: doc.timeStamp,
+                    weightEntry: doc.weightEntry
                 }
+
+                if(doc.weightEntry == null){
+                    obj.weightEntry = lastWeightEntry
+                }
+
                 weightEntry.push(obj)
 
                 this.setState({ weightEntry })
             })
 
-
-        })
-
-
     }
 
     startingWeight = async () => {
-
-        let uid = await firebase.auth().currentUser.uid
-
-        let sw = await firebase.firestore().collection("userData").doc(uid).get().then((doc) => {
-            return doc.data().startingWeight
-        })
-        this.setState({ startingWeight: sw })
-
+        this.setState({ startingWeight: this.context.userInfo.startingWeight })
     }
 
     time = async () => {
 
-        let uid = await firebase.auth().currentUser.uid
-
-        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "asc").limit(17).get().then((querySnapshot) => {
+    
 
 
             let timeStamp = []
 
-            querySnapshot.forEach((doc) => {
+            this.context.bodyTrackingData.forEach((doc) => {
 
-                let d = new Date(doc.data().timeStamp)
+                let d = new Date(doc.timeStamp)
                 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
                 const date = d.getDate()
                 const Month = months[d.getMonth()]
@@ -215,10 +208,9 @@ export default class ProgressScreen extends Component {
                     timeStamp: `${Month} ${date}, ${Year}`
                 }
 
-                timeStamp.push(obj)
+                timeStamp.unshift(obj)
                 this.setState({ timeStamp })
             })
-        })
 
     }
 
@@ -419,16 +411,12 @@ export default class ProgressScreen extends Component {
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
 
-                        {this._renderMeasuermentsContent()}
-
-
-
                         <Button title="Add" onPress={() => {
                             this.setState({ showMeasurementAdd: true })
                         }} />
 
-
                         {this._renderMeasuermentsContent()}
+
                         <Modal visible={this.state.showMeasurementAdd} animationType={'slide'} transparent={true}>
 
                             <View style={styles.modalStyle}>
