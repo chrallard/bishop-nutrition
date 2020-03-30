@@ -51,6 +51,6 @@
 <!-- High-Level Architecture -->
 ## High-Level Architecture
 
- <img src="Images/high-level-arch.png" alt="High Level Architecture">
+ <img src="Images/high_level_arch.png" alt="High Level Architecture" height="500" width="auto">
 
 Describe in brief about your high-level architecture.
