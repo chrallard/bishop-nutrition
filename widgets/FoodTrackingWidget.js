@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button, FlatList, Item, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, Button, FlatList, Item, TouchableOpacity, Image } from 'react-native'//imports all required components and libraries
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
@@ -12,14 +12,28 @@ export default class FoodTrackingWidget extends Component {
     static contextType = DataContext
 
     constructor(props) {
-      super(props)
-      this.state = {
-        foodTrackingList: []
-      }
+        super(props)
+        this.state = {
+            foodTrackingList: [],//initialized state variables
+
+            displayStyle: styles.invisible
+        }
     }
 
-    async componentDidMount(){
-        this.buildList()
+    async componentDidMount() {
+        await this.buildList()
+
+        this.props.mounted()
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.visible !== this.props.visible) {
+            this.updateVisibility()
+        }
+    }
+
+    updateVisibility = () => {
+        this.setState({ displayStyle: styles.container })
     }
 
     buildList = async () => {
@@ -127,14 +141,14 @@ export default class FoodTrackingWidget extends Component {
 
             Object.assign(foodEntry, obj)
         })
-        
+
         await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
-        .set({foodEntry}, {merge: true})
+            .set({ foodEntry }, { merge: true })
     }
 
     render() {
         return (
-            <View style={styles.container} >
+            <View style={this.state.displayStyle} >
                 <Text style={styles.titleText}>Food Tracking</Text>
                 <FlatList
                     scrollEnabled={false}
@@ -150,7 +164,6 @@ export default class FoodTrackingWidget extends Component {
                                     source={require('../assets/add_Circle.png')}
                                 />
                             </TouchableOpacity>
-
                         </View>
                     )} />
             </View>
@@ -209,4 +222,8 @@ const styles = StyleSheet.create({
         width: 30,
         marginRight: 16
     },
+
+    invisible: {
+        display: 'none'
+    }
 })

@@ -2,7 +2,8 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button, ScrollView, YellowBox, StatusBar } from 'react-native'
+import { StyleSheet, Text, View, Button, ScrollView, YellowBox, StatusBar, ActivityIndicator, Modal, TouchableHighlight } from 'react-native'
+import {MaterialIndicator} from 'react-native-indicators';
 import WelcomeWidget from '../widgets/WelcomeWidget'
 import DailyLogWidget from '../widgets/DailyLogWidget'
 import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
@@ -20,38 +21,54 @@ export default class HomeScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      uid: ""//initializes needed state vairables
+      loadingVisible: true,
+      mountedComponents: 0,
+      displayStyle: styles.loading
     }
   }
 
   async componentDidMount() {
-    // await this.setState({ uid: await getUid() })
-    // await checkIfTodaysObjectsExist(this.state.uid)
-
-
-    
-
     YellowBox.ignoreWarnings([
       'VirtualizedLists should never be nested', // TODO: Remove when fixed
     ])
   }
 
-  render() {
-    return (
-      <ScrollView>
-        <View style={styles.container} >
-          <WelcomeWidget />
-          <DailyLogWidget navProps={this.props.navigation} />
-          <FoodTrackingWidget />
-          <WaterTrackingWidget />
-          <WeightWidget />
-          <SleepTrackingWidget />
-          <ActivityTrackingWidget />
-          <MoodTrackingWidget />
-        </View>
-      </ScrollView>
-    )
+  handleMount = () => {
+    let num = this.state.mountedComponents
+    num += 1
+    this.setState({ mountedComponents: num })
+
+
+    if(num == 6) { // this number is based on how many widgets are mounting - bug: ActivityTrackingWidget and SleepTrackingWidget mess up the # of monutedComponents
+      this.setState({ 
+        loadingVisible: false,
+        displayStyle: styles.invisible
+      })
+    }
   }
+
+  render() {
+      return (
+        <>
+          <View style={this.state.displayStyle} >
+            <MaterialIndicator color='#347EFB' size={50} />
+          </View>
+
+          <ScrollView>
+            <View style={styles.container} >
+              <WelcomeWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+              <DailyLogWidget mounted={this.handleMount} visible={!this.state.loadingVisible} navProps={this.props.navigation} />
+              <FoodTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+              <WaterTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+              <WeightWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+              <SleepTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} /> 
+              <ActivityTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} /> 
+              <MoodTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+            </View>
+          </ScrollView>
+        </>
+      )
+   }
 }
 
 const styles = StyleSheet.create({
@@ -59,5 +76,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  loading: {
+    height: '100%',
+    justifyContent: 'center'
+  },
+
+  invisible: {
+    display: 'none'
   }
 })

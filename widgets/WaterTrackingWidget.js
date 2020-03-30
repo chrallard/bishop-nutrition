@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button,TouchableHighlight,Image,TouchableOpacity, TouchableOpacityBase } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableHighlight, Image, TouchableOpacity, TouchableOpacityBase } from 'react-native';//imports all required components and libraries
 import * as firebase from 'firebase/app'
 import '@firebase/firestore'
 import 'firebase/auth'
@@ -15,19 +15,33 @@ export default class WaterTrackingWidget extends Component {
 
   static contextType = DataContext
 
-  constructor(props){
-      super(props)
-      this.state = {
-        maxWater: null,
-        usersWater: null,
-        cups: [],
-      }
+  constructor(props) {
+    super(props)
+    this.state = {
+      maxWater: null,//initialized state variables
+      usersWater: null,
+      cups: [],
+
+      displayStyle: styles.invisible
+    }
   }
-    
-  async componentDidMount(){
+
+  async componentDidMount() {
     await this.setMaxWater()
-    await this.setUsersWater()
-    this.buildCupsArray()
+    await this.setUsersWater() //gets required information from the database
+    await this.buildCupsArray()
+
+    this.props.mounted()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.visible !== this.props.visible) {
+      this.updateVisibility()
+    }
+  }
+
+  updateVisibility = () => {
+    this.setState({ displayStyle: styles.container })
   }
 
   setMaxWater = async () => {
@@ -40,12 +54,12 @@ export default class WaterTrackingWidget extends Component {
 
   buildCupsArray = () => {
     let cups = []
-    for(let c = 0; c < this.state.maxWater; c++){ //building the initial amount of empty cups shown
+    for (let c = 0; c < this.state.maxWater; c++) { //building the initial amount of empty cups shown
       cups.push(true)
     }
 
     let fullCups = []
-    for(let c= 0; c < this.state.usersWater; c++){ //building how many of the cups should be full
+    for (let c = 0; c < this.state.usersWater; c++) { //building how many of the cups should be full
       fullCups.push(false)
     }
 
@@ -60,14 +74,14 @@ export default class WaterTrackingWidget extends Component {
 
     let newCups = this.state.cups
     let maxCups = this.state.maxWater
-    if(newCups[i] == true){
+    if (newCups[i] == true) {
       //change all to the left = false
-      for(let c = i; c > -1; c--){
+      for (let c = i; c > -1; c--) {
         newCups[c] = false
       }
-    }else{
+    } else {
       //change all to the right = true
-      for(let c = i; c < maxCups; c++){
+      for (let c = i; c < maxCups; c++) {
         newCups[c] = true
       }
     }
@@ -76,22 +90,22 @@ export default class WaterTrackingWidget extends Component {
 
     let n = 0
     newCups.forEach((item) => { //getting the number of full cups
-      if(item == false){
+      if (item == false) {
         n++
       }
     })
 
     //pushing the number of full cups to the db
     await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
-    .set({waterEntry: {portions: n}}, {merge: true})
+      .set({ waterEntry: { portions: n } }, { merge: true })
 
     //updating the state so the number values reflect the change
     this.setState({ usersWater: n })
   }
-    
+
   render() {
-    return(
-      <View style={styles.container}>
+    return (
+      <View style={this.state.displayStyle}>
 
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>Water</Text>
@@ -100,13 +114,13 @@ export default class WaterTrackingWidget extends Component {
 
         <View style={styles.cupRow}>
           {this.state.cups.map((item, index) => (
-                
+
             <TouchableOpacity onPress={() => this.changeCup(index)} activeOpacity={0.5} key={index}>
-              <Image 
-              source={this.state.cups[index] === true ? 
-              require('../Images/empty_Cup.png') :
-              require('../Images/full_Cup.png')}
-              style={styles.image} />
+              <Image
+                source={this.state.cups[index] === true ?
+                  require('../Images/empty_Cup.png') :
+                  require('../Images/full_Cup.png')}
+                style={styles.image} />
             </TouchableOpacity>
 
           ))}
@@ -114,13 +128,13 @@ export default class WaterTrackingWidget extends Component {
 
       </View>
     )
-  }  
+  }
 }
 
 const styles = StyleSheet.create({
 
   //Styled by Jeff March 6th
-  container:{
+  container: {
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#1C1C1E',
@@ -128,31 +142,34 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     marginBottom: 8,
     marginTop: 8
-},
+  },
 
-  titleContainer:{
+  titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 8
-},
-  titleText:{
-    color:'#FAFAFA',
+  },
+  titleText: {
+    color: '#FAFAFA',
     fontSize: 20,
-},
-bodyText:{
-    color:'#DDDEDE',
+  },
+  bodyText: {
+    color: '#DDDEDE',
     fontSize: 12,
-},
+  },
+  cupRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  image: {
+    height: 45,
+    width: 40,
+    resizeMode: 'cover',
+    alignItems: 'stretch'
+  },
 
-cupRow:{
-  flexDirection: 'row',
-  justifyContent: 'space-between'
-},
-image: {
-      height: 45,
-      width: 40,
-      resizeMode: 'cover',     
-      alignItems: 'stretch'    
+  invisible: {
+    display: 'none'
   }
 });

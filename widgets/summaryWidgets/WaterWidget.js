@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, YellowBox,Dimensions } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, YellowBox, Dimensions } from 'react-native'//imports all required components and libraries
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
@@ -7,19 +7,19 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 export default class WaterWidget extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             uid: "",
             usersPlan: "",
-            planData: {},
+            planData: {},//initialized state variables
             usersWater: this.props.waterEntry.portions,
             maxWater: 0,
-            percentage:0
+            percentage: 0
         }
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
         await this.setUid()
         await this.setUsersPlan()
         await this.setPlanData()
@@ -28,33 +28,33 @@ export default class WaterWidget extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.waterEntry !== this.props.waterEntry){
+        if (prevProps.waterEntry !== this.props.waterEntry) {
             this.buildUpdateWaterProg()
         }
     }
 
-    setUid = async () => {
+    setUid = async () => { //sets the user id from the database
         let uid = await firebase.auth().currentUser.uid
         await this.setState({ uid })
     }
-  
-    setUsersPlan = async () => {
+
+    setUsersPlan = async () => { //sets the current users plan from the database
         let usersPlan = await firebase.firestore().collection("userData").doc(this.state.uid).get().then((doc) => { return doc.data().plan })
         this.setState({ usersPlan })
     }
 
-    setPlanData = async () => {
+    setPlanData = async () => { //sets the plan data from the database
         await firebase.firestore().collection("plans").doc(this.state.usersPlan).get().then((doc) => {
             this.setState({ planData: doc.data() })
         })
     }
 
-    setMaxWater = () => {
+    setMaxWater = () => { //sets the max water based on the plan data
         let maxWater = this.state.planData.water.maxPortions
         this.setState({ maxWater })
     }
 
-    setPercentage=()=>{
+    setPercentage = () => { //sets the percentage of water
         let percentage = (this.state.usersWater / this.state.maxWater) * 100
 
         this.setState({
@@ -62,14 +62,14 @@ export default class WaterWidget extends Component {
         })
     }
 
-    buildUpdateWaterProg = async () => {
+    buildUpdateWaterProg = async () => { //
         let newUsersWater = 0
 
         this.props.waterEntry.forEach((item) => {
             newUsersWater += item.portions
         })
 
-        await this.setState({ 
+        await this.setState({
             usersWater: newUsersWater,
             maxWater: this.state.planData.water.maxPortions * this.props.waterEntry.length
         })
@@ -78,29 +78,29 @@ export default class WaterWidget extends Component {
     }
 
     render(){
-        const barWidth = Dimensions.get('screen').width - 130;
+        const barWidth = Dimensions.get('screen').width - 140;
 
         const progressCustomStyles = {
-            backgroundColor: '#347EFB', 
+            backgroundColor: '#347EFB',
             borderWidth: 0,
             borderRadius: 50
-          };
-        
-        return(
+        };
+
+        return (
             <View style={styles.container}>
-                 <View>
-                    <Text  style={styles.title}>Water</Text>
+                <View>
+                    <Text style={styles.title}>Water</Text>
                 </View>
 
                 <View style={styles.barContainer}>
-                    
+
                     <View style={styles.barBackgroundColour}>
-                    <ProgressBarAnimated
-                    {...progressCustomStyles}
-                    width={barWidth}
-                    value={this.state.percentage}
-                    backgroundColorOnComplete="#1C1C1E"
-                    height={16}/>
+                        <ProgressBarAnimated
+                            {...progressCustomStyles}
+                            width={barWidth}
+                            value={this.state.percentage}
+                            backgroundColorOnComplete="#1C1C1E"
+                            height={16} />
                     </View>
                     <Text style={styles.waterText}>{this.state.usersWater} of {this.state.maxWater} cups</Text>
                 </View>
@@ -111,34 +111,34 @@ export default class WaterWidget extends Component {
 
 const styles = StyleSheet.create({
     // STYLING JEFF March 6
-    container:{
+    container: {
         flexDirection: 'column',
         backgroundColor: '#1C1C1E',
         padding: 16,
         alignSelf: 'stretch',
         marginBottom: 8,
-        marginTop: 16
+        marginTop: 8
     },
-    title:{
-        color:'#FAFAFA',
+    title: {
+        color: '#FAFAFA',
         fontWeight: '600',
         fontSize: 20,
         marginBottom: 16
     },
-    barContainer:{
+    barContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
     },
-    barBackgroundColour:{
+    barBackgroundColour: {
         backgroundColor: '#DDDEDE',
         borderRadius: 20,
         borderWidth: 0,
     },
-    waterText:{
-        color:'#DDDEDE',
+    waterText: {
+        color: '#DDDEDE',
         flex: 1,
         textAlign: 'right',
-       
+
     }
 })

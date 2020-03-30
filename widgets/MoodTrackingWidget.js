@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput, Dimensions } from 'react-native';//imports all required components and libraries
 import * as firebase from 'firebase/app'
 import '@firebase/firestore'
 import 'firebase/auth'
@@ -17,20 +17,34 @@ export default class MoodTrackingWidget extends Component {
         super(props)
         this.state = {
             showMe: false,
-            selectedMood: "",
-            moodValue: 0
+            selectedMood: "",//initialized state variables
+            moodValue: 0,
+
+            displayStyle: styles.invisible
         }
+
         this.addModal = this.addModal.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        this.props.mounted()
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.visible !== this.props.visible) {
+            this.updateVisibility()
+        }
+    }
+
+    updateVisibility = () => {
+        this.setState({ displayStyle: styles.container })
     }
 
     addModal = () => {
         this.refs.addModal.showModal();
     }
 
-    updateDb = async () => {
+    updateDb = async () => { //pushes mood info to the database
         await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
             .set({
                 moodEntry: {
@@ -44,7 +58,7 @@ export default class MoodTrackingWidget extends Component {
     render() {
         return (
 
-            <View style={styles.container}>
+            <View style={this.state.displayStyle}>
 
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.widgetTitle}>Mood</Text>
@@ -298,4 +312,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         bottom: 0
     },
+
+    invisible: {
+        display: 'none'
+    }
 });
