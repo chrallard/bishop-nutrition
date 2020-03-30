@@ -10,17 +10,7 @@ import { DataContext } from '../contexts/DataContext'
 
 const SleepTrackingWidget = () => {
 
-    const context = useContext(DataContext) 
-
-    const formatDate = (d) => {
-        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        const date = d.getDate()
-        const month = months[d.getMonth()]
-        const year = d.getFullYear()
-        const formattedDate = date + month + year //looks like this: 4March2020
-
-        return formattedDate
-    }
+    const context = useContext(DataContext) // hook style of contextType
 
     const [date, setDate] = useState(new Date(1598050800000));
     const [date2, setDate2] = useState(new Date(1598079600000));

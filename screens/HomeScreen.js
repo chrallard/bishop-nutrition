@@ -45,9 +45,9 @@ export default class HomeScreen extends Component {
           {/* <FoodTrackingWidget /> */}
           {/* <WaterTrackingWidget /> */}
           {/* <WeightWidget/> */}
-          <SleepTrackingWidget />
+          {/* <SleepTrackingWidget /> */}
           {/* <ActivityTrackingWidget /> */}
-          {/* <MoodTrackingWidget /> */}
+          <MoodTrackingWidget />
         </View>
       </ScrollView>
     )
