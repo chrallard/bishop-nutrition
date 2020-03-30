@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList, ScrollView, Image, Button, Modal, TouchableOpacity, TextInput } from 'react-native'
+import { MaterialIndicator } from 'react-native-indicators'
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts'
 import * as firebase from "firebase/app"
@@ -26,17 +27,15 @@ export default class ProgressScreen extends Component {
             xData: [],
             yData: [],
 
-            
-            
-
             showWeightAdd: false,
             showMeasurementAdd: false,
             chest: 0,
             hips: 0,
             waist: 0,
-            weight: 0
+            weight: 0,
 
-
+            loadingStyle: styles.loading,
+            displayStyle: styles.invisible
         }
         this.addModal = this.addModal.bind(this);
     }
@@ -50,8 +49,10 @@ export default class ProgressScreen extends Component {
         await this.xData()
         await this.yData()
 
-         console.log(this.state.xData)
-        // console.log(this.state.yData)
+        this.setState({ 
+            loadingStyle: styles.invisible,
+            displayStyle: styles.container
+         })
     }
 
     handleIndexChange = async (index) => {
@@ -279,9 +280,14 @@ export default class ProgressScreen extends Component {
 
             return (
                 //this is where you build the weight screen
-                
+                <>
+
+                    <View style={this.state.loadingStyle}>
+                        <MaterialIndicator color='#347EFB' size={50} />
+                    </View>
+
                 <ScrollView>
-                    <View style={styles.container}  >
+                    <View style={this.state.displayStyle}  >
 
                         <View style={{ height: 200, padding: 10, flexDirection: 'row', backgroundColor: '#347EFB' }}>
 
@@ -334,12 +340,6 @@ export default class ProgressScreen extends Component {
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
 
-
-                        <Button title="Add" onPress={() => {
-                            this.setState({ showWeightAdd: true })
-                        }} />
-
-
                         {this._renderWeightContent()}
 
                         <Modal visible={this.state.showWeightAdd} animationType={'slide'} transparent={true}>
@@ -387,12 +387,19 @@ export default class ProgressScreen extends Component {
 
                 </ScrollView>
                
+                <TouchableOpacity title="Add" onPress={() => {
+                        this.setState({ showWeightAdd: true })
+                    }} style={styles.addBtn}>
+                    <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize} />
+                </TouchableOpacity>
              
+             </>
             )
 
         }
         else if (this.state.selectedIndex == 1) {
             return (
+                <>
                 <ScrollView>
                     <View style={styles.container}  >
 
@@ -410,10 +417,6 @@ export default class ProgressScreen extends Component {
                             activeTabStyle={segmented.activeTabStyle}
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
-
-                        <Button title="Add" onPress={() => {
-                            this.setState({ showMeasurementAdd: true })
-                        }} />
 
                         {this._renderMeasuermentsContent()}
 
@@ -482,6 +485,14 @@ export default class ProgressScreen extends Component {
 
                     </View>
                 </ScrollView>
+
+                <TouchableOpacity title="Add" onPress={() => {
+                        this.setState({ showMeasurementAdd: true })
+                    }} style={styles.addBtn}>
+                    <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize} />
+                </TouchableOpacity>
+
+                </>
 
             )
         }
@@ -594,6 +605,24 @@ const styles = StyleSheet.create({
         marginTop: '20%',
         marginRight: 32
     },
+    addBtn: {
+        alignSelf: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        top: '93%'
+    },
+    addBtnSize: {
+        height: 40,
+        resizeMode: 'contain'
+    },
+
+    loading: {
+        height: '100%',
+        justifyContent: 'center'
+    },
+    invisible:{
+        display: 'none'
+    }
 })
 
 const weight = StyleSheet.create({
