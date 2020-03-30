@@ -46,7 +46,7 @@ export default class NutritionWidget extends Component {
         })
     }
 
-    buildFoodDataList = () => {
+    buildFoodDataList = () => { // builds the list that gets mapped in render
         let foodDataList = []
 
         Object.values(this.props.foodEntry).forEach((item, index) => {
@@ -98,7 +98,7 @@ export default class NutritionWidget extends Component {
         this.setState({ foodDataList })
     }
 
-    buildUpdatedFoodDataList = () => {
+    buildUpdatedFoodDataList = () => { //  same as above, but handles the incoming data differently, because it could be an array of 1, 7, or 30
         let newFoodDataList = []
 
         this.state.foodDataList.forEach((obj, index) => {
