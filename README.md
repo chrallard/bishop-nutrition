@@ -32,3 +32,17 @@
 ### Built With
 * [React Native](https://reactnative.dev/)
 * [Firebase](https://firebase.google.com/)
+
+<!-- Features list -->
+## Features
+- [x] Food Tracking
+- [x] Quick Select Tracking
+- [x] Water Tracking
+- [x] Sleep Tracking
+- [x] Mood Tracking
+- [x] Activity Tracking
+- [x] Daily Log (shows completed or if user went over recommended amount of food)
+- [x] Summary Screen showing daily, weekly, monthly progress (visual)
+- [x] Line Graph showing weight progress
+- [x] Update Password
+- [x] Reset Password
