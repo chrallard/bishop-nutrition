@@ -24,7 +24,6 @@ const SleepTrackingWidget = (props) => {
 
     useEffect(() => {
     if (renders == 0) {
-        console.log("useeffect")
         props.mounted()
         setDisplayStyle(styles.container)
         setRenders(1)

@@ -34,14 +34,12 @@ export default class HomeScreen extends Component {
   }
 
   handleMount = () => {
-    console.log(this.state.mountedComponents)
-
     let num = this.state.mountedComponents
     num += 1
     this.setState({ mountedComponents: num })
 
 
-    if(num == 6) { // this number is based on how many widgets are mounting - ActivityTrackingWidget and SleepTrackingWidget mess up the # of monutedComponents
+    if(num == 6) { // this number is based on how many widgets are mounting - bug: ActivityTrackingWidget and SleepTrackingWidget mess up the # of monutedComponents
       this.setState({ 
         loadingVisible: false,
         displayStyle: styles.invisible
