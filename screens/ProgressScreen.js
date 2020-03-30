@@ -192,10 +192,6 @@ export default class ProgressScreen extends Component {
     }
 
     time = async () => {
-
-    
-
-
             let timeStamp = []
 
             this.context.bodyTrackingData.forEach((doc) => {
@@ -212,9 +208,39 @@ export default class ProgressScreen extends Component {
                 timeStamp.unshift(obj)
                 this.setState({ timeStamp })
             })
-
     }
 
+    updateDb = async () => {
+        
+        if(this.state.weight !== 0){
+            await firebase.firestore().collection("userData").doc(this.context.uid).collection("bodyTracking").doc(this.context.todaysBodyTrackingDocId)
+            .set({
+                weightEntry: Number(this.state.weight)
+            }, { merge: true })
+        }
+
+        if(this.state.chest !== 0){
+            await firebase.firestore().collection("userData").doc(this.context.uid).collection("bodyTracking").doc(this.context.todaysBodyTrackingDocId)
+            .set({
+                chestEntry: Number(this.state.chest)
+            }, { merge: true })
+        }
+
+        if(this.state.waist !== 0){
+            await firebase.firestore().collection("userData").doc(this.context.uid).collection("bodyTracking").doc(this.context.todaysBodyTrackingDocId)
+            .set({
+                waistEntry: Number(this.state.waist)
+            }, { merge: true })
+        }
+
+        if(this.state.hips !== 0){
+            await firebase.firestore().collection("userData").doc(this.context.uid).collection("bodyTracking").doc(this.context.todaysBodyTrackingDocId)
+            .set({
+                hipsEntry: Number(this.state.hips)
+            }, { merge: true })
+        }
+
+    }
 
     _renderWeightContent = () => {
         this.state.weightEntry.sort(function (a, b) { return b.timeStamp - a.timeStamp })
@@ -356,11 +382,7 @@ export default class ProgressScreen extends Component {
                                       <TouchableOpacity
                                           onPress={() => {
                                               this.setState({ showWeightAdd: false })
-                                              console.log(this.state.weight)
-                                              let timeStamp = Date.now()
-                                              console.log(timeStamp)
-                                              // this.updateDb()
-                                              //this onpress will be what pushs to the db
+                                              this.updateDb()
                                           }}>
                                           <Text style={styles.modalNav}>Save</Text>
                                       </TouchableOpacity>
@@ -435,13 +457,7 @@ export default class ProgressScreen extends Component {
                                       <TouchableOpacity
                                           onPress={() => {
                                               this.setState({ showMeasurementAdd: false })
-                                              console.log(`Chest: ${this.state.chest}, Waist: ${this.state.waist}, Hips: ${this.state.hips}`)
-                                              let timeStamp = Date.now()
-                                              console.log(timeStamp)
-
-
-                                              // this.updateDb()
-                                              //this onpress will be what pushs to the db
+                                              this.updateDb()
                                           }}>
                                           <Text style={styles.modalNav}>Save</Text>
                                       </TouchableOpacity>
