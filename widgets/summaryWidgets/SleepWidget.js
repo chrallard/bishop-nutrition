@@ -1,59 +1,58 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, YellowBox } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, YellowBox } from 'react-native'//imports all required components and libraries
 
 export default class SleepWidget extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state = {
-            avgSleep: 0,
-            avgStart: 0,
-            avgEnd: 0
+        this.state = {//initialized state variables
+            avgSleep: 0
         }
     }
 
-    componentDidMount(){
-       this.buildSleep()
+    componentDidMount() {
+        this.buildSleep()
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.sleepEntry !== this.props.sleepEntry){
+        if (prevProps.sleepEntry !== this.props.sleepEntry) {
             this.buildUpdatedSleep()
         }
     }
 
-    buildSleep = () => {
+    buildSleep = () => { //compares start and end sleep time
         let start = this.props.sleepEntry.start
         let end = this.props.sleepEntry.end
 
         this.setState({
             avgSleep: this.props.sleepEntry.duration,
-            avgStart: this.msToTime(start + 1000 * 60 * 60 * 4),
-            avgEnd: this.msToTime(end + 1000 * 60 * 60 * 4)
         })
     }
 
     buildUpdatedSleep = () => {
         let newAvgSleep
-        let newAvgStart
-        let newAvgEnd
         let totalSleepDuration = 0
         let totalStartTime = 0
+        let nullEntries = 0
 
         this.props.sleepEntry.forEach((item) => {
-            let duration = item.durationMs
-            totalSleepDuration += duration
+            if (item.durationMs != null) {
+                let durationMs = item.durationMs //checks the total amount of reported sleep, ignores days where no sleep was reported
+                totalSleepDuration += durationMs
+            } else {
+                nullEntries += 1
+            }
         })
-        newAvgSleep = totalSleepDuration / this.props.sleepEntry.length
 
-        this.setState({ 
-            avgSleep: this.msToDuration(newAvgSleep),
-            avgStart: 0,
-            avgEnd: 0
+        let numberOfSleepEntries = this.props.sleepEntry.length - nullEntries
+        newAvgSleep = totalSleepDuration / ((numberOfSleepEntries) == 0 ? 1 : numberOfSleepEntries) //if the user hasn't entered sleep yet, numberOfSleepEntries will be 0. you can't divide by 0, so it returns 1 instead
+
+        this.setState({
+            avgSleep: this.msToDuration(newAvgSleep)
         })
     }
 
-    msToTime = (ms) => {
+    msToTime = (ms) => { //converts milliseconds to readable time
         let date = new Date(ms)
 
         let hours = date.getHours();
@@ -61,38 +60,25 @@ export default class SleepWidget extends Component {
         let ampm = hours >= 12 ? 'pm' : 'am';
         hours = hours % 12;
         hours = hours ? hours : 12; // the hour '0' should be '12'
-        minutes = minutes < 10 ? '0'+minutes : minutes;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
         let strTime = hours + ':' + minutes + ' ' + ampm;
         return strTime;
     }
 
     msToDuration = (ms) => {
-        let minutes = parseInt((ms/(1000*60))%60)
-        let hours = parseInt((ms/(1000*60*60))%24);
-    
+        let minutes = parseInt((ms / (1000 * 60)) % 60)
+        let hours = parseInt((ms / (1000 * 60 * 60)) % 24);
+
         return hours + " hr " + minutes + " min";
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <View style={styles.container}>
                 <Text style={styles.title}>Sleep</Text>
 
                 <Text style={styles.amountText}>{this.state.avgSleep}</Text>
                 <Text style={styles.titleText}>Average time asleep</Text>
-
-                <View style={styles.averageTextLayout}>
-
-                    <View style={{flexDirection: 'row'}}>
-                        <Text style={styles.averageTitleText}>Average start: </Text>
-                        <Text style={styles.averageAmountText}>{this.state.avgStart}</Text>
-                    </View>
-
-                    <View style={{flexDirection: 'row'}}>
-                        <Text style={styles.averageTitleText}>Average end: </Text>
-                        <Text style={styles.averageAmountText}>{this.state.avgEnd}</Text>
-                    </View>
-                </View>
             </View>
         )
     }
@@ -100,7 +86,7 @@ export default class SleepWidget extends Component {
 
 const styles = StyleSheet.create({
     // STYLING JEFF March 6
-    container:{
+    container: {
         flexDirection: 'column',
         backgroundColor: '#1C1C1E',
         padding: 16,
@@ -108,36 +94,36 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         marginTop: 16
     },
-    title:{
-        color:'#FAFAFA',
+    title: {
+        color: '#FAFAFA',
         fontSize: 20,
         fontWeight: '600'
     },
-    titleText:{
+    titleText: {
         flexDirection: 'column',
-        color:'#DDDEDE',
+        color: '#DDDEDE',
         fontSize: 16,
         justifyContent: 'center',
-        alignSelf:'center',
+        alignSelf: 'center',
         marginBottom: 8
     },
-    amountText:{
-        color:'#347EFB',
+    amountText: {
+        color: '#347EFB',
         fontSize: 36,
         justifyContent: 'center',
-        alignSelf:'center',
+        alignSelf: 'center',
         marginTop: 8
     },
-    averageTextLayout:{
+    averageTextLayout: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 16
     },
-    averageTitleText:{
+    averageTitleText: {
         fontSize: 13,
         color: '#DDDEDE'
     },
-    averageAmountText:{
+    averageAmountText: {
         fontSize: 13,
         color: '#347EFB'
     }

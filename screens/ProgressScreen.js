@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList, ScrollView, Image, Button, Modal, TouchableOpacity, TextInput } from 'react-native'
 import SegmentedControlTab from "react-native-segmented-control-tab";
+import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts'
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
 
+import { DataContext } from '../contexts/DataContext'
 
 
 export default class ProgressScreen extends Component {
+
+    static contextType = DataContext
 
     constructor(props) {
         super(props)
@@ -19,12 +23,19 @@ export default class ProgressScreen extends Component {
             selectedIndex: 0,
             time: [],
             measurements: [],
+            xData: [],
+            yData: [],
+
+            
+            
+
             showWeightAdd: false,
             showMeasurementAdd: false,
             chest: 0,
             hips: 0,
             waist: 0,
             weight: 0
+
 
         }
         this.addModal = this.addModal.bind(this);
@@ -36,7 +47,11 @@ export default class ProgressScreen extends Component {
         await this.startingWeight()
         await this.getTime()
         await this.getValues()
+        await this.xData()
+        await this.yData()
 
+         console.log(this.state.xData)
+        // console.log(this.state.yData)
     }
 
     handleIndexChange = async (index) => {
@@ -44,16 +59,46 @@ export default class ProgressScreen extends Component {
 
     }
 
+    xData = async() => {
+
+        let bodyTrackingData = this.context.bodyTrackingData
+        
+            let xData = []
+            bodyTrackingData.forEach((doc) => {
+
+                let dt = new Date(doc.timeStamp)
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+                const date = dt.getDate()
+                const Month = months[dt.getMonth()]
+                let xValue = `${Month} ${date}`
+
+                xData.unshift(xValue)
+            })
+            this.setState({xData}) 
+        
+    }
+
+    yData = async() => {
+
+            let yData = []
+            this.context.bodyTrackingData.forEach((doc) => {
+                let yValue = doc.weightEntry
+
+                yData.push(yValue)
+            })
+            this.setState({yData}) 
+    }
+
+
     addModal = () => {
         this.refs.addModal.showModal();
     }
+
     getTime = async () => {
 
-        let uid = await firebase.auth().currentUser.uid
-        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "desc").limit(5).get().then((querySnapshot) => {
             let time = []
-            querySnapshot.forEach((doc) => {
-                let D = new Date(doc.data().timeStamp)
+            this.context.bodyTrackingData.forEach((doc) => {
+                let D = new Date(doc.timeStamp)
                 const Months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
                 const datee = D.getDate()
                 const month = Months[D.getMonth()]
@@ -66,11 +111,6 @@ export default class ProgressScreen extends Component {
 
                 this.setState({ time })
             })
-
-        })
-
-
-
 
     }
 
@@ -97,8 +137,6 @@ export default class ProgressScreen extends Component {
                 }
                 measurements.push(obj)
 
-
-
                 this.setState({ measurements })
             })
         })
@@ -109,57 +147,59 @@ export default class ProgressScreen extends Component {
 
     list = async () => {
 
-        let uid = await firebase.auth().currentUser.uid
-
-
-        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("weightEntry", "desc").limit(17).get().then((doc) => {
-
             let weightEntry = []
-            doc.forEach((doc) => {
-                let d = new Date(doc.data().timeStamp)
+
+            let nullChecker = []
+            let lastWeightEntry = ""
+
+            this.context.bodyTrackingData.forEach((doc) => {
+                nullChecker.unshift(doc)
+            })
+
+            nullChecker.forEach((doc) => {
+                if(doc.weightEntry !== null){
+                    lastWeightEntry = doc.weightEntry
+                }
+            })
+
+            this.context.bodyTrackingData.forEach((doc) => {
+
+                let d = new Date(doc.timeStamp)
                 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
                 const date = d.getDate()
                 const Month = months[d.getMonth()]
                 const Year = d.getFullYear()
                 let obj = {
                     date: `${Month} ${date}, ${Year}`,
-                    timeStamp: doc.data().timeStamp,
-                    weightEntry: doc.data().weightEntry
+                    timeStamp: doc.timeStamp,
+                    weightEntry: doc.weightEntry
                 }
+
+                if(doc.weightEntry == null){
+                    obj.weightEntry = lastWeightEntry
+                }
+
                 weightEntry.push(obj)
 
                 this.setState({ weightEntry })
             })
 
-
-        })
-
-
     }
 
     startingWeight = async () => {
-
-        let uid = await firebase.auth().currentUser.uid
-
-        let sw = await firebase.firestore().collection("userData").doc(uid).get().then((doc) => {
-            return doc.data().startingWeight
-        })
-        this.setState({ startingWeight: sw })
-
+        this.setState({ startingWeight: this.context.userInfo.startingWeight })
     }
 
     time = async () => {
 
-        let uid = await firebase.auth().currentUser.uid
-
-        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "asc").limit(17).get().then((querySnapshot) => {
+    
 
 
             let timeStamp = []
 
-            querySnapshot.forEach((doc) => {
+            this.context.bodyTrackingData.forEach((doc) => {
 
-                let d = new Date(doc.data().timeStamp)
+                let d = new Date(doc.timeStamp)
                 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
                 const date = d.getDate()
                 const Month = months[d.getMonth()]
@@ -168,12 +208,13 @@ export default class ProgressScreen extends Component {
                     timeStamp: `${Month} ${date}, ${Year}`
                 }
 
-                timeStamp.push(obj)
+                timeStamp.unshift(obj)
                 this.setState({ timeStamp })
             })
-        })
 
     }
+
+
     _renderWeightContent = () => {
         this.state.weightEntry.sort(function (a, b) { return b.timeStamp - a.timeStamp })
         return (
@@ -222,20 +263,63 @@ export default class ProgressScreen extends Component {
         )
 
     }
+
     render() {
+        
         //this is how to use the segmented tabs, anything you want to display on the weight screen goes in the if (this.state.selectedIndex == 0) { return,
         //anything you want on the progress bar goes in the  else if (this.state.selectedIndex == 1) {
-
+           
         if (this.state.selectedIndex == 0) {
+
+        
+            const axesSvg = { fontSize: 10, fill: '#F3F3F3' };
+            const verticalContentInset = { top: 10, bottom: 10 }
+            const xAxisHeight = 30
+        
+
             return (
                 //this is where you build the weight screen
-                <>
-                
                 
                 <ScrollView>
                     <View style={styles.container}  >
 
-                        <SegmentedControlTab
+                        <View style={{ height: 200, padding: 10, flexDirection: 'row', backgroundColor: '#347EFB' }}>
+
+                            <YAxis
+                                data={this.state.yData}
+                                style={{ marginBottom: xAxisHeight }}
+                                contentInset={verticalContentInset}
+                                svg={axesSvg}
+                            />
+
+                            <View style={{ flex: 1, marginLeft: 10, }}>
+                                <LineChart
+                                    style={{ flex: 1 }}
+                                    data={this.state.yData}
+                                    contentInset={verticalContentInset}
+                                    svg={{ 
+                                        stroke: '#F3F3F3',
+                                        strokeWidth: 3,
+        
+                                    }}
+                                >
+
+                                    <Grid style={{ color: 'white', borderBottomWidth: 50, borderColor: 'red' }} />
+
+                                </LineChart>
+
+                                <XAxis
+                                    data={this.state.yData} 
+                                    style={{ marginHorizontal: 10, height: xAxisHeight, width: '100%'  }}
+                                    formatLabel={(value, index) => this.state.xData[index]}
+                                    contentInset={{ left: 20, right: 20 }}
+                                    svg={{rotation: 30, fontSize: 8, fill: '#F3F3F3', y: 10 }}
+                                />
+                            </View>
+
+                        </View>
+
+                            <SegmentedControlTab
                             values={["Weight", "Measurement"]}
                             selectedIndex={this.state.selectedIndex}
                             onTabPress={this.handleIndexChange}
@@ -249,13 +333,20 @@ export default class ProgressScreen extends Component {
                             activeTabStyle={segmented.activeTabStyle}
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
+
+
+                        <Button title="Add" onPress={() => {
+                            this.setState({ showWeightAdd: true })
+                        }} />
+
+
                         {this._renderWeightContent()}
 
                         <Modal visible={this.state.showWeightAdd} animationType={'slide'} transparent={true}>
 
                             <View style={styles.modalStyle}>
                                 <View style={styles.modalHeader}>
-                                    <TouchableOpacity onPress={() => { this.setState({ showWeightAdd: false }) }}>
+                                    <TouchableOpacity onPress={() => { this.setState({ showMeasurementAdd: false }) }}>
                                         <Text style={styles.modalNav}>Back</Text>
                                     </TouchableOpacity>
 
@@ -281,7 +372,7 @@ export default class ProgressScreen extends Component {
                                         underlineColorAndroid="transparent"
                                         multiline={false}
                                         numberOfLines={1}
-                                        placeholder="Current Weight (lbs)"
+                                        placeholder="Current Weight"
                                         placeholderTextColor='#DDDEDE'
                                         fontWeight='600'
                                         autoCapitalize="none"
@@ -295,20 +386,13 @@ export default class ProgressScreen extends Component {
 
 
                 </ScrollView>
-                
-                <TouchableOpacity title="Add" onPress={() => {
-                    this.setState({ showWeightAdd: true })
-                }} style={styles.addBtn}>
-                    <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize}/>
-                </TouchableOpacity>
-                </>
+               
+             
             )
 
         }
         else if (this.state.selectedIndex == 1) {
             return (
-
-                <>
                 <ScrollView>
                     <View style={styles.container}  >
 
@@ -326,8 +410,13 @@ export default class ProgressScreen extends Component {
                             activeTabStyle={segmented.activeTabStyle}
                             activeTabTextStyle={segmented.activeTabTextStyle}
                         />
-                        
+
+                        <Button title="Add" onPress={() => {
+                            this.setState({ showMeasurementAdd: true })
+                        }} />
+
                         {this._renderMeasuermentsContent()}
+
                         <Modal visible={this.state.showMeasurementAdd} animationType={'slide'} transparent={true}>
 
                             <View style={styles.modalStyle}>
@@ -353,8 +442,8 @@ export default class ProgressScreen extends Component {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.measurementModalLayout}>
-                                    <Image source={require('../assets/body.png')} style={styles.bodyImage} />
-
+                                        <Image source={require('../assets/body.png')} style={styles.bodyImage} />
+                                    
                                     <View style={styles.measurementInputLayout}>
                                         <TextInput style={styles.measurementInput}
                                             underlineColorAndroid="transparent"
@@ -386,19 +475,14 @@ export default class ProgressScreen extends Component {
                                             autoCapitalize="none"
                                             onChangeText={(text) => this.setState({ hips: text })}
                                             value={this.state.Text} />
-                                    </View>
+                                        </View>
                                 </View>
                             </View>
                         </Modal>
+
                     </View>
                 </ScrollView>
 
-                <TouchableOpacity title="Add" onPress={() => {
-                    this.setState({ showMeasurementAdd: true })
-                }} style={styles.addBtn}>
-                    <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize}/>
-                </TouchableOpacity>
-                </>
             )
         }
         else {
@@ -413,13 +497,13 @@ export default class ProgressScreen extends Component {
 
 }
 
-/********* Weight and Measurement Modals DONE ********/
-
 const styles = StyleSheet.create({
+
     container: {
         backgroundColor: '#000000',
         paddingLeft: 16,
         paddingRight: 16,
+        display: 'flex'
     },
     modalNoteInput: {
         height: 200,
@@ -452,7 +536,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: '#347EFB',
     },
-    measurementModalLayout: {
+    measurementModalLayout:{
         flexDirection: 'row',
         justifyContent: 'center',
         alignContent: 'center'
@@ -465,7 +549,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: '#DDDEDE'
     },
-    weightInput: {
+    weightInput:{
         height: 30,
         width: 245,
         marginTop: 45,
@@ -477,7 +561,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center'
     },
-    measurementInput: {
+    measurementInput:{
         height: 26,
         width: 135,
         fontSize: 22,
@@ -486,9 +570,16 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: '#DDDEDE'
     },
-    measurementInputLayout: {
+    measurementInputLayout:{
         justifyContent: 'center',
         alignContent: 'center'
+    },
+    modalSeprateLine: {
+        width: '100%',
+        height: '2%',
+        position: 'absolute',
+        backgroundColor: 'black',
+        bottom: 0
     },
     scaleImage: {
         height: 176,
@@ -497,23 +588,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center'
     },
-    bodyImage: {
-        height: 380,
+    bodyImage:{
+        height: 480,
         width: 146,
         marginTop: '20%',
-        marginRight: 32,
-        resizeMode: 'contain'
+        marginRight: 32
     },
-    addBtn:{
-        alignSelf: 'center',
-        alignItems: 'center',                                
-        position: 'absolute',
-        top: '93%'
-    },
-    addBtnSize:{
-        height: 40,
-        resizeMode: 'contain'
-    }
 })
 
 const weight = StyleSheet.create({
@@ -542,7 +622,7 @@ const weight = StyleSheet.create({
     },
     progressDifference: {
         color: '#347EFB'
-    },
+    }
 
 })
 

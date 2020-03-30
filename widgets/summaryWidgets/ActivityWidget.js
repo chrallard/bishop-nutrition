@@ -1,34 +1,34 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, YellowBox } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, YellowBox } from 'react-native'//imports all required components and libraries
 
 export default class ActivityWidget extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            cardio: 0,
+            cardio: 0,//initialized state variables
             strength: 0,
             yoga: 0,
             other: 0
         }
     }
 
-    componentDidMount(){
-        this.buildExercise()
+    componentDidMount() {
+        this.buildExercise() //pulls all excercise information from database
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.exerciseEntry !== this.props.exerciseEntry){
+        if (prevProps.exerciseEntry !== this.props.exerciseEntry) {
             this.buildUpdatedExercise()
         }
     }
 
     buildExercise = () => {
-        switch(this.props.exerciseEntry.type) {
+        switch (this.props.exerciseEntry.type) {
             case "Cardio":
-               this.setState({ cardio: this.props.exerciseEntry.durationMins })
-               break
-            
+                this.setState({ cardio: this.props.exerciseEntry.durationMins }) //checks the duration of each workout and sets them accordingly
+                break
+
             case "Strength Training":
                 this.setState({ strength: this.props.exerciseEntry.durationMins })
                 break
@@ -42,7 +42,7 @@ export default class ActivityWidget extends Component {
                 break
 
             default:
-       }
+        }
     }
 
     buildUpdatedExercise = () => {
@@ -52,26 +52,26 @@ export default class ActivityWidget extends Component {
         let totalOther = 0
 
         this.props.exerciseEntry.forEach((item) => {
-            if(item.durationMins != null){
-                switch(item.type) {
+            if (item.durationMins != null) {
+                switch (item.type) {
                     case "Cardio":
-                       totalCardio += item.durationMins
-                       break
-                    
+                        totalCardio += item.durationMins
+                        break
+
                     case "Strength Training":
                         totalStrength += item.durationMins
                         break
-        
+
                     case "Yoga":
                         totalYoga += item.durationMins
                         break
-        
+
                     case "Other":
                         totalOther += item.durationMins
                         break
-        
+
                     default:
-               }
+                }
             }
         })
 
@@ -83,18 +83,18 @@ export default class ActivityWidget extends Component {
         })
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <View style={styles.container}>
                 <Text style={styles.title}>Activity</Text>
 
-                <View style={styles.infoContainer}>  
+                <View style={styles.infoContainer}>
                     <View style={styles.infoLoayout}>
                         <Text style={styles.amountText}>{this.state.cardio}</Text>
                         <Text style={styles.titleText}>min of cardio</Text>
 
                         <Text style={styles.amountText}>{this.state.strength}</Text>
-                        <Text style={styles.titleText}>min of strength</Text>  
+                        <Text style={styles.titleText}>min of strength</Text>
                     </View>
 
                     <View>
@@ -112,7 +112,7 @@ export default class ActivityWidget extends Component {
 
 const styles = StyleSheet.create({
     // STYLING JEFF March 6
-    container:{
+    container: {
         flexDirection: 'column',
         backgroundColor: '#1C1C1E',
         padding: 16,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         marginTop: 16
     },
-    infoContainer:{
+    infoContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -128,26 +128,26 @@ const styles = StyleSheet.create({
         marginRight: 40,
         marginLeft: 40
     },
-    infoLoayout:{
-        
+    infoLoayout: {
+
     },
-    title:{
-        color:'#FAFAFA',
+    title: {
+        color: '#FAFAFA',
         fontSize: 20,
         fontWeight: '600'
     },
-    titleText:{
+    titleText: {
         flexDirection: 'column',
-        color:'#FAFAFA',
+        color: '#FAFAFA',
         fontSize: 20,
         justifyContent: 'center',
-        alignSelf:'center',
+        alignSelf: 'center',
         marginBottom: 8
     },
-    amountText:{
-        color:'#347EFB',
+    amountText: {
+        color: '#347EFB',
         fontSize: 40,
         justifyContent: 'center',
-        alignSelf:'center'
+        alignSelf: 'center'
     }
 })
