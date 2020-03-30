@@ -54,3 +54,48 @@
  <img src="Images/high_level_arch.png" alt="High Level Architecture" height="500" width="auto">
 
 Describe in brief about your high-level architecture.
+
+<!-- Getting Started -->
+## Getting Started
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
+
+### Prerequisites
+
+This is an example of how to list things you need to use the software and how to install them.
+
+* Yarn
+```sh
+brew install yarn
+```
+* Expo
+```sh
+npm install -g expo-cli
+```
+
+### Installation
+
+1. Clone the repo
+```sh
+git clone https://github.com/alla0243/bishop-nutrition.git
+```
+2. Install Yarn packages
+```sh
+yarn install
+```
+3. Eject from the project directory
+```sh
+expo eject
+```
+4. When prompted in the terminal, select **Bare**, not ExpoKit.
+
+5. When prompted in the terminal, type **sudo gem install cocoapods** if you haven’t installed cocoapods
+
+6. Navigate to the **ios** folder within the project folder and install pods
+```sh
+pod install
+```
+7. Run app on ios
+```sh
+yarn ios
+```
