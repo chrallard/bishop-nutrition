@@ -44,8 +44,8 @@ export default class WeightWidget extends Component{
         this.setState({weightEntry: this.context.bodyTrackingData[0].weightEntry}) // [0] because it's the most recent entry
         this.setState({subtract: (this.state.weightEntry) - (this.state.startingWeight)})
     }
-   
 
+    
     render(){
         return(
            
