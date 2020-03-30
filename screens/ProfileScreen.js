@@ -16,7 +16,8 @@ export default class ProfileScreen extends Component {
       weight:"",
       dob:"",
       email:"",
-      showMe: false
+      showMe: false,
+      showUpdatePassword: false
       }
   }
 
@@ -104,7 +105,7 @@ addModal = () => {
 
           <View style={styles.modalHeader}>
             <TouchableOpacity onPress={() => { this.setState({ showUpdatePassword: false }) }}>
-                <Text style={styles.modalNav}>Cancel</Text>
+                <Text style={styles.modalNav}>Back</Text>
             </TouchableOpacity>
 
             <Text style={styles.modalTitle}>Update Password</Text>
@@ -114,7 +115,7 @@ addModal = () => {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.input}>
+          <View style={styles.updatePasswordInput}>
             <TextInput
             style={styles.textInput}
             placeholder="Current password"
@@ -125,7 +126,7 @@ addModal = () => {
             />
           </View>
 
-          <View style={styles.input}>
+          <View style={styles.updatePasswordInput}>
               <TextInput
               style={styles.textInput}
               placeholder="New password"
@@ -183,7 +184,7 @@ addModal = () => {
         
 
         <View style={styles.textContainer1}> 
-          <TouchableOpacity onPress={() => {this.props.navigation.navigate("Update Password")} }>
+          <TouchableOpacity onPress={() => this.setState({ showUpdatePassword: true }) }>
             <View style={styles.updatePassword}>
               <Image style={styles.lockIcon} source={require('../assets/changePassword.png')}/>
 
@@ -218,7 +219,7 @@ addModal = () => {
                 <Text style={styles.modalNav}>Back</Text>
               </TouchableOpacity>
 
-              <Text style={styles.modalTitle}>Mood</Text>
+              <Text style={styles.modalTitle}>Edit Profile</Text>
             
               <TouchableOpacity onPress={() => { this.setState({ showMe: false }), this.updateDb()}}>
                 <Text style={styles.modalNav}>Save</Text>
@@ -290,7 +291,6 @@ addModal = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     marginTop: 16
   },
@@ -422,8 +422,8 @@ const styles = StyleSheet.create({
       },
       modalTitle: {
           color: '#FAFAFA',
-          fontSize: 20,
-          fontWeight: '700',
+          fontSize: 17,
+          fontWeight: '600',
       },
       modalNav: {
           fontSize: 17,
@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
           bottom: 0
       },
       input: {
-    fontSize:20,
+        fontSize:20,
         width: '100%',
         color:'#347EFB',
         borderBottomColor: "#505050",
@@ -461,6 +461,17 @@ const styles = StyleSheet.create({
         margin: 5,
         marginLeft: 16,
      },
-  
-        
+     updatePasswordInput:{
+        height: 45,
+        backgroundColor: '#1C1C1E',
+        marginRight: 16,
+        marginLeft: 16,
+        justifyContent: 'center',
+        borderRadius: 5,
+        marginTop: 8
+     },
+     textInput:{
+       marginLeft: 8,
+       color: '#DDDEDE'
+     } 
 })
