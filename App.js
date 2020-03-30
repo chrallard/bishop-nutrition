@@ -7,7 +7,7 @@ if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }
 //////////////////////////////////// react
 import React, { useState } from 'react'
-import { SafeAreaView, StatusBar } from 'react-native';
+import { SafeAreaView, StatusBar, Button } from 'react-native';
 //////////////////////////////////// react navigation
 import { NavigationContainer, StackActions } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -48,6 +48,7 @@ const ProgressStack = createStackNavigator()
 const ProfileStack = createStackNavigator()
 const LoginStack = createStackNavigator()
 
+
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator>
@@ -71,6 +72,7 @@ function HomeStackScreen() {
     </HomeStack.Navigator>
   )
 }
+
 
 function FoodStackScreen() {
   return (
@@ -131,7 +133,13 @@ function LoginStackScreen() {
           borderBottomWidth: 0
         }
       }} />
-      <LoginStack.Screen name="Forgot Password" component={ForgotPasswordScreen} />
+      <LoginStack.Screen name="Forgot Password" component={ForgotPasswordScreen} options={{
+        headerStyle: {
+          backgroundColor: '#000',
+          shadowColor: 'transparent',
+          borderBottomWidth: 0
+        }
+      }}/>
     </LoginStack.Navigator>
   )
 }
@@ -161,7 +169,6 @@ export default function App() {
       <SafeAreaView style={{ backgroundColor: '#000' }} />
       {isLoggedIn ? (
         <Tab.Navigator
-
           tabBarOptions={{
             activeTintColor: '#347EFB',
             inactiveTintColor: '#DDDEDE',
@@ -186,8 +193,6 @@ export default function App() {
                 <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
               )
             }} />
-
-
 
           <Tab.Screen
             name="Progress"

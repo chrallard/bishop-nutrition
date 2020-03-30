@@ -24,16 +24,33 @@ export default class ProfileScreen extends Component {
     await this.userIfo()
     await this.setUid()
 }
+  
   signOut = async () => {
     await firebase.auth().signOut().then()
     .catch((err) => {
       console.log(err)
     });
   }
+  
   setUid = async () => {
     let uid = await firebase.auth().currentUser.uid
     this.setState({ uid })
   }
+  
+  updatePassword = () => {
+    let currentUser = firebase.auth().currentUser
+    let cred = firebase.auth.EmailAuthProvider.credential(currentUser.email, this.state.currentPasswordInput)
+    currentUser.reauthenticateWithCredential(cred).then(() => {
+        currentUser.updatePassword(this.state.newPasswordInput).then(() => {
+            alert("Password updated successfully.")
+            this.setState({ showUpdatePassword: false })
+        }).catch((err) => {
+            alert(err)
+        })
+    }).catch((err) => {
+        alert(err)
+    })  
+}
 
   updateDb = async () => {
     await firebase.firestore().collection("userData").doc(this.state.uid)
@@ -72,8 +89,59 @@ userIfo = async () =>{
     alert(err)
 })  
 }
+
+addModal = () => {
+    this.refs.addModal.showModal();
+  }
+
   render() {
     return (
+      
+      
+      
+      
+      <Modal visible={this.state.showUpdatePassword} animationType={'slide'} transparent={true}>
+
+                <View style={styles.modalStyle}>
+
+                      <View style={styles.modalHeader}>
+                          <TouchableOpacity onPress={() => { this.setState({ showUpdatePassword: false }) }}>
+                              <Text style={styles.modalNav}>Cancel</Text>
+                          </TouchableOpacity>
+
+                          <Text style={styles.modalTitle}>Update Password</Text>
+
+                          <TouchableOpacity onPress={this.updatePassword}>
+                              <Text style={styles.modalNav}>Save</Text>
+                          </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.input}>
+                    <TextInput
+                    style={styles.textInput}
+                    placeholder="Current password"
+                    placeholderTextColor="#6E6F6F"
+                    onChangeText={(text) => this.setState({currentPasswordInput: text})}
+                    value={this.state.currentPasswordInput}
+                    secureTextEntry={true}
+                    />
+                </View>
+                <View style={styles.input}>
+                    <TextInput
+                    style={styles.textInput}
+                    placeholder="New password"
+                    placeholderTextColor="#6E6F6F"
+                    onChangeText={(text) => this.setState({newPasswordInput: text})}
+                    value={this.state.newPasswordInput}
+                    secureTextEntry={true}
+                    />
+                </View>
+
+                </View>
+
+             </Modal>
+      
+      
 
       
           <View style={styles.container} >   
@@ -157,7 +225,8 @@ userIfo = async () =>{
             title="Log Out"
             color="#fff"
           />
-        </View> 
+        </View>
+
         <Modal visible={this.state.showMe} animationType={'slide'} transparent={'true'}>
 
        

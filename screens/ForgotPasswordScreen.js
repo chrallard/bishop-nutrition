@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Button, TextInput } from 'react-native'
+import { StyleSheet, View, Button, TextInput, Text, TouchableOpacity, Image } from 'react-native'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 
@@ -22,42 +22,99 @@ export default class ForgotPasswordScreen extends Component {
 
     render(){
         return(
-            <View style={styles.container} >
+          <View style={styles.forgotPasswordLayout}>
+            <Image source={require('../assets/forgotpasswordicon.png')} style={styles.forgotPasswordIcon}/>
+            <Text style={styles.resetPasswordTitle}>Forgot your Password?</Text>
+            <Text style={styles.resetPasswordText}>Please enter your email and we will send you password reset instructions!</Text>
+            <View style={styles.input} >
                 <TextInput
-                style={styles.input}
+                style={styles.textInput}
                 placeholder="Email"
+                placeholderTextColor="#6E6F6F"
                 onChangeText={(text) => this.setState({emailInput: text})}
                 value={this.state.usernameInput}
                 />
-                <View style={styles.btn}>
-                    <Button 
-                    title="Reset"
-                    onPress={() => this.resetPassword(this.state.emailInput)}
-                    disabled={this.state.emailInput ? false : true}
-                    />
                 </View>
-            </View>
+                <View style={styles.loginBtn}>
+                    <TouchableOpacity style={ styles.loginTouchable } title="Login" 
+                    onPress={() => this.resetPassword(this.state.emailInput)}
+                    disabled={this.state.emailInput ? false : true}>
+                      <Text style={styles.loginBtnText}>Reset</Text>
+                    </TouchableOpacity>
+                </View>
+                </View>
         )
     }
 }
 
+
+/******** Forgot Password Screen DONE **********/
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#000000',
       alignItems: 'center',
-      justifyContent: 'center',
       paddingBottom: 150
     },
+    resetPasswordTitle:{
+      color: '#DDDEDE',
+      fontSize: 30,
+      fontWeight: '600'
+    },
+    resetPasswordText:{
+      color: '#DDDEDE',
+      fontSize: 16,
+      width: '75%',
+      textAlign: 'center',
+      marginTop: 16,
+      marginBottom: 45
+    },
+    forgotPasswordIcon:{
+      height: 200,
+      resizeMode: 'contain',
+      marginBottom: 45
+    },
+    forgotPasswordLayout:{
+      flex: 1,
+      flexDirection: 'column', 
+      alignItems: 'center',
+      marginTop: '25%'
+    },
     input: {
-      height: 40,
-      width: 200,
-      paddingLeft: 5,
-      borderBottomColor: "#505050",
-      borderBottomWidth: 1,
-      margin: 5
+      height: 45,
+      width: '75%',
+      paddingLeft: 10,
+      borderRadius: 5,
+      margin: 5,
+      backgroundColor: '#1C1C1E',
+      marginBottom: 8,
+      flexDirection: 'row',
+      alignSelf: 'center',
+    },
+    textInput: {
+      flex: 1,
+      color: '#DDDEDE',
+      fontSize: 15
     },
     btn: {
       paddingTop: 50
-    }
+    },
+    loginBtn: {
+        marginTop: 8,
+        borderRadius: 5,
+        backgroundColor: '#347EFB',
+        height: 45,
+        width: '75%',
+        marginBottom: 20,
+        shadowColor: '#347EFB',
+      },
+      loginBtnText: {
+        color: '#FAFAFA'
+      },
+      loginTouchable: {
+        height: '100%', 
+        width: '100%', 
+        flex: 1, 
+        alignItems: 'center', 
+        justifyContent: 'center'
+      },
 })

@@ -29,6 +29,13 @@ export default class MoodWidget extends Component {
     buildMood = () => {
 
         switch(this.props.moodEntry.mood) {
+            case null:
+                this.setState({ 
+                    moodEmoji: require('../../assets/no_emoji.png'),
+                    diary: "No diary entry found." 
+                })
+                break
+
             case 1:
                 this.setState({ moodEmoji: require('../../assets/smile_1.png') })
                 break
