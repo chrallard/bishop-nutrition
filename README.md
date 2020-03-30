@@ -109,10 +109,9 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 ## Roadmap
 
 List of Sprint two features (and known issues, if any).
-- First item
-- Second item
-- Third item
-- Fourth item
+- Activity tracking that pulls data from Fitbit API
+- Ability to hide certain widgets on home screen
+- View progress from past days
 
 <!-- Contact -->
 ## Contact
