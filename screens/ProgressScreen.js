@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, FlatList, ScrollView, Image, Button, Modal, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, Text, View, FlatList, ScrollView, Image, Modal, TouchableOpacity, TextInput } from 'react-native'
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts'
 import * as firebase from "firebase/app"
@@ -279,210 +279,215 @@ export default class ProgressScreen extends Component {
 
             return (
                 //this is where you build the weight screen
-                
-                <ScrollView>
-                    <View style={styles.container}  >
+                <>
+                    <ScrollView>
+                        <View style={styles.container}  >
 
-                        <View style={{ height: 200, padding: 10, flexDirection: 'row', backgroundColor: '#347EFB' }}>
+                            <View style={{ height: 200, padding: 10, flexDirection: 'row', backgroundColor: '#347EFB' }}>
 
-                            <YAxis
-                                data={this.state.yData}
-                                style={{ marginBottom: xAxisHeight }}
-                                contentInset={verticalContentInset}
-                                svg={axesSvg}
+                                <YAxis
+                                    data={this.state.yData}
+                                    style={{ marginBottom: xAxisHeight }}
+                                    contentInset={verticalContentInset}
+                                    svg={axesSvg}
+                                />
+
+                                <View style={{ flex: 1, marginLeft: 10, }}>
+                                    <LineChart
+                                        style={{ flex: 1 }}
+                                        data={this.state.yData}
+                                        contentInset={verticalContentInset}
+                                        svg={{ 
+                                            stroke: '#F3F3F3',
+                                            strokeWidth: 3,
+            
+                                        }}
+                                    >
+
+                                        <Grid style={{ color: 'white', borderBottomWidth: 50, borderColor: 'red' }} />
+
+                                    </LineChart>
+
+                                    <XAxis
+                                        data={this.state.yData} 
+                                        style={{ marginHorizontal: 10, height: xAxisHeight, width: '100%'  }}
+                                        formatLabel={(value, index) => this.state.xData[index]}
+                                        contentInset={{ left: 20, right: 20 }}
+                                        svg={{rotation: 30, fontSize: 8, fill: '#F3F3F3', y: 10 }}
+                                    />
+                                </View>
+
+                            </View>
+
+                                <SegmentedControlTab
+                                values={["Weight", "Measurement"]}
+                                selectedIndex={this.state.selectedIndex}
+                                onTabPress={this.handleIndexChange}
+
+                                allowFontScaling={false}
+                                tabsContainerStyle={segmented.tabsContainerStyle}
+                                tabStyle={segmented.tabStyle}
+                                firstTabStyle={segmented.firstTabStyle}
+                                lastTabStyle={segmented.lastTabStyle}
+                                tabTextStyle={segmented.tabTextStyle}
+                                activeTabStyle={segmented.activeTabStyle}
+                                activeTabTextStyle={segmented.activeTabTextStyle}
                             />
 
-                            <View style={{ flex: 1, marginLeft: 10, }}>
-                                <LineChart
-                                    style={{ flex: 1 }}
-                                    data={this.state.yData}
-                                    contentInset={verticalContentInset}
-                                    svg={{ 
-                                        stroke: '#F3F3F3',
-                                        strokeWidth: 3,
-        
-                                    }}
-                                >
+                            {this._renderWeightContent()}
 
-                                    <Grid style={{ color: 'white', borderBottomWidth: 50, borderColor: 'red' }} />
+                            <Modal visible={this.state.showWeightAdd} animationType={'slide'} transparent={true}>
 
-                                </LineChart>
+                                <View style={styles.modalStyle}>
+                                    <View style={styles.modalHeader}>
+                                        <TouchableOpacity onPress={() => { this.setState({ showMeasurementAdd: false }) }}>
+                                            <Text style={styles.modalNav}>Back</Text>
+                                        </TouchableOpacity>
 
-                                <XAxis
-                                    data={this.state.yData} 
-                                    style={{ marginHorizontal: 10, height: xAxisHeight, width: '100%'  }}
-                                    formatLabel={(value, index) => this.state.xData[index]}
-                                    contentInset={{ left: 20, right: 20 }}
-                                    svg={{rotation: 30, fontSize: 8, fill: '#F3F3F3', y: 10 }}
-                                />
-                            </View>
+                                        <Text style={styles.modalTitle}>Weight</Text>
 
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                this.setState({ showWeightAdd: false })
+                                                console.log(this.state.weight)
+                                                let timeStamp = Date.now()
+                                                console.log(timeStamp)
+                                                // this.updateDb()
+                                                //this onpress will be what pushs to the db
+                                            }}>
+                                            <Text style={styles.modalNav}>Save</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View>
+                                        <Image source={require('../assets/scale.png')} style={styles.scaleImage} />
+                                    </View>
+                                    <View>
+                                        <TextInput style={styles.weightInput}
+                                            underlineColorAndroid="transparent"
+                                            multiline={false}
+                                            numberOfLines={1}
+                                            placeholder="Current Weight"
+                                            placeholderTextColor='#DDDEDE'
+                                            fontWeight='600'
+                                            autoCapitalize="none"
+                                            onChangeText={(text) => this.setState({ weight: text })}
+                                            value={this.state.Text} />
+
+                                    </View>
+                                </View>
+                            </Modal>
                         </View>
 
-                            <SegmentedControlTab
-                            values={["Weight", "Measurement"]}
-                            selectedIndex={this.state.selectedIndex}
-                            onTabPress={this.handleIndexChange}
 
-                            allowFontScaling={false}
-                            tabsContainerStyle={segmented.tabsContainerStyle}
-                            tabStyle={segmented.tabStyle}
-                            firstTabStyle={segmented.firstTabStyle}
-                            lastTabStyle={segmented.lastTabStyle}
-                            tabTextStyle={segmented.tabTextStyle}
-                            activeTabStyle={segmented.activeTabStyle}
-                            activeTabTextStyle={segmented.activeTabTextStyle}
-                        />
+                    </ScrollView>
 
+                    <TouchableOpacity title="Add" onPress={() => {
+                        this.setState({ showWeightAdd: true })
+                    }} style={styles.addBtn} >
+                        <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize}/>
+                    </TouchableOpacity>
 
-                        <Button title="Add" onPress={() => {
-                            this.setState({ showWeightAdd: true })
-                        }} />
-
-
-                        {this._renderWeightContent()}
-
-                        <Modal visible={this.state.showWeightAdd} animationType={'slide'} transparent={true}>
-
-                            <View style={styles.modalStyle}>
-                                <View style={styles.modalHeader}>
-                                    <TouchableOpacity onPress={() => { this.setState({ showMeasurementAdd: false }) }}>
-                                        <Text style={styles.modalNav}>Back</Text>
-                                    </TouchableOpacity>
-
-                                    <Text style={styles.modalTitle}>Weight</Text>
-
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            this.setState({ showWeightAdd: false })
-                                            console.log(this.state.weight)
-                                            let timeStamp = Date.now()
-                                            console.log(timeStamp)
-                                            // this.updateDb()
-                                            //this onpress will be what pushs to the db
-                                        }}>
-                                        <Text style={styles.modalNav}>Save</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View>
-                                    <Image source={require('../assets/scale.png')} style={styles.scaleImage} />
-                                </View>
-                                <View>
-                                    <TextInput style={styles.weightInput}
-                                        underlineColorAndroid="transparent"
-                                        multiline={false}
-                                        numberOfLines={1}
-                                        placeholder="Current Weight"
-                                        placeholderTextColor='#DDDEDE'
-                                        fontWeight='600'
-                                        autoCapitalize="none"
-                                        onChangeText={(text) => this.setState({ weight: text })}
-                                        value={this.state.Text} />
-
-                                </View>
-                            </View>
-                        </Modal>
-                    </View>
-
-
-                </ScrollView>
-               
+                </>
              
             )
 
         }
         else if (this.state.selectedIndex == 1) {
             return (
-                <ScrollView>
-                    <View style={styles.container}  >
 
-                        <SegmentedControlTab
-                            values={["Weight", "Measurement"]}
-                            selectedIndex={this.state.selectedIndex}
-                            onTabPress={this.handleIndexChange}
+                <>
+                    <ScrollView>
+                        <View style={styles.container}  >
 
-                            allowFontScaling={false}
-                            tabsContainerStyle={segmented.tabsContainerStyle}
-                            tabStyle={segmented.tabStyle}
-                            firstTabStyle={segmented.firstTabStyle}
-                            lastTabStyle={segmented.lastTabStyle}
-                            tabTextStyle={segmented.tabTextStyle}
-                            activeTabStyle={segmented.activeTabStyle}
-                            activeTabTextStyle={segmented.activeTabTextStyle}
-                        />
+                            <SegmentedControlTab
+                                values={["Weight", "Measurement"]}
+                                selectedIndex={this.state.selectedIndex}
+                                onTabPress={this.handleIndexChange}
 
-                        <Button title="Add" onPress={() => {
-                            this.setState({ showMeasurementAdd: true })
-                        }} />
+                                allowFontScaling={false}
+                                tabsContainerStyle={segmented.tabsContainerStyle}
+                                tabStyle={segmented.tabStyle}
+                                firstTabStyle={segmented.firstTabStyle}
+                                lastTabStyle={segmented.lastTabStyle}
+                                tabTextStyle={segmented.tabTextStyle}
+                                activeTabStyle={segmented.activeTabStyle}
+                                activeTabTextStyle={segmented.activeTabTextStyle}
+                            />
 
-                        {this._renderMeasuermentsContent()}
+                            {this._renderMeasuermentsContent()}
 
-                        <Modal visible={this.state.showMeasurementAdd} animationType={'slide'} transparent={true}>
+                            <Modal visible={this.state.showMeasurementAdd} animationType={'slide'} transparent={true}>
 
-                            <View style={styles.modalStyle}>
-                                <View style={styles.modalHeader}>
-                                    <TouchableOpacity onPress={() => { this.setState({ showMeasurementAdd: false }) }}>
-                                        <Text style={styles.modalNav}>Back</Text>
-                                    </TouchableOpacity>
+                                <View style={styles.modalStyle}>
+                                    <View style={styles.modalHeader}>
+                                        <TouchableOpacity onPress={() => { this.setState({ showMeasurementAdd: false }) }}>
+                                            <Text style={styles.modalNav}>Back</Text>
+                                        </TouchableOpacity>
 
-                                    <Text style={styles.modalTitle}>Measurement</Text>
+                                        <Text style={styles.modalTitle}>Measurement</Text>
 
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            this.setState({ showMeasurementAdd: false })
-                                            console.log(`Chest: ${this.state.chest}, Waist: ${this.state.waist}, Hips: ${this.state.hips}`)
-                                            let timeStamp = Date.now()
-                                            console.log(timeStamp)
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                this.setState({ showMeasurementAdd: false })
+                                                console.log(`Chest: ${this.state.chest}, Waist: ${this.state.waist}, Hips: ${this.state.hips}`)
+                                                let timeStamp = Date.now()
+                                                console.log(timeStamp)
 
 
-                                            // this.updateDb()
-                                            //this onpress will be what pushs to the db
-                                        }}>
-                                        <Text style={styles.modalNav}>Save</Text>
-                                    </TouchableOpacity>
+                                                // this.updateDb()
+                                                //this onpress will be what pushs to the db
+                                            }}>
+                                            <Text style={styles.modalNav}>Save</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.measurementModalLayout}>
+                                            <Image source={require('../assets/body.png')} style={styles.bodyImage} />
+                                        
+                                        <View style={styles.measurementInputLayout}>
+                                            <TextInput style={styles.measurementInput}
+                                                underlineColorAndroid="transparent"
+                                                multiline={false}
+                                                numberOfLines={1}
+                                                placeholder="Chest"
+                                                placeholderTextColor='#DDDEDE'
+                                                fontWeight='600'
+                                                autoCapitalize="none"
+                                                onChangeText={(text) => this.setState({ chest: text })}
+                                                value={this.state.Text} />
+                                            <TextInput style={styles.measurementInput}
+                                                underlineColorAndroid="transparent"
+                                                multiline={false}
+                                                numberOfLines={1}
+                                                placeholder="Waist"
+                                                placeholderTextColor='#DDDEDE'
+                                                fontWeight='600'
+                                                autoCapitalize="none"
+                                                onChangeText={(text) => this.setState({ waist: text })}
+                                                value={this.state.Text} />
+                                            <TextInput style={styles.measurementInput}
+                                                underlineColorAndroid="transparent"
+                                                multiline={false}
+                                                numberOfLines={1}
+                                                placeholder="Hips"
+                                                placeholderTextColor='#DDDEDE'
+                                                fontWeight='600'
+                                                autoCapitalize="none"
+                                                onChangeText={(text) => this.setState({ hips: text })}
+                                                value={this.state.Text} />
+                                            </View>
+                                    </View>
                                 </View>
-                                <View style={styles.measurementModalLayout}>
-                                        <Image source={require('../assets/body.png')} style={styles.bodyImage} />
-                                    
-                                    <View style={styles.measurementInputLayout}>
-                                        <TextInput style={styles.measurementInput}
-                                            underlineColorAndroid="transparent"
-                                            multiline={false}
-                                            numberOfLines={1}
-                                            placeholder="Chest"
-                                            placeholderTextColor='#DDDEDE'
-                                            fontWeight='600'
-                                            autoCapitalize="none"
-                                            onChangeText={(text) => this.setState({ chest: text })}
-                                            value={this.state.Text} />
-                                        <TextInput style={styles.measurementInput}
-                                            underlineColorAndroid="transparent"
-                                            multiline={false}
-                                            numberOfLines={1}
-                                            placeholder="Waist"
-                                            placeholderTextColor='#DDDEDE'
-                                            fontWeight='600'
-                                            autoCapitalize="none"
-                                            onChangeText={(text) => this.setState({ waist: text })}
-                                            value={this.state.Text} />
-                                        <TextInput style={styles.measurementInput}
-                                            underlineColorAndroid="transparent"
-                                            multiline={false}
-                                            numberOfLines={1}
-                                            placeholder="Hips"
-                                            placeholderTextColor='#DDDEDE'
-                                            fontWeight='600'
-                                            autoCapitalize="none"
-                                            onChangeText={(text) => this.setState({ hips: text })}
-                                            value={this.state.Text} />
-                                        </View>
-                                </View>
-                            </View>
-                        </Modal>
+                            </Modal>
 
-                    </View>
-                </ScrollView>
+                        </View>
+                    </ScrollView>
 
+                    <TouchableOpacity title="Add" onPress={() => {
+                        this.setState({ showMeasurementAdd: true })
+                    }} style={styles.addBtn}>
+                        <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize}/>
+                    </TouchableOpacity>
+                </>
             )
         }
         else {
@@ -594,6 +599,17 @@ const styles = StyleSheet.create({
         marginTop: '20%',
         marginRight: 32
     },
+
+    addBtn:{
+        alignSelf: 'center',
+        alignItems: 'center',                                
+        position: 'absolute',
+        top: '93%'
+    },
+    addBtnSize:{
+        height: 40,
+        resizeMode: 'contain'
+    }
 })
 
 const weight = StyleSheet.create({
