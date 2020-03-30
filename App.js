@@ -24,6 +24,7 @@ import UpdatePasswordScreen from './screens/UpdatePasswordScreen'
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
 import DailyLogWidget from './widgets/DailyLogWidget'
 import SummaryScreen from './screens/SummaryScreen'
+import About from './screens/About'
 //////////////////////////////////// firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBa7mPzRK5vFZYMrIMtTjtJhecI0pqlYNc",
@@ -113,6 +114,9 @@ function ProfileStackScreen() {
       }} />
       <ProfileStack.Screen name="Update Password" component={UpdatePasswordScreen} options={{
         title: "Update Password"
+      }} />
+      <ProfileStack.Screen name="About" component={About} options={{
+        title: "About"
       }} />
     </ProfileStack.Navigator>
   )
