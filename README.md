@@ -1,11 +1,7 @@
-# Bishop Nutrition
-
 <!-- Team Logo -->
 
 <p align="center">
-  <a href="">
-    <img src="/images/infinite-studios-logo.png" alt="Team logo" width="80" height="80">
-  </a>
+      <img src="Images/infinite-studios-logo.png" alt="Team logo" height="auto" width="200">
 </p>
 
 <!-- TABLE OF CONTENTS -->
