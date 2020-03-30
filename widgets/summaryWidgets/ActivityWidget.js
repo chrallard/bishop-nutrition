@@ -9,7 +9,9 @@ export default class ActivityWidget extends Component {
             cardio: 0,//initialized state variables
             strength: 0,
             yoga: 0,
-            other: 0
+            other: 0,
+            notes: this.props.exerciseEntry.notes,
+            notesDisplay: "block"
         }
     }
 
@@ -79,8 +81,15 @@ export default class ActivityWidget extends Component {
             cardio: totalCardio,
             strength: totalStrength,
             yoga: totalYoga,
-            other: totalOther
+            other: totalOther,
+            notesDisplay: "none"
         })
+
+        if(this.props.exerciseEntry.length == 1){
+            this.setState({
+                notesDisplay: "block"
+            })
+        }
     }
 
     render() {
@@ -105,6 +114,11 @@ export default class ActivityWidget extends Component {
                         <Text style={styles.titleText}>min of other</Text>
                     </View>
                 </View>
+
+                <View style={{ display: this.state.notesDisplay }}>
+                    <Text style={styles.notesTitle} >Notes:</Text>
+                    <Text style={styles.notesText} >{this.state.notes}</Text>
+                </View>
             </View>
         )
     }
@@ -118,7 +132,7 @@ const styles = StyleSheet.create({
         padding: 16,
         alignSelf: 'stretch',
         marginBottom: 8,
-        marginTop: 16
+        marginTop: 8
     },
     infoContainer: {
         flexDirection: 'row',
@@ -148,6 +162,15 @@ const styles = StyleSheet.create({
         color: '#347EFB',
         fontSize: 40,
         justifyContent: 'center',
-        alignSelf: 'center'
+        alignSelf:'center'
+    },
+    notesTitle:{
+        color: '#DDDEDE', 
+        fontSize: 16, 
+        marginBottom: 8
+    },
+    notesText:{
+        color: '#DDDEDE', 
+        fontSize: 12 
     }
 })

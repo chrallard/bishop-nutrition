@@ -191,16 +191,17 @@ const styles = StyleSheet.create({
         marginTop: 45
     },
     portionsText: {
-        flexDirection: 'column',
-        color: '#FAFAFA',
-        fontSize: 12,
-        alignSelf: 'center',
-        position: 'absolute',
-        marginTop: 85
+      flexDirection: 'column',
+      color:'#DDDEDE',
+      fontSize: 12,
+      alignSelf: 'center',
+      position: 'absolute',
+      marginTop: 85
+
     },
     nameText: {
         flexDirection: 'column',
-        color: '#FAFAFA',
+        color:'#DDDEDE',
         fontSize: 14,
         alignSelf: 'center',
         marginBottom: 8

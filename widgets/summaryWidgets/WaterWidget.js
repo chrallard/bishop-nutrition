@@ -77,8 +77,8 @@ export default class WaterWidget extends Component {
         this.setPercentage()
     }
 
-    render() {
-        const barWidth = Dimensions.get('screen').width - 130;
+    render(){
+        const barWidth = Dimensions.get('screen').width - 140;
 
         const progressCustomStyles = {
             backgroundColor: '#347EFB',
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         padding: 16,
         alignSelf: 'stretch',
         marginBottom: 8,
-        marginTop: 16
+        marginTop: 8
     },
     title: {
         color: '#FAFAFA',
