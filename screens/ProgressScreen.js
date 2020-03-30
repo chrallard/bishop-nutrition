@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
+import {MaterialIndicator} from 'react-native-indicators';
 import { StyleSheet, Text, View, FlatList, ScrollView, Image, Button, Modal, TouchableOpacity, TextInput } from 'react-native'
 import SegmentedControlTab from "react-native-segmented-control-tab"; //imports all required components and libraries
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
-
 
 
 export default class ProgressScreen extends Component {
@@ -27,6 +27,8 @@ export default class ProgressScreen extends Component {
             weight: 0,
             prevWeight: 0
 
+            loadingStyle: styles.loading,
+            displayStyle: styles.invisible
         }
         this.addModal = this.addModal.bind(this);
     }
@@ -35,6 +37,10 @@ export default class ProgressScreen extends Component {
         await this.startingWeight() //pulls all needed values from the database
         await this.getValues()
 
+        this.setState({ 
+            loadingStyle: styles.invisible,
+            displayStyle: styles.container
+         })
     }
 
     handleIndexChange = async (index) => {
@@ -177,10 +183,13 @@ export default class ProgressScreen extends Component {
             return (
                 //this is where you build the weight screen
                 <>
-
-
+                
+                    <View style={this.state.loadingStyle}>
+                        <MaterialIndicator color='#347EFB' size={50} />
+                    </View>
+                
                     <ScrollView>
-                        <View style={styles.container}  >
+                        <View style={this.state.displayStyle} >
 
                             <SegmentedControlTab
                                 values={["Weight", "Measurement"]}
@@ -235,12 +244,11 @@ export default class ProgressScreen extends Component {
                                             onChangeText={(text) => this.setState({ weight: text })}
                                             value={this.state.Text} />
 
+
                                     </View>
                                 </View>
                             </Modal>
                         </View>
-
-
                     </ScrollView>
 
                     <TouchableOpacity title="Add" onPress={() => {
@@ -248,9 +256,9 @@ export default class ProgressScreen extends Component {
                     }} style={styles.addBtn}>
                         <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize} />
                     </TouchableOpacity>
+
                 </>
             )
-
         }
         else if (this.state.selectedIndex == 1) {
             return (
@@ -460,6 +468,14 @@ const styles = StyleSheet.create({
     addBtnSize: {
         height: 40,
         resizeMode: 'contain'
+    },
+    loading: {
+        height: '100%',
+        justifyContent: 'center'
+    },
+
+    invisible:{
+        display: 'none'
     }
 })
 

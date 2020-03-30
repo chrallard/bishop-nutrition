@@ -24,14 +24,26 @@ export default class ActivityTrackingWidget extends Component {
                 { label: `Strength Training`, value: "Strength Trainging" },
                 { label: `Yoga`, value: "Yoga" },
                 { label: `Other`, value: "Other" }
-            ]
+            ],
 
+            displayStyle: styles.invisible
         }
+
         this.addModal = this.addModal.bind(this);
     }
 
     componentDidMount() {
+        this.props.mounted()
+    }
 
+    componentDidUpdate(prevProps) {
+        if(prevProps.visible !== this.props.visible){
+            this.updateVisibility()
+        }
+    }
+
+    updateVisibility = () => {
+        this.setState({ displayStyle: styles.container })
     }
 
     addModal = () => {
@@ -64,7 +76,7 @@ export default class ActivityTrackingWidget extends Component {
     render() {
         return (
 
-            <View style={styles.container}>
+            <View style={this.state.displayStyle}>
 
                 <TouchableOpacity onPress={() => {
                     this.setState({
@@ -365,4 +377,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
     },
 
+    invisible:{
+        display: 'none'
+    }
 });
