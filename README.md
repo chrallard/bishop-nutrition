@@ -37,6 +37,7 @@
 ## Features
 - [x] Food Tracking
 - [x] Quick Select Tracking
+- [x] Add food to favourites
 - [x] Water Tracking
 - [x] Sleep Tracking
 - [x] Mood Tracking
@@ -46,3 +47,10 @@
 - [x] Line Graph showing weight progress
 - [x] Update Password
 - [x] Reset Password
+
+<!-- High-Level Architecture -->
+## High-Level Architecture
+
+ <img src="Images/high-level-arch.png" alt="High Level Architecture">
+
+Describe in brief about your high-level architecture.
