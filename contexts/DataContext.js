@@ -13,8 +13,8 @@ class DataContextProvider extends Component {
         isReady: false,
 
         uid: "",
-        healthDocId: "",
-        bodyDocId: "",
+        todaysHealthTrackingDocId: "",
+        todaysHealthTrackingDocId: "",
 
         userInfo: "",
         planData: "",
@@ -33,8 +33,8 @@ class DataContextProvider extends Component {
 
     setDocIds = async () => {
         await this.setState({
-            healthDocId: todaysHealthTrackingDocId,
-            bodyDocId: todaysBodyTrackingDocId
+            todaysHealthTrackingDocId: todaysHealthTrackingDocId,
+            todaysBodyTrackingDocId: todaysBodyTrackingDocId
         })
     }
 

@@ -25,8 +25,6 @@ export default class DailyLogWidget extends Component {
 
      
         await this.buildDaysList()
-
-        //console.log(this.context.healthTrackingData)
     }
 
     buildDaysList = async () => {

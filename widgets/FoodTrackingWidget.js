@@ -4,60 +4,33 @@ import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 
+import { DataContext } from '../contexts/DataContext'
+
+
 export default class FoodTrackingWidget extends Component {
+
+    static contextType = DataContext
 
     constructor(props) {
       super(props)
       this.state = {
-        uid: "",
         docId: ""
       }
     }
 
     async componentDidMount(){
-        await this.setUid()
-        await this.setTodaysDocId()
         this.buildList()
-    }
 
-    setUid = async () => {
-        let uid = await firebase.auth().currentUser.uid
-        this.setState({ uid })
-    }
-
-    setTodaysDocId = async () => {
-        //get todays date - format
-        let d = new Date()
-        let today = this.formatDate(d)
-        let formatDate = (d) => { //can't access this function inside the forEach for some reason
-            return this.formatDate(d)
-        }
-        let docId
-
-        //loop through user data and get the dates to format
-        await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").orderBy("timeStamp", "desc").limit(15).get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                let formattedDate = formatDate(new Date(doc.data().timeStamp))
-
-                if(formattedDate == today){
-                    docId = doc.id
-                }  
-            })
-        })
-
-        this.setState({ docId })
+        //console.log(this.context)
     }
 
     buildList = async () => {
         let foodTrackingList = []
         let userPortions = []
-        let usersPlan = await firebase.firestore().collection("userData").doc(this.state.uid).get().then((doc) => { return doc.data().plan })
-        let planPortions = await firebase.firestore().collection("plans").doc(usersPlan).get().then((doc) => { return doc.data().portions })
-        
-        await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").doc(this.state.docId).get().then((doc) => {
-            Object.values(doc.data().foodEntry).forEach((item, index) => {
-                userPortions.push(item.portions)
-            })
+        let planPortions = this.context.planData.portions
+
+        Object.values(this.context.healthTrackingData[0].foodEntry).forEach((item) => { // [0] because the first one in the array is the most recent/today
+            userPortions.push(item.portions)
         })
 
         Object.values(planPortions).forEach((item, index) => {
@@ -157,7 +130,7 @@ export default class FoodTrackingWidget extends Component {
             Object.assign(foodEntry, obj)
         })
         
-        await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").doc(this.state.docId)
+        await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
         .set({foodEntry}, {merge: true})
     }
   
