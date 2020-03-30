@@ -1,38 +1,38 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, YellowBox, Image } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, YellowBox, Image } from 'react-native'//imports all required components and libraries
 
 export default class MoodWidget extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            moodEmoji: require('../../assets/smile_1.png'),
+            moodEmoji: require('../../assets/smile_1.png'),//initialized state variables
             diary: this.props.moodEntry.diary,
             visible: true
         }
     }
 
-    componentDidMount(){
-       this.buildMood()
+    componentDidMount() {
+        this.buildMood()
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.moodEntry !== this.props.moodEntry){
-            if(this.props.moodEntry == null){
+        if (prevProps.moodEntry !== this.props.moodEntry) {
+            if (this.props.moodEntry == null) {
                 this.setState({ visible: false })
-            }else{
+            } else {
                 this.setState({ visible: true })
             }
         }
     }
 
-    buildMood = () => {
+    buildMood = () => { //compares the mood entry of the day the user wants to see and sets the corresponding picture
 
-        switch(this.props.moodEntry.mood) {
+        switch (this.props.moodEntry.mood) {
             case null:
-                this.setState({ 
+                this.setState({
                     moodEmoji: require('../../assets/no_emoji.png'),
-                    diary: "No diary entry found." 
+                    diary: "No diary entry found."
                 })
                 break
 
@@ -64,9 +64,9 @@ export default class MoodWidget extends Component {
         }
     }
 
-    render(){
-        if(this.state.visible){
-            return(
+    render() {
+        if (this.state.visible) {
+            return (
                 <View style={styles.container}>
                     <Text style={styles.title}>Mood</Text>
 
@@ -76,15 +76,15 @@ export default class MoodWidget extends Component {
                     </View>
                 </View>
             )
-        }else{
-            return(<></>)
+        } else {
+            return (<></>)
         }
     }
 }
 
 const styles = StyleSheet.create({
     // STYLING JEFF March 6
-    container:{
+    container: {
         flexDirection: 'column',
         backgroundColor: '#1C1C1E',
         padding: 16,
@@ -92,26 +92,26 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         marginTop: 8
     },
-    title:{
-        color:'#FAFAFA',
+    title: {
+        color: '#FAFAFA',
         fontSize: 20,
         fontWeight: '600'
     },
-    moodIcon:{
+    moodIcon: {
         resizeMode: 'cover',
         height: 66,
         width: 66,
         marginRight: 8
     },
-    moodInfoLayout:{
+    moodInfoLayout: {
         flexDirection: 'row',
         marginTop: 8
     },
-    noteText:{
-        color:'#DDDEDE',
+    noteText: {
+        color: '#DDDEDE',
         fontSize: 16,
         justifyContent: 'center',
-        alignSelf:'center',
+        alignSelf: 'center',
         flex: 1,
         flexWrap: 'wrap'
     }

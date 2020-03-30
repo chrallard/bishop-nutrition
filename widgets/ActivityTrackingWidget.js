@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput, Dimensions } from 'react-native';//imports required for functionality
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-import * as firebase from 'firebase/app'
-import '@firebase/firestore'
-import 'firebase/auth'
 
 
 var screen = Dimensions.get('window');
@@ -15,7 +12,7 @@ export default class ActivityTrackingWidget extends Component {
         this.state = {
             showMe: false,
             value: -1,
-            value3Index: 0,
+            value3Index: 0,//initializes needed state vairables
             Title: "",
             Duration: "",
             Notes: "",
@@ -24,20 +21,32 @@ export default class ActivityTrackingWidget extends Component {
                 { label: `Strength Training`, value: "Strength Trainging" },
                 { label: `Yoga`, value: "Yoga" },
                 { label: `Other`, value: "Other" }
-            ]
+            ],
 
+            displayStyle: styles.invisible
         }
+
         this.addModal = this.addModal.bind(this);
     }
 
     componentDidMount() {
+        //this.props.mounted()
+    }
 
+    componentDidUpdate(prevProps) {
+        if(prevProps.visible !== this.props.visible){
+            this.updateVisibility()
+        }
+    }
+
+    updateVisibility = () => {
+        this.setState({ displayStyle: styles.container })
     }
 
     addModal = () => {
         this.refs.addModal.showModal();
     }
-    _radioButtonFunction = obj => {
+    _radioButtonFunction = obj => { //sets the selection of radio buttons when one is clicked
 
         switch (obj.label) {
             case "Cardio":
@@ -64,7 +73,7 @@ export default class ActivityTrackingWidget extends Component {
     render() {
         return (
 
-            <View style={styles.container}>
+            <View style={this.state.displayStyle}>
 
                 <TouchableOpacity onPress={() => {
                     this.setState({
@@ -365,4 +374,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
     },
 
+    invisible:{
+        display: 'none'
+    }
 });
