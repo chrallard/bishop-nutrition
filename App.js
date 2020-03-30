@@ -14,6 +14,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 //////////////////////////////////// icons
 import { MaterialCommunityIcons } from 'react-native-vector-icons'
+//////////////////////////////////// loading indicator
+import { MaterialIndicator } from 'react-native-indicators'
 //////////////////////////////////// screens
 import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
@@ -161,7 +163,7 @@ export default function App() {
           backgroundColor: '#000',
           justifyContent: 'center'
           }} >
-          <ActivityIndicator size="large" color="red" /> 
+          <MaterialIndicator color='#347EFB' size={50} />
         </View> 
       
       : 
