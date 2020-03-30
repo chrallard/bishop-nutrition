@@ -5,8 +5,10 @@ export default class SleepWidget extends Component {
 
     constructor(props) {
         super(props)
-        this.state = {//initialized state variables
-            avgSleep: 0
+        this.state = {
+            avgSleep: 0,
+            notes: this.props.sleepEntry.notes,
+            notesDisplay: "block"
         }
     }
 
@@ -47,9 +49,16 @@ export default class SleepWidget extends Component {
         let numberOfSleepEntries = this.props.sleepEntry.length - nullEntries
         newAvgSleep = totalSleepDuration / ((numberOfSleepEntries) == 0 ? 1 : numberOfSleepEntries) //if the user hasn't entered sleep yet, numberOfSleepEntries will be 0. you can't divide by 0, so it returns 1 instead
 
-        this.setState({
-            avgSleep: this.msToDuration(newAvgSleep)
+        this.setState({ 
+            avgSleep: this.msToDuration(newAvgSleep),
+            notesDisplay: "none"
         })
+
+        if(this.props.sleepEntry.length == 1){
+            this.setState({
+                notesDisplay: "block"
+            })
+        }
     }
 
     msToTime = (ms) => { //converts milliseconds to readable time
@@ -79,6 +88,11 @@ export default class SleepWidget extends Component {
 
                 <Text style={styles.amountText}>{this.state.avgSleep}</Text>
                 <Text style={styles.titleText}>Average time asleep</Text>
+                <View style={{ display: this.state.notesDisplay }}>
+                    <Text style={styles.notesTitle} >Notes:</Text>
+                    <Text style={styles.notesText} >{this.state.notes}</Text>
+                </View>
+
             </View>
         )
     }
@@ -92,7 +106,7 @@ const styles = StyleSheet.create({
         padding: 16,
         alignSelf: 'stretch',
         marginBottom: 8,
-        marginTop: 16
+        marginTop: 8
     },
     title: {
         color: '#FAFAFA',
@@ -104,8 +118,8 @@ const styles = StyleSheet.create({
         color: '#DDDEDE',
         fontSize: 16,
         justifyContent: 'center',
-        alignSelf: 'center',
-        marginBottom: 8
+        alignSelf:'center',
+        marginBottom: 16
     },
     amountText: {
         color: '#347EFB',
@@ -126,5 +140,14 @@ const styles = StyleSheet.create({
     averageAmountText: {
         fontSize: 13,
         color: '#347EFB'
+    },
+    notesTitle:{
+        color: '#DDDEDE', 
+        fontSize: 16, 
+        marginBottom: 8
+    },
+    notesText:{
+        color: '#DDDEDE', 
+        fontSize: 12 
     }
 })
