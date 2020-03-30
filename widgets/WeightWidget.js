@@ -5,9 +5,12 @@ import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
 
+import { DataContext } from '../contexts/DataContext'
 
 
-export default class WelcomeWidget extends Component{
+export default class WeightWidget extends Component{
+
+    static contextType = DataContext
 
     constructor(props){
         super(props)
@@ -15,29 +18,30 @@ export default class WelcomeWidget extends Component{
             startingWeight: "",
             weightEntry: "",
             subtract:"",
-            chart: []
+
+            displayStyle: styles.invisible
         }
     }
 
     async componentDidMount(){
        await this.weightInfo()
+
+       this.props.mounted()
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.visible !== this.props.visible){
+            this.updateVisibility()
+        }
+    }
+
+    updateVisibility = () => {
+        this.setState({ displayStyle: styles.container })
     }
 
     weightInfo = async() => {
-
-        let uid = await firebase.auth().currentUser.uid
-
-       let sw = await firebase.firestore().collection("userData").doc(uid).get().then((doc) => {
-            return doc.data().startingWeight
-        })
-        this.setState({startingWeight: sw})
-    
-       await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").doc("zIejpovtpTwAg5e36dEm")
-        .get().then((doc) => {
-            
-             this.setState({weightEntry : doc.data().weightEntry}); 
-        })
-    //    this.setState({subtract: (this.state.startingWeight) - (this.state.weightEntry)})
+        this.setState({startingWeight: this.context.userInfo.startingWeight})
+        this.setState({weightEntry: this.context.bodyTrackingData[0].weightEntry}) // [0] because it's the most recent entry
         this.setState({subtract: (this.state.weightEntry) - (this.state.startingWeight)})
     }
 
@@ -45,7 +49,7 @@ export default class WelcomeWidget extends Component{
     render(){
         return(
            
-            <View style={styles.container}  >
+            <View style={this.state.displayStyle}  >
             
            
                 <Text style={styles.titleText}>Weight</Text>
@@ -141,4 +145,8 @@ const styles = StyleSheet.create({
         fontSize: 8,     
         marginTop: 4
     },
+
+    invisible:{
+        display: 'none'
+    }
 })

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList, Button, ScrollView, Item, SectionList, TouchableOpacity, Image } from 'react-native'
 import { List, Checkbox } from 'react-native-paper';
-import Collapsible from 'react-native-collapsible';
+import Collapsible from 'react-native-collapsible';     //imports all required components and libraries
 import { SearchBar } from 'react-native-elements';
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import Accordion from 'react-native-collapsible/Accordion';
@@ -30,9 +30,10 @@ export default class ProfileScreen extends Component {
       expanded: false,
       uid: "",
       activeSections: [],
-      search: '',
+      search: '',               //initialized state variables
       searchActive: false,
       selectedIndex: 1,
+      docId: "",
       longPressed: 0,
       lists: [
         {
@@ -136,9 +137,12 @@ export default class ProfileScreen extends Component {
     let fatsList = []
     let freeVegList = []
 
+
     await this.setUid()
+    await this.setTodaysDocId()
+
     await this.state.db.collection("foodList").doc("allFood").get().then((doc) => {
-      Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
+      Object.values(doc.data()).forEach((item) => { //pulls all data from Firebase and assigns it to the respective list
         if (item.category == "Dairy") {
           dairyList.push(item)
         }
@@ -179,9 +183,10 @@ export default class ProfileScreen extends Component {
   }
   setUid = async () => {
     let uid = await firebase.auth().currentUser.uid
-    this.setState({ uid })
+    this.setState({ uid }) //finds the current users ID
   }
-  updateSearch = search => {
+  updateFavouriteSearch = search => { //updates a search list when searching on the favourite screen
+
     let lists = [
       {
         type: "Dairy",
@@ -221,40 +226,147 @@ export default class ProfileScreen extends Component {
       this.setState({ searchActive: false })
 
     }
-    this.state.lists[0].list.forEach(element => {
+    this.state.favouriteLists[0].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
+        lists[0].list.push(element)
+      }
+    });
+    this.state.favouriteLists[1].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        lists[1].list.push(element)
+      }
+    });
+
+    this.state.favouriteLists[2].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        lists[2].list.push(element)
+      }
+    });
+    this.state.favouriteLists[3].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        lists[3].list.push(element)
+      }
+    });
+    this.state.favouriteLists[4].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        lists[4].list.push(element)
+      }
+    });
+    this.state.favouriteLists[5].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        lists[5].list.push(element)
+      }
+    });
+    this.state.favouriteLists[6].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        lists[6].list.push(element)
+      }
+    });
+    this.setState({ searchLists: lists })
+    this.setState({ search });
+  };
+  setTodaysDocId = async () => {
+    //get todays date - format
+    let d = new Date()
+    let today = this.formatDate(d)
+    let formatDate = (d) => { //can't access this function inside the forEach for some reason
+      return this.formatDate(d)
+    }
+    let docId
+
+    //loop through user data and get the dates to format
+    await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").orderBy("timeStamp", "desc").limit(15).get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        let formattedDate = formatDate(new Date(doc.data().timeStamp))
+
+        if (formattedDate == today) {
+          docId = doc.id
+        }
+      })
+    })
+
+    this.setState({ docId })
+  }
+  formatDate = (d) => {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    const date = d.getDate()
+    const month = months[d.getMonth()]
+    const year = d.getFullYear()
+    const formattedDate = date + month + year //looks like this: 4March2020
+
+    return formattedDate
+  }
+
+  updateSearch = search => { //updates a search list when searching on the foodlist screen
+
+    let lists = [
+      {
+        type: "Dairy",
+        list: []
+      },
+      {
+        type: "Restricted Vegetables",
+        list: []
+      },
+      {
+        type: "Fruits",
+        list: []
+      },
+      {
+        type: "Simple Carbs",
+        list: []
+      },
+      {
+        type: "Proteins",
+        list: []
+      },
+      {
+        type: "Fats",
+        list: []
+      },
+      {
+        type: "Free Vegetables",
+        list: []
+      }
+    ]
+
+    if (search != "") {
+      this.setState({ searchActive: true })
+      console.log("search active")
+
+    }
+    else {
+      this.setState({ searchActive: false })
+
+    }
+    this.state.lists[0].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") { //compares what was typed to any food in a specific category
         lists[0].list.push(element)
       }
     });
     this.state.lists[1].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[1].list.push(element)
       }
     });
 
     this.state.lists[2].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[2].list.push(element)
       }
     });
     this.state.lists[3].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[3].list.push(element)
       }
     });
     this.state.lists[4].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[4].list.push(element)
       }
     });
     this.state.lists[5].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[5].list.push(element)
       }
     });
@@ -269,12 +381,12 @@ export default class ProfileScreen extends Component {
     this.setState({ searchLists: lists })
     this.setState({ search });
   };
-  _handlePress = (food) =>
+  _handlePress = (food) => //function that opens and closes the accordian list
     this.setState({
       expanded: !this.state.expanded
     });
 
-  _handleIndexChange = async (index) => {
+  _handleIndexChange = async (index) => { //changes which segemented tab is displayed
     this.setState({ selectedIndex: index });
     let dairyList = []
     let restrictedList = []
@@ -286,7 +398,7 @@ export default class ProfileScreen extends Component {
 
     if (index == 0) {
       await this.state.db.collection("userData").doc(this.state.uid).collection("favouriteFoodList").doc("allFavFood").get().then((doc) => {
-        Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
+        Object.values(doc.data()).forEach((item) => {
           if (item.category == "Dairy") {
             dairyList.push(item)
           }
@@ -332,9 +444,43 @@ export default class ProfileScreen extends Component {
 
 
   };
+  updateDb = async (item) => {
+    let foodEntry = {}
 
 
-  _renderHeader = section => {
+    let obj = {
+      [item.category]: {
+        name: item.name,
+        portions: 1
+      }
+    }
+
+    Object.assign(foodEntry, obj)
+
+
+    await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").doc(this.state.docId)
+      .set({ foodEntry }, { merge: true })
+  }
+  updateHalfDb = async (item) => {
+    let foodEntry = {}
+
+
+    let obj = {
+      [item.category]: {
+        name: item.name,
+        portions: 0.5
+      }
+    }
+
+    Object.assign(foodEntry, obj)
+
+
+    await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").doc(this.state.docId)
+      .set({ foodEntry }, { merge: true })
+  }
+
+
+  _renderHeader = section => { //renders the accordion list headers based on what food categories are there
     return (
       <View style={styles.listItemContainer}>
 
@@ -385,7 +531,7 @@ export default class ProfileScreen extends Component {
     );
   };
 
-  _addFavourite = async (item) => {
+  _addFavourite = async (item) => { //adds an item to the users favourite list when clicked
 
     await firebase.firestore().collection("userData").doc(this.state.uid).collection("favouriteFoodList").doc("allFavFood").set({
       [item.name]: {
@@ -402,7 +548,7 @@ export default class ProfileScreen extends Component {
     }, { merge: true })
 
   };
-  _removeFavourite = async (item) => {
+  _removeFavourite = async (item) => { //removes an item from  a users favourite list
     let dairyList = []
     let restrictedList = []
     let fruitList = []
@@ -456,23 +602,24 @@ export default class ProfileScreen extends Component {
     this.setState({ favouriteLists: listArray })
 
   }
-  _addPortion = (item) => {
+  _addPortion = (item) => { //adds a portion of the selected food to the users daily
     console.log(item.category)
+    this.updateDb(item)
   }
-  _openDeleteOrHalfPortion = (item) => {
-    console.log(item.key)
+  _openDeleteOrHalfPortion = (item) => { //displays two smaller buttons 
     this.setState({ longPressed: item.key })
   }
-  _addHalfPortion = (item) => {
+  _addHalfPortion = (item) => {//adds a portion of the selected food to the users daily
+    console.log(item.category)
+    this.updateHalfDb(item)
+  }
+  _deleteHalfPortion = (item) => {//removes a portion of the selected food to the users daily
     console.log(item.category)
   }
-  _deleteHalfPortion = (item) => {
-    console.log(item.category)
-  }
-  _closeDeleteOrHalfPortion = (item) => {
+  _closeDeleteOrHalfPortion = (item) => { //closes the smaller buttons
     this.setState({ longPressed: "" })
   }
-  _renderFavouriteContent = section => {
+  _renderFavouriteContent = section => { //renders the items on the favourite list 
     return (
 
 
@@ -581,7 +728,7 @@ export default class ProfileScreen extends Component {
 
     );
   };
-  _renderContent = section => {
+  _renderContent = section => {//renders the lists of foods in the accordion list
     return (
 
 
@@ -613,7 +760,7 @@ export default class ProfileScreen extends Component {
 
             </TouchableOpacity>
 
-            {(this.state.longPressed == item.key) ? (
+            {(this.state.longPressed == item.key) ? ( //checks if someone longpressed an add button
               //#region longpress buttons
 
               <View style={{ flexDirection: 'row' }}>
@@ -671,51 +818,102 @@ export default class ProfileScreen extends Component {
     const { search } = this.state;
 
     if (this.state.selectedIndex == 0) {
-
-      return (
-        <View style={styles.container}>
-          <ScrollView>
-            <View>
-
-
-              <SearchBar
-                placeholder="Search Your Food Here..."
-                platform="ios"
-                containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
-                inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
-                onChangeText={this.updateSearch}
-                value={search}
-                placeholderTextColor='#B7B7B7'
-                inputStyle={{ color: '#DDDEDE' }}
-
-              />
-              <SegmentedControlTab
-                values={["Favourites", "Food List"]}
-                selectedIndex={this.state.selectedIndex}
-                onTabPress={this._handleIndexChange}
-
-                allowFontScaling={false}
-                tabsContainerStyle={styles.tabsContainerStyleFood}
-                tabStyle={styles.tabStyleFood}
-                firstTabStyle={styles.firstTabStyleFood}
-                lastTabStyle={styles.lastTabStyleFood}
-                tabTextStyle={styles.tabTextStyleFood}
-                activeTabStyle={styles.activeTabStyleFood}
-                activeTabTextStyle={styles.activeTabTextStyleFood}
-              />
-              {this._renderFavouriteContent(this.state.favouriteLists[0])}
-              {this._renderFavouriteContent(this.state.favouriteLists[1])}
-              {this._renderFavouriteContent(this.state.favouriteLists[2])}
-              {this._renderFavouriteContent(this.state.favouriteLists[3])}
-              {this._renderFavouriteContent(this.state.favouriteLists[4])}
-              {this._renderFavouriteContent(this.state.favouriteLists[5])}
-              {this._renderFavouriteContent(this.state.favouriteLists[6])}
+      if (this.state.searchActive) {
+        return (
+          <View style={styles.container}>
+            <ScrollView>
+              <View>
 
 
-            </View>
-          </ScrollView>
-        </View>
-      )
+                <SearchBar
+                  placeholder="Search Your Food Here..."
+                  platform="ios"
+                  containerStyle={{ backgroundColor: '#000', width: 300, alignSelf: 'center' }}
+                  inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
+                  onChangeText={this.updateFavouriteSearch}
+                  value={search}
+                  placeholderTextColor='#B7B7B7'
+                  inputStyle={{ color: '#DDDEDE' }}
+
+                />
+                <SegmentedControlTab
+                  values={["Favourites", "Food List"]}
+                  selectedIndex={this.state.selectedIndex}
+                  onTabPress={this._handleIndexChange}
+
+                  allowFontScaling={false}
+                  tabsContainerStyle={styles.tabsContainerStyleFood}
+                  tabStyle={styles.tabStyleFood}
+                  firstTabStyle={styles.firstTabStyleFood}
+                  lastTabStyle={styles.lastTabStyleFood}
+                  tabTextStyle={styles.tabTextStyleFood}
+                  activeTabStyle={styles.activeTabStyleFood}
+                  activeTabTextStyle={styles.activeTabTextStyleFood}
+                />
+                {this._renderFavouriteContent(this.state.searchLists[0])}
+                {this._renderFavouriteContent(this.state.searchLists[1])}
+                {this._renderFavouriteContent(this.state.searchLists[2])}
+                {this._renderFavouriteContent(this.state.searchLists[3])}
+                {this._renderFavouriteContent(this.state.searchLists[4])}
+                {this._renderFavouriteContent(this.state.searchLists[5])}
+                {this._renderFavouriteContent(this.state.searchLists[6])}
+
+
+              </View>
+            </ScrollView>
+          </View>
+        )
+
+      }
+      else if (!this.state.searchActive) {
+        return (
+          <View style={styles.container}>
+            <ScrollView>
+              <View>
+
+
+                <SearchBar
+                  placeholder="Search Your Food Here..."
+                  platform="ios"
+                  containerStyle={{ backgroundColor: '#000', width: 300, alignSelf: 'center' }}
+                  inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
+                  onChangeText={this.updateFavouriteSearch}
+                  value={search}
+                  placeholderTextColor='#B7B7B7'
+                  inputStyle={{ color: '#DDDEDE' }}
+
+                />
+                <SegmentedControlTab
+                  values={["Favourites", "Food List"]}
+                  selectedIndex={this.state.selectedIndex}
+                  onTabPress={this._handleIndexChange}
+
+                  allowFontScaling={false}
+                  tabsContainerStyle={styles.tabsContainerStyleFood}
+                  tabStyle={styles.tabStyleFood}
+                  firstTabStyle={styles.firstTabStyleFood}
+                  lastTabStyle={styles.lastTabStyleFood}
+                  tabTextStyle={styles.tabTextStyleFood}
+                  activeTabStyle={styles.activeTabStyleFood}
+                  activeTabTextStyle={styles.activeTabTextStyleFood}
+                />
+                {this._renderFavouriteContent(this.state.favouriteLists[0])}
+                {this._renderFavouriteContent(this.state.favouriteLists[1])}
+                {this._renderFavouriteContent(this.state.favouriteLists[2])}
+                {this._renderFavouriteContent(this.state.favouriteLists[3])}
+                {this._renderFavouriteContent(this.state.favouriteLists[4])}
+                {this._renderFavouriteContent(this.state.favouriteLists[5])}
+                {this._renderFavouriteContent(this.state.favouriteLists[6])}
+
+
+              </View>
+            </ScrollView>
+          </View>
+        )
+
+      }
+
+
     }
     else if (this.state.selectedIndex == 1) {
       if (this.state.searchActive) {
@@ -729,7 +927,7 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
+                  containerStyle={{ backgroundColor: '#000', width: 300, alignSelf: 'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateSearch}
                   value={search}
@@ -768,7 +966,7 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
+                  containerStyle={{ backgroundColor: '#000', width: 300, alignSelf: 'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateSearch}
                   value={search}
@@ -809,21 +1007,7 @@ export default class ProfileScreen extends Component {
     }
   }
 }
-// <View>
 
-//   <List.Section style={{ marginTop: 30 }} title="Food List">
-
-//     {this.state.lists.map((item, key) => (
-//       <List.Accordion key={key}
-//         title={item.type}
-//       >
-//         {item.list.map((item, key) => (
-//           <List.Item key={key} title={item.name} />
-//         ))}
-//       </List.Accordion>
-//     ))}
-//   </List.Section>
-// </View>
 
 
 const styles = StyleSheet.create({
@@ -866,7 +1050,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     flex: 1.5,
     flexWrap: 'wrap',
-    paddingLeft: 8
+    marginRight: 15
   },
   foodItemIcons: {  //accorian add portion/fav icon
     flexDirection: 'row',

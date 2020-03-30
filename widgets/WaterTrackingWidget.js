@@ -5,88 +5,51 @@ import * as firebase from 'firebase/app'
 import '@firebase/firestore'
 import 'firebase/auth'
 
+import { DataContext } from '../contexts/DataContext'
+
 const planTotal = 0;
 const maxPortions = 0;
 const dailyWater = 0;
 
 export default class WaterTrackingWidget extends Component {
 
+  static contextType = DataContext
+
   constructor(props){
       super(props)
       this.state = {
-        uid: null,
-        usersPlan: null,
-        docId: null,
         maxWater: null,
         usersWater: null,
         cups: [],
+
+        displayStyle: styles.invisible
       }
   }
     
   async componentDidMount(){
-    await this.setUid()
-    await this.setUsersPlan()
-    await this.setTodaysDocId()
     await this.setMaxWater()
     await this.setUsersWater()
-    this.buildCupsArray()
+    await this.buildCupsArray()
+
+    this.props.mounted()
   }
 
-  setUid = async() => {
-      let uid = await firebase.auth().currentUser.uid
-      this.setState({ uid })
+  componentDidUpdate(prevProps) {
+    if(prevProps.visible !== this.props.visible){
+      this.updateVisibility()
+    }
   }
 
-  setUsersPlan = async () => {
-      let usersPlan = await firebase.firestore().collection("userData").doc(this.state.uid).get().then((doc) => { return doc.data().plan })
-      this.setState({ usersPlan })
-  }
-
-  setTodaysDocId = async () => {
-      //get todays date - format
-      let d = new Date()
-      let today = this.formatDate(d)
-      let formatDate = (d) => { //can't access this function inside the forEach for some reason
-          return this.formatDate(d)
-      }
-      let docId
-
-      //loop through user data and get the dates to format
-      await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").orderBy("timeStamp", "desc").limit(15).get().then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-              let formattedDate = formatDate(new Date(doc.data().timeStamp))
-
-              if(formattedDate == today){ //selecting today's healthTracking document ID
-                  docId = doc.id
-              }  
-          })
-      })
-
-      this.setState({ docId })
+  updateVisibility = () => {
+    this.setState({ displayStyle: styles.container })
   }
 
   setMaxWater = async () => {
-    let maxWater = await firebase.firestore().collection("plans").doc(this.state.usersPlan).get().then((doc) => { 
-      return doc.data().water.maxPortions
-    })
-    this.setState({ maxWater }) //this is the amount of water recommended on the user's plan
+    this.setState({ maxWater: this.context.planData.water.maxPortions }) //this is the amount of water recommended on the user's plan
   }
 
   setUsersWater = async () => {
-    let usersWater = await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").doc(this.state.docId).get().then((doc) => {
-      return doc.data().waterEntry.portions
-    })
-    this.setState({ usersWater }) //this is the amount of water the user has entered previously
-  }
-
-  formatDate = (d) => {
-    const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
-    const date = d.getDate()
-    const month = months[d.getMonth()]
-    const year = d.getFullYear()
-    const formattedDate = date + month + year //looks like this: 4March2020
-  
-    return formattedDate
+    this.setState({ usersWater: this.context.healthTrackingData[0].waterEntry.portions }) //this is the amount of water the user has entered previously
   }
 
   buildCupsArray = () => {
@@ -133,7 +96,7 @@ export default class WaterTrackingWidget extends Component {
     })
 
     //pushing the number of full cups to the db
-    await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").doc(this.state.docId)
+    await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
     .set({waterEntry: {portions: n}}, {merge: true})
 
     //updating the state so the number values reflect the change
@@ -142,7 +105,7 @@ export default class WaterTrackingWidget extends Component {
     
   render() {
     return(
-      <View style={styles.container}>
+      <View style={this.state.displayStyle}>
 
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>Water</Text>
@@ -179,31 +142,34 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     marginBottom: 8,
     marginTop: 8
-},
+  },
 
   titleContainer:{
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 8
-},
+  },
   titleText:{
     color:'#FAFAFA',
     fontSize: 20,
-},
-bodyText:{
+  },
+  bodyText:{
     color:'#DDDEDE',
     fontSize: 12,
-},
+  },
+  cupRow:{
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  image: {
+    height: 45,
+    width: 40,
+    resizeMode: 'cover',     
+    alignItems: 'stretch'
+  },
 
-cupRow:{
-  flexDirection: 'row',
-  justifyContent: 'space-between'
-},
-image: {
-      height: 45,
-      width: 40,
-      resizeMode: 'cover',     
-      alignItems: 'stretch'    
+  invisible:{
+    display: 'none'
   }
 });

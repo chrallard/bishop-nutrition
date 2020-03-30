@@ -4,19 +4,37 @@ import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
 
+import { DataContext } from '../contexts/DataContext'
+
 export default class WelcomeWidget extends Component{
+
+    static contextType = DataContext
 
     constructor(props){
         super(props)
         this.state = {
             name: "",
-            date: "" 
+            date: "",
+            
+            displayStyle: styles.invisible
         }
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
         await this.userinfo()
-   }
+
+        this.props.mounted()
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.visible !== this.props.visible){
+            this.updateVisibility()
+        }
+    }
+
+    updateVisibility = () => {
+        this.setState({ displayStyle: styles.container })
+    }
 
     userinfo = async () => {
 
@@ -25,25 +43,16 @@ export default class WelcomeWidget extends Component{
         const currentDate = d.getDate()
         const currentMonth = months[d.getMonth()]
         const currentYear = d.getFullYear()
-        let uid = await firebase.auth().currentUser.uid
 
-        await firebase.firestore().collection("userData").doc(uid).get().then((doc) => {
-                if(doc.exists){
-                    this.setState({
-                        name: doc.data().name,
-                        date: `${currentMonth} ${currentDate}, ${currentYear}`
-                    })
-                }else{
-                    alert("Error")
-                }
-            }).catch((err) => {
-                alert(err)
-            })  
+        this.setState({
+            name: this.context.userInfo.name,
+            date: `${currentMonth} ${currentDate}, ${currentYear}`
+        })  
     }
 
     render(){
         return(
-            <View style={styles.container}>
+            <View style={this.state.displayStyle} >
                 <Text style={styles.title}>Welcome</Text>
                 <Text style={styles.nameText}>{this.state.name}</Text>
                 <Text style={styles.dateText}>{this.state.date}</Text>
@@ -79,5 +88,9 @@ const styles = StyleSheet.create({
         fontSize: 17,
         justifyContent: 'center',
         alignSelf:'center'
+    },
+
+    invisible:{
+        display: 'none'
     }
 })
