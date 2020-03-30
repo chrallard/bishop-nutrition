@@ -23,13 +23,11 @@ const SleepTrackingWidget = (props) => {
     const [renders, setRenders] = useState(0)
 
     useEffect(() => {
-        if (renders == 0) {
-            console.log("useeffect")
-            props.mounted()
-            setDisplayStyle(styles.container)
-            setRenders(1)
-        }
-    })
+    if (renders == 0) {
+        props.mounted()
+        setDisplayStyle(styles.container)
+        setRenders(1)
+    }})
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;

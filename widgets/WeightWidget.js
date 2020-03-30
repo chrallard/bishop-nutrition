@@ -45,7 +45,6 @@ export default class WeightWidget extends Component {
         this.setState({ subtract: (this.state.weightEntry) - (this.state.startingWeight) })
     }
 
-
     render() {
         return (
 
