@@ -192,9 +192,6 @@ export default class ProgressScreen extends Component {
 
     time = async () => {
 
-    
-
-
             let timeStamp = []
 
             this.context.bodyTrackingData.forEach((doc) => {
