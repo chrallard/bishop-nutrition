@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput, Dimensions } from 'react-native';//imports all required components and libraries
 import * as firebase from 'firebase/app'
 import '@firebase/firestore'
 import 'firebase/auth'
@@ -17,7 +17,7 @@ export default class MoodTrackingWidget extends Component {
         super(props)
         this.state = {
             showMe: false,
-            selectedMood: "",
+            selectedMood: "",//initialized state variables
             moodValue: 0,
 
             displayStyle: styles.invisible
@@ -31,7 +31,7 @@ export default class MoodTrackingWidget extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.visible !== this.props.visible){
+        if (prevProps.visible !== this.props.visible) {
             this.updateVisibility()
         }
     }
@@ -44,7 +44,7 @@ export default class MoodTrackingWidget extends Component {
         this.refs.addModal.showModal();
     }
 
-    updateDb = async () => {
+    updateDb = async () => { //pushes mood info to the database
         await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
             .set({
                 moodEntry: {
@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
         bottom: 0
     },
 
-    invisible:{
+    invisible: {
         display: 'none'
     }
 });

@@ -1,33 +1,33 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'//imports all required components and libraries
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
 
 import { DataContext } from '../contexts/DataContext'
 
-export default class WelcomeWidget extends Component{
+export default class WelcomeWidget extends Component {
 
     static contextType = DataContext
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            name: "",
+            name: "",//initialized state variables
             date: "",
-            
+
             displayStyle: styles.invisible
         }
     }
 
     async componentDidMount() {
-        await this.userinfo()
+        await this.userinfo() //pulls user info from the database
 
         this.props.mounted()
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.visible !== this.props.visible){
+        if (prevProps.visible !== this.props.visible) {
             this.updateVisibility()
         }
     }
@@ -39,7 +39,7 @@ export default class WelcomeWidget extends Component{
     userinfo = async () => {
 
         let d = new Date()
-        const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         const currentDate = d.getDate()
         const currentMonth = months[d.getMonth()]
         const currentYear = d.getFullYear()
@@ -47,11 +47,11 @@ export default class WelcomeWidget extends Component{
         this.setState({
             name: this.context.userInfo.name,
             date: `${currentMonth} ${currentDate}, ${currentYear}`
-        })  
+        })
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <View style={this.state.displayStyle} >
                 <Text style={styles.title}>Welcome</Text>
                 <Text style={styles.nameText}>{this.state.name}</Text>
@@ -63,7 +63,7 @@ export default class WelcomeWidget extends Component{
 
 const styles = StyleSheet.create({
     // STYLING JEFF March 6
-    container:{
+    container: {
         flexDirection: 'column',
         backgroundColor: '#1C1C1E',
         padding: 16,
@@ -71,26 +71,26 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         //marginTop: 44
     },
-    title:{
-        color:'#FAFAFA',
+    title: {
+        color: '#FAFAFA',
         fontSize: 20,
     },
-    nameText:{
+    nameText: {
         flexDirection: 'column',
-        color:'#FAFAFA',
+        color: '#FAFAFA',
         fontSize: 28,
         justifyContent: 'center',
-        alignSelf:'center',
+        alignSelf: 'center',
         marginBottom: 8
     },
-    dateText:{
-        color:'#347EFB',
+    dateText: {
+        color: '#347EFB',
         fontSize: 17,
         justifyContent: 'center',
-        alignSelf:'center'
+        alignSelf: 'center'
     },
 
-    invisible:{
+    invisible: {
         display: 'none'
     }
 })

@@ -1,5 +1,5 @@
 import React, { Component, useState, useContext, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, Image, Button, TouchableOpacity, Modal, TextInput, Dimensions, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, TouchableOpacity, Modal, TextInput, Dimensions, StatusBar } from 'react-native';//imports all required components and libraries
 import * as firebase from 'firebase/app'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import '@firebase/firestore'
@@ -16,19 +16,20 @@ const SleepTrackingWidget = (props) => {
     const [date2, setDate2] = useState(new Date(1598079600000));
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
-    const [showMe, setShowMe] = useState(false)
+    const [showMe, setShowMe] = useState(false)//initialized state variables
     const [notes, setNotes] = useState("")
     const [sleepDuration, setSleepDuration] = useState(context.healthTrackingData[0].sleepEntry.duration)
     const [displayStyle, setDisplayStyle] = useState(styles.invisible)
     const [renders, setRenders] = useState(0)
 
     useEffect(() => {
-    if (renders == 0) {
-        console.log("useeffect")
-        props.mounted()
-        setDisplayStyle(styles.container)
-        setRenders(1)
-    }})
+        if (renders == 0) {
+            console.log("useeffect")
+            props.mounted()
+            setDisplayStyle(styles.container)
+            setRenders(1)
+        }
+    })
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
@@ -62,7 +63,7 @@ const SleepTrackingWidget = (props) => {
         updateDb(msToTime(duration), duration)
     }
 
-    const updateDb = async (duration, durationMs) => {
+    const updateDb = async (duration, durationMs) => { //passes information to database
         await firebase.firestore().collection("userData").doc(context.uid).collection("healthTracking").doc(context.todaysHealthTrackingDocId)
             .set({
                 sleepEntry: {
@@ -78,7 +79,7 @@ const SleepTrackingWidget = (props) => {
             })
     }
 
-    const msToTime = (duration) => {
+    const msToTime = (duration) => { //converts milliseconds to human readable time
         var milliseconds = parseInt((duration % 1000) / 100),
             seconds = Math.floor((duration / 1000) % 60),
             minutes = Math.floor((duration / (1000 * 60)) % 60),
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
         height: 200
     },
 
-    invisible:{
+    invisible: {
         display: 'none'
     }
 
