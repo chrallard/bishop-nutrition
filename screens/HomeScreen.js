@@ -42,8 +42,8 @@ export default class HomeScreen extends Component {
         <View style={styles.container} >
           {/* <WelcomeWidget /> */}
           {/* <DailyLogWidget navProps={this.props.navigation} /> */}
-          <FoodTrackingWidget />
-          {/* <WaterTrackingWidget /> */}
+          {/* <FoodTrackingWidget /> */}
+          <WaterTrackingWidget />
           {/* <WeightWidget/> */}
           {/* <SleepTrackingWidget /> */}
           {/* <ActivityTrackingWidget /> */}
