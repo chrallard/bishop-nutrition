@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, YellowBox, Image } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, YellowBox, Image } from 'react-native'//imports required for functionality
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 
@@ -17,7 +17,7 @@ export default class DailyLogWidget extends Component {
         }
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
 
         YellowBox.ignoreWarnings([
             'VirtualizedLists should never be nested', // TODO: Remove when fixed
@@ -54,7 +54,7 @@ export default class DailyLogWidget extends Component {
         this.setState({ daysList })
     }
 
-    checkDayComplete = (foodEntry) => {
+    checkDayComplete = (foodEntry) => { //compares if the user met the days portion limits
         let foodList = []
 
         Object.values(foodEntry).forEach((item, index) => {
@@ -75,9 +75,9 @@ export default class DailyLogWidget extends Component {
         })
 
         foodList.forEach((item, index) => {
-            if(item.portions < planList[index].maxPortions) {
+            if (item.portions < planList[index].maxPortions) {
                 item.complete = false
-            }else{
+            } else {
                 item.complete = true
             }
         })
@@ -92,29 +92,29 @@ export default class DailyLogWidget extends Component {
         return completeValues.every(isTrue)
     }
 
-    formatDate = (d) => {
+    formatDate = (d) => { //format date
         let dateObj = new Date(d)
 
-        const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         const date = dateObj.getDate()
         const month = months[dateObj.getMonth()]
         const year = dateObj.getFullYear()
         const formattedDate = month + " " + date //looks like this: March 4
-      
-        return formattedDate
-      }
 
-    render(){
-        return(
+        return formattedDate
+    }
+
+    render() {
+        return (
             <View style={styles.container}>
                 <Text style={styles.title}>Daily Log</Text>
                 <View style={styles.list}>
                     {this.state.daysList.map((item, index) => (
-                        <TouchableOpacity onPress={() => {this.props.navProps.navigate("Summary", {doc: item.doc})}} key={index}>
-                            {item.complete ? 
-                                <Image source={require('../assets/summary_check_circle.png')} style={styles.status}/>
-                            :
-                                <Image source={require('../assets/summary_warning_circle.png')} style={styles.status}/>
+                        <TouchableOpacity onPress={() => { this.props.navProps.navigate("Summary", { doc: item.doc }) }} key={index}>
+                            {item.complete ?
+                                <Image source={require('../assets/summary_check_circle.png')} style={styles.status} />
+                                :
+                                <Image source={require('../assets/summary_warning_circle.png')} style={styles.status} />
                             }
                             <Text style={styles.dateText}>{item.date}</Text>
                         </TouchableOpacity>
@@ -126,32 +126,32 @@ export default class DailyLogWidget extends Component {
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         backgroundColor: '#1C1C1E',
         padding: 16,
         alignSelf: 'stretch',
         marginBottom: 8,
         marginTop: 16
     },
-    list:{
+    list: {
         marginTop: 16,
         marginBottom: 16,
         flexDirection: 'row',
         justifyContent: 'space-around'
     },
-    status:{
+    status: {
         width: 40,
         height: 40,
         alignSelf: 'center'
     },
-    title:{
-        color:'#FAFAFA',
+    title: {
+        color: '#FAFAFA',
         fontSize: 20,
     },
-    dateText:{
-        color:'#DDDEDE',
+    dateText: {
+        color: '#DDDEDE',
         fontSize: 12,
         justifyContent: 'center',
-        alignSelf:'center'
+        alignSelf: 'center'
     }
 })

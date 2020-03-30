@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import NutritionWidget from '../widgets/summaryWidgets/NutritionWidget'
-import WaterWidget from '../widgets/summaryWidgets/WaterWidget'
+import WaterWidget from '../widgets/summaryWidgets/WaterWidget' //imports of required components and libraries
 import ActivityWidget from '../widgets/summaryWidgets/ActivityWidget'
 import SleepWidget from '../widgets/summaryWidgets/SleepWidget'
 import MoodWidget from '../widgets/summaryWidgets/MoodWidget'
@@ -22,7 +22,7 @@ export default class SummaryScreen extends Component {
 
       foodEntry: this.props.route.params.doc.foodEntry,
       waterEntry: this.props.route.params.doc.waterEntry,
-      exerciseEntry: this.props.route.params.doc.exerciseEntry,
+      exerciseEntry: this.props.route.params.doc.exerciseEntry,//initializes needed state vairables
       sleepEntry: this.props.route.params.doc.sleepEntry,
       moodEntry: this.props.route.params.doc.moodEntry
     }
@@ -33,12 +33,12 @@ export default class SummaryScreen extends Component {
     await this.getData()
   }
 
-  setUid = async() => {
+  setUid = async () => {
     let uid = await firebase.auth().currentUser.uid
     this.setState({ uid })
   }
 
-  getData = async () => {
+  getData = async () => { //calls the database and pulls needed health data
 
     await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").orderBy("timeStamp", "desc").limit(30).get().then((querySnapshot) => {
       let healthTrackingData = []
@@ -50,19 +50,19 @@ export default class SummaryScreen extends Component {
       this.setState({ healthTrackingData })
     })
 
-    //get body tracking data
+
 
   }
 
   handleIndexChange = (index) => {
     this.setState({
-      selectedIndex: index
+      selectedIndex: index //used to change segmented tabs 
     })
 
-    switch (index) {
+    switch (index) { //switch cases load data only rhe required amount of data needed for the segmendted tab
       case 0:
-        this.setState({ 
-          foodEntry: [this.props.route.params.doc.foodEntry], 
+        this.setState({
+          foodEntry: [this.props.route.params.doc.foodEntry],
           waterEntry: [this.props.route.params.doc.waterEntry],
           exerciseEntry: [this.props.route.params.doc.exerciseEntry],
           sleepEntry: [this.props.route.params.doc.sleepEntry],
@@ -117,9 +117,9 @@ export default class SummaryScreen extends Component {
           moodEntry: null
         })
         break
-        
+
       default:
-      
+
     }
   }
 
@@ -150,7 +150,7 @@ export default class SummaryScreen extends Component {
           <MoodWidget moodEntry={this.state.moodEntry} />
 
         </View>
-      </ScrollView>    
+      </ScrollView>
     )
   }
 }

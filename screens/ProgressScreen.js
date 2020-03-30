@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList, ScrollView, Image, Button, Modal, TouchableOpacity, TextInput } from 'react-native'
-import SegmentedControlTab from "react-native-segmented-control-tab";
+import SegmentedControlTab from "react-native-segmented-control-tab"; //imports all required components and libraries
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
@@ -16,7 +16,7 @@ export default class ProgressScreen extends Component {
             data: [],
             timeStamp: [],
             startingWeight: [],
-            selectedIndex: 0,
+            selectedIndex: 0, //initializes needed state vairables
             time: [],
             measurements: [],
             showWeightAdd: false,
@@ -32,10 +32,7 @@ export default class ProgressScreen extends Component {
     }
 
     async componentDidMount() {
-        await this.list()
-        await this.time()
-        await this.startingWeight()
-        await this.getTime()
+        await this.startingWeight() //pulls all needed values from the database
         await this.getValues()
 
     }
@@ -94,10 +91,11 @@ export default class ProgressScreen extends Component {
                     timeStamp: doc.data().timeStamp,
                     chest: doc.data().chestEntry,
                     waist: doc.data().waistEntry,
-                    hips: doc.data().hipsEntry
+                    hips: doc.data().hipsEntry,
+                    weightEntry: doc.data().weightEntry
+
                 }
                 measurements.push(obj)
-
 
 
                 this.setState({ measurements })
@@ -107,36 +105,6 @@ export default class ProgressScreen extends Component {
 
     }
 
-
-    list = async () => {
-
-        let uid = await firebase.auth().currentUser.uid
-
-
-        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("weightEntry", "desc").limit(17).get().then((doc) => {
-
-            let weightEntry = []
-            doc.forEach((doc) => {
-                let d = new Date(doc.data().timeStamp)
-                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-                const date = d.getDate()
-                const Month = months[d.getMonth()]
-                const Year = d.getFullYear()
-                let obj = {
-                    date: `${Month} ${date}, ${Year}`,
-                    timeStamp: doc.data().timeStamp,
-                    weightEntry: doc.data().weightEntry
-                }
-                weightEntry.push(obj)
-
-                this.setState({ weightEntry })
-            })
-
-
-        })
-
-
-    }
 
     startingWeight = async () => {
 
@@ -149,38 +117,13 @@ export default class ProgressScreen extends Component {
 
     }
 
-    time = async () => {
 
-        let uid = await firebase.auth().currentUser.uid
-
-        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").orderBy("timeStamp", "asc").limit(17).get().then((querySnapshot) => {
-
-
-            let timeStamp = []
-
-            querySnapshot.forEach((doc) => {
-
-                let d = new Date(doc.data().timeStamp)
-                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-                const date = d.getDate()
-                const Month = months[d.getMonth()]
-                const Year = d.getFullYear()
-                let obj = {
-                    timeStamp: `${Month} ${date}, ${Year}`
-                }
-
-                timeStamp.push(obj)
-                this.setState({ timeStamp })
-            })
-        })
-
-    }
     _renderWeightContent = () => {
-        this.state.weightEntry.sort(function (a, b) { return b.timeStamp - a.timeStamp })
+        this.state.measurements.sort(function (a, b) { return b.timeStamp - a.timeStamp })
 
 
         return (
-            this.state.weightEntry.map((item, key) => (
+            this.state.measurements.map((item, key) => (
 
                 <View key={key}>
                     <Text style={weight.date}>{item.date}</Text>
