@@ -25,4 +25,6 @@
 
 <img src="Images/4phones.png" alt="Team logo">
 
-Short description of the project 
+<p>
+      This is a food tracking app made specific for Dr. Bishops Weight Management clinic. It is meant to replace their current paper food tracking sheets. We have implemented not only food tracking, but also water, activity, mood and sleep tracking. We have worked hard to streamline the way their clients track their food intake with our quick select food tracking.
+</p>
