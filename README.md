@@ -81,6 +81,11 @@ There are many health tracking and activity tracking apps available directly to 
 
 ### Interactive Visual Mockup
 
+<!-- Technical Research -->
+## Technical Research
+
+Summary of your technical research and attach the technical research document.
+
 <!-- High-Level Architecture -->
 ## High-Level Architecture
 
