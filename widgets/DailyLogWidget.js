@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, YellowBox, Image } from 'react-native'//imports required for functionality
-import * as firebase from "firebase/app"
-import "firebase/firestore"
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'//imports required for functionality
 
 import { DataContext } from '../contexts/DataContext'
 
@@ -20,12 +18,6 @@ export default class DailyLogWidget extends Component {
     }
 
     async componentDidMount() {
-
-        YellowBox.ignoreWarnings([
-            'VirtualizedLists should never be nested', // TODO: Remove when fixed
-        ])
-
-        
         await this.buildDaysList()
 
         this.props.mounted()

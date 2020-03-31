@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Image, Button, TouchableOpacity, Modal, TextInp
 import * as firebase from 'firebase/app'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import '@firebase/firestore'
-import 'firebase/auth'
 
 import { DataContext } from '../contexts/DataContext'
 

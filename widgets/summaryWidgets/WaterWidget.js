@@ -3,16 +3,17 @@ import { StyleSheet, Text, View, TouchableOpacity, YellowBox, Dimensions } from 
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
-import { LinearGradient } from 'expo-linear-gradient';
+
+import { DataContext } from '../../contexts/DataContext'
+
 
 export default class WaterWidget extends Component {
+
+    static contextType = DataContext
 
     constructor(props) {
         super(props)
         this.state = {
-            uid: "",
-            usersPlan: "",
-            planData: {},//initialized state variables
             usersWater: this.props.waterEntry.portions,
             maxWater: 0,
             percentage: 0
@@ -20,9 +21,6 @@ export default class WaterWidget extends Component {
     }
 
     async componentDidMount() {
-        await this.setUid()
-        await this.setUsersPlan()
-        await this.setPlanData()
         await this.setMaxWater()
         await this.setPercentage()
     }
@@ -33,24 +31,8 @@ export default class WaterWidget extends Component {
         }
     }
 
-    setUid = async () => { //sets the user id from the database
-        let uid = await firebase.auth().currentUser.uid
-        await this.setState({ uid })
-    }
-
-    setUsersPlan = async () => { //sets the current users plan from the database
-        let usersPlan = await firebase.firestore().collection("userData").doc(this.state.uid).get().then((doc) => { return doc.data().plan })
-        this.setState({ usersPlan })
-    }
-
-    setPlanData = async () => { //sets the plan data from the database
-        await firebase.firestore().collection("plans").doc(this.state.usersPlan).get().then((doc) => {
-            this.setState({ planData: doc.data() })
-        })
-    }
-
     setMaxWater = () => { //sets the max water based on the plan data
-        let maxWater = this.state.planData.water.maxPortions
+        let maxWater = this.context.planData.water.maxPortions
         this.setState({ maxWater })
     }
 
@@ -71,7 +53,7 @@ export default class WaterWidget extends Component {
 
         await this.setState({
             usersWater: newUsersWater,
-            maxWater: this.state.planData.water.maxPortions * this.props.waterEntry.length
+            maxWater: this.context.planData.water.maxPortions * this.props.waterEntry.length
         })
 
         this.setPercentage()

@@ -4,22 +4,20 @@ import { ProgressCircle } from 'react-native-svg-charts'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 
+import { DataContext } from '../../contexts/DataContext'
+
 export default class NutritionWidget extends Component {
+
+    static contextType = DataContext
 
     constructor(props) {
         super(props)
         this.state = {
-            uid: "",
-            usersPlan: "",//initialized state variables
-            foodDataList: [],
-            planData: {}
+            foodDataList: [], //initialized state variables
         }
     }
 
     async componentDidMount() {
-        await this.setUid()
-        await this.setUsersPlan()
-        await this.setPlanData()
         await this.buildFoodDataList()
 
     }
@@ -30,22 +28,6 @@ export default class NutritionWidget extends Component {
         }
     }
 
-    setUid = async () => { //sets current user id
-        let uid = await firebase.auth().currentUser.uid
-        await this.setState({ uid })
-    }
-
-    setUsersPlan = async () => { //sets the current user plan to display correct portions
-        let usersPlan = await firebase.firestore().collection("userData").doc(this.state.uid).get().then((doc) => { return doc.data().plan })
-        this.setState({ usersPlan })
-    }
-
-    setPlanData = async () => {
-        await firebase.firestore().collection("plans").doc(this.state.usersPlan).get().then((doc) => {
-            this.setState({ planData: doc.data() })
-        })
-    }
-
     buildFoodDataList = () => { // builds the list that gets mapped in render
         let foodDataList = []
 
@@ -54,7 +36,7 @@ export default class NutritionWidget extends Component {
             let obj = {
                 name: item.name,
                 portions: item.portions,
-                maxPortions: Object.values(this.state.planData.portions)[index].maxPortions,
+                maxPortions: Object.values(this.context.planData.portions)[index].maxPortions,
                 progressColor: "#347EFB",
                 foodIcon: ""
             }
@@ -110,7 +92,7 @@ export default class NutritionWidget extends Component {
             let newObj = {
                 name: obj.name,
                 portions: newPortions,
-                maxPortions: Object.values(this.state.planData.portions)[index].maxPortions * this.props.foodEntry.length,
+                maxPortions: Object.values(this.context.planData.portions)[index].maxPortions * this.props.foodEntry.length,
                 progressColor: "#347EFB",
                 foodIcon: obj.foodIcon
             }

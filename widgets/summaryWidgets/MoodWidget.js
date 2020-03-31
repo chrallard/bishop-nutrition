@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, YellowBox, Image } from 'react-native'//imports all required components and libraries
+import { StyleSheet, Text, View, Image } from 'react-native'//imports all required components and libraries
 
 export default class MoodWidget extends Component {
 

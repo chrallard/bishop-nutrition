@@ -90,7 +90,6 @@ export default class ProgressScreen extends Component {
             this.setState({yData}) 
     }
 
-
     addModal = () => {
         this.refs.addModal.showModal();
     }
@@ -117,31 +116,25 @@ export default class ProgressScreen extends Component {
 
     getValues = async () => {
 
-        let uid = await firebase.auth().currentUser.uid
-        await firebase.firestore().collection("userData").doc(uid).collection("bodyTracking").limit(5).get().then((querySnapshot) => {
+        let measurements = []
+        this.context.bodyTrackingData.forEach((doc) => {
 
-            let measurements = []
-            querySnapshot.forEach((doc) => {
-
-                let d = new Date(doc.data().timeStamp)
-                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-                const date = d.getDate()
-                const Month = months[d.getMonth()]
-                const Year = d.getFullYear()
-                let obj = {
-
-                    date: `${Month} ${date}, ${Year}`,
-                    timeStamp: doc.data().timeStamp,
-                    chest: doc.data().chestEntry,
-                    waist: doc.data().waistEntry,
-                    hips: doc.data().hipsEntry
+            let d = new Date(doc.timeStamp)
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+            const date = d.getDate()
+            const Month = months[d.getMonth()]
+            const Year = d.getFullYear()
+            let obj = {
+                date: `${Month} ${date}, ${Year}`,
+                timeStamp: doc.timeStamp,
+                chest: doc.chestEntry,
+                waist: doc.waistEntry,
+                hips: doc.hipsEntry
                 }
-                measurements.push(obj)
+            measurements.push(obj)
 
-                this.setState({ measurements })
-            })
+            this.setState({ measurements })
         })
-
 
     }
 
@@ -626,7 +619,7 @@ const styles = StyleSheet.create({
       alignSelf: 'center',
       alignItems: 'center',
       position: 'absolute',
-      top: '93%'
+      top: '95%'
     },
     addBtnSize: {
         height: 40,

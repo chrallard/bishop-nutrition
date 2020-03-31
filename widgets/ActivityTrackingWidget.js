@@ -29,10 +29,6 @@ export default class ActivityTrackingWidget extends Component {
         this.addModal = this.addModal.bind(this);
     }
 
-    componentDidMount() {
-        //this.props.mounted()
-    }
-
     componentDidUpdate(prevProps) {
         if(prevProps.visible !== this.props.visible){
             this.updateVisibility()
