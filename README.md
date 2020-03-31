@@ -102,7 +102,7 @@ pod install
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-<img src="Images/Dashboard.png" alt="Team logo" height="auto" width="200">    <img src="Images/Summary.png" alt="Team logo" height="auto" width="200">    <img src="Images/Progress.png" alt="Team logo" height="auto" width="200">      
+<img src="Images/Dashboard.png" alt="Team logo" height="auto" width="204">    <img src="Images/Summary.png" alt="Team logo" height="auto" width="212">    <img src="Images/Progress.png" alt="Team logo" height="auto" width="200">      
 
 <!-- ROADMAP -->
 ## Roadmap
