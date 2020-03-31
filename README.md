@@ -111,7 +111,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 List of Sprint two features (and known issues, if any).
 - Activity tracking that pulls data from Fitbit API
 - Ability to hide certain widgets on home screen
-- View progress from past days
+- View progress from specific days
 
 <!-- Contact -->
 ## Contact
