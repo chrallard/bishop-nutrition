@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Button, TextInput, Text, TouchableOpacity, StatusBar, Image } from 'react-native'
+import { StyleSheet, View, TextInput, Text, TouchableOpacity, StatusBar, Image } from 'react-native'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 
@@ -134,5 +134,4 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 8
   }
-
 })

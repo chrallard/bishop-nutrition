@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, YellowBox } from 'react-native'//imports all required components and libraries
+import { StyleSheet, Text, View } from 'react-native'//imports all required components and libraries
 
 export default class SleepWidget extends Component {
 
@@ -23,9 +23,6 @@ export default class SleepWidget extends Component {
     }
 
     buildSleep = () => { //compares start and end sleep time
-        let start = this.props.sleepEntry.start
-        let end = this.props.sleepEntry.end
-
         this.setState({
             avgSleep: this.props.sleepEntry.duration,
         })

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, YellowBox } from 'react-native'//imports all required components and libraries
+import { StyleSheet, Text, View } from 'react-native'//imports all required components and libraries
 
 export default class ActivityWidget extends Component {
 

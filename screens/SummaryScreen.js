@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import { StyleSheet, View, ScrollView } from 'react-native'
+import { MaterialIndicator } from 'react-native-indicators'
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import NutritionWidget from '../widgets/summaryWidgets/NutritionWidget'
 import WaterWidget from '../widgets/summaryWidgets/WaterWidget' //imports of required components and libraries
 import ActivityWidget from '../widgets/summaryWidgets/ActivityWidget'
 import SleepWidget from '../widgets/summaryWidgets/SleepWidget'
 import MoodWidget from '../widgets/summaryWidgets/MoodWidget'
-import * as firebase from 'firebase/app'
-import 'firebase/firestore'
+
+import { DataContext } from '../contexts/DataContext'
 
 
 export default class SummaryScreen extends Component {
+
+  static contextType = DataContext
 
   constructor(props) {
     super(props)
@@ -24,34 +27,25 @@ export default class SummaryScreen extends Component {
       waterEntry: this.props.route.params.doc.waterEntry,
       exerciseEntry: this.props.route.params.doc.exerciseEntry,//initializes needed state vairables
       sleepEntry: this.props.route.params.doc.sleepEntry,
-      moodEntry: this.props.route.params.doc.moodEntry
+      moodEntry: this.props.route.params.doc.moodEntry,
+
+      loadingStyle: styles.loading,
+      displayStyle: styles.invisible
     }
   }
 
   async componentDidMount() {
-    await this.setUid()
     await this.getData()
+
+    await this.setState({ 
+      loadingStyle: styles.invisible,
+      displayStyle: styles.container
+   })
   }
 
-  setUid = async () => {
-    let uid = await firebase.auth().currentUser.uid
-    this.setState({ uid })
-  }
 
-  getData = async () => { //calls the database and pulls needed health data
-
-    await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").orderBy("timeStamp", "desc").limit(30).get().then((querySnapshot) => {
-      let healthTrackingData = []
-
-      querySnapshot.forEach((item) => {
-        healthTrackingData.push(item.data())
-      })
-
-      this.setState({ healthTrackingData })
-    })
-
-
-
+  getData = async () => { //calls the context and pulls needed health data
+      this.setState({ healthTrackingData: this.context.healthTrackingData })
   }
 
   handleIndexChange = (index) => {
@@ -59,7 +53,7 @@ export default class SummaryScreen extends Component {
       selectedIndex: index //used to change segmented tabs 
     })
 
-    switch (index) { //switch cases load data only rhe required amount of data needed for the segmendted tab
+    switch (index) { //switch cases load data only the required amount of data needed for the segmendted tab
       case 0:
         this.setState({
           foodEntry: [this.props.route.params.doc.foodEntry],
@@ -125,32 +119,38 @@ export default class SummaryScreen extends Component {
 
   render() {
     return (
-      <ScrollView>
-        <View style={styles.container} >
-
-          <SegmentedControlTab
-            values={["Daily", "Weekly", "Monthly"]}
-            selectedIndex={this.state.selectedIndex}
-            onTabPress={this.handleIndexChange}
-
-            allowFontScaling={false}
-            tabsContainerStyle={styles.tabsContainerStyleSummary}
-            tabStyle={styles.tabStyleSummary}
-            firstTabStyle={styles.firstTabStyleSummary}
-            lastTabStyle={styles.lastTabStyleSummary}
-            tabTextStyle={styles.tabTextStyleSummary}
-            activeTabStyle={styles.activeTabStyleSummary}
-            activeTabTextStyle={styles.activeTabTextStyleSummary}
-          />
-
-          <NutritionWidget foodEntry={this.state.foodEntry} />
-          <WaterWidget waterEntry={this.state.waterEntry} />
-          <ActivityWidget exerciseEntry={this.state.exerciseEntry} />
-          <SleepWidget sleepEntry={this.state.sleepEntry} />
-          <MoodWidget moodEntry={this.state.moodEntry} />
-
+      <>
+        <View style={this.state.loadingStyle} >
+          <MaterialIndicator color='#347EFB' size={50} />
         </View>
-      </ScrollView>
+
+        <ScrollView>
+          <View style={this.state.displayStyle} >
+
+            <SegmentedControlTab
+              values={["Daily", "Weekly", "Monthly"]}
+              selectedIndex={this.state.selectedIndex}
+              onTabPress={this.handleIndexChange}
+
+              allowFontScaling={false}
+              tabsContainerStyle={styles.tabsContainerStyleSummary}
+              tabStyle={styles.tabStyleSummary}
+              firstTabStyle={styles.firstTabStyleSummary}
+              lastTabStyle={styles.lastTabStyleSummary}
+              tabTextStyle={styles.tabTextStyleSummary}
+              activeTabStyle={styles.activeTabStyleSummary}
+              activeTabTextStyle={styles.activeTabTextStyleSummary}
+            />
+
+            <NutritionWidget foodEntry={this.state.foodEntry} />
+            <WaterWidget waterEntry={this.state.waterEntry} />
+            <ActivityWidget exerciseEntry={this.state.exerciseEntry} />
+            <SleepWidget sleepEntry={this.state.sleepEntry} />
+            <MoodWidget moodEntry={this.state.moodEntry} />
+
+          </View>
+        </ScrollView>
+      </>
     )
   }
 }
@@ -182,4 +182,11 @@ const styles = StyleSheet.create({
     color: '#DDDEDE'
   },
 
+  loading: {
+    height: '100%',
+    justifyContent: 'center'
+  },
+  invisible:{
+      display: 'none'
+  }
 })

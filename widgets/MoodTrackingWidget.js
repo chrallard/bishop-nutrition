@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput, Dimensions } from 'react-native';//imports all required components and libraries
 import * as firebase from 'firebase/app'
 import '@firebase/firestore'
-import 'firebase/auth'
 
 import { DataContext } from '../contexts/DataContext'
 

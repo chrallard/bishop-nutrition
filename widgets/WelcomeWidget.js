@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'//imports all required components and libraries
-import * as firebase from "firebase/app"
-import "firebase/firestore"
-import 'firebase/auth'
+import { StyleSheet, Text, View } from 'react-native' //imports all required components and libraries
 
 import { DataContext } from '../contexts/DataContext'
+
 
 export default class WelcomeWidget extends Component {
 

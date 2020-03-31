@@ -1,17 +1,12 @@
-import * as firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/firestore'
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button, ScrollView, YellowBox, StatusBar, ActivityIndicator, Modal, TouchableHighlight } from 'react-native'
-import {MaterialIndicator} from 'react-native-indicators';
+import { StyleSheet, View, ScrollView } from 'react-native'
+import { MaterialIndicator } from 'react-native-indicators'
 import WelcomeWidget from '../widgets/WelcomeWidget'
 import DailyLogWidget from '../widgets/DailyLogWidget'
 import FoodTrackingWidget from '../widgets/FoodTrackingWidget'
 import WaterTrackingWidget from '../widgets/WaterTrackingWidget'
 import SleepTrackingWidget from '../widgets/SleepTrackingWidget'  //imports all needed widgets and components
 import ActivityTrackingWidget from '../widgets/ActivityTrackingWidget'
-import healthTrackingTemplate from '../dataTemplates/healthTrackingTemplate'
-import bodyTrackingTemplate from '../dataTemplates/bodyTrackingTemplate'
 import WeightWidget from '../widgets/WeightWidget'
 import MoodTrackingWidget from '../widgets/MoodTrackingWidget'
 
@@ -27,19 +22,13 @@ export default class HomeScreen extends Component {
     }
   }
 
-  async componentDidMount() {
-    YellowBox.ignoreWarnings([
-      'VirtualizedLists should never be nested', // TODO: Remove when fixed
-    ])
-  }
-
   handleMount = () => {
     let num = this.state.mountedComponents
     num += 1
     this.setState({ mountedComponents: num })
 
 
-    if(num == 6) { // this number is based on how many widgets are mounting - bug: ActivityTrackingWidget and SleepTrackingWidget mess up the # of monutedComponents
+    if(num == 6) { // this number is based on how many widgets are mounting - Activity and Sleep reset the count to 0 causing the loading state to stay. using 6 instead of 8 is a hacky fix 
       this.setState({ 
         loadingVisible: false,
         displayStyle: styles.invisible
