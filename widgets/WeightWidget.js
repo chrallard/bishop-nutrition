@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image } from 'react-native'//imports all requir
 import Dash from 'react-native-dash'
 
 import { DataContext } from '../contexts/DataContext'
+import FoodTrackingWidget from './FoodTrackingWidget'
 
 
 export default class WeightWidget extends Component {
@@ -94,7 +95,8 @@ const styles = StyleSheet.create({
     titleText: {
         color: '#FAFAFA',
         fontSize: 20,
-        marginBottom: 16
+        marginBottom: 16,
+        fontWeight: '600'
     },
     textRow: {
         flexDirection: 'row',

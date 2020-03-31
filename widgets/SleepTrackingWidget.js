@@ -115,7 +115,7 @@ const SleepTrackingWidget = (props) => {
                     <View style={styles.modalHeader}>
 
                         <TouchableOpacity onPress={() => setShowMe(false)}>
-                            <Text style={styles.modalNav}>Cancel</Text>
+                            <Text style={styles.modalNav}>Back</Text>
                         </TouchableOpacity>
 
                         <Text style={styles.modalTitle}>Sleep</Text>
@@ -200,7 +200,8 @@ const styles = StyleSheet.create({
     widgetTitle: {
         color: '#FAFAFA',
         fontSize: 20,
-        marginBottom: 16
+        marginBottom: 16,
+        fontWeight: '600'
     },
     widgetTextLayout: {
         flex: 1,

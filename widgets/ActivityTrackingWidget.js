@@ -279,7 +279,8 @@ const styles = StyleSheet.create({
     widgetTitle: {
         color: '#FAFAFA',
         fontSize: 20,
-        marginBottom: 16
+        marginBottom: 16,
+        fontWeight: '600'
     },
     widgetTextLayout: {
         justifyContent: 'center',
@@ -304,11 +305,6 @@ const styles = StyleSheet.create({
     buttonSpace: {
         marginTop: 8
     },
-
-
-
-
-
     modalContentLayout: {
         padding: 16,
         paddingTop: 50
@@ -346,6 +342,7 @@ const styles = StyleSheet.create({
     modalTitle: {
         color: '#FAFAFA',
         fontSize: 20,
+        fontWeight: '600'
     },
     modalNav: {
         fontSize: 17,

@@ -66,12 +66,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#1C1C1E',
         padding: 16,
         alignSelf: 'stretch',
-        marginBottom: 8,
+        marginTop: 16
         //marginTop: 44
     },
     title: {
         color: '#FAFAFA',
         fontSize: 20,
+        fontWeight: '600'
     },
     nameText: {
         flexDirection: 'column',

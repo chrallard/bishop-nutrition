@@ -165,8 +165,7 @@ const styles = StyleSheet.create({
   tabsContainerStyleSummary: {
     width: 250,
     alignSelf: 'center',
-    marginTop: 8,
-    marginBottom: 8,
+    marginTop: 16,
   },
   tabStyleSummary: {
     borderColor: '#636366',

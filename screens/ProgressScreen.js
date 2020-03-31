@@ -308,7 +308,7 @@ export default class ProgressScreen extends Component {
                   <ScrollView>
                       <View style={this.state.displayStyle} >
 
-                          <View style={{ height: 200, padding: 10, flexDirection: 'row', backgroundColor: '#347EFB' }}>
+                          <View style={{ height: 200, padding: 10, flexDirection: 'row', backgroundColor: '#347EFB', marginTop: 16 }}>
 
                               <YAxis
                                   data={this.state.yData}
@@ -366,7 +366,7 @@ export default class ProgressScreen extends Component {
 
                               <View style={styles.modalStyle}>
                                   <View style={styles.modalHeader}>
-                                      <TouchableOpacity onPress={() => { this.setState({ showMeasurementAdd: false }) }}>
+                                      <TouchableOpacity onPress={() => { this.setState({ showWeightAdd: false }) }}>
                                           <Text style={styles.modalNav}>Back</Text>
                                       </TouchableOpacity>
 

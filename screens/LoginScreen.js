@@ -25,8 +25,8 @@ export default class LoginScreen extends Component {
       <View style={styles.container} >
         <StatusBar barStyle="light-content" translucent={true} />
         <View style={styles.logoText}>
-          <Text style={{ color: '#347EFB', fontSize: 37 }}>Bishop</Text>
-          <Text style={{ color: '#DDDEDE', fontSize: 37 }}>Nutrition</Text>
+          <Text style={styles.logoBishopText}>Bishop</Text>
+          <Text style={styles.logoNutritionText}>Nutrition</Text>
         </View>
 
         <View style={styles.input}>
@@ -133,5 +133,13 @@ const styles = StyleSheet.create({
     width: 22,
     marginLeft: 5,
     marginRight: 8
+  },
+  logoBishopText:{
+    color: '#347EFB', 
+    fontSize: 37,
+  },
+  logoNutritionText:{
+    color: '#DDDEDE', 
+    fontSize: 37 
   }
 })

@@ -62,14 +62,18 @@ function HomeStackScreen() {
           fontWeight: '700'
         },
         headerStyle: {
-          borderBottomColor: '#B7B7B7',
+          borderBottomColor: '#242424',
           borderBottomWidth: 0.5
         }
 
       }} />
       <HomeStack.Screen name="DailyLogWidget" component={DailyLogWidget} />
       <HomeStack.Screen name="Summary" component={SummaryScreen} options={{
-        title: "Summary"
+        title: "Summary",
+        headerStyle: {
+          borderBottomColor: '#242424',
+          borderBottomWidth: 0.5
+        }
       }} />
     </HomeStack.Navigator>
   )
@@ -79,7 +83,11 @@ function FoodStackScreen() {
   return (
     <FoodStack.Navigator>
       <FoodStack.Screen name="Food List" component={FoodScreen} options={{
-        title: "Food List"
+        title: "Food List",
+        headerStyle: {
+          borderBottomColor: '#242424',
+          borderBottomWidth: 0.5
+        }
       }} />
     </FoodStack.Navigator>
   )
@@ -89,7 +97,11 @@ function ProgressStackScreen() {
   return (
     <ProgressStack.Navigator>
       <ProgressStack.Screen name="Progress" component={ProgressScreen} options={{
-        title: "Progress"
+        title: "Progress",
+        headerStyle: {
+          borderBottomColor: '#242424',
+          borderBottomWidth: 0.5
+        }
       }} />
     </ProgressStack.Navigator>
   )
@@ -99,13 +111,25 @@ function ProfileStackScreen() {
   return (
     <ProfileStack.Navigator>
       <ProfileStack.Screen name="Profile" component={ProfileScreen} options={{
-        title: "Profile"
+        title: "Profile",
+        headerStyle: {
+          borderBottomColor: '#242424',
+          borderBottomWidth: 0.5
+        }
       }} />
       <ProfileStack.Screen name="Update Password" component={UpdatePasswordScreen} options={{
-        title: "Update Password"
+        title: "Update Password",
+        headerStyle: {
+          borderBottomColor: '#242424',
+          borderBottomWidth: 0.5
+        }
       }} />
       <ProfileStack.Screen name="About" component={About} options={{
-        title: "About"
+        title: "About",
+        headerStyle: {
+          borderBottomColor: '#242424',
+          borderBottomWidth: 0.5
+        }
       }} />
     </ProfileStack.Navigator>
   )

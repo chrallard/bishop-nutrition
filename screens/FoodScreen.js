@@ -828,7 +828,7 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width: 300, alignSelf: 'center' }}
+                  containerStyle={{ backgroundColor: '#000', width: '96%', alignSelf: 'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateFavouriteSearch}
                   value={search}
@@ -875,7 +875,7 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width: 300, alignSelf: 'center' }}
+                  containerStyle={{ backgroundColor: '#000', width: '96%', alignSelf: 'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateFavouriteSearch}
                   value={search}
@@ -927,7 +927,7 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width: 300, alignSelf: 'center' }}
+                  containerStyle={{ backgroundColor: '#000', width: '96%', alignSelf: 'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateSearch}
                   value={search}
@@ -966,7 +966,7 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width: 300, alignSelf: 'center' }}
+                  containerStyle={{ backgroundColor: '#000', width: '96%', alignSelf: 'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateSearch}
                   value={search}
@@ -1068,9 +1068,9 @@ const styles = StyleSheet.create({
   },
   listItemContainer: //space between
   {
-    height: 40,
+    height: 45,
     paddingLeft: 16,
-    marginBottom: 16,
+    marginTop: 16,
     backgroundColor: '#1C1C1E',
     alignItems: 'flex-start',
     justifyContent: 'center',
@@ -1106,7 +1106,7 @@ const styles = StyleSheet.create({
   },
   catagoryIconDairy: {
     height: 30,
-    width: 30,
+    width: 22,
     resizeMode: 'contain',
     justifyContent: 'center',
     alignItems: 'center',
@@ -1114,8 +1114,7 @@ const styles = StyleSheet.create({
   tabsContainerStyleFood: {
     width: 250,
     alignSelf: 'center',
-    marginTop: 16,
-    marginBottom: 16,
+    marginBottom: 8,
   },
   tabStyleFood: {
     borderColor: '#636366',
@@ -1133,8 +1132,6 @@ const styles = StyleSheet.create({
   tabsContainerStyleFav: {
     width: 250,
     alignSelf: 'center',
-    marginTop: 16,
-    marginBottom: 16,
   },
   tabStyleFav: {
     borderColor: '#636366',

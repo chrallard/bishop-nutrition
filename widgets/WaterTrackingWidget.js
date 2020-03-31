@@ -153,6 +153,7 @@ const styles = StyleSheet.create({
   titleText: {
     color: '#FAFAFA',
     fontSize: 20,
+    fontWeight: '600'
   },
   bodyText: {
     color: '#DDDEDE',

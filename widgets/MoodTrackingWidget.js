@@ -237,7 +237,8 @@ const styles = StyleSheet.create({
     widgetTitle: {
         color: '#FAFAFA',
         fontSize: 20,
-        marginBottom: 16
+        marginBottom: 16,
+        fontWeight: '600'
     },
     emoji: {
         height: 60,
