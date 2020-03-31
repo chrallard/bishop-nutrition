@@ -73,30 +73,31 @@ npm install -g expo-cli
 
 ### Installation
 
-1. Clone the repo
+1. Clone the repo.
 ```sh
-git clone https://github.com/alla0243/bishop-nutrition.git
+git clone -b native --single-branch https://github.com/alla0243/bishop-nutrition.git
 ```
-2. Install Yarn packages
+2. Navigate into the folder.
+```sh
+cd bishop-nutrition
+```
+3. Install Yarn packages.
 ```sh
 yarn install
 ```
-3. Eject from the project directory
+4. Navigate into the ios folder.
 ```sh
-expo eject
+cd ios
 ```
-4. When prompted in the terminal, select **Bare**, not ExpoKit.
-
-5. When prompted in the terminal, type **sudo gem install cocoapods** if you don't already have cocoapods installed
-
-6. Navigate to the **ios** folder within the project folder and install pods
+5. Install pod files. You may need to install cocoapods if you haven't before.
 ```sh
 pod install
 ```
-7. Run app on ios
-```sh
-yarn ios
-```
+5. In Finder, navigate into the ios folder and open bishop_nutrition.xcworkspace.
+6. Plug in your iPhone and select it in the device dropdown. You can also use a simulator.
+7. In the menu bar, select Product -> Run.
+8. The app should install and run on your device. You may need to trust the app in your iPhone's settings.
+
 
 <!-- USAGE EXAMPLES -->
 ## Usage
