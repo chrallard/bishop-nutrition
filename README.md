@@ -53,7 +53,7 @@
 
  <img src="Images/high_level_arch.png" alt="High Level Architecture" height="500" width="auto">
 
-Describe in brief about your high-level architecture.
+We decided to build the app using React Native, with the help of Firebase on the backend. React Native allowed us to build out features using JavaScript and JSX, while still being able to run the app on a device 100% natively. Firebase was a great tool for what we needed. It provided the necessary authentication functionality as well as a document database where we could store user data, food plans, and a food list. Firebase also has a useful console that can be accessed and edited by the adminstrator of the app.
 
 <!-- Getting Started -->
 ## Getting Started
