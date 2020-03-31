@@ -11,6 +11,16 @@
 * [About the Project](#about-the-project)
   * [Built With](#built-with)
 * [Features](#features)
+* [Design](#design)
+  * [User Research](#User-Research)
+  * [Product Research](#Product-Research)
+  * [Personas](#Personas)
+  * [User Stories](#User-Stories)
+  * [Information Architecture](#Information-Architecture)
+  * [Paper Prototypes](#Paper-Prototypes)
+  * [UI Wireframes](#UI-Wireframes)
+  * [Visual Design](#Visual-Design)
+  * [Interactive Visual Mockup](#Interactive-Visual-Mockup)
 * [High-Level Architecture](#high-level-architecture)
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
@@ -47,6 +57,29 @@
 - [x] Line Graph showing weight progress
 - [x] Update Password
 - [x] Reset Password
+
+<!-- Design -->
+## Design
+
+### User Research
+Prior to our first meeting with Dr. Bishop’s team we performed an online questionnaire to get background on what people are currently doing in their weight loss journey.  We had 47 responses from various weight loss support groups on Facebook.
+
+### Product Research
+There are many health tracking and activity tracking apps available directly to users.  Since none of these have access to Dr. Bishop’s plans, they are not a direct competitor, however, many clients are using them as a substitute to the current pen and paper tracking method.  Some of the most popular apps clients are using are MyFitnessPal, Fitbit, Baritastic.
+
+### Personas
+
+### User Stories
+
+### Information Architecture
+
+### Paper Prototypes
+
+### UI Wireframes
+
+### Visual Design
+
+### Interactive Visual Mockup
 
 <!-- High-Level Architecture -->
 ## High-Level Architecture
