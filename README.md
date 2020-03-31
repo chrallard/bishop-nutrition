@@ -26,7 +26,7 @@
 <img src="Images/4phones.png" alt="Team logo">
 
 <p>
-      Bishop Nutrition an app made specifically for Dr. Bishops Weight Management Clinic. It is meant to replace their current paper food tracking sheets. We have implemented not only food tracking, but also water, activity, mood and sleep tracking. We have worked hard to streamline the way their clients track their food intake with our quick select food tracking.
+      Bishop Nutrition an app made specifically for Dr. Bishop's Weight Management Clinic. It is meant to replace their current paper food tracking sheets. We have implemented not only food tracking, but also water, activity, mood, and sleep tracking. We have worked hard to streamline the way their clients track their food intake with our quick select food tracking.
 </p>
 
 ### Built With
@@ -60,16 +60,18 @@ We decided to build the app using React Native, with the help of Firebase on the
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+These are the tools you will need to use the app.
 
-* Yarn
+* yarn
 ```sh
 brew install yarn
 ```
-* Expo
+* CocoaPods
 ```sh
-npm install -g expo-cli
+sudo gem install cocoapods
 ```
+* Xcode
+Available on the Mac App Store.
 
 ### Installation
 
@@ -129,4 +131,4 @@ List of Sprint two features (and known issues, if any).
 
 <!-- Acknowledgements -->
 ## Acknowledgements
-Everyone at Infinite Studio would like the thank our Professors Su Cheng Lee and Adesh Shah for all their support throughout the design and development of Bishop Nutrition. They added a lot of great insight and mentorship towards the app and Infinite Studio team. We are forever grateful for their help in the development of Bishop Nutrition and help to further our knowledge. We'd also like to thank everyone at Dr. Bishops Weight Management Clinic. Their support and positivity towards the team and development of Bishop Nutrition were truly wonderful. The Infinite Studio team is truly grateful for this opportunity and will never forget all the support and dedication that went into this project. Thank you to everyone involved!
+Everyone at Infinite Studio would like the thank our Professors Su Cheng Lee and Adesh Shah for all their support throughout the design and development of Bishop Nutrition. They added a lot of great insight and mentorship towards the app and Infinite Studio team. We are forever grateful for their help in the development of Bishop Nutrition and help to further our knowledge. We'd also like to thank everyone at Dr. Bishop's Weight Management Clinic. Their support and positivity towards the team and development of Bishop Nutrition were truly wonderful. The Infinite Studio team is very grateful for this opportunity and will never forget all the support and dedication that went into this project. Thank you to everyone involved!
