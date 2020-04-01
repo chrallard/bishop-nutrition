@@ -64,22 +64,47 @@
 ### User Research
 Prior to our first meeting with Dr. Bishop’s team we performed an online questionnaire to get background on what people are currently doing in their weight loss journey.  We had 47 responses from various weight loss support groups on Facebook.
 
+https://drive.google.com/open?id=19DzOPWjqbOw-dyKIf-PQS4janyAy03YM
+
 ### Product Research
 There are many health tracking and activity tracking apps available directly to users.  Since none of these have access to Dr. Bishop’s plans, they are not a direct competitor, however, many clients are using them as a substitute to the current pen and paper tracking method.  Some of the most popular apps clients are using are MyFitnessPal, Fitbit, Baritastic.
 
+https://drive.google.com/open?id=14KiqSHhdfoTl5X9fECOGoEQfpX9kw7Fh
+
 ### Personas
+For our personas, we went with 4 different users. Dr. Bishops client demographic is mainly females in their 50s, so we went with 3 female users and 1 male user. 3 of the users are current clients and 1 is a brand new client.
+
+https://drive.google.com/open?id=1eES8hKOb1MVzT-ynSFukhMGRPLrzBOLS
 
 ### User Stories
+We really wanted each user to focus on 1 main feature that we could get feedback on. With 4 personas we made 1 user focus on weight tracking, 1 focused on getting setup as a new user, 1 focused on food tracking and the last user to be focused on viewing progression.
+
+https://drive.google.com/open?id=1eES8hKOb1MVzT-ynSFukhMGRPLrzBOLS
 
 ### Information Architecture
+The information architecture is meant to show how the app will be structured. Our main focus was to make sure the user didn't have to travel to any part of our app, we wanted as few clicks as possible. With most food tracking apps out currently being very confusing to use, we really wanted our users to feel comfortable and not overwhelmed.
+
+https://drive.google.com/open?id=1gaIwE4CEObIaUAPB8vVFOGjk-L_RDv0W
 
 ### Paper Prototypes
+Paper protyopes are rough design sketches of the app. For our paper prototypes we had multiple team memembers draw a very rough sketch of our main screens just to get all our ideas on paper. We then discussed which ideas were best and made a master paper prototype.
+
+https://drive.google.com/open?id=1I_KNFLvulPwNrXQl9py3CcCUol8bCb8u
 
 ### UI Wireframes
+The UI wireframes are a more polished version of the paper prototype (without colour) but this time using a tool such as XD. We used XD to transfer all the ideas from the paper prototype into a digital format. 
+
+https://drive.google.com/open?id=1-3xH81pJay2fFaxTjk65rzH-Cw1hi8rE
 
 ### Visual Design
+Visual design is when you add colour and real content into the prototype. We picked our colour palette based off Dr. Bishops website colours and created icons and real data to put into the prototype. Dr. Bishop loved the idea of dark mode so thats what we went with.
+
+https://drive.google.com/open?id=17MGLdRgWMWuAcDcKAAQ84g_MbkicfsLn
 
 ### Interactive Visual Mockup
+The intereactive visual mockup is a working prototype that will be used for testing. We used XD to create our interactive visual mockup. 
+
+https://xd.adobe.com/view/6011869d-8624-48dd-6b96-4c3207fad670-1620/?fullscreen&hints=off
 
 <!-- Technical Research -->
 ## Technical Research
