@@ -84,7 +84,9 @@ There are many health tracking and activity tracking apps available directly to 
 <!-- Technical Research -->
 ## Technical Research
 
-Summary of your technical research and attach the technical research document.
+The following document outlines the technical researched prior to the development stage of the project. The techlogies we investigated range from front end frameworks, data visualization tools, and database options.
+
+https://docs.google.com/document/d/1tOJZMeHA1UNSjviJtnpPhF14Q_bjxfEq7NiJS2xbP_c/edit?usp=sharing
 
 <!-- High-Level Architecture -->
 ## High-Level Architecture
