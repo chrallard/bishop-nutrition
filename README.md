@@ -21,6 +21,7 @@
   * [UI Wireframes](#UI-Wireframes)
   * [Visual Design](#Visual-Design)
   * [Interactive Visual Mockup](#Interactive-Visual-Mockup)
+* [Technical Research](#technical-research)
 * [High-Level Architecture](#high-level-architecture)
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
