@@ -110,8 +110,8 @@ brew install yarn
 ```sh
 sudo gem install cocoapods
 ```
-* Xcode
-Available on the Mac App Store.
+* Xcode, available on the Mac App Store.
+* Apple ID
 
 ### Installation
 
@@ -136,7 +136,7 @@ cd ios
 pod install
 ```
 5. In Finder, navigate into the ios folder and open bishop_nutrition.xcworkspace.
-6. Plug in your iPhone and select it in the device dropdown. You can also use a simulator.
+6. Plug in your iPhone and select it in the device dropdown. You can also use a simulator. If you choose to use a device, make sure your Apple ID is added to Xcode.
 7. In the menu bar, select Product -> Run.
 8. The app should install and run on your device. You may need to trust the app in your iPhone's settings.
 
