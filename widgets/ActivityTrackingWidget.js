@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput, Dimensions } from 'react-native';//imports required for functionality
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+import * as firebase from 'firebase/app'
+import 'firebase/firestore'
+
+import { DataContext } from '../contexts/DataContext'
 
 
 var screen = Dimensions.get('window');
 export default class ActivityTrackingWidget extends Component {
 
+    static contextType = DataContext
 
     constructor(props) {
         super(props)
@@ -18,7 +23,7 @@ export default class ActivityTrackingWidget extends Component {
             Notes: "",
             radio_props: [
                 { label: `Cardio`, value: "Cardio" },
-                { label: `Strength Training`, value: "Strength Trainging" },
+                { label: `Strength Training`, value: "Strength Training" },
                 { label: `Yoga`, value: "Yoga" },
                 { label: `Other`, value: "Other" }
             ],
@@ -64,6 +69,20 @@ export default class ActivityTrackingWidget extends Component {
             default:
                 break;
         }
+    }
+
+    updateDb = async () => {
+        // title, minutes, notes, type
+
+        await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
+        .set({ 
+            exerciseEntry: {
+                durationMins: Number(this.state.Duration),
+                notes: this.state.Notes,
+                title: this.state.Title,
+                type: this.state.radio_props[this.state.value3Index].value
+            }
+         }, { merge: true })
     }
 
     render() {
@@ -124,30 +143,9 @@ export default class ActivityTrackingWidget extends Component {
                                 })
                                 console.log(this.state.Title + "\n")
                                 console.log(this.state.Duration + "\n")
-
-                                switch (this.state.value3Index) {
-                                    case 0:
-                                        console.log("Cardio \n")
-                                        break;
-                                    case 1:
-                                        console.log("Strength Trainging \n")
-
-                                        break;
-                                    case 2:
-                                        console.log("Yoga \n")
-
-                                        break;
-                                    case 3:
-                                        console.log("Other \n")
-
-                                        break;
-
-                                    default:
-                                        break;
-                                }
                                 console.log(this.state.Notes + "\n")
 
-
+                                this.updateDb()
                             }}>
                                 <Text style={styles.modalNav}>Save</Text>
                             </TouchableOpacity>
