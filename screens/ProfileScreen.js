@@ -65,7 +65,7 @@ export default class ProfileScreen extends Component {
       .set({
 
         name: this.state.name,
-        weight: this.state.weight,
+        startingWeight: this.state.weight,
         gender: this.state.gender,
         dob: this.state.dob,
         email: this.state.email,
