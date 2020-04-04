@@ -81,7 +81,6 @@ export default class WaterWidget extends Component {
                             {...progressCustomStyles}
                             width={barWidth}
                             value={this.state.percentage}
-                            backgroundColorOnComplete="#1C1C1E"
                             height={16} />
                     </View>
                     <Text style={styles.waterText}>{this.state.usersWater} of {this.state.maxWater} cups</Text>
