@@ -62,9 +62,7 @@ export default class DailyLogWidget extends Component {
     checkDayComplete = (foodEntry) => { //compares if the user met the days portion limits
         let foodList = []
 
-        //console.log(foodEntry)
-
-        Object.values(foodEntry).forEach((item, index) => {
+        Object.values(foodEntry).forEach((item) => {
             foodList.push({
                 name: item.name,
                 portions: item.portions,
@@ -82,7 +80,7 @@ export default class DailyLogWidget extends Component {
         })
 
         foodList.forEach((item, index) => {
-            if (item.portions < planList[index].maxPortions) {
+            if (item.portions < planList[index].maxPortions || item.portions > planList[index].maxPortions) {
                 item.complete = false
             } else {
                 item.complete = true
@@ -105,7 +103,6 @@ export default class DailyLogWidget extends Component {
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         const date = dateObj.getDate()
         const month = months[dateObj.getMonth()]
-        const year = dateObj.getFullYear()
         const formattedDate = month + " " + date //looks like this: March 4
 
         return formattedDate
