@@ -63,8 +63,8 @@ function HomeStackScreen() {
         },
         headerStyle: {
           borderBottomColor: '#242424',
-          borderBottomWidth: 0.5
-        }
+          borderBottomWidth: 0.5,
+        },
 
       }} />
       <HomeStack.Screen name="DailyLogWidget" component={DailyLogWidget} />

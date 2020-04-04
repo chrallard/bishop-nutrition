@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput, Dimensions } from 'react-native';//imports all required components and libraries
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput, Dimensions, KeyboardAvoidingView } from 'react-native';//imports all required components and libraries
 import * as firebase from 'firebase/app'
 import '@firebase/firestore'
 
@@ -87,8 +87,7 @@ export default class MoodTrackingWidget extends Component {
 
 
 
-                <Modal visible={this.state.showMe} animationType={'slide'} transparent={true}>
-
+                <Modal visible={this.state.showMe} animationType={'slide'} presentationStyle='pageSheet'>
                     <View style={styles.modalStyle}>
                         <View style={styles.modalHeader}>
                             <TouchableOpacity onPress={() => { this.setState({ showMe: false }) }}>
@@ -111,6 +110,8 @@ export default class MoodTrackingWidget extends Component {
                             <View style={styles.modalSeprateLine} />
 
                         </View>
+
+                        <KeyboardAvoidingView behavior="position">
                         <View>
                             <Text style={styles.content}>How is Your Mood Today:</Text>
                         </View>
@@ -216,6 +217,7 @@ export default class MoodTrackingWidget extends Component {
                                 value={this.state.diary} />
 
                         </View>
+                        </KeyboardAvoidingView>
                     </View>
                 </Modal>
 
@@ -267,7 +269,6 @@ const styles = StyleSheet.create({
     modalStyle: {
         height: '100%',
         backgroundColor: '#0D0D0D',
-        marginTop: 88,
         borderRadius: 15,
     },
     modalHeader: {

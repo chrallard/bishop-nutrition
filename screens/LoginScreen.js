@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, TextInput, Text, TouchableOpacity, StatusBar, Image } from 'react-native'
+import { StyleSheet, View, TextInput, Text, TouchableOpacity, StatusBar, Image, KeyboardAvoidingView } from 'react-native'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 
@@ -22,7 +22,7 @@ export default class LoginScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container} >
+      <KeyboardAvoidingView style={styles.container} behavior="padding" >
         <StatusBar barStyle="light-content" translucent={true} />
         <View style={styles.logoText}>
           <Text style={styles.logoBishopText}>Bishop</Text>
@@ -59,7 +59,7 @@ export default class LoginScreen extends Component {
             <Text style={styles.forgotPassBtn}>Reset Here</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }
