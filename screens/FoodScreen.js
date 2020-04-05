@@ -7,6 +7,7 @@ import SegmentedControlTab from "react-native-segmented-control-tab";
 import Accordion from 'react-native-collapsible/Accordion';
 import * as firebase from "firebase/app"
 import "firebase/firestore"
+import { DataContext } from '../contexts/DataContext'
 let dairyPortions = 0
 let restrictedVegPortions = 0
 let fruitPortions = 0
@@ -21,7 +22,7 @@ let str = "hi"
 
 export default class ProfileScreen extends Component {
 
-
+  static contextType = DataContext
   constructor(props) {
     super(props)
 
@@ -36,6 +37,7 @@ export default class ProfileScreen extends Component {
       docId: "",
       longPressed: 0,
       favAdded: 0,
+      foodTrackingList: [],
       lists: [
         {
           type: "Dairy",
@@ -440,23 +442,7 @@ export default class ProfileScreen extends Component {
 
 
   };
-  updateDb = async (item) => {
-    let foodEntry = {}
 
-
-    let obj = {
-      [item.category.toLowerCase()]: {
-        name: item.name,
-        portions: 1
-      }
-    }
-
-    Object.assign(foodEntry, obj)
-
-
-    await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").doc(this.state.docId)
-      .set({ foodEntry }, { merge: true })
-  }
   updateHalfDb = async (item) => {
     let foodEntry = {}
 
@@ -556,17 +542,11 @@ export default class ProfileScreen extends Component {
     this._loadFavList()
 
   }
-  _addPortion = (item) => { //adds a portion of the selected food to the users daily
-    console.log(item.category)
-    //this.updateDb(item)
-  }
+
   _openDeleteOrHalfPortion = (item) => { //displays two smaller buttons 
     this.setState({ longPressed: item.key })
   }
-  _addHalfPortion = (item) => {//adds a portion of the selected food to the users daily
-    console.log(item.category)
-    //this.updateHalfDb(item)
-  }
+
   _deleteHalfPortion = (item) => {//removes a portion of the selected food to the users daily
     console.log(item.category)
   }
@@ -682,6 +662,105 @@ export default class ProfileScreen extends Component {
 
     );
   };
+
+  incrementPortion = async (item) => {
+    let dairyCount = {}
+    let fatsCount = {}
+    let fruitCount = {}
+    let proteinCount = {}
+    let resVegCount = {}
+    let simpleCarbCount = {}
+    let foodEntry = {}
+
+    await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId).get().then((doc) => {
+      Object.values(doc.data().foodEntry).forEach((i) => {
+
+        switch (i.name) {
+          case "Dairy":
+            dairyCount = i
+            break;
+          case "Fats":
+            fatsCount = i
+            break;
+          case "Fruit":
+            fruitCount = i
+            break;
+          case "Protein":
+            proteinCount = i
+            break;
+          case "Res. Vegetables":
+            resVegCount = i
+            break;
+          case "Simple Carbs":
+            simpleCarbCount = i
+            break;
+          default:
+            break;
+        }
+      })
+    })
+
+    switch (item.category) {
+      case "Dairy":
+        foodEntry = {
+          ["dairy"]: {
+            name: dairyCount.name,
+            portions: dairyCount.portions + 1
+          }
+        }
+        break;
+      case "Fats":
+        foodEntry = {
+          ["fats"]: {
+            name: fatsCount.name,
+            portions: fatsCount.portions + 1
+          }
+        }
+        break;
+      case "Fruit":
+        foodEntry = {
+          ["fruit"]: {
+            name: fruitCount.name,
+            portions: fruitCount.portions + 1
+          }
+        }
+        break;
+      case "Protein":
+        foodEntry = {
+          ["protein"]: {
+            name: proteinCount.name,
+            portions: proteinCount.portions + 1
+          }
+        }
+        break;
+      case "Restricted Vegetables":
+        foodEntry = {
+          ["resVegs"]: {
+            name: resVegCount.name,
+            portions: resVegCount.portions + 1
+          }
+        }
+        break;
+      case "Simple Carbs":
+        foodEntry = {
+          ["simpleCarbs"]: {
+            name: simpleCarbCount.name,
+            portions: simpleCarbCount.portions + 1
+          }
+        }
+        break;
+      default:
+        break;
+    }
+    this.updateDb(foodEntry)
+    // await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
+    //     .set({ foodEntry }, { merge: true })
+  }
+  updateDb = async (foodEntry) => {
+    await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
+      .set({ foodEntry }, { merge: true })
+  }
+
   _renderContent = section => {//renders the lists of foods in the accordion list
 
     return (
@@ -735,7 +814,7 @@ export default class ProfileScreen extends Component {
 
                 //#endregion
               ) : (
-                  <TouchableOpacity onPress={() => this._addPortion(item)} onLongPress={() => this._openDeleteOrHalfPortion(item)}>
+                  <TouchableOpacity onPress={() => this.incrementPortion(item)} onLongPress={() => this._openDeleteOrHalfPortion(item)}>
                     <Image
                       style={styles.icon}
                       source={require('../assets/add_Circle.png')}
@@ -797,7 +876,7 @@ export default class ProfileScreen extends Component {
 
                   //#endregion
                 ) : (
-                    <TouchableOpacity onPress={() => this._addPortion(item)} onLongPress={() => this._openDeleteOrHalfPortion(item)}>
+                    <TouchableOpacity onPress={() => this.incrementPortion(item)} onLongPress={() => this._openDeleteOrHalfPortion(item)}>
                       <Image
                         style={styles.icon}
                         source={require('../assets/add_Circle.png')}
