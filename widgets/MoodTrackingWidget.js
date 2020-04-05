@@ -88,7 +88,9 @@ export default class MoodTrackingWidget extends Component {
 
 
                 <Modal visible={this.state.showMe} animationType={'slide'} presentationStyle='pageSheet'>
+                
                     <View style={styles.modalStyle}>
+                    
                         <View style={styles.modalHeader}>
                             <TouchableOpacity onPress={() => { this.setState({ showMe: false }) }}>
                                 <Text style={styles.modalNav}>Back</Text>
@@ -219,6 +221,7 @@ export default class MoodTrackingWidget extends Component {
                         </View>
                         </KeyboardAvoidingView>
                     </View>
+                    
                 </Modal>
 
             </View>
@@ -274,6 +277,7 @@ const styles = StyleSheet.create({
     modalHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        zIndex: 1,
         alignItems: 'center',
         backgroundColor: '#1E1E1E',
         width: '100%',
