@@ -35,7 +35,7 @@ export default class ActivityTrackingWidget extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.visible !== this.props.visible){
+        if (prevProps.visible !== this.props.visible) {
             this.updateVisibility()
         }
     }
@@ -75,14 +75,14 @@ export default class ActivityTrackingWidget extends Component {
         // title, minutes, notes, type
 
         await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
-        .set({ 
-            exerciseEntry: {
-                durationMins: Number(this.state.Duration),
-                notes: this.state.Notes,
-                title: this.state.Title,
-                type: this.state.radio_props[this.state.value3Index].value
-            }
-         }, { merge: true })
+            .set({
+                exerciseEntry: {
+                    durationMins: Number(this.state.Duration),
+                    notes: this.state.Notes,
+                    title: this.state.Title,
+                    type: this.state.radio_props[this.state.value3Index].value
+                }
+            }, { merge: true })
     }
 
     render() {
@@ -100,18 +100,21 @@ export default class ActivityTrackingWidget extends Component {
                         <Text style={styles.widgetTitle}>Activity</Text>
                     </View>
 
-                    <View style={styles.widgetContent}>
-                        <View style={styles.widgetTextLayout}>
-                            <Text style={styles.widgetInfoText}>3862</Text>
-                            <Text style={styles.widgetSubTitle}>Steps</Text>
+                    <View style={styles.infoContainer}>
+                        <View style={styles.infoLoayout}>
+                            <Text style={styles.amountText}>0</Text>
+                            <Text style={styles.titleText}>min of cardio</Text>
+
+                            <Text style={styles.amountText}>0</Text>
+                            <Text style={styles.titleText}>min of strength</Text>
                         </View>
-                        <View style={styles.widgetTextLayout}>
-                            <Text style={styles.widgetInfoText}>1 hr 35min</Text>
-                            <Text style={styles.widgetSubTitle}>Cardio</Text>
-                        </View>
-                        <View style={styles.widgetTextLayout}>
-                            <Text style={styles.widgetInfoText}>0 min</Text>
-                            <Text style={styles.widgetSubTitle}>Strength</Text>
+
+                        <View>
+                            <Text style={styles.amountText}>0</Text>
+                            <Text style={styles.titleText}>min of yoga</Text>
+
+                            <Text style={styles.amountText}>0</Text>
+                            <Text style={styles.titleText}>min of other</Text>
                         </View>
                     </View>
 
@@ -268,6 +271,20 @@ const styles = StyleSheet.create({
         marginTop: 8,
         padding: 16,
     },
+    titleText: {
+        flexDirection: 'column',
+        color: '#FAFAFA',
+        fontSize: 20,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginBottom: 8
+    },
+    amountText: {
+        color: '#347EFB',
+        fontSize: 40,
+        justifyContent: 'center',
+        alignSelf: 'center'
+    },
     widgetContent: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -292,6 +309,17 @@ const styles = StyleSheet.create({
     widgetInfoText: {
         color: "#347EFB",
         fontSize: 22
+    },
+    infoContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        margin: 16,
+        marginRight: 40,
+        marginLeft: 40
+    },
+    infoLoayout: {
+
     },
     icon: {
         marginLeft: 8,
@@ -365,7 +393,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
     },
 
-    invisible:{
+    invisible: {
         display: 'none'
     }
 });
