@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Button, Image, TouchableOpacity, Modal, TextInput, ScrollView } from 'react-native'
 import { MaterialIndicator } from 'react-native-indicators'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
@@ -224,9 +225,10 @@ export default class ProfileScreen extends Component {
             </View>
 
             <Modal visible={this.state.showMe} animationType={'slide'} transparent={'true'}>
-              <View style={styles.modalStyle}>
+              <KeyboardAwareScrollView style={styles.modalStyle}>
+              <View >
                 <View style={styles.modalHeader}>
-                  <TouchableOpacity onPress={() => { this.setState({ showMe: false }) }}>
+                  <TouchableOpacity onPress={() => { this.setState({ showMe: false }),this.userIfo() }}>
                     <Text style={styles.modalNav}>Back</Text>
                   </TouchableOpacity>
 
@@ -240,7 +242,7 @@ export default class ProfileScreen extends Component {
                 <Text style={styles.infoTitle}>FULL NAME</Text>
                 <TextInput style={styles.infoText}
                   placeholder='name'
-                  placeholderTextColor="#ffffff"
+                  placeholderTextColor="#347EFB"
                   autoCapitalize="none"
                   onChangeText={(name) => this.setState({ name })}
                   value={this.state.name} />
@@ -249,7 +251,7 @@ export default class ProfileScreen extends Component {
                 <Text style={styles.infoTitle}>DATE OF BIRTH</Text>
                 <TextInput style={styles.infoText}
                   placeholder={this.state.dob}
-                  placeholderTextColor="#ffffff"
+                  placeholderTextColor="#347EFB"
                   autoCapitalize="none"
                   onChangeText={(dob) => this.setState({ dob })}
                   value={this.state.dob} />
@@ -258,7 +260,7 @@ export default class ProfileScreen extends Component {
                 <Text style={styles.infoTitle}>HEIGHT</Text>
                 <TextInput style={styles.infoText}
                   placeholder={this.state.height}
-                  placeholderTextColor="#ffffff"
+                  placeholderTextColor="#347EFB"
                   autoCapitalize="none"
                   onChangeText={(height) => this.setState({ height })}
                   value={this.state.height} />
@@ -267,7 +269,7 @@ export default class ProfileScreen extends Component {
                 <Text style={styles.infoTitle}>STARTING WEIGHT</Text>
                 <TextInput style={styles.infoText}
                   keyboardType={'numeric'}
-                  placeholderTextColor="#ffffff"
+                  placeholderTextColor="#347EFB"
                   autoCapitalize="none"
                   onChangeText={(weight) => this.setState({ weight })}
                   value={this.state.weight} />
@@ -276,7 +278,7 @@ export default class ProfileScreen extends Component {
                 <Text style={styles.infoTitle}>GENDER</Text>
                 <TextInput style={styles.infoText}
                   placeholder={this.state.gender}
-                  placeholderTextColor="#ffffff"
+                  placeholderTextColor="#347EFB"
                   autoCapitalize="none"
                   onChangeText={(gender) => this.setState({ gender })}
                   value={this.state.gender} />
@@ -285,7 +287,7 @@ export default class ProfileScreen extends Component {
                 <Text style={styles.infoTitle}>EMAIL</Text>
                 <TextInput style={styles.infoText}
                   placeholder={this.state.email}
-                  placeholderTextColor="#ffffff"
+                  placeholderTextColor="#347EFB"
                   autoCapitalize="none"
                   onChangeText={(email) => this.setState({ email })}
                   value={this.state.email} />
@@ -293,6 +295,7 @@ export default class ProfileScreen extends Component {
 
 
               </View>
+              </KeyboardAwareScrollView>
             </Modal>
           </View>
         </View>
