@@ -663,7 +663,7 @@ export default class ProfileScreen extends Component {
     );
   };
 
-  incrementPortion = async (item) => {
+  incrementPortion = async (item, portion) => {
     let dairyCount = {}
     let fatsCount = {}
     let fruitCount = {}
@@ -705,7 +705,7 @@ export default class ProfileScreen extends Component {
         foodEntry = {
           ["dairy"]: {
             name: dairyCount.name,
-            portions: dairyCount.portions + 1
+            portions: dairyCount.portions + portion
           }
         }
         break;
@@ -713,7 +713,7 @@ export default class ProfileScreen extends Component {
         foodEntry = {
           ["fats"]: {
             name: fatsCount.name,
-            portions: fatsCount.portions + 1
+            portions: fatsCount.portions + portion
           }
         }
         break;
@@ -721,7 +721,7 @@ export default class ProfileScreen extends Component {
         foodEntry = {
           ["fruit"]: {
             name: fruitCount.name,
-            portions: fruitCount.portions + 1
+            portions: fruitCount.portions + portion
           }
         }
         break;
@@ -729,7 +729,7 @@ export default class ProfileScreen extends Component {
         foodEntry = {
           ["protein"]: {
             name: proteinCount.name,
-            portions: proteinCount.portions + 1
+            portions: proteinCount.portions + portion
           }
         }
         break;
@@ -737,7 +737,7 @@ export default class ProfileScreen extends Component {
         foodEntry = {
           ["resVegs"]: {
             name: resVegCount.name,
-            portions: resVegCount.portions + 1
+            portions: resVegCount.portions + portion
           }
         }
         break;
@@ -745,7 +745,7 @@ export default class ProfileScreen extends Component {
         foodEntry = {
           ["simpleCarbs"]: {
             name: simpleCarbCount.name,
-            portions: simpleCarbCount.portions + 1
+            portions: simpleCarbCount.portions + portion
           }
         }
         break;
@@ -753,8 +753,6 @@ export default class ProfileScreen extends Component {
         break;
     }
     this.updateDb(foodEntry)
-    // await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
-    //     .set({ foodEntry }, { merge: true })
   }
   updateDb = async (foodEntry) => {
     await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
@@ -789,7 +787,7 @@ export default class ProfileScreen extends Component {
 
                 <View style={{ flexDirection: 'row' }}>
                   <View>
-                    <TouchableOpacity onPress={() => this._addHalfPortion(item)}>
+                    <TouchableOpacity onPress={() => this.incrementPortion(item, 0.5)}>
                       <Image
                         style={styles.icon}
                         source={require('../assets/add_half_portion.png')}
@@ -803,7 +801,7 @@ export default class ProfileScreen extends Component {
                         source={require('../assets/longPress.png')}
                       />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this._deleteHalfPortion(item)}>
+                    <TouchableOpacity onPress={() => this.incrementPortion(item, -0.5)}>
                       <Image
                         style={styles.icon}
                         source={require('../assets/minus_half_portion.png')}
@@ -814,7 +812,7 @@ export default class ProfileScreen extends Component {
 
                 //#endregion
               ) : (
-                  <TouchableOpacity onPress={() => this.incrementPortion(item)} onLongPress={() => this._openDeleteOrHalfPortion(item)}>
+                  <TouchableOpacity onPress={() => this.incrementPortion(item, 1)} onLongPress={() => this._openDeleteOrHalfPortion(item)}>
                     <Image
                       style={styles.icon}
                       source={require('../assets/add_Circle.png')}
