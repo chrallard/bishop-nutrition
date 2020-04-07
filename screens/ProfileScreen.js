@@ -198,12 +198,13 @@ export default class ProfileScreen extends Component {
             <View style={styles.textContainer1}>
               <TouchableOpacity onPress={() => this.setState({ showUpdatePassword: true })}>
                 <View style={styles.updatePassword}>
+                <View style={{flexDirection:'row'}}> 
                   <Image style={styles.lockIcon} source={require('../assets/changePassword.png')} />
-
+                 
                   <Text style={styles.changePasswordText}> Change Password</Text>
-
+                  </View>
                   <Image style={styles.chevronIcon} source={require('../assets/chevron.png')} />
-
+               
                 </View>
               </TouchableOpacity>
 
@@ -211,11 +212,13 @@ export default class ProfileScreen extends Component {
 
               <TouchableOpacity onPress={() => { this.props.navigation.navigate("About") }}>
                 <View style={styles.updatePassword}>
+                <View style={{flexDirection:'row'}}> 
                   <Image style={styles.aboutIcon} source={require('../assets/about.png')} />
-
+                  
                   <Text style={styles.aboutText}> About</Text>
-
+                  </View>
                   <Image style={styles.chevronIcon} source={require('../assets/chevron.png')} />
+                
                 </View>
               </TouchableOpacity>
             </View>
