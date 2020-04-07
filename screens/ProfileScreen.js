@@ -51,7 +51,6 @@ export default class ProfileScreen extends Component {
     let cred = firebase.auth.EmailAuthProvider.credential(currentUser.email, this.state.currentPasswordInput)
     currentUser.reauthenticateWithCredential(cred).then(() => {
       currentUser.updatePassword(this.state.newPasswordInput).then(() => {
-        alert("Password updated successfully.")
         this.setState({ showUpdatePassword: false })
       }).catch((err) => {
         alert(err)
