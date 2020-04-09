@@ -110,7 +110,7 @@ export default class ProfileScreen extends Component {
         </View>
 
         <View style={this.state.displayStyle}>
-          <Modal visible={this.state.showUpdatePassword} animationType={'slide'} transparent={true}>
+          <Modal visible={this.state.showUpdatePassword} animationType={'slide'} presentationStyle='pageSheet'>
 
             <View style={styles.modalStyle}>
 
