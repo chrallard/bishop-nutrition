@@ -130,7 +130,7 @@ const SleepTrackingWidget = (props) => {
                     </View>
 
                     
-                    <KeyboardAvoidingView behavior="position">
+                    <KeyboardAvoidingView behavior="position" style={{paddingBottom: 60}}>
                     <View style={styles.modalContentLayout}>
 
                         <Text style={styles.datePickerTitles}>Sleep Start:</Text>
