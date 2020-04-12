@@ -167,6 +167,72 @@ pod install
 8. The app should install and run on your device. You may need to trust the app in your iPhone's settings.
 
 
+<!-- FIREBASE -->
+## Firebase Console
+
+Google’s Firebase Firestore is the database we’ve been using to store food, plan, and user data. Below are instructions on how to complete three significant tasks in the Firebase [console](https://console.firebase.google.com/u/0/project/bishop-nutrition/overview).
+
+### Add plan
+1. Select "Database" in the Develop menu.
+2. Select the the "plans" collection.
+3. Inside, click "Add document" and give it a short name the relates to the plan.
+4. Add the data according to this structure:
+
+```sh
+gender: "gender"
+name: "Plan Name"
+portions: { // of type map
+	dairy: {
+		dbName: "dairy"
+		maxPortions: 2
+		name: "Dairy"
+	},
+	foodCategory2: {
+		dbName: "foodCategory2"
+		maxPortions: 5
+		name: "Food Category 2"
+	},
+	foodCategory3: {
+		dbName: "foodCategory3"
+		maxPortions: 5
+		name: "Food Category 3"
+	}
+}
+water: {
+	maxPortions: 8
+	name: "Water"
+}
+totalPortions: 12 // sum of all maxPortions
+```
+
+### Add food item
+1. Select "Database" in the Develop menu.
+2. Select the "foodList" collection.
+3. Select the "allFood" document.
+4. Select "Add field". Give it a short descriptive name of type "map".
+5. Add the data according to this structure:
+
+```sh
+short_descriptive_name: {
+	category: "Category Name"
+	key: 00000 // random number
+	name: "Food item name"
+	portionSize: "3/4 cup (180ml)"
+	plans: [ // which plans allow this food item
+		"plan_1",
+		"plan_2"
+	]
+}
+```
+
+### Add new user
+1. Select "Authentication" in the Develop menu.
+2. Click the "Add user" button.
+3. Enter the patients email address and a temporary password.
+4. You can now give these credentails to the patient. Make sure they know to change their password immediately after logging in the first time.
+
+
+
 <!-- USAGE EXAMPLES -->
 ## Usage
 
@@ -179,6 +245,7 @@ List of Sprint two features (and known issues, if any).
 - Activity tracking that pulls data from Fitbit API
 - Ability to hide certain widgets on home screen
 - View progress from specific days
+- Encryption of sensitive user data (weight, measurements)
 
 <!-- Contact -->
 ## Contact

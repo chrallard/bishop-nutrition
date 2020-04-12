@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Button, Image, TouchableOpacity, Modal, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native'
 import { MaterialIndicator } from 'react-native-indicators'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
@@ -50,7 +51,6 @@ export default class ProfileScreen extends Component {
     let cred = firebase.auth.EmailAuthProvider.credential(currentUser.email, this.state.currentPasswordInput)
     currentUser.reauthenticateWithCredential(cred).then(() => {
       currentUser.updatePassword(this.state.newPasswordInput).then(() => {
-        alert("Password updated successfully.")
         this.setState({ showUpdatePassword: false })
       }).catch((err) => {
         alert(err)
@@ -198,12 +198,13 @@ export default class ProfileScreen extends Component {
             <View style={styles.textContainer1}>
               <TouchableOpacity onPress={() => this.setState({ showUpdatePassword: true })}>
                 <View style={styles.updatePassword}>
+                <View style={{flexDirection:'row'}}> 
                   <Image style={styles.lockIcon} source={require('../assets/changePassword.png')} />
-
+                 
                   <Text style={styles.changePasswordText}> Change Password</Text>
-
+                  </View>
                   <Image style={styles.chevronIcon} source={require('../assets/chevron.png')} />
-
+               
                 </View>
               </TouchableOpacity>
 
@@ -211,11 +212,13 @@ export default class ProfileScreen extends Component {
 
               <TouchableOpacity onPress={() => { this.props.navigation.navigate("About") }}>
                 <View style={styles.updatePassword}>
+                <View style={{flexDirection:'row'}}> 
                   <Image style={styles.aboutIcon} source={require('../assets/about.png')} />
-
+                  
                   <Text style={styles.aboutText}> About</Text>
-
+                  </View>
                   <Image style={styles.chevronIcon} source={require('../assets/chevron.png')} />
+                
                 </View>
               </TouchableOpacity>
             </View>
@@ -224,10 +227,13 @@ export default class ProfileScreen extends Component {
               <Button onPress={this.signOut} fontSize={20} title="Log Out" color="#fff" />
             </View>
 
+
             <Modal visible={this.state.showMe} animationType={'slide'} presentationStyle='pageSheet'>
-              <View style={styles.modalStyle}>
+              <KeyboardAwareScrollView style={styles.modalStyle}>
+              <View >
+                
                 <View style={styles.modalHeader}>
-                  <TouchableOpacity onPress={() => { this.setState({ showMe: false }) }}>
+                  <TouchableOpacity onPress={() => { this.setState({ showMe: false }),this.userIfo() }}>
                     <Text style={styles.modalNav}>Back</Text>
                   </TouchableOpacity>
 
@@ -242,7 +248,7 @@ export default class ProfileScreen extends Component {
                 <Text style={styles.infoTitle}>FULL NAME</Text>
                 <TextInput style={styles.infoText}
                   placeholder='name'
-                  placeholderTextColor="#ffffff"
+                  placeholderTextColor="#347EFB"
                   autoCapitalize="none"
                   onChangeText={(name) => this.setState({ name })}
                   value={this.state.name} />
@@ -251,7 +257,7 @@ export default class ProfileScreen extends Component {
                 <Text style={styles.infoTitle}>DATE OF BIRTH</Text>
                 <TextInput style={styles.infoText}
                   placeholder={this.state.dob}
-                  placeholderTextColor="#ffffff"
+                  placeholderTextColor="#347EFB"
                   autoCapitalize="none"
                   onChangeText={(dob) => this.setState({ dob })}
                   value={this.state.dob} />
@@ -260,7 +266,7 @@ export default class ProfileScreen extends Component {
                 <Text style={styles.infoTitle}>HEIGHT</Text>
                 <TextInput style={styles.infoText}
                   placeholder={this.state.height}
-                  placeholderTextColor="#ffffff"
+                  placeholderTextColor="#347EFB"
                   autoCapitalize="none"
                   onChangeText={(height) => this.setState({ height })}
                   value={this.state.height} />
@@ -269,7 +275,7 @@ export default class ProfileScreen extends Component {
                 <Text style={styles.infoTitle}>STARTING WEIGHT</Text>
                 <TextInput style={styles.infoText}
                   keyboardType={'numeric'}
-                  placeholderTextColor="#ffffff"
+                  placeholderTextColor="#347EFB"
                   autoCapitalize="none"
                   onChangeText={(weight) => this.setState({ weight })}
                   value={this.state.weight} />
@@ -278,7 +284,7 @@ export default class ProfileScreen extends Component {
                 <Text style={styles.infoTitle}>GENDER</Text>
                 <TextInput style={styles.infoText}
                   placeholder={this.state.gender}
-                  placeholderTextColor="#ffffff"
+                  placeholderTextColor="#347EFB"
                   autoCapitalize="none"
                   onChangeText={(gender) => this.setState({ gender })}
                   value={this.state.gender} />
@@ -287,7 +293,7 @@ export default class ProfileScreen extends Component {
                 <Text style={styles.infoTitle}>EMAIL</Text>
                 <TextInput style={styles.infoText}
                   placeholder={this.state.email}
-                  placeholderTextColor="#ffffff"
+                  placeholderTextColor="#347EFB"
                   autoCapitalize="none"
                   onChangeText={(email) => this.setState({ email })}
                   value={this.state.email} />
@@ -295,6 +301,7 @@ export default class ProfileScreen extends Component {
 
                 </KeyboardAvoidingView>
               </View>
+              </KeyboardAwareScrollView>
             </Modal>
           </View>
         </View>
@@ -309,13 +316,16 @@ const styles = StyleSheet.create({
     marginTop: 16
   },
   updatePassword: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#1E1E1E',
-    width: '100%',
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    padding: 16
+    flex:1,
+    display:'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent:'space-between',
+      backgroundColor: '#1E1E1E',
+      width: '100%',
+      borderTopLeftRadius: 15,
+      borderTopRightRadius: 15,
+      padding: 16
   },
   textContainer1: {
     flexDirection: 'column',
@@ -389,15 +399,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   aboutText: {
-    color: "#ffffff",
-    paddingRight: 285,
-    paddingLeft: 10,
+    color:"#ffffff",
+    paddingTop:5,
+    paddingLeft:10,
     fontSize: 17
   },
   changePasswordText: {
-    color: "#ffffff",
-    paddingRight: 195,
-    paddingLeft: 10,
+    color:"#ffffff",
+    paddingTop:5,
+    paddingLeft:10,
     fontSize: 17
   },
   headerBox: {
