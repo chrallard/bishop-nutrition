@@ -5220,6 +5220,14 @@ react-native-status-bar-height@^2.2.0:
   resolved "https://registry.yarnpkg.com/react-native-status-bar-height/-/react-native-status-bar-height-2.4.0.tgz#de8cee4bb733a196167210d2d0bc1fa10acba3e3"
   integrity sha512-pWvZFlyIHiuxLugLioq97vXiaGSovFXEyxt76wQtbq0gxv4dGXMPqYow46UmpwOgeJpBhqL1E0EKxnfJRrFz5w==
 
+react-native-svg-animations@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-svg-animations/-/react-native-svg-animations-0.2.0.tgz#cd8fb95c072f1b258432a7b9e687b7aeed09643d"
+  integrity sha512-Qgbe/CPjSGPvF7WV96lLBF3NKplhS3/9TQEDZeC5EfpwyO33xVe7mfOzWkH7qUIiodJPOPxldYzD4W0KdRm6Pg==
+  dependencies:
+    color "^3.1.2"
+    svg-path-properties "^1.0.3"
+
 react-native-svg-charts@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/react-native-svg-charts/-/react-native-svg-charts-5.3.0.tgz#00ce3a043594e3c5e283f7496a44ab455c834a51"
@@ -5940,6 +5948,11 @@ supports-color@^6.1.0:
   integrity sha512-qe1jfm1Mg7Nq/NSh6XE24gPXROEVsWHxC1LIx//XNlD9iw7YZQGjZNjYN7xGaEG6iKdA8EtNFW6R0gjnVXp+wQ==
   dependencies:
     has-flag "^3.0.0"
+
+svg-path-properties@^1.0.3:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/svg-path-properties/-/svg-path-properties-1.0.4.tgz#e608f38d6e680d8636d0debed0d069b7fee10eeb"
+  integrity sha512-yoiTZOP37EFt6GetaQlN4IIqUWZSn3i+pMztDg3OtTNwoU0a+0+o7os3PK+UT2nsS115vr02VG4HIzMEVcTzFg==
 
 symbol-observable@1.0.1:
   version "1.0.1"
