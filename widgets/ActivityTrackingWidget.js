@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput, Dimensions } from 'react-native';//imports required for functionality
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput, Dimensions, KeyboardAvoidingView } from 'react-native';//imports required for functionality
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
@@ -124,7 +124,7 @@ export default class ActivityTrackingWidget extends Component {
 
 
 
-                <Modal visible={this.state.showMe} animationType={'slide'} transparent={true}>
+                <Modal visible={this.state.showMe} animationType={'slide'} presentationStyle='pageSheet'>
 
 
                     <View style={styles.modalStyle}>
@@ -156,7 +156,7 @@ export default class ActivityTrackingWidget extends Component {
 
                         </View>
 
-
+                        <KeyboardAvoidingView behavior="position">
                         <View style={styles.modalContentLayout}>
                             <View>
                                 <TextInput style={styles.modalInput}
@@ -253,6 +253,7 @@ export default class ActivityTrackingWidget extends Component {
                                     value={this.state.Text} />
                             </View>
                         </View>
+                        </KeyboardAvoidingView>
                     </View>
                 </Modal>
             </View>
@@ -352,11 +353,11 @@ const styles = StyleSheet.create({
     modalStyle: {
         height: '100%',
         backgroundColor: '#0D0D0D',
-        marginTop: 88,
         borderRadius: 15
     },
     modalHeader: {
         flexDirection: 'row',
+        zIndex: 1,
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#1E1E1E',

@@ -1,5 +1,5 @@
 import React, { Component, useState, useContext, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, Image, Button, TouchableOpacity, Modal, TextInput, Dimensions, StatusBar } from 'react-native';//imports all required components and libraries
+import { StyleSheet, Text, View, Image, Button, TouchableOpacity, Modal, TextInput, Dimensions, StatusBar, KeyboardAvoidingView } from 'react-native';//imports all required components and libraries
 import * as firebase from 'firebase/app'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import '@firebase/firestore'
@@ -109,7 +109,7 @@ const SleepTrackingWidget = (props) => {
 
 
             </TouchableOpacity>
-            <Modal visible={showMe} animationType={'slide'} transparent={true}>
+            <Modal visible={showMe} animationType={'slide'} presentationStyle='pageSheet'>
 
                 <View style={styles.modalStyle}>
                     <View style={styles.modalHeader}>
@@ -129,6 +129,8 @@ const SleepTrackingWidget = (props) => {
                         </TouchableOpacity>
                     </View>
 
+                    
+                    <KeyboardAvoidingView behavior="position" style={{paddingBottom: 60}}>
                     <View style={styles.modalContentLayout}>
 
                         <Text style={styles.datePickerTitles}>Sleep Start:</Text>
@@ -173,6 +175,7 @@ const SleepTrackingWidget = (props) => {
                                 value={notes} />
                         </View>
                     </View>
+                    </KeyboardAvoidingView>
                 </View>
             </Modal>
         </View>
@@ -229,11 +232,11 @@ const styles = StyleSheet.create({
     modalStyle: {
         height: '100%',
         backgroundColor: '#0D0D0D',
-        marginTop: 88,
         borderRadius: 15
     },
     modalHeader: {
         flexDirection: 'row',
+        zIndex: 1,
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#1E1E1E',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, FlatList, ScrollView, Image, Button, Modal, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, Text, View, FlatList, ScrollView, Image, Button, Modal, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native'
 import {MaterialIndicator} from 'react-native-indicators';
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts'
@@ -362,7 +362,7 @@ export default class ProgressScreen extends Component {
 
                           {this._renderWeightContent()}
 
-                          <Modal visible={this.state.showWeightAdd} animationType={'slide'} transparent={true}>
+                          <Modal visible={this.state.showWeightAdd} animationType={'slide'} presentationStyle='pageSheet'>
 
                               <View style={styles.modalStyle}>
                                   <View style={styles.modalHeader}>
@@ -380,6 +380,8 @@ export default class ProgressScreen extends Component {
                                           <Text style={styles.modalNav}>Save</Text>
                                       </TouchableOpacity>
                                   </View>
+
+                                  <KeyboardAvoidingView behavior="position">
                                   <View>
                                       <Image source={require('../assets/scale.png')} style={styles.scaleImage} />
                                   </View>
@@ -396,6 +398,7 @@ export default class ProgressScreen extends Component {
                                           value={this.state.Text} />
 
                                   </View>
+                                  </KeyboardAvoidingView>
                               </View>
                           </Modal>
                       </View>
@@ -437,7 +440,7 @@ export default class ProgressScreen extends Component {
 
                           {this._renderMeasuermentsContent()}
 
-                          <Modal visible={this.state.showMeasurementAdd} animationType={'slide'} transparent={true}>
+                          <Modal visible={this.state.showMeasurementAdd} animationType={'slide'} presentationStyle='pageSheet'>
 
                               <View style={styles.modalStyle}>
                                   <View style={styles.modalHeader}>
@@ -455,6 +458,8 @@ export default class ProgressScreen extends Component {
                                           <Text style={styles.modalNav}>Save</Text>
                                       </TouchableOpacity>
                                   </View>
+
+                                  <KeyboardAvoidingView behavior="position">
                                   <View style={styles.measurementModalLayout}>
                                           <Image source={require('../assets/body.png')} style={styles.bodyImage} />
                                       
@@ -491,6 +496,7 @@ export default class ProgressScreen extends Component {
                                               value={this.state.Text} />
                                           </View>
                                   </View>
+                                  </KeyboardAvoidingView>
                               </View>
                           </Modal>
 
@@ -535,11 +541,11 @@ const styles = StyleSheet.create({
     modalStyle: {
         height: '100%',
         backgroundColor: '#0D0D0D',
-        marginTop: 88,
         borderRadius: 15,
     },
     modalHeader: {
         flexDirection: 'row',
+        zIndex: 1,
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#1E1E1E',

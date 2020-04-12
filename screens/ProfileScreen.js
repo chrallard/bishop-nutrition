@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button, Image, TouchableOpacity, Modal, TextInput, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Button, Image, TouchableOpacity, Modal, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native'
 import { MaterialIndicator } from 'react-native-indicators'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as firebase from "firebase/app"
@@ -110,7 +110,7 @@ export default class ProfileScreen extends Component {
         </View>
 
         <View style={this.state.displayStyle}>
-          <Modal visible={this.state.showUpdatePassword} animationType={'slide'} transparent={true}>
+          <Modal visible={this.state.showUpdatePassword} animationType={'slide'} presentationStyle='pageSheet'>
 
             <View style={styles.modalStyle}>
 
@@ -126,6 +126,7 @@ export default class ProfileScreen extends Component {
                 </TouchableOpacity>
               </View>
 
+              <KeyboardAvoidingView behavior="position">
               <View style={styles.updatePasswordInput}>
                 <TextInput
                   style={styles.textInput}
@@ -147,7 +148,7 @@ export default class ProfileScreen extends Component {
                   secureTextEntry={true}
                 />
               </View>
-
+              </KeyboardAvoidingView>
             </View>
           </Modal>
 
@@ -226,9 +227,11 @@ export default class ProfileScreen extends Component {
               <Button onPress={this.signOut} fontSize={20} title="Log Out" color="#fff" />
             </View>
 
-            <Modal visible={this.state.showMe} animationType={'slide'} transparent={'true'}>
+
+            <Modal visible={this.state.showMe} animationType={'slide'} presentationStyle='pageSheet'>
               <KeyboardAwareScrollView style={styles.modalStyle}>
               <View >
+                
                 <View style={styles.modalHeader}>
                   <TouchableOpacity onPress={() => { this.setState({ showMe: false }),this.userIfo() }}>
                     <Text style={styles.modalNav}>Back</Text>
@@ -241,6 +244,7 @@ export default class ProfileScreen extends Component {
                   </TouchableOpacity>
                 </View>
 
+                <KeyboardAvoidingView behavior="position">
                 <Text style={styles.infoTitle}>FULL NAME</Text>
                 <TextInput style={styles.infoText}
                   placeholder='name'
@@ -295,7 +299,7 @@ export default class ProfileScreen extends Component {
                   value={this.state.email} />
                 <View style={styles.seprateLine} />
 
-
+                </KeyboardAvoidingView>
               </View>
               </KeyboardAwareScrollView>
             </Modal>
@@ -426,7 +430,6 @@ const styles = StyleSheet.create({
   modalStyle: {
     height: '100%',
     backgroundColor: '#0D0D0D',
-    marginTop: 88,
     borderRadius: 15,
   },
   modalHeader: {
