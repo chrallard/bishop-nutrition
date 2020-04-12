@@ -312,13 +312,16 @@ const styles = StyleSheet.create({
     marginTop: 16
   },
   updatePassword: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#1E1E1E',
-    width: '100%',
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    padding: 16
+    flex:1,
+    display:'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent:'space-between',
+      backgroundColor: '#1E1E1E',
+      width: '100%',
+      borderTopLeftRadius: 15,
+      borderTopRightRadius: 15,
+      padding: 16
   },
   textContainer1: {
     flexDirection: 'column',
@@ -392,15 +395,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   aboutText: {
-    color: "#ffffff",
-    paddingRight: 285,
-    paddingLeft: 10,
+    color:"#ffffff",
+    paddingTop:5,
+    paddingLeft:10,
     fontSize: 17
   },
   changePasswordText: {
-    color: "#ffffff",
-    paddingRight: 195,
-    paddingLeft: 10,
+    color:"#ffffff",
+    paddingTop:5,
+    paddingLeft:10,
     fontSize: 17
   },
   headerBox: {
