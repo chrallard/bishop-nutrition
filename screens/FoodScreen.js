@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList, Button, ScrollView, Item, SectionList, TouchableOpacity, Image } from 'react-native'
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { List, Checkbox } from 'react-native-paper';
-import Collapsible from 'react-native-collapsible';
-
+import Collapsible from 'react-native-collapsible';     //imports all required components and libraries
 import { SearchBar } from 'react-native-elements';
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import Accordion from 'react-native-collapsible/Accordion';
 import * as firebase from "firebase/app"
 import "firebase/firestore"
+import { DataContext } from '../contexts/DataContext'
 let dairyPortions = 0
 let restrictedVegPortions = 0
 let fruitPortions = 0
@@ -23,7 +23,7 @@ let str = "hi"
 
 export default class ProfileScreen extends Component {
 
-
+  static contextType = DataContext
   constructor(props) {
     super(props)
 
@@ -32,11 +32,16 @@ export default class ProfileScreen extends Component {
       expanded: false,
       uid: "",
       activeSections: [],
-      search: '',
+      search: '',               //initialized state variables
       searchActive: false,
       selectedIndex: 1,
+      docId: "",
       longPressed: 0,
       gestureName: 'none',
+
+      //favAdded: 0,
+      //foodTrackingList: [],
+      
       lists: [
         {
           type: "Dairy",
@@ -47,7 +52,7 @@ export default class ProfileScreen extends Component {
           list: []
         },
         {
-          type: "Fruits",
+          type: "Fruit",
           list: []
         },
         {
@@ -55,7 +60,7 @@ export default class ProfileScreen extends Component {
           list: []
         },
         {
-          type: "Proteins",
+          type: "Protein",
           list: []
         },
         {
@@ -77,7 +82,7 @@ export default class ProfileScreen extends Component {
           list: []
         },
         {
-          type: "Fruits",
+          type: "Fruit",
           list: []
         },
         {
@@ -85,7 +90,7 @@ export default class ProfileScreen extends Component {
           list: []
         },
         {
-          type: "Proteins",
+          type: "Protein",
           list: []
         },
         {
@@ -107,7 +112,7 @@ export default class ProfileScreen extends Component {
           list: []
         },
         {
-          type: "Fruits",
+          type: "Fruit",
           list: []
         },
         {
@@ -115,7 +120,7 @@ export default class ProfileScreen extends Component {
           list: []
         },
         {
-          type: "Proteins",
+          type: "Protein",
           list: []
         },
         {
@@ -138,9 +143,14 @@ export default class ProfileScreen extends Component {
     let proteinList = []
     let fatsList = []
     let freeVegList = []
+
+
     await this.setUid()
+    await this.setTodaysDocId()
+    await this._loadFavList()
+
     await this.state.db.collection("foodList").doc("allFood").get().then((doc) => {
-      Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
+      Object.values(doc.data()).forEach((item) => { //pulls all data from Firebase and assigns it to the respective list
         if (item.category == "Dairy") {
           dairyList.push(item)
         }
@@ -167,6 +177,7 @@ export default class ProfileScreen extends Component {
     }).catch((err) => {
       console.log(err)
     })
+
     var listArray = [...this.state.lists]
     listArray[0].list = dairyList
     listArray[1].list = restrictedList
@@ -180,9 +191,10 @@ export default class ProfileScreen extends Component {
   }
   setUid = async () => {
     let uid = await firebase.auth().currentUser.uid
-    this.setState({ uid })
+    this.setState({ uid }) //finds the current users ID
   }
-  updateSearch = search => {
+  updateFavouriteSearch = search => { //updates a search list when searching on the favourite screen
+
     let lists = [
       {
         type: "Dairy",
@@ -193,7 +205,7 @@ export default class ProfileScreen extends Component {
         list: []
       },
       {
-        type: "Fruits",
+        type: "Fruit",
         list: []
       },
       {
@@ -201,7 +213,7 @@ export default class ProfileScreen extends Component {
         list: []
       },
       {
-        type: "Proteins",
+        type: "Protein",
         list: []
       },
       {
@@ -222,40 +234,147 @@ export default class ProfileScreen extends Component {
       this.setState({ searchActive: false })
 
     }
-    this.state.lists[0].list.forEach(element => {
+    this.state.favouriteLists[0].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
+        lists[0].list.push(element)
+      }
+    });
+    this.state.favouriteLists[1].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        lists[1].list.push(element)
+      }
+    });
+
+    this.state.favouriteLists[2].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        lists[2].list.push(element)
+      }
+    });
+    this.state.favouriteLists[3].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        lists[3].list.push(element)
+      }
+    });
+    this.state.favouriteLists[4].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        lists[4].list.push(element)
+      }
+    });
+    this.state.favouriteLists[5].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        lists[5].list.push(element)
+      }
+    });
+    this.state.favouriteLists[6].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
+        lists[6].list.push(element)
+      }
+    });
+    this.setState({ searchLists: lists })
+    this.setState({ search });
+  };
+  setTodaysDocId = async () => {
+    //get todays date - format
+    let d = new Date()
+    let today = this.formatDate(d)
+    let formatDate = (d) => { //can't access this function inside the forEach for some reason
+      return this.formatDate(d)
+    }
+    let docId
+
+    //loop through user data and get the dates to format
+    await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").orderBy("timeStamp", "desc").limit(15).get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        let formattedDate = formatDate(new Date(doc.data().timeStamp))
+
+        if (formattedDate == today) {
+          docId = doc.id
+        }
+      })
+    })
+
+    this.setState({ docId })
+  }
+  formatDate = (d) => {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    const date = d.getDate()
+    const month = months[d.getMonth()]
+    const year = d.getFullYear()
+    const formattedDate = date + month + year //looks like this: 4March2020
+
+    return formattedDate
+  }
+
+  updateSearch = search => { //updates a search list when searching on the foodlist screen
+
+    let lists = [
+      {
+        type: "Dairy",
+        list: []
+      },
+      {
+        type: "Restricted Vegetables",
+        list: []
+      },
+      {
+        type: "Fruit",
+        list: []
+      },
+      {
+        type: "Simple Carbs",
+        list: []
+      },
+      {
+        type: "Protein",
+        list: []
+      },
+      {
+        type: "Fats",
+        list: []
+      },
+      {
+        type: "Free Vegetables",
+        list: []
+      }
+    ]
+
+    if (search != "") {
+      this.setState({ searchActive: true })
+      console.log("search active")
+
+    }
+    else {
+      this.setState({ searchActive: false })
+
+    }
+    this.state.lists[0].list.forEach(element => {
+      if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") { //compares what was typed to any food in a specific category
         lists[0].list.push(element)
       }
     });
     this.state.lists[1].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[1].list.push(element)
       }
     });
 
     this.state.lists[2].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[2].list.push(element)
       }
     });
     this.state.lists[3].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[3].list.push(element)
       }
     });
     this.state.lists[4].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[4].list.push(element)
       }
     });
     this.state.lists[5].list.forEach(element => {
       if (element.name.toLowerCase().includes(search.toLowerCase()) && search != "") {
-        // console.log(element)
         lists[5].list.push(element)
       }
     });
@@ -270,13 +389,11 @@ export default class ProfileScreen extends Component {
     this.setState({ searchLists: lists })
     this.setState({ search });
   };
-  _handlePress = (food) =>
+  _handlePress = (food) => //function that opens and closes the accordian list
     this.setState({
       expanded: !this.state.expanded
     });
-
-  _handleIndexChange = async (index) => {
-    this.setState({ selectedIndex: index });
+  _loadFavList = async () => {
     let dairyList = []
     let restrictedList = []
     let fruitList = []
@@ -284,148 +401,15 @@ export default class ProfileScreen extends Component {
     let proteinList = []
     let fatsList = []
     let freeVegList = []
-
-    if (index == 0) {
-      await this.state.db.collection("userData").doc(this.state.uid).collection("favouriteFoodList").doc("allFavFood").get().then((doc) => {
-        Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
-          if (item.category == "Dairy") {
-            dairyList.push(item)
-          }
-          if (item.category == "Restricted Vegetables") {
-            restrictedList.push(item)
-          }
-          if (item.category == "Fruits") {
-            fruitList.push(item)
-          }
-          if (item.category == "Simple Carbs") {
-            simpleCarbList.push(item)
-          }
-          if (item.category == "Protein") {
-            proteinList.push(item)
-          }
-          if (item.category == "Fats") {
-            fatsList.push(item)
-          }
-          if (item.category == "Free Vegetables") {
-            freeVegList.push(item)
-          }
-
-        })
-      }).catch((err) => {
-        console.log(err)
-      })
-      var listArray = [...this.state.favouriteLists]
-      listArray[0].list = dairyList
-      listArray[1].list = restrictedList
-      listArray[2].list = fruitList
-      listArray[3].list = simpleCarbList
-      listArray[4].list = proteinList
-      listArray[5].list = fatsList
-      listArray[6].list = freeVegList
-
-      this.setState({ favouriteLists: listArray })
-
-    }
-
-
-
-
-
-
-  };
-
-
-  _renderHeader = section => {
-    return (
-      <View style={styles.listItemContainer}>
-
-
-        {(section.type == "Dairy") ? (
-          <Image
-            style={styles.catagoryIconDairy}
-            source={require('../assets/dairy_Icon.png')}
-          />
-        ) : (section.type == "Restricted Vegetables") ? (
-          <Image
-            style={styles.catagoryIcon}
-            source={require('../assets/restrictedVeg_Icon.png')}
-          />
-        ) : (section.type == "Fruits") ? (
-          <Image
-            style={styles.catagoryIcon}
-            source={require('../assets/fruit_icon.png')}
-          />
-        ) : (section.type == "Simple Carbs") ? (
-          <Image
-            style={styles.catagoryIcon}
-            source={require('../assets/carb_icon.png')}
-          />
-        ) : (section.type == "Proteins") ? (
-          <Image
-            style={styles.catagoryIcon}
-            source={require('../assets/protein_icon.png')}
-          />
-        ) : (section.type == "Fats") ? (
-          <Image
-            style={styles.catagoryIcon}
-            source={require('../assets/fats_icon.png')}
-          />
-        ) : (section.type == "Free Vegetables") ? (
-          <Image
-            style={styles.catagoryIcon}
-            source={require('../assets/restrictedVeg_Icon.png')}
-          />
-        ) : (
-                        <Image
-                          style={styles.catagoryIcon}
-                          source={'../assets/restrictedVeg_Icon.png'}
-                        />
-                      )}
-        <Text style={styles.listItemTitle}>{section.type}</Text>
-      </View>
-    );
-  };
-
-  _addFavourite = async (item) => {
-
-    await firebase.firestore().collection("userData").doc(this.state.uid).collection("favouriteFoodList").doc("allFavFood").set({
-      [item.name]: {
-        category: item.category,
-        favourite: item.favourite,
-        key: item.key,
-        name: item.name,
-        plans: [
-          item.plans[0],
-          item.plans[1]
-        ],
-        portionSize: item.portionSize
-      }
-    }, { merge: true })
-
-  };
-  _removeFavourite = async (item) => {
-    let dairyList = []
-    let restrictedList = []
-    let fruitList = []
-    let simpleCarbList = []
-    let proteinList = []
-    let fatsList = []
-    let freeVegList = []
-    var collectionRef = this.state.db.collection("userData").doc(this.state.uid).collection("favouriteFoodList").doc("allFavFood")
-
-    var removeRef = collectionRef.update({
-      [item.name]: firebase.firestore.FieldValue.delete()
-    });
-
     await this.state.db.collection("userData").doc(this.state.uid).collection("favouriteFoodList").doc("allFavFood").get().then((doc) => {
-      Object.values(doc.data()).forEach((item) => { //only changed this line, and removed .data() after each 'item'
+      Object.values(doc.data()).forEach((item) => {
         if (item.category == "Dairy") {
           dairyList.push(item)
         }
         if (item.category == "Restricted Vegetables") {
           restrictedList.push(item)
         }
-        if (item.category == "Fruits") {
+        if (item.category == "Fruit") {
           fruitList.push(item)
         }
         if (item.category == "Simple Carbs") {
@@ -455,25 +439,125 @@ export default class ProfileScreen extends Component {
     listArray[6].list = freeVegList
 
     this.setState({ favouriteLists: listArray })
+  }
+
+  _handleIndexChange = (index) => { //changes which segemented tab is displayed
+    this.setState({ selectedIndex: index });
+
+
+  };
+
+  updateHalfDb = async (item) => {
+    let foodEntry = {}
+
+
+    let obj = {
+      [item.category.toLowerCase()]: {
+        name: item.name,
+        portions: 0.5
+      }
+    }
+
+    Object.assign(foodEntry, obj)
+
+
+    await firebase.firestore().collection("userData").doc(this.state.uid).collection("healthTracking").doc(this.state.docId)
+      .set({ foodEntry }, { merge: true })
+  }
+
+
+  _renderHeader = section => { //renders the accordion list headers based on what food categories are there
+    return (
+      <View style={styles.listItemContainer}>
+
+
+        {(section.type == "Dairy") ? (
+          <Image
+            style={styles.catagoryIconDairy}
+            source={require('../assets/dairy_Icon.png')}
+          />
+        ) : (section.type == "Restricted Vegetables") ? (
+          <Image
+            style={styles.catagoryIcon}
+            source={require('../assets/restrictedVeg_Icon.png')}
+          />
+        ) : (section.type == "Fruit") ? (
+          <Image
+            style={styles.catagoryIcon}
+            source={require('../assets/fruit_icon.png')}
+          />
+        ) : (section.type == "Simple Carbs") ? (
+          <Image
+            style={styles.catagoryIcon}
+            source={require('../assets/carb_icon.png')}
+          />
+        ) : (section.type == "Protein") ? (
+          <Image
+            style={styles.catagoryIcon}
+            source={require('../assets/protein_icon.png')}
+          />
+        ) : (section.type == "Fats") ? (
+          <Image
+            style={styles.catagoryIcon}
+            source={require('../assets/fats_icon.png')}
+          />
+        ) : (section.type == "Free Vegetables") ? (
+          <Image
+            style={styles.catagoryIcon}
+            source={require('../assets/restrictedVeg_Icon.png')}
+          />
+        ) : (
+                        <Image
+                          style={styles.catagoryIcon}
+                          source={'../assets/restrictedVeg_Icon.png'}
+                        />
+                      )}
+        <Text style={styles.listItemTitle}>{section.type}</Text>
+      </View>
+    );
+  };
+
+  _addFavourite = async (item) => { //adds an item to the users favourite list when clicked
+
+    await firebase.firestore().collection("userData").doc(this.state.uid).collection("favouriteFoodList").doc("allFavFood").set({
+      [item.name]: {
+        category: item.category,
+        favourite: item.favourite,
+        key: item.key,
+        name: item.name,
+        plans: [
+          item.plans[0],
+          item.plans[1]
+        ],
+        portionSize: item.portionSize
+      }
+    }, { merge: true })
+
+    this._loadFavList()
+  };
+  _removeFavourite = async (item) => { //removes an item from  a users favourite list
+
+    var collectionRef = this.state.db.collection("userData").doc(this.state.uid).collection("favouriteFoodList").doc("allFavFood")
+
+    var removeRef = collectionRef.update({
+      [item.name]: firebase.firestore.FieldValue.delete()
+    });
+
+    this._loadFavList()
 
   }
-  _addPortion = (item) => {
-    console.log(item.category)
-  }
-  _openDeleteOrHalfPortion = (item) => {
-    console.log(item.key)
+
+  _openDeleteOrHalfPortion = (item) => { //displays two smaller buttons 
     this.setState({ longPressed: item.key })
   }
-  _addHalfPortion = (item) => {
+
+  _deleteHalfPortion = (item) => {//removes a portion of the selected food to the users daily
     console.log(item.category)
   }
-  _deleteHalfPortion = (item) => {
-    console.log(item.category)
-  }
-  _closeDeleteOrHalfPortion = (item) => {
+  _closeDeleteOrHalfPortion = (item) => { //closes the smaller buttons
     this.setState({ longPressed: "" })
   }
-  _renderFavouriteContent = section => {
+  _renderFavouriteContent = section => { //renders the items on the favourite list 
     return (
 
 
@@ -582,26 +666,178 @@ export default class ProfileScreen extends Component {
 
     );
   };
-  _renderContent = section => {
+
+  incrementPortion = async (item, portion) => {
+    let dairyCount = {}
+    let fatsCount = {}
+    let fruitCount = {}
+    let proteinCount = {}
+    let resVegCount = {}
+    let simpleCarbCount = {}
+    let foodEntry = {}
+
+    await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId).get().then((doc) => {
+      Object.values(doc.data().foodEntry).forEach((i) => {
+
+        switch (i.name) {
+          case "Dairy":
+            dairyCount = i
+            break;
+          case "Fats":
+            fatsCount = i
+            break;
+          case "Fruit":
+            fruitCount = i
+            break;
+          case "Protein":
+            proteinCount = i
+            break;
+          case "Res. Vegetables":
+            resVegCount = i
+            break;
+          case "Simple Carbs":
+            simpleCarbCount = i
+            break;
+          default:
+            break;
+        }
+      })
+    })
+
+    switch (item.category) {
+      case "Dairy":
+        foodEntry = {
+          ["dairy"]: {
+            name: dairyCount.name,
+            portions: dairyCount.portions + portion
+          }
+        }
+        break;
+      case "Fats":
+        foodEntry = {
+          ["fats"]: {
+            name: fatsCount.name,
+            portions: fatsCount.portions + portion
+          }
+        }
+        break;
+      case "Fruit":
+        foodEntry = {
+          ["fruit"]: {
+            name: fruitCount.name,
+            portions: fruitCount.portions + portion
+          }
+        }
+        break;
+      case "Protein":
+        foodEntry = {
+          ["protein"]: {
+            name: proteinCount.name,
+            portions: proteinCount.portions + portion
+          }
+        }
+        break;
+      case "Restricted Vegetables":
+        foodEntry = {
+          ["resVegs"]: {
+            name: resVegCount.name,
+            portions: resVegCount.portions + portion
+          }
+        }
+        break;
+      case "Simple Carbs":
+        foodEntry = {
+          ["simpleCarbs"]: {
+            name: simpleCarbCount.name,
+            portions: simpleCarbCount.portions + portion
+          }
+        }
+        break;
+      default:
+        break;
+    }
+    this.updateDb(foodEntry)
+  }
+  updateDb = async (foodEntry) => {
+    await firebase.firestore().collection("userData").doc(this.context.uid).collection("healthTracking").doc(this.context.todaysHealthTrackingDocId)
+      .set({ foodEntry }, { merge: true })
+  }
+
+  _renderContent = section => {//renders the lists of foods in the accordion list
+
     return (
 
-
       section.list.map((item, key) => (
-        <View key={key} style={styles.foodItemsFav}>
-          <Text style={styles.content}>{item.name}</Text>
-          <Text style={styles.contentSmall}>{item.portionSize}</Text>
-          <View style={styles.foodItemIcons}>
-            <TouchableOpacity onPress={() => this._addFavourite(item)}>
-              {item.favourite ? (
+
+
+        (this.state.favouriteLists[this.state.favouriteLists.findIndex(i => i.type === item.category)].list.findIndex(i => i.name === item.name) !== -1) ? (
+          <View key={key} style={styles.foodItemsFav}>
+            <Text style={styles.content}>{item.name}</Text>
+            <Text style={styles.contentSmall}>{item.portionSize}</Text>
+            <View style={styles.foodItemIcons}>
+              <TouchableOpacity onPress={() => this._removeFavourite(item)}>
                 <Image
                   style={
                     this.state.longPressed == item.key
-                      ? styles.icon
-                      : styles.hideStarIcon
+                      ? styles.hideStarIcon
+                      : styles.icon
                   }
                   source={require('../assets/star_Selected.png')}
                 />
+              </TouchableOpacity>
+
+              {(this.state.longPressed == item.key) ? ( //checks if someone longpressed an add button
+                //#region longpress buttons
+
+                <View style={{ flexDirection: 'row' }}>
+                  <View>
+                    <TouchableOpacity onPress={() => this.incrementPortion(item, 0.5)}>
+                      <Image
+                        style={styles.icon}
+                        source={require('../assets/add_half_portion.png')}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{ flexDirection: 'column' }}>
+                    <TouchableOpacity onPress={() => this._closeDeleteOrHalfPortion(item)} >
+                      <Image
+                        style={styles.closeIcon}
+                        source={require('../assets/longPress.png')}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.incrementPortion(item, -0.5)}>
+                      <Image
+                        style={styles.icon}
+                        source={require('../assets/minus_half_portion.png')}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                //#endregion
               ) : (
+                  <TouchableOpacity onPress={() => this.incrementPortion(item, 1)} onLongPress={() => this._openDeleteOrHalfPortion(item)}>
+                    <Image
+                      style={styles.icon}
+                      source={require('../assets/add_Circle.png')}
+                    />
+                  </TouchableOpacity>
+                )}
+
+
+
+
+
+
+            </View>
+
+          </View>
+        ) : (
+            <View key={key} style={styles.foodItemsFav}>
+              <Text style={styles.content}>{item.name}</Text>
+              <Text style={styles.contentSmall}>{item.portionSize}</Text>
+              <View style={styles.foodItemIcons}>
+                <TouchableOpacity onPress={() => this._addFavourite(item)}>
                   <Image
                     style={
                       this.state.longPressed == item.key
@@ -610,55 +846,59 @@ export default class ProfileScreen extends Component {
                     }
                     source={require('../assets/star_NotSelected.png')}
                   />
-                )}
+                </TouchableOpacity>
 
-            </TouchableOpacity>
+                {(this.state.longPressed == item.key) ? ( //checks if someone longpressed an add button
+                  //#region longpress buttons
 
-            {(this.state.longPressed == item.key) ? (
-              //#region longpress buttons
+                  <View style={{ flexDirection: 'row' }}>
+                    <View>
+                      <TouchableOpacity onPress={() => this._addHalfPortion(item)}>
+                        <Image
+                          style={styles.icon}
+                          source={require('../assets/add_half_portion.png')}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <View style={{ flexDirection: 'column' }}>
+                      <TouchableOpacity onPress={() => this._closeDeleteOrHalfPortion(item)} >
+                        <Image
+                          style={styles.closeIcon}
+                          source={require('../assets/longPress.png')}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => this._deleteHalfPortion(item)}>
+                        <Image
+                          style={styles.icon}
+                          source={require('../assets/minus_half_portion.png')}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
 
-              <View style={{ flexDirection: 'row' }}>
-                <View>
-                  <TouchableOpacity onPress={() => this._addHalfPortion(item)}>
-                    <Image
-                      style={styles.icon}
-                      source={require('../assets/add_half_portion.png')}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View style={{ flexDirection: 'column' }}>
-                  <TouchableOpacity onPress={() => this._closeDeleteOrHalfPortion(item)} >
-                    <Image
-                      style={styles.closeIcon}
-                      source={require('../assets/longPress.png')}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => this._deleteHalfPortion(item)}>
-                    <Image
-                      style={styles.icon}
-                      source={require('../assets/minus_half_portion.png')}
-                    />
-                  </TouchableOpacity>
-                </View>
+                  //#endregion
+                ) : (
+                    <TouchableOpacity onPress={() => this.incrementPortion(item)} onLongPress={() => this._openDeleteOrHalfPortion(item)}>
+                      <Image
+                        style={styles.icon}
+                        source={require('../assets/add_Circle.png')}
+                      />
+                    </TouchableOpacity>
+                  )}
+
+
+
+
+
+
               </View>
 
-              //#endregion
-            ) : (
-                <TouchableOpacity onPress={() => this._addPortion(item)} onLongPress={() => this._openDeleteOrHalfPortion(item)}>
-                  <Image
-                    style={styles.icon}
-                    source={require('../assets/add_Circle.png')}
-                  />
-                </TouchableOpacity>
-              )}
+            </View>
+          )
 
 
 
 
-
-
-          </View>
-        </View>
       ))
 
     );
@@ -678,12 +918,29 @@ export default class ProfileScreen extends Component {
   };
   render() {
     const { search } = this.state;
+
     const config = {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
     };
-
+    
     if (this.state.selectedIndex == 0) {
+      if (this.state.searchActive) {
+        return (
+          <View style={styles.container}>
+            <ScrollView>
+              <View>
+
+
+                <SearchBar
+                  placeholder="Search Your Food Here..."
+                  platform="ios"
+                  containerStyle={{ backgroundColor: '#000', width: '96%', alignSelf: 'center' }}
+                  inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
+                  onChangeText={this.updateFavouriteSearch}
+                  value={search}
+                  placeholderTextColor='#B7B7B7'
+                  inputStyle={{ color: '#DDDEDE' }}
 
       return (
         <GestureRecognizer
@@ -693,7 +950,6 @@ export default class ProfileScreen extends Component {
 
             <ScrollView>
               <View>
-
 
                 <SearchBar
                   placeholder="Search Your Food Here..."
@@ -748,12 +1004,26 @@ export default class ProfileScreen extends Component {
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
+                  containerStyle={{ backgroundColor: '#000', width: '96%', alignSelf: 'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
                   onChangeText={this.updateSearch}
                   value={search}
                   inputStyle={{ color: '#DDDEDE' }}
                   placeholderTextColor='#B7B7B7'
+                />
+                <SegmentedControlTab
+                  values={["Favourites", "Food List"]}
+                  selectedIndex={this.state.selectedIndex}
+                  onTabPress={this._handleIndexChange}
+
+                  allowFontScaling={false}
+                  tabsContainerStyle={styles.tabsContainerStyleFav}
+                  tabStyle={styles.tabStyleFav}
+                  firstTabStyle={styles.firstTabStyleFav}
+                  lastTabStyle={styles.lastTabStyleFav}
+                  tabTextStyle={styles.tabTextStyleFav}
+                  activeTabStyle={styles.activeTabStyleFav}
+                  activeTabTextStyle={styles.activeTabTextStyleFav}
                 />
                 {this._renderHeader(this.state.searchLists[0])}
                 {this._renderContent(this.state.searchLists[0])}
@@ -785,7 +1055,6 @@ export default class ProfileScreen extends Component {
             <View style={styles.container}>
               <ScrollView>
                 <View>
-
 
                   <SearchBar
                     placeholder="Search Your Food Here..."
@@ -831,21 +1100,7 @@ export default class ProfileScreen extends Component {
     }
   }
 }
-// <View>
 
-//   <List.Section style={{ marginTop: 30 }} title="Food List">
-
-//     {this.state.lists.map((item, key) => (
-//       <List.Accordion key={key}
-//         title={item.type}
-//       >
-//         {item.list.map((item, key) => (
-//           <List.Item key={key} title={item.name} />
-//         ))}
-//       </List.Accordion>
-//     ))}
-//   </List.Section>
-// </View>
 
 
 const styles = StyleSheet.create({
@@ -888,7 +1143,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     flex: 1.5,
     flexWrap: 'wrap',
-    paddingLeft: 8
+    marginLeft: 0
   },
   foodItemIcons: {  //accorian add portion/fav icon
     flexDirection: 'row',
@@ -906,9 +1161,9 @@ const styles = StyleSheet.create({
   },
   listItemContainer: //space between
   {
-    height: 40,
+    height: 45,
     paddingLeft: 16,
-    marginBottom: 16,
+    marginTop: 16,
     backgroundColor: '#1C1C1E',
     alignItems: 'flex-start',
     justifyContent: 'center',
@@ -944,7 +1199,7 @@ const styles = StyleSheet.create({
   },
   catagoryIconDairy: {
     height: 30,
-    width: 30,
+    width: 22,
     resizeMode: 'contain',
     justifyContent: 'center',
     alignItems: 'center',
@@ -952,8 +1207,7 @@ const styles = StyleSheet.create({
   tabsContainerStyleFood: {
     width: 250,
     alignSelf: 'center',
-    marginTop: 16,
-    marginBottom: 16,
+    marginBottom: 8,
   },
   tabStyleFood: {
     borderColor: '#636366',
@@ -971,8 +1225,6 @@ const styles = StyleSheet.create({
   tabsContainerStyleFav: {
     width: 250,
     alignSelf: 'center',
-    marginTop: 16,
-    marginBottom: 16,
   },
   tabStyleFav: {
     borderColor: '#636366',

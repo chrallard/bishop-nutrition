@@ -36,9 +36,9 @@ export default {
       mood: null,
     },
     sleepEntry: {
-      end: null,
-      notes: "",
-      start: null,
+      duration: "0 hr 0 min",
+      durationMs: null,
+      notes: ""
     },
     timeStamp: 0,
     humanDate: "",
