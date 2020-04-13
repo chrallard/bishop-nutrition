@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList, Button, ScrollView, Item, SectionList, TouchableOpacity, Image } from 'react-native'
+import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { List, Checkbox } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';     //imports all required components and libraries
 import { SearchBar } from 'react-native-elements';
@@ -36,8 +37,11 @@ export default class ProfileScreen extends Component {
       selectedIndex: 1,
       docId: "",
       longPressed: 0,
-      favAdded: 0,
-      foodTrackingList: [],
+      gestureName: 'none',
+
+      //favAdded: 0,
+      //foodTrackingList: [],
+      
       lists: [
         {
           type: "Dairy",
@@ -899,13 +903,27 @@ export default class ProfileScreen extends Component {
 
     );
   };
+  onSwipeLeft = (gestureState) => {
+    let newIndex = this.state.selectedIndex + 1
+    this.setState({ selectedIndex: newIndex });
+  }
 
+  onSwipeRight = (gestureState) => {
+    let newIndex = this.state.selectedIndex - 1
+    this.setState({ selectedIndex: newIndex });
+  }
   _updateSections = activeSections => {
     this.setState({ activeSections });
 
   };
   render() {
     const { search } = this.state;
+
+    const config = {
+      velocityThreshold: 0.3,
+      directionalOffsetThreshold: 80
+    };
+    
     if (this.state.selectedIndex == 0) {
       if (this.state.searchActive) {
         return (
@@ -924,49 +942,21 @@ export default class ProfileScreen extends Component {
                   placeholderTextColor='#B7B7B7'
                   inputStyle={{ color: '#DDDEDE' }}
 
-                />
-                <SegmentedControlTab
-                  values={["Favourites", "Food List"]}
-                  selectedIndex={this.state.selectedIndex}
-                  onTabPress={this._handleIndexChange}
-
-                  allowFontScaling={false}
-                  tabsContainerStyle={styles.tabsContainerStyleFood}
-                  tabStyle={styles.tabStyleFood}
-                  firstTabStyle={styles.firstTabStyleFood}
-                  lastTabStyle={styles.lastTabStyleFood}
-                  tabTextStyle={styles.tabTextStyleFood}
-                  activeTabStyle={styles.activeTabStyleFood}
-                  activeTabTextStyle={styles.activeTabTextStyleFood}
-                />
-                {this._renderFavouriteContent(this.state.searchLists[0])}
-                {this._renderFavouriteContent(this.state.searchLists[1])}
-                {this._renderFavouriteContent(this.state.searchLists[2])}
-                {this._renderFavouriteContent(this.state.searchLists[3])}
-                {this._renderFavouriteContent(this.state.searchLists[4])}
-                {this._renderFavouriteContent(this.state.searchLists[5])}
-                {this._renderFavouriteContent(this.state.searchLists[6])}
-
-
-              </View>
-            </ScrollView>
-          </View>
-        )
-
-      }
-      else if (!this.state.searchActive) {
-        return (
+      return (
+        <GestureRecognizer
+          onSwipeLeft={(state) => this.onSwipeLeft(state)}
+          config={config} >
           <View style={styles.container}>
+
             <ScrollView>
               <View>
-
 
                 <SearchBar
                   placeholder="Search Your Food Here..."
                   platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width: '96%', alignSelf: 'center' }}
+                  containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
                   inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
-                  onChangeText={this.updateFavouriteSearch}
+                  onChangeText={this.updateSearch}
                   value={search}
                   placeholderTextColor='#B7B7B7'
                   inputStyle={{ color: '#DDDEDE' }}
@@ -998,16 +988,14 @@ export default class ProfileScreen extends Component {
               </View>
             </ScrollView>
           </View>
-        )
-
-      }
-
-
+        </GestureRecognizer>
+      )
     }
     else if (this.state.selectedIndex == 1) {
       if (this.state.searchActive) {
 
         return (
+
           <View style={styles.container}>
             <ScrollView>
               <View>
@@ -1061,49 +1049,51 @@ export default class ProfileScreen extends Component {
       }
       else if (!this.state.searchActive) {
         return (
-          <View style={styles.container}>
-            <ScrollView>
-              <View>
+          <GestureRecognizer
+            onSwipeRight={(state) => this.onSwipeRight(state)}
+            config={config} >
+            <View style={styles.container}>
+              <ScrollView>
+                <View>
 
+                  <SearchBar
+                    placeholder="Search Your Food Here..."
+                    platform="ios"
+                    containerStyle={{ backgroundColor: '#000', width: 400, alignSelf: 'center' }}
+                    inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
+                    onChangeText={this.updateSearch}
+                    value={search}
+                    placeholderTextColor='#B7B7B7'
+                    inputStyle={{ color: '#DDDEDE' }}
 
-                <SearchBar
-                  placeholder="Search Your Food Here..."
-                  platform="ios"
-                  containerStyle={{ backgroundColor: '#000', width: '96%', alignSelf: 'center' }}
-                  inputContainerStyle={{ backgroundColor: '#1C1C1E' }}
-                  onChangeText={this.updateSearch}
-                  value={search}
-                  placeholderTextColor='#B7B7B7'
-                  inputStyle={{ color: '#DDDEDE' }}
+                  />
+                  <SegmentedControlTab
+                    values={["Favourites", "Food List"]}
+                    selectedIndex={this.state.selectedIndex}
+                    onTabPress={this._handleIndexChange}
 
-                />
-                <SegmentedControlTab
-                  values={["Favourites", "Food List"]}
-                  selectedIndex={this.state.selectedIndex}
-                  onTabPress={this._handleIndexChange}
+                    allowFontScaling={false}
+                    tabsContainerStyle={styles.tabsContainerStyleFav}
+                    tabStyle={styles.tabStyleFav}
+                    firstTabStyle={styles.firstTabStyleFav}
+                    lastTabStyle={styles.lastTabStyleFav}
+                    tabTextStyle={styles.tabTextStyleFav}
+                    activeTabStyle={styles.activeTabStyleFav}
+                    activeTabTextStyle={styles.activeTabTextStyleFav}
+                  />
+                  <Accordion style={styles.listContainer}
+                    sections={this.state.lists}
+                    activeSections={this.state.activeSections}
+                    renderSectionTitle={this._renderSectionTitle}
+                    renderHeader={this._renderHeader}
+                    renderContent={this._renderContent}
+                    onChange={this._updateSections}
+                  />
 
-                  allowFontScaling={false}
-                  tabsContainerStyle={styles.tabsContainerStyleFav}
-                  tabStyle={styles.tabStyleFav}
-                  firstTabStyle={styles.firstTabStyleFav}
-                  lastTabStyle={styles.lastTabStyleFav}
-                  tabTextStyle={styles.tabTextStyleFav}
-                  activeTabStyle={styles.activeTabStyleFav}
-                  activeTabTextStyle={styles.activeTabTextStyleFav}
-                />
-                <Accordion style={styles.listContainer}
-                  sections={this.state.lists}
-                  activeSections={this.state.activeSections}
-                  renderSectionTitle={this._renderSectionTitle}
-                  renderHeader={this._renderHeader}
-                  renderContent={this._renderContent}
-                  onChange={this._updateSections}
-                />
-
-              </View>
-            </ScrollView>
-          </View>
-
+                </View>
+              </ScrollView>
+            </View>
+          </GestureRecognizer>
 
         )
       }
