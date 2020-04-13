@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, FlatList, ScrollView, Image, Button, Modal, Tou
 import { MaterialIndicator } from 'react-native-indicators';
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts'
-import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
@@ -244,16 +243,6 @@ export default class ProgressScreen extends Component {
 
     }
 
-    onSwipeLeft = (gestureState) => {
-        let newIndex = this.state.selectedIndex + 1
-        this.setState({ selectedIndex: newIndex });
-    }
-
-    onSwipeRight = (gestureState) => {
-        let newIndex = this.state.selectedIndex - 1
-        this.setState({ selectedIndex: newIndex });
-    }
-
     _renderWeightContent = () => {
         this.state.weightEntry.sort(function (a, b) { return b.timeStamp - a.timeStamp })
         return (
@@ -328,10 +317,6 @@ export default class ProgressScreen extends Component {
                   <View style={this.state.loadingStyle}>
                           <MaterialIndicator color='#347EFB' size={50} />
                   </View>
-                  
-                  <GestureRecognizer
-                    onSwipeLeft={(state) => this.onSwipeLeft(state)}
-                    config={config} >
 
                     <ScrollView>
                         <View style={this.state.displayStyle} >
@@ -432,8 +417,6 @@ export default class ProgressScreen extends Component {
                         </View>
 
                     </ScrollView>
-                    
-                </GestureRecognizer>
 
                 <TouchableOpacity title="Add" onPress={() => {
                         this.setState({ showWeightAdd: true })
@@ -449,9 +432,6 @@ export default class ProgressScreen extends Component {
         else if (this.state.selectedIndex == 1) {
             return (
                 <>
-                    <GestureRecognizer
-                        onSwipeRight={(state) => this.onSwipeRight(state)}
-                        config={config} >
                         <ScrollView>
                             <View style={styles.container}  >
 
@@ -535,8 +515,6 @@ export default class ProgressScreen extends Component {
 
                             </View>
                         </ScrollView>
-                        
-                    </GestureRecognizer>
 
                   <TouchableOpacity title="Add" onPress={() => {
                     this.setState({ showMeasurementAdd: true })

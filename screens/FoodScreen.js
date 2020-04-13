@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList, Button, ScrollView, Item, SectionList, TouchableOpacity, Image } from 'react-native'
 import { List, Checkbox } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';     //imports all required components and libraries
-import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { SearchBar } from 'react-native-elements';
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import Accordion from 'react-native-collapsible/Accordion';
@@ -901,26 +900,12 @@ export default class FoodScreen extends Component {
     );
   };
 
-  onSwipeLeft = (gestureState) => {
-    let newIndex = this.state.selectedIndex + 1
-    this.setState({ selectedIndex: newIndex });
-  }
-
-  onSwipeRight = (gestureState) => {
-    let newIndex = this.state.selectedIndex - 1
-    this.setState({ selectedIndex: newIndex });
-  }
-
   _updateSections = activeSections => {
     this.setState({ activeSections });
 
   };
   render() {
     const { search } = this.state;
-    const config = {
-      velocityThreshold: 0.3,
-      directionalOffsetThreshold: 80
-    };
 
     if (this.state.selectedIndex == 0) {
       if (this.state.searchActive) {
@@ -972,9 +957,6 @@ export default class FoodScreen extends Component {
       }
       else if (!this.state.searchActive) {
         return (
-          <GestureRecognizer
-          onSwipeLeft={(state) => this.onSwipeLeft(state)}
-          config={config} >
 
           <View style={styles.container}>
             <ScrollView>
@@ -1019,7 +1001,6 @@ export default class FoodScreen extends Component {
             </ScrollView>
           </View>
 
-          </GestureRecognizer>
         )
 
       }
@@ -1084,10 +1065,6 @@ export default class FoodScreen extends Component {
       else if (!this.state.searchActive) {
         return (
 
-          <GestureRecognizer
-            onSwipeRight={(state) => this.onSwipeRight(state)}
-            config={config} >
-
           <View style={styles.container}>
             <ScrollView>
               <View>
@@ -1130,8 +1107,6 @@ export default class FoodScreen extends Component {
               </View>
             </ScrollView>
           </View>
-
-          </GestureRecognizer>
 
         )
       }
