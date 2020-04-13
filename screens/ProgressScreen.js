@@ -213,6 +213,11 @@ export default class ProgressScreen extends Component {
             .set({
                 weightEntry: Number(this.state.weight)
             }, { merge: true })
+
+            await firebase.firestore().collection("userData").doc(this.context.uid)
+            .set({
+                currentWeight: Number(this.state.weight)
+            }, {merge: true})
         }
 
         if(this.state.chest !== 0){

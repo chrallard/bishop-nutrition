@@ -35,8 +35,25 @@ export default class WeightWidget extends Component {
 
     weightInfo = async () => {
         this.setState({ startingWeight: this.context.userInfo.startingWeight })
-        this.setState({ weightEntry: this.context.bodyTrackingData[0].weightEntry }) // [0] because it's the most recent entry
-        this.setState({ subtract:(this.context.bodyTrackingData[0].weightEntry) - (this.context.userInfo.startingWeight)  })
+        this.setState({ weightEntry: this.context.userInfo.currentWeight })
+        this.setState({ subtract: (this.context.userInfo.startingWeight) - (this.context.userInfo.currentWeight) })
+
+        let totalProgress = (this.context.userInfo.startingWeight) - (this.context.userInfo.currentWeight)
+
+        switch(Math.sign(totalProgress)) {
+            case 1:
+                this.setState({ subtract: `-${totalProgress}` })
+                break
+
+            case -1:
+                this.setState({ subtract: `+${Math.abs(totalProgress)}` })
+                break
+
+            case 0:
+                this.setState({ subtract: totalProgress })
+                break
+        }
+        
     }
 
     render() {
