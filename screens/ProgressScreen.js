@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList, ScrollView, Image, Button, Modal, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native'
-import {MaterialIndicator} from 'react-native-indicators';
+import { MaterialIndicator } from 'react-native-indicators';
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts'
+import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 import 'firebase/auth'
@@ -243,6 +244,16 @@ export default class ProgressScreen extends Component {
 
     }
 
+    onSwipeLeft = (gestureState) => {
+        let newIndex = this.state.selectedIndex + 1
+        this.setState({ selectedIndex: newIndex });
+    }
+
+    onSwipeRight = (gestureState) => {
+        let newIndex = this.state.selectedIndex - 1
+        this.setState({ selectedIndex: newIndex });
+    }
+
     _renderWeightContent = () => {
         this.state.weightEntry.sort(function (a, b) { return b.timeStamp - a.timeStamp })
         return (
@@ -296,6 +307,11 @@ export default class ProgressScreen extends Component {
         
         //this is how to use the segmented tabs, anything you want to display on the weight screen goes in the if (this.state.selectedIndex == 0) { return,
         //anything you want on the progress bar goes in the  else if (this.state.selectedIndex == 1) {
+
+        const config = {
+            velocityThreshold: 0.3,
+            directionalOffsetThreshold: 80
+        };
            
         if (this.state.selectedIndex == 0) {
 
@@ -313,111 +329,117 @@ export default class ProgressScreen extends Component {
                           <MaterialIndicator color='#347EFB' size={50} />
                   </View>
                   
-                  <ScrollView>
-                      <View style={this.state.displayStyle} >
+                  <GestureRecognizer
+                    onSwipeLeft={(state) => this.onSwipeLeft(state)}
+                    config={config} >
 
-                      <SegmentedControlTab
-                              values={["Weight", "Measurement"]}
-                              selectedIndex={this.state.selectedIndex}
-                              onTabPress={this.handleIndexChange}
+                    <ScrollView>
+                        <View style={this.state.displayStyle} >
 
-                              allowFontScaling={false}
-                              tabsContainerStyle={segmented.tabsContainerStyle}
-                              tabStyle={segmented.tabStyle}
-                              firstTabStyle={segmented.firstTabStyle}
-                              lastTabStyle={segmented.lastTabStyle}
-                              tabTextStyle={segmented.tabTextStyle}
-                              activeTabStyle={segmented.activeTabStyle}
-                              activeTabTextStyle={segmented.activeTabTextStyle}
-                          />
+                        <SegmentedControlTab
+                                values={["Weight", "Measurement"]}
+                                selectedIndex={this.state.selectedIndex}
+                                onTabPress={this.handleIndexChange}
 
-                          <View style={{ height: 200, padding: 10, flexDirection: 'row', backgroundColor: '#347EFB', marginTop: 16 }}>
+                                allowFontScaling={false}
+                                tabsContainerStyle={segmented.tabsContainerStyle}
+                                tabStyle={segmented.tabStyle}
+                                firstTabStyle={segmented.firstTabStyle}
+                                lastTabStyle={segmented.lastTabStyle}
+                                tabTextStyle={segmented.tabTextStyle}
+                                activeTabStyle={segmented.activeTabStyle}
+                                activeTabTextStyle={segmented.activeTabTextStyle}
+                            />
 
-                              <YAxis
-                                  data={this.state.yData}
-                                  style={{ marginBottom: xAxisHeight }}
-                                  contentInset={verticalContentInset}
-                                  svg={axesSvg}
-                              />
+                            <View style={{ height: 200, padding: 10, flexDirection: 'row', backgroundColor: '#347EFB', marginTop: 16 }}>
 
-                              <View style={{ flex: 1, marginLeft: 10, }}>
-                                  <LineChart
-                                      style={{ flex: 1 }}
-                                      data={this.state.yData}
-                                      contentInset={verticalContentInset}
-                                      svg={{ 
-                                          stroke: '#F3F3F3',
-                                          strokeWidth: 3,
-          
-                                      }}
-                                  >
+                                <YAxis
+                                    data={this.state.yData}
+                                    style={{ marginBottom: xAxisHeight }}
+                                    contentInset={verticalContentInset}
+                                    svg={axesSvg}
+                                />
 
-                                      <Grid style={{ color: 'white', borderBottomWidth: 50, borderColor: 'red' }} />
+                                <View style={{ flex: 1, marginLeft: 10, }}>
+                                    <LineChart
+                                        style={{ flex: 1 }}
+                                        data={this.state.yData}
+                                        contentInset={verticalContentInset}
+                                        svg={{ 
+                                            stroke: '#F3F3F3',
+                                            strokeWidth: 3,
+            
+                                        }}
+                                    >
 
-                                  </LineChart>
+                                        <Grid style={{ color: 'white', borderBottomWidth: 50, borderColor: 'red' }} />
 
-                                  <XAxis
-                                      data={this.state.yData} 
-                                      style={{ marginHorizontal: 10, height: xAxisHeight, width: '100%'  }}
-                                      formatLabel={(value, index) => this.state.xData[index]}
-                                      contentInset={{ left: 20, right: 20 }}
-                                      svg={{rotation: 30, fontSize: 8, fill: '#F3F3F3', y: 10 }}
-                                  />
-                              </View>
+                                    </LineChart>
 
-                          </View>
+                                    <XAxis
+                                        data={this.state.yData} 
+                                        style={{ marginHorizontal: 10, height: xAxisHeight, width: '100%'  }}
+                                        formatLabel={(value, index) => this.state.xData[index]}
+                                        contentInset={{ left: 20, right: 20 }}
+                                        svg={{rotation: 30, fontSize: 8, fill: '#F3F3F3', y: 10 }}
+                                    />
+                                </View>
+
+                            </View>
 
 
-                          {this._renderWeightContent()}
+                            {this._renderWeightContent()}
 
-                          <Modal visible={this.state.showWeightAdd} animationType={'slide'} presentationStyle='pageSheet'>
+                            <Modal visible={this.state.showWeightAdd} animationType={'slide'} presentationStyle='pageSheet'>
 
-                              <View style={styles.modalStyle}>
-                                  <View style={styles.modalHeader}>
-                                      <TouchableOpacity onPress={() => { this.setState({ showWeightAdd: false }) }}>
-                                          <Text style={styles.modalNav}>Back</Text>
-                                      </TouchableOpacity>
+                                <View style={styles.modalStyle}>
+                                    <View style={styles.modalHeader}>
+                                        <TouchableOpacity onPress={() => { this.setState({ showWeightAdd: false }) }}>
+                                            <Text style={styles.modalNav}>Back</Text>
+                                        </TouchableOpacity>
 
-                                      <Text style={styles.modalTitle}>Weight</Text>
+                                        <Text style={styles.modalTitle}>Weight</Text>
 
-                                      <TouchableOpacity
-                                          onPress={() => {
-                                              this.setState({ showWeightAdd: false })
-                                              this.updateDb()
-                                          }}>
-                                          <Text style={styles.modalNav}>Save</Text>
-                                      </TouchableOpacity>
-                                  </View>
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                this.setState({ showWeightAdd: false })
+                                                this.updateDb()
+                                            }}>
+                                            <Text style={styles.modalNav}>Save</Text>
+                                        </TouchableOpacity>
+                                    </View>
 
-                                  <KeyboardAvoidingView behavior="position">
-                                  <View>
-                                      <Image source={require('../assets/scale.png')} style={styles.scaleImage} />
-                                  </View>
-                                  <View>
-                                      <TextInput style={styles.weightInput}
-                                          underlineColorAndroid="transparent"
-                                          multiline={false}
-                                          numberOfLines={1}
-                                          placeholder="Current Weight"
-                                          placeholderTextColor='#DDDEDE'
-                                          fontWeight='600'
-                                          autoCapitalize="none"
-                                          onChangeText={(text) => this.setState({ weight: text })}
-                                          value={this.state.Text} />
+                                    <KeyboardAvoidingView behavior="position">
+                                    <View>
+                                        <Image source={require('../assets/scale.png')} style={styles.scaleImage} />
+                                    </View>
+                                    <View>
+                                        <TextInput style={styles.weightInput}
+                                            underlineColorAndroid="transparent"
+                                            multiline={false}
+                                            numberOfLines={1}
+                                            placeholder="Current Weight"
+                                            placeholderTextColor='#DDDEDE'
+                                            fontWeight='600'
+                                            autoCapitalize="none"
+                                            onChangeText={(text) => this.setState({ weight: text })}
+                                            value={this.state.Text} />
 
-                                  </View>
-                                  </KeyboardAvoidingView>
-                              </View>
-                          </Modal>
-                      </View>
+                                    </View>
+                                    </KeyboardAvoidingView>
+                                </View>
+                            </Modal>
+                        </View>
 
-                  </ScrollView>
+                    </ScrollView>
+                    
+                </GestureRecognizer>
 
-                  <TouchableOpacity title="Add" onPress={() => {
+                <TouchableOpacity title="Add" onPress={() => {
                         this.setState({ showWeightAdd: true })
                     }} style={styles.addBtn}>
-                        <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize} />
-                    </TouchableOpacity>
+                      <Image source={require('../assets/addHalfCircle.png')} style={styles.addBtnSize} />
+               </TouchableOpacity>
 
                </>
              
@@ -427,89 +449,94 @@ export default class ProgressScreen extends Component {
         else if (this.state.selectedIndex == 1) {
             return (
                 <>
-                  <ScrollView>
-                      <View style={styles.container}  >
+                    <GestureRecognizer
+                        onSwipeRight={(state) => this.onSwipeRight(state)}
+                        config={config} >
+                        <ScrollView>
+                            <View style={styles.container}  >
 
-                          <SegmentedControlTab
-                              values={["Weight", "Measurement"]}
-                              selectedIndex={this.state.selectedIndex}
-                              onTabPress={this.handleIndexChange}
+                                <SegmentedControlTab
+                                    values={["Weight", "Measurement"]}
+                                    selectedIndex={this.state.selectedIndex}
+                                    onTabPress={this.handleIndexChange}
 
-                              allowFontScaling={false}
-                              tabsContainerStyle={segmented.tabsContainerStyle}
-                              tabStyle={segmented.tabStyle}
-                              firstTabStyle={segmented.firstTabStyle}
-                              lastTabStyle={segmented.lastTabStyle}
-                              tabTextStyle={segmented.tabTextStyle}
-                              activeTabStyle={segmented.activeTabStyle}
-                              activeTabTextStyle={segmented.activeTabTextStyle}
-                          />
+                                    allowFontScaling={false}
+                                    tabsContainerStyle={segmented.tabsContainerStyle}
+                                    tabStyle={segmented.tabStyle}
+                                    firstTabStyle={segmented.firstTabStyle}
+                                    lastTabStyle={segmented.lastTabStyle}
+                                    tabTextStyle={segmented.tabTextStyle}
+                                    activeTabStyle={segmented.activeTabStyle}
+                                    activeTabTextStyle={segmented.activeTabTextStyle}
+                                />
 
 
-                          {this._renderMeasuermentsContent()}
+                                {this._renderMeasuermentsContent()}
 
-                          <Modal visible={this.state.showMeasurementAdd} animationType={'slide'} presentationStyle='pageSheet'>
+                                <Modal visible={this.state.showMeasurementAdd} animationType={'slide'} presentationStyle='pageSheet'>
 
-                              <View style={styles.modalStyle}>
-                                  <View style={styles.modalHeader}>
-                                      <TouchableOpacity onPress={() => { this.setState({ showMeasurementAdd: false }) }}>
-                                          <Text style={styles.modalNav}>Back</Text>
-                                      </TouchableOpacity>
+                                    <View style={styles.modalStyle}>
+                                        <View style={styles.modalHeader}>
+                                            <TouchableOpacity onPress={() => { this.setState({ showMeasurementAdd: false }) }}>
+                                                <Text style={styles.modalNav}>Back</Text>
+                                            </TouchableOpacity>
 
-                                      <Text style={styles.modalTitle}>Measurement</Text>
+                                            <Text style={styles.modalTitle}>Measurement</Text>
 
-                                      <TouchableOpacity
-                                          onPress={() => {
-                                              this.setState({ showMeasurementAdd: false })
-                                              this.updateDb()
-                                          }}>
-                                          <Text style={styles.modalNav}>Save</Text>
-                                      </TouchableOpacity>
-                                  </View>
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    this.setState({ showMeasurementAdd: false })
+                                                    this.updateDb()
+                                                }}>
+                                                <Text style={styles.modalNav}>Save</Text>
+                                            </TouchableOpacity>
+                                        </View>
 
-                                  <KeyboardAvoidingView behavior="position">
-                                  <View style={styles.measurementModalLayout}>
-                                          <Image source={require('../assets/body.png')} style={styles.bodyImage} />
-                                      
-                                      <View style={styles.measurementInputLayout}>
-                                          <TextInput style={styles.measurementInput}
-                                              underlineColorAndroid="transparent"
-                                              multiline={false}
-                                              numberOfLines={1}
-                                              placeholder="Chest"
-                                              placeholderTextColor='#DDDEDE'
-                                              fontWeight='600'
-                                              autoCapitalize="none"
-                                              onChangeText={(text) => this.setState({ chest: text })}
-                                              value={this.state.Text} />
-                                          <TextInput style={styles.measurementInput}
-                                              underlineColorAndroid="transparent"
-                                              multiline={false}
-                                              numberOfLines={1}
-                                              placeholder="Waist"
-                                              placeholderTextColor='#DDDEDE'
-                                              fontWeight='600'
-                                              autoCapitalize="none"
-                                              onChangeText={(text) => this.setState({ waist: text })}
-                                              value={this.state.Text} />
-                                          <TextInput style={styles.measurementInput}
-                                              underlineColorAndroid="transparent"
-                                              multiline={false}
-                                              numberOfLines={1}
-                                              placeholder="Hips"
-                                              placeholderTextColor='#DDDEDE'
-                                              fontWeight='600'
-                                              autoCapitalize="none"
-                                              onChangeText={(text) => this.setState({ hips: text })}
-                                              value={this.state.Text} />
-                                          </View>
-                                  </View>
-                                  </KeyboardAvoidingView>
-                              </View>
-                          </Modal>
+                                        <KeyboardAvoidingView behavior="position">
+                                        <View style={styles.measurementModalLayout}>
+                                                <Image source={require('../assets/body.png')} style={styles.bodyImage} />
+                                            
+                                            <View style={styles.measurementInputLayout}>
+                                                <TextInput style={styles.measurementInput}
+                                                    underlineColorAndroid="transparent"
+                                                    multiline={false}
+                                                    numberOfLines={1}
+                                                    placeholder="Chest"
+                                                    placeholderTextColor='#DDDEDE'
+                                                    fontWeight='600'
+                                                    autoCapitalize="none"
+                                                    onChangeText={(text) => this.setState({ chest: text })}
+                                                    value={this.state.Text} />
+                                                <TextInput style={styles.measurementInput}
+                                                    underlineColorAndroid="transparent"
+                                                    multiline={false}
+                                                    numberOfLines={1}
+                                                    placeholder="Waist"
+                                                    placeholderTextColor='#DDDEDE'
+                                                    fontWeight='600'
+                                                    autoCapitalize="none"
+                                                    onChangeText={(text) => this.setState({ waist: text })}
+                                                    value={this.state.Text} />
+                                                <TextInput style={styles.measurementInput}
+                                                    underlineColorAndroid="transparent"
+                                                    multiline={false}
+                                                    numberOfLines={1}
+                                                    placeholder="Hips"
+                                                    placeholderTextColor='#DDDEDE'
+                                                    fontWeight='600'
+                                                    autoCapitalize="none"
+                                                    onChangeText={(text) => this.setState({ hips: text })}
+                                                    value={this.state.Text} />
+                                                </View>
+                                        </View>
+                                        </KeyboardAvoidingView>
+                                    </View>
+                                </Modal>
 
-                      </View>
-                  </ScrollView>
+                            </View>
+                        </ScrollView>
+                        
+                    </GestureRecognizer>
 
                   <TouchableOpacity title="Add" onPress={() => {
                     this.setState({ showMeasurementAdd: true })
