@@ -49,7 +49,7 @@ export default class HomeScreen extends Component {
               <DailyLogWidget mounted={this.handleMount} visible={!this.state.loadingVisible} navProps={this.props.navigation} />
               <FoodTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
               <WaterTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
-              <WeightWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />
+              <WeightWidget mounted={this.handleMount} visible={!this.state.loadingVisible} navProp={this.props.navigation} />
               <SleepTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} /> 
               <ActivityTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} /> 
               <MoodTrackingWidget mounted={this.handleMount} visible={!this.state.loadingVisible} />

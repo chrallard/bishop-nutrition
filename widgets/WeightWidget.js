@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'//imports all required components and libraries
 import Dash from 'react-native-dash'
 import { DataContext } from '../contexts/DataContext'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export default class WeightWidget extends Component {
 
@@ -60,31 +61,34 @@ export default class WeightWidget extends Component {
         return (
 
             <View style={this.state.displayStyle}  >
+            
+                <TouchableOpacity onPress={() => { this.props.navProp.navigate("Progress") }}>
 
+                    <Text style={styles.titleText}>Weight</Text>
 
-                <Text style={styles.titleText}>Weight</Text>
+                    <View style={styles.textRow}>
 
-                <View style={styles.textRow}>
+                        <View style={styles.itemBox}>
+                            <Text style={styles.startingText}>{this.state.startingWeight}</Text>
+                            <Text style={styles.bodyTextStart}>Starting</Text>
+                        </View>
 
-                    <View style={styles.itemBox}>
-                        <Text style={styles.startingText}>{this.state.startingWeight}</Text>
-                        <Text style={styles.bodyTextStart}>Starting</Text>
+                        <Dash dashColor='#347EFB' dashGap={7} dashLength={10} style={{ width: 70, height: 10 }} />
+
+                        <View style={styles.itemBox}>
+                            <Text style={styles.differenceText}>{this.state.subtract}</Text>
+                            <Text style={styles.bodyTextProgress}>Progress</Text>
+                        </View>
+
+                        <Dash dashColor='#347EFB' dashGap={7} dashLength={10} style={{ width: 70, height: 10 }} />
+
+                        <View style={styles.itemBox} >
+                            <Text style={styles.currentText}>{this.state.weightEntry}</Text>
+                            <Text style={styles.bodyTextCurrent}>Current</Text>
+                        </View>
                     </View>
-
-                    <Dash dashColor='#347EFB' dashGap={7} dashLength={10} style={{ width: 70, height: 10 }} />
-
-                    <View style={styles.itemBox}>
-                        <Text style={styles.differenceText}>{this.state.subtract}</Text>
-                        <Text style={styles.bodyTextProgress}>Progress</Text>
-                    </View>
-
-                    <Dash dashColor='#347EFB' dashGap={7} dashLength={10} style={{ width: 70, height: 10 }} />
-
-                    <View style={styles.itemBox} >
-                        <Text style={styles.currentText}>{this.state.weightEntry}</Text>
-                        <Text style={styles.bodyTextCurrent}>Current</Text>
-                    </View>
-                </View>
+                    
+                </TouchableOpacity>
 
             </View>
 
