@@ -10,6 +10,7 @@ import 'firebase/auth'
 import { DataContext } from '../contexts/DataContext'
 
 
+
 export default class ProgressScreen extends Component {
 
     static contextType = DataContext
@@ -74,6 +75,7 @@ export default class ProgressScreen extends Component {
                 let xValue = `${Month} ${date}`
 
                 xData.unshift(xValue)
+                
             })
             this.setState({xData}) 
         
@@ -85,7 +87,8 @@ export default class ProgressScreen extends Component {
             this.context.bodyTrackingData.forEach((doc) => {
                 let yValue = doc.weightEntry
 
-                yData.push(yValue)
+                yData.unshift(yValue)
+                
             })
             this.setState({yData}) 
     }
@@ -210,6 +213,11 @@ export default class ProgressScreen extends Component {
             .set({
                 weightEntry: Number(this.state.weight)
             }, { merge: true })
+
+            await firebase.firestore().collection("userData").doc(this.context.uid)
+            .set({
+                currentWeight: Number(this.state.weight)
+            }, {merge: true})
         }
 
         if(this.state.chest !== 0){
@@ -308,6 +316,21 @@ export default class ProgressScreen extends Component {
                   <ScrollView>
                       <View style={this.state.displayStyle} >
 
+                      <SegmentedControlTab
+                              values={["Weight", "Measurement"]}
+                              selectedIndex={this.state.selectedIndex}
+                              onTabPress={this.handleIndexChange}
+
+                              allowFontScaling={false}
+                              tabsContainerStyle={segmented.tabsContainerStyle}
+                              tabStyle={segmented.tabStyle}
+                              firstTabStyle={segmented.firstTabStyle}
+                              lastTabStyle={segmented.lastTabStyle}
+                              tabTextStyle={segmented.tabTextStyle}
+                              activeTabStyle={segmented.activeTabStyle}
+                              activeTabTextStyle={segmented.activeTabTextStyle}
+                          />
+
                           <View style={{ height: 200, padding: 10, flexDirection: 'row', backgroundColor: '#347EFB', marginTop: 16 }}>
 
                               <YAxis
@@ -343,21 +366,6 @@ export default class ProgressScreen extends Component {
                               </View>
 
                           </View>
-
-                              <SegmentedControlTab
-                              values={["Weight", "Measurement"]}
-                              selectedIndex={this.state.selectedIndex}
-                              onTabPress={this.handleIndexChange}
-
-                              allowFontScaling={false}
-                              tabsContainerStyle={segmented.tabsContainerStyle}
-                              tabStyle={segmented.tabStyle}
-                              firstTabStyle={segmented.firstTabStyle}
-                              lastTabStyle={segmented.lastTabStyle}
-                              tabTextStyle={segmented.tabTextStyle}
-                              activeTabStyle={segmented.activeTabStyle}
-                              activeTabTextStyle={segmented.activeTabTextStyle}
-                          />
 
 
                           {this._renderWeightContent()}
