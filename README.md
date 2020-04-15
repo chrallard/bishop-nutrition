@@ -26,6 +26,7 @@
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
+* [Firebase Console](#firebase-console)
 * [Usage](#usage)
 * [Roadmap](#roadmap)
 * [Contact](#contact)
@@ -230,6 +231,7 @@ short_descriptive_name: {
 2. Click the "Add user" button.
 3. Enter the patients email address and a temporary password.
 4. You can now give these credentails to the patient. Make sure they know to change their password immediately after logging in the first time.
+Note: Adding a new user does not yet create the necessary data in the database. This is a feature that would need to be added.
 
 
 
