@@ -143,7 +143,7 @@ sudo gem install cocoapods
 
 1. Clone the repo.
 ```sh
-git clone -b native --single-branch https://github.com/alla0243/bishop-nutrition.git
+git clone -b native-0.1.9 --single-branch https://github.com/alla0243/bishop-nutrition.git
 ```
 2. Navigate into the folder.
 ```sh
