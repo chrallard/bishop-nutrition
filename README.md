@@ -252,7 +252,7 @@ List of Sprint two features (and known issues, if any).
 <!-- Contact -->
 ## Contact
 
-**Project Lead:** [Dylan Durbano](mailto:durb0004@algonquinlive.com)
+**Project Lead:** [Dylan Durbano](mailto:dylandurbano@live.com)
 
 **Technical Lead:** [Christian Allard](mailto:alla0243@algonquinlive.com)
 
