@@ -262,7 +262,7 @@ https://docs.google.com/spreadsheets/d/17PEqW-ghMO-ik7YFEqNkQzTm0qyNLoaBX1Zxp78V
 
 **Project Lead:** [Dylan Durbano](mailto:dylandurbano@live.com)
 
-**Technical Lead:** [Christian Allard](mailto:alla0243@algonquinlive.com)
+**Technical Lead:** [Christian Allard](mailto:allardc63@gmail.com)
 
 **Design Lead:** [Jeff Lichty](mailto:lich0020@algonquinlive.com)
 
@@ -270,7 +270,7 @@ https://docs.google.com/spreadsheets/d/17PEqW-ghMO-ik7YFEqNkQzTm0qyNLoaBX1Zxp78V
 
 **Developer:** [Viraj Vashi](mailto:vash0006@algonquinlive.com)
 
-**UX Designer:** [Conor Scott](mailto:scot0359@algonquinlive.com)
+**UX Designer:** [Conor Scott](mailto:conor.a.scott@gmail.com)
 
 <!-- Acknowledgements -->
 ## Acknowledgements
