@@ -29,6 +29,7 @@
 * [Firebase Console](#firebase-console)
 * [Usage](#usage)
 * [Roadmap](#roadmap)
+* [Bug Fix Results](#bug-fix-results)
 * [Contact](#contact)
 * [Acknowledgements](#acknowledgements)
 
@@ -38,7 +39,7 @@
 <img src="Images/4phones.png" alt="Team logo">
 
 <p>
-      Bishop Nutrition an app made specifically for Dr. Bishop's Weight Management Clinic. It is meant to replace their current paper food tracking sheets. We have implemented not only food tracking, but also water, activity, mood, and sleep tracking. We have worked hard to streamline the way their clients track their food intake with our quick select food tracking.
+      Bishop Nutrition is an app made specifically for Dr. Bishop's Weight Management Clinic. It is meant to replace their current paper food tracking sheets. We have implemented not only food tracking, but also water, activity, mood, and sleep tracking. We have worked hard to streamline the way their clients track their food intake with our quick select food tracking.
 </p>
 
 ### Built With
@@ -64,22 +65,22 @@
 ## Design
 
 ### User Research
-Prior to our first meeting with Dr. Bishop’s team we performed an online questionnaire to get background on what people are currently doing in their weight loss journey.  We had 47 responses from various weight loss support groups on Facebook.
+Prior to our first meeting with Dr. Bishop’s team, we performed an online questionnaire to get background on what people are currently doing in their weight loss journey.  We had 47 responses from various weight loss support groups on Facebook.
 
 https://drive.google.com/open?id=14aY9TicoWwLX2yNMMk7ZUmKAoIB2gBz2
 
 ### Product Research
-There are many health tracking and activity tracking apps available directly to users.  Since none of these have access to Dr. Bishop’s plans, they are not a direct competitor, however, many clients are using them as a substitute to the current pen and paper tracking method.  Some of the most popular apps clients are using are MyFitnessPal, Fitbit, Baritastic.
+There are many health tracking and activity tracking apps available directly to users.  Since none of these have access to Dr. Bishop’s plans, they are not a direct competitor, however, many clients are using them as a substitute to the current pen and paper tracking method.  Some of the most popular apps clients are using are MyFitnessPal, Fitbit, and Baritastic.
 
 https://drive.google.com/open?id=1K5FHKWSVlSwySJ4C4wgDjA_WMB9eh__3
 
 ### Personas
-For our personas, we went with 4 different users. Dr. Bishops client demographic is mainly females in their 50s, so we went with 3 female users and 1 male user. 3 of the users are current clients and 1 is a brand new client.
+For our personas, we went with 4 different users. Dr. Bishop's client demographic is mainly females in their 50s, so we went with 3 female users and 1 male user. 3 of the users represent current clients and 1 represents a brand new client.
 
 https://drive.google.com/open?id=1387qhs2EYz_Ou3537uV_ufQk7DlbG1Vd
 
 ### User Stories
-We really wanted each user to focus on 1 main feature that we could get feedback on. With 4 personas we made 1 user focus on weight tracking, 1 focused on getting setup as a new user, 1 focused on food tracking and the last user to be focused on viewing progression.
+We really wanted each user to focus on 1 main feature that we could get feedback on. With 4 personas we made 1 user focus on weight tracking, 1 focused on getting set up as a new user, 1 focused on food tracking, and the last user to be focused on viewing progression.
 
 https://drive.google.com/open?id=1zSA50---HBIUiEDiYo8AraVu366Wx_4A
 
@@ -94,12 +95,12 @@ Paper protyopes are rough design sketches of the app. For our paper prototypes w
 https://drive.google.com/open?id=1TZNX8EEwfG6HA6oArT19qph94DIAy2tL
 
 ### UI Wireframes
-The UI wireframes are a more polished version of the paper prototype (without colour) but this time using a tool such as XD. We used XD to transfer all the ideas from the paper prototype into a digital format. 
+The UI wireframes are a more polished version of the paper prototype (without colour), but this time using Adobe XD. We used XD to transfer all the ideas from the paper prototype into a digital format. 
 
 https://drive.google.com/open?id=172Ttlo__FNOH6dA8NiV3Jma0_VUens8V
 
 ### Visual Design
-Visual design is when you add colour and real content into the prototype. We picked our colour palette based off Dr. Bishops website colours and created icons and real data to put into the prototype. Dr. Bishop loved the idea of dark mode so thats what we went with.
+Visual design is when you add colour and real content into the prototype. We picked our colour palette based off Dr. Bishop's website colours and created icons and real data to put into the prototype. Dr. Bishop loved the idea of dark mode so that's what we went with.
 
 https://drive.google.com/open?id=1VajEBBqufJmqhtj8s8O2Wo37V6GCa1Et
 
@@ -111,7 +112,7 @@ https://xd.adobe.com/view/6011869d-8624-48dd-6b96-4c3207fad670-1620/?fullscreen&
 <!-- Technical Research -->
 ## Technical Research
 
-The following document outlines the technical research results prior to the development stage of the project. The techlogies we investigated range from front end frameworks, data visualization tools, and database options.
+The following document outlines the technical research results prior to the development stage of the project. The technologies we investigated range from front end frameworks, data visualization tools, and database options.
 
 https://docs.google.com/document/d/1tOJZMeHA1UNSjviJtnpPhF14Q_bjxfEq7NiJS2xbP_c/edit?usp=sharing
 
@@ -162,7 +163,7 @@ cd ios
 ```sh
 pod install
 ```
-5. In Finder, navigate into the ios folder and open bishop_nutrition.xcworkspace.
+5. In Finder, navigate into the ios folder and open the .xcworkspace file.
 6. Plug in your iPhone and select it in the device dropdown. You can also use a simulator. If you choose to use a device, make sure your Apple ID is added to Xcode.
 7. In the menu bar, select Product -> Run.
 8. The app should install and run on your device. You may need to trust the app in your iPhone's settings.
@@ -175,8 +176,8 @@ Google’s Firebase Firestore is the database we’ve been using to store food, 
 
 ### Add plan
 1. Select "Database" in the Develop menu.
-2. Select the the "plans" collection.
-3. Inside, click "Add document" and give it a short name the relates to the plan.
+2. Select the "plans" collection.
+3. Inside, click "Add document" and give it a short name that relates to the plan in the Document ID field.
 4. Add the data according to this structure:
 
 ```sh
@@ -229,7 +230,7 @@ short_descriptive_name: {
 ### Add new user
 1. Select "Authentication" in the Develop menu.
 2. Click the "Add user" button.
-3. Enter the patients email address and a temporary password.
+3. Enter the patient's email address and a temporary password.
 4. You can now give these credentails to the patient. Make sure they know to change their password immediately after logging in the first time.
 Note: Adding a new user does not yet create the necessary data in the database. This is a feature that would need to be added.
 
@@ -249,12 +250,19 @@ List of Sprint two features (and known issues, if any).
 - View progress from specific days
 - Encryption of sensitive user data (weight, measurements)
 
+<!-- BUG FIX RESULTS -->
+## Bug Fix Results
+
+Here is a spreadsheet that outlines all known bugs along with their status.
+
+https://docs.google.com/spreadsheets/d/17PEqW-ghMO-ik7YFEqNkQzTm0qyNLoaBX1Zxp78VZj8
+
 <!-- Contact -->
 ## Contact
 
-**Project Lead:** [Dylan Durbano](mailto:durb0004@algonquinlive.com)
+**Project Lead:** [Dylan Durbano](mailto:dylandurbano@live.com)
 
-**Technical Lead:** [Christian Allard](mailto:alla0243@algonquinlive.com)
+**Technical Lead:** [Christian Allard](mailto:allardc63@gmail.com)
 
 **Design Lead:** [Jeff Lichty](mailto:lich0020@algonquinlive.com)
 
@@ -262,8 +270,8 @@ List of Sprint two features (and known issues, if any).
 
 **Developer:** [Viraj Vashi](mailto:vash0006@algonquinlive.com)
 
-**UX Designer:** [Conor Scott](mailto:scot0359@algonquinlive.com)
+**UX Designer:** [Conor Scott](mailto:conor.a.scott@gmail.com)
 
 <!-- Acknowledgements -->
 ## Acknowledgements
-Everyone at Infinite Studio would like the thank our Professors Su Cheng Lee and Adesh Shah for all their support throughout the design and development of Bishop Nutrition. They added a lot of great insight and mentorship towards the app and Infinite Studio team. We are forever grateful for their help in the development of Bishop Nutrition and help to further our knowledge. We'd also like to thank everyone at Dr. Bishop's Weight Management Clinic. Their support and positivity towards the team and development of Bishop Nutrition were truly wonderful. The Infinite Studio team is very grateful for this opportunity and will never forget all the support and dedication that went into this project. Thank you to everyone involved!
+Everyone at Infinite Studio would like to thank our Professors Su Cheng Lee and Adesh Shah for all their support throughout the design and development of Bishop Nutrition. They added a lot of great insight and mentorship towards the app and Infinite Studio team. We are forever grateful for their help in the development of Bishop Nutrition and help to further our knowledge. We'd also like to thank everyone at Dr. Bishop's Weight Management Clinic. Their support and positivity towards the team and development of Bishop Nutrition were truly wonderful. The Infinite Studio team is very grateful for this opportunity and will never forget all the support and dedication that went into this project. Thank you to everyone involved!
